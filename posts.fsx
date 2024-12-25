@@ -9,9 +9,7 @@ let createPost (fileName: String) =
     let slug = name.Replace("_", "-")
     let title = Shared.capitalize name
 
-    $"
-+ [[./blog/{fileName}][{title}]]
-    "
+    $"+ [[./blog/{fileName}][{title}]]"
 
 let org = Shared.posts |> List.map (createPost) |> (fun s -> String.Join("\n", s))
 printfn "%s" org

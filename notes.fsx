@@ -9,9 +9,7 @@ let createNote (fileName: String) =
     let slug = name.Replace("_", "-")
     let title = Shared.capitalize name
 
-    $"
-+ [[./blog/{fileName}][{title}]]
-    "
+    $"+ [[./notes/{fileName}][{title}]]"
 
 let org = Shared.notes |> List.map (createNote) |> (fun s -> String.Join("\n", s))
 printfn "%s" org

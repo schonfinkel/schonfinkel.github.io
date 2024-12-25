@@ -38,18 +38,34 @@
 
 ;;;; Settings
 (setq-default root-dir (if (string= (getenv "ENVIRONMENT") "dev") (getenv "PWD") ""))
-(setq static-dir (concat root-dir "/static"))
-(setq static-html-dir (concat static-dir "/html"))
-(setq org-blog-dir (concat root-dir "/blog"))
-(setq org-roam-dir (concat root-dir "/notes"))
+(setq-default static-dir (concat root-dir "/static"))
+(setq-default static-html-dir (concat static-dir "/html"))
+(setq-default org-blog-dir (concat root-dir "/blog"))
+(setq-default org-roam-dir (concat root-dir "/notes"))
+(setq-default bibtex-dir (concat root-dir "/refs"))
 
 (message (format "SETTING ROOT DIR: %s" root-dir))
 (message (format "SETTING STATIC DIR: %s" static-dir))
-(message (format "SETTING BLOG DIR: %s" static-dir))
-(message (format "SETTING NOTES DIR: %s" static-dir))
+(message (format "SETTING BLOG DIR: %s" org-blog-dir))
+(message (format "SETTING NOTES DIR: %s" org-roam-dir))
+(message (format "SETTING BIBTEX DIR: %s" bibtex-dir))
 
 (defcustom out-dir (format "%s/public" root-dir) "Directory where the HTML files are going to be exported.")
 (message (format "SETTING OUT DIR: %s" out-dir))
+
+;;;(setq org-id-locations-file ".orgids")
+(setq org-src-preserve-indentation t)
+(setq org-cite-global-bibliography
+      '("./refs/beam.bib" "./refs/beam.bib" "./refs/databases.bib" "./refs/haskell.bib" "./refs/refs.bib"))
+(setq org-cite-export-processors '((latex biblatex)
+                                   (moderncv basic)
+                                   (html csl)
+                                   (t csl)))
+
+;;(defun org-roam-custom-link-builder (node)
+;;  (let ((file (org-roam-node-file node)))
+;;    (concat (file-name-base file) ".html")))
+;;(setq org-roam-graph-link-builder 'org-roam-custom-link-builder)
 
 ;;;; Customize the HTML output
 (setq-default html-head-prefix-file (get-string-from-file (concat static-html-dir "/" "header.html")))
@@ -63,11 +79,12 @@
 (setq-default website-html-preamble html-nav)
 
 (setq-default html-footer (get-string-from-file (concat static-html-dir "/" "footer.html")))
+(message (format "HTML FOOTER: %s" html-footer))
 (setq-default website-html-postamble html-footer)
 
 ;;; Code:
 (setq org-publish-project-alist
-      `(("blog"
+      `(("site"
          :base-directory ,root-dir
          :base-extension "org"
          :publishing-directory ,out-dir
@@ -77,16 +94,17 @@
          :author "Marcos Benevides"
          :email "(concat \"marcos.schonfinkel\" \"@\" \"gmail.com\")"
          :recursive t
+
          :with-creator t
-         :with-title nil
+         :with-title t
+         :with-toc nil
+         :with-date t
 
          :export-with-tags nil
          :exclude-tags ("todo" "noexport")
-         :exclude "level-.*\\|.*\.draft\.org"
+         :exclude "level-.*\\|.*\.draft\.org\\|*direnv*"
          :section-numbers nil
          :headline-levels 5
-         :with-toc nil
-         :with-date t
 
          :auto-sitemap nil
          :sitemap-filename "index.org"
@@ -97,6 +115,9 @@
 
          :html-doctype "html5"
          :html-html5-fancy t
+         :html-divs ((preamble "header" "preamble")
+                     (content "main" "content")
+                     (postamble "footer" "postamble"))
          :html-head ,website-html-head
          :html-preamble ,website-html-preamble
          :html-postamble ,website-html-postamble)
@@ -108,7 +129,7 @@
          :recursive t
          :publishing-function org-publish-attachment)
 
-        ("all" :components ("blog" "static"))))
+        ("all" :components ("site" "static"))))
 
 ;; Generate the site output
 (org-publish-all t)
