@@ -42,12 +42,12 @@
 (setq org-element-use-cache nil)
 
 ;;;; Settings
-(setq-default root-dir (if (string= (getenv "ENVIRONMENT") "dev") (getenv "PWD") ""))
-(setq-default static-dir (concat root-dir "/static"))
-(setq-default static-html-dir (concat static-dir "/html"))
-(setq-default org-blog-dir (concat root-dir "/blog"))
-(setq-default org-roam-dir (concat root-dir "/notes"))
-(setq-default bibtex-dir (concat root-dir "/refs"))
+(setq-default root-dir (if (string= (getenv "ENVIRONMENT") "dev") (concat (getenv "PWD") "/") "/"))
+(setq-default static-dir (concat root-dir "static"))
+(setq-default static-html-dir (concat static-dir "/" "html"))
+(setq-default org-blog-dir (concat root-dir "blog"))
+(setq-default org-roam-dir (concat root-dir "notes"))
+(setq-default bibtex-dir (concat root-dir "refs"))
 
 (message (format "SETTING ROOT DIR: %s" root-dir))
 (message (format "SETTING STATIC DIR: %s" static-dir))
@@ -55,10 +55,10 @@
 (message (format "SETTING NOTES DIR: %s" org-roam-dir))
 (message (format "SETTING BIBTEX DIR: %s" bibtex-dir))
 
-(defcustom out-dir (format "%s/public" root-dir) "Directory where the HTML files are going to be exported.")
+(defcustom out-dir (format "%spublic" root-dir) "Directory where the HTML files are going to be exported.")
 (message (format "SETTING OUT DIR: %s" out-dir))
 
-;;;(setq org-id-locations-file ".orgids")
+;;;;(setq org-id-locations-file ".orgids")
 (setq org-src-preserve-indentation t)
 
 (setq org-cite-refs-list '("beam.bib" "beam.bib" "databases.bib" "haskell.bib" "refs.bib"))
@@ -68,11 +68,6 @@
                                    (moderncv basic)
                                    (html csl)
                                    (t csl)))
-
-;;(defun org-roam-custom-link-builder (node)
-;;  (let ((file (org-roam-node-file node)))
-;;    (concat (file-name-base file) ".html")))
-;;(setq org-roam-graph-link-builder 'org-roam-custom-link-builder)
 
 ;;;; Customize the HTML output
 (setq-default html-head-prefix-file (get-string-from-file (concat static-html-dir "/" "header.html")))

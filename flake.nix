@@ -97,7 +97,7 @@
             # a custom package with just enough tools to generate the markdown
             # for org-roam.
             ci = pkgs.mkShell {
-              ENVIRONMENT = "dev";
+              ENVIRONMENT = "prod";
               DOTNET_ROOT = "${dotnet}";
               DOTNET_CLI_TELEMETRY_OPTOUT = "1";
               LANG = "en_US.UTF-8";
