@@ -1,6 +1,7 @@
 import fileinput
 import itertools
 import json
+import os
 import pathlib
 import sqlite3
 import sys
@@ -11,6 +12,8 @@ import networkx.algorithms.community as com
 from networkx.drawing.nx_pydot import read_dot
 from networkx.readwrite import json_graph
 
+PROJECT_ROOT_PATH = pathlib.Path(__file__).parent.absolute()
+PROJECT_OUT_PATH = (PROJECT_ROOT_PATH / pathlib.Path("public")).absolute()
 N_MISSING = 10  # Number of predicted missing links
 MAX_NODES = 200  # Number of nodes in the final graph 
 
@@ -80,13 +83,16 @@ def add_missing_links(dot_graph: nx.DiGraph, n_missing: int) -> None:
         dot_graph.add_edge(link[0], link[1], predicted=link[2])
 
 def update_html(graph_data: nx.DiGraph) -> None:
+    URL = os.environ.get("OUT_URL", PROJECT_OUT_PATH)
     JS_GRAPH = json_graph.node_link_data(graph_data)
     JSON_GRAPH = json.dumps(JS_GRAPH)
     pathlib.Path("./static/graph.json").write_text(JSON_GRAPH)
-    filepath = pathlib.Path("./layouts/partials/graph.html").resolve()
+    filepath = pathlib.Path("./static/html/graph.html").resolve()
     for line in fileinput.input([filepath], inplace=True):
         if line.strip().startswith("var graph_data ="):
             line = f"var graph_data = {JSON_GRAPH}\n"
+        if line.strip().startswith("var url ="):
+            line = f"var url = \"{URL}\"\n"
         sys.stdout.write(line)
 
 if __name__ == "__main__":

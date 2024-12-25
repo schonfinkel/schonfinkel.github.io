@@ -15,7 +15,6 @@ default:
 # Generate the Markdown files
 build: clean
     emacs $(pwd) --batch --load publish.el
-    #python fix-ref-links.py
 
 # Publish content
 public: build

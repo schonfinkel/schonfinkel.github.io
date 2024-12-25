@@ -33,16 +33,16 @@
   "Prepend PREFIX to every string in STRINGS."
   (mapcar (lambda (s) (concat prefix s)) strings))
 
-
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
 (setq org-confirm-babel-evaluate nil)
 (setq org-export-use-babel t)
 (setq org-export-with-broken-links "mark")
 (setq org-element-use-cache nil)
+(setq org-roam-db-location (concat (getenv "HOME") ".emacs.d"))
 
 ;;;; Settings
-(setq-default root-dir (if (string= (getenv "ENVIRONMENT") "dev") (concat (getenv "PWD") "/") "/"))
+(setq-default root-dir (concat (getenv "PWD") "/"))
 (setq-default static-dir (concat root-dir "static"))
 (setq-default static-html-dir (concat static-dir "/" "html"))
 (setq-default org-blog-dir (concat root-dir "blog"))
@@ -58,6 +58,9 @@
 (defcustom out-dir (format "%spublic" root-dir) "Directory where the HTML files are going to be exported.")
 (message (format "SETTING OUT DIR: %s" out-dir))
 
+(setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io/"))
+(message (format "SETTING URL: %s" url-dir))
+
 ;;;;(setq org-id-locations-file ".orgids")
 (setq org-src-preserve-indentation t)
 
@@ -71,12 +74,12 @@
 
 ;;;; Customize the HTML output
 (setq-default html-head-prefix-file (get-string-from-file (concat static-html-dir "/" "header.html")))
-(setq-default html-head-prefix (patch-string-with-path html-head-prefix-file out-dir 1))
+(setq-default html-head-prefix (patch-string-with-path html-head-prefix-file url-dir 1))
 (message (format "HTML PREFIX: %s" html-head-prefix))
 (setq-default website-html-head html-head-prefix)
 
 (setq-default html-nav-file (get-string-from-file (concat static-html-dir "/" "nav.html")))
-(setq-default html-nav (patch-string-with-path html-nav-file out-dir 5))
+(setq-default html-nav (patch-string-with-path html-nav-file url-dir 5))
 (message (format "HTML NAV: %s" html-nav))
 (setq-default website-html-preamble html-nav)
 
