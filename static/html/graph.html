@@ -13,9 +13,7 @@ var graph_data = {"directed": true, "multigraph": false, "graph": {}, "nodes": [
         return hexColors;
     }
 
-    function get_year(str) { return str.substring(0, 4) }
-    function get_note_name(str) { return str.substring(15) }
-    function fix_link(str) { return "/notes/".concat(get_year(str), "/", get_note_name(str), "/").replaceAll("_", "-") }
+    function fix_link(str) { return "/notes/".concat(str, ".html").replaceAll("_", "-") }
 
     function draw_graph(data, height, width) {
         // Radius function for nodes. Node radius are function of centrality
