@@ -29,6 +29,11 @@
   "Patch a STR with FILEPATH and do so N times."
   (apply 'format str (make-list n filePath)))
 
+(defun patch-list-with-prefix (prefix strings)
+  "Prepend PREFIX to every string in STRINGS."
+  (mapcar (lambda (s) (concat prefix s)) strings))
+
+
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
 (setq org-confirm-babel-evaluate nil)
@@ -55,8 +60,10 @@
 
 ;;;(setq org-id-locations-file ".orgids")
 (setq org-src-preserve-indentation t)
-(setq org-cite-global-bibliography
-      '("./refs/beam.bib" "./refs/beam.bib" "./refs/databases.bib" "./refs/haskell.bib" "./refs/refs.bib"))
+
+(setq org-cite-refs-list '("beam.bib" "beam.bib" "databases.bib" "haskell.bib" "refs.bib"))
+(setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
+(setq org-cite-global-bibliography org-cite-refs-path)
 (setq org-cite-export-processors '((latex biblatex)
                                    (moderncv basic)
                                    (html csl)
