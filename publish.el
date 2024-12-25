@@ -11,6 +11,8 @@
 (require 'find-lisp)
 (require 'oc-csl)
 (require 'org)
+(require 'org-roam)
+(require 'org-roam-export)
 (require 'ox)
 (require 'ox-html)
 (require 'ox-publish)
@@ -37,9 +39,8 @@
 ;;;; don't ask for confirmation before evaluating a code block
 (setq org-confirm-babel-evaluate nil)
 (setq org-export-use-babel t)
-(setq org-export-with-broken-links "mark")
+(setq org-export-with-broken-links nil)
 (setq org-element-use-cache nil)
-(setq org-roam-db-location (concat (getenv "HOME") ".emacs.d"))
 
 ;;;; Settings
 (setq-default root-dir (concat (getenv "PWD") "/"))
@@ -48,6 +49,7 @@
 (setq-default org-blog-dir (concat root-dir "blog"))
 (setq-default org-roam-dir (concat root-dir "notes"))
 (setq-default bibtex-dir (concat root-dir "refs"))
+(setq-default emacs-dir-path (concat (getenv "home") ".emacs.d/"))
 
 (message (format "SETTING ROOT DIR: %s" root-dir))
 (message (format "SETTING STATIC DIR: %s" static-dir))
@@ -61,7 +63,6 @@
 (setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io/"))
 (message (format "SETTING URL: %s" url-dir))
 
-;;;;(setq org-id-locations-file ".orgids")
 (setq org-src-preserve-indentation t)
 
 (setq org-cite-refs-list '("beam.bib" "beam.bib" "databases.bib" "haskell.bib" "refs.bib"))
@@ -71,6 +72,15 @@
                                    (moderncv basic)
                                    (html csl)
                                    (t csl)))
+
+;; Tell `org-id-locations' and the org-roam DB about the new work directory
+;;;;(setq org-id-locations-file ".orgids")
+(setq org-roam-directory org-roam-dir)
+(setq org-roam-db-location (concat emacs-dir-path "org-roam.db"))
+(setq org-roam-db-extra-links-exclude-keys
+      '((node-property "ROAM_REFS" "BACKLINKS")
+        (keyword "transclude")))
+
 
 ;;;; Customize the HTML output
 (setq-default html-head-prefix-file (get-string-from-file (concat static-html-dir "/" "header.html")))
