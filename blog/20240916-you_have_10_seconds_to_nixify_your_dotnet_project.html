@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 13:34 -->
+<!-- 2024-12-26 Thu 13:55 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>You have 10 seconds to nixify your dotnet project</title>
@@ -195,7 +195,7 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<link href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/css/main.css" rel="stylesheet">
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
@@ -209,7 +209,7 @@
 <header id="preamble" class="status">
 <nav>
   <img
-    src="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/img/logo.png"
+    src="https://schonfinkel.github.io/static/img/logo.png"
     alt="logo"
     width="128"
     height="128"
@@ -218,10 +218,10 @@
     <h3>"Writing is nothing more than a guided dream."</h3>
   </div>
   <ul>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/index.html">Home</a></li>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blog.html">Blog</a></li>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/notes.html">Notes</a></li>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
   </ul>
 </nav>
 </header>
@@ -230,7 +230,7 @@
 <h1 class="title">You have 10 seconds to nixify your dotnet project</h1>
 <p class="subtitle" role="doc-subtitle">Even .NET can be cool if you Nix it enough</p>
 </header>
-<figure id="orga0a2510">
+<figure id="orga1a1698">
 <img src="../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png" alt="00_don_gun.png" width="50%" height="50%" align="center">
 
 <figcaption><span class="figure-number">Figure 1: </span>Don "The Gun" Syme, now officially part of the "Nix Gang".</figcaption>
@@ -244,9 +244,9 @@ is that I started doing changes in a <a href="https://github.com/schonfinkel/int
 and realized other .Net people could benefit from this somehow (as most of the
 Nix + .Net guides are from before 2024).
 </p>
-<div id="outline-container-org86111d6" class="outline-2">
-<h2 id="org86111d6">An Opinionated Template</h2>
-<div class="outline-text-2" id="text-org86111d6">
+<div id="outline-container-orga04e6a1" class="outline-2">
+<h2 id="orga04e6a1">An Opinionated Template</h2>
+<div class="outline-text-2" id="text-orga04e6a1">
 <p>
 Turns out that, while writing this, I've decided to put everything in a template
 that's easy to <del>steal</del> copy, so if you are from the future and have the <a href="https://nixos.org/download/">Nix (the
@@ -257,9 +257,9 @@ mostly because I tend to favor devenv (since it has shown better adoption when I
 preached it to non-Nixers).
 </p>
 </div>
-<div id="outline-container-org6ec0ee7" class="outline-3">
-<h3 id="org6ec0ee7">Devenv</h3>
-<div class="outline-text-3" id="text-org6ec0ee7">
+<div id="outline-container-orgc2ab942" class="outline-3">
+<h3 id="orgc2ab942">Devenv</h3>
+<div class="outline-text-3" id="text-orgc2ab942">
 <p>
 I've already tackled this in a <a href="https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html">previous article</a>, but the best developer
 experience right now is with <a href="https://devenv.sh/">devenv.sh</a>. Unlike the previous article tho, the
@@ -328,15 +328,15 @@ Here's a quick demo:
 </p>
 
 
-<figure id="org31e4b42">
+<figure id="orgf1557b0">
 <img src="../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif" alt="01_demo.gif" width="50%" height="50%" align="center">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org7399dfa" class="outline-3">
-<h3 id="org7399dfa">Build your project with Nix</h3>
-<div class="outline-text-3" id="text-org7399dfa">
+<div id="outline-container-orgdcda4a5" class="outline-3">
+<h3 id="orgdcda4a5">Build your project with Nix</h3>
+<div class="outline-text-3" id="text-orgdcda4a5">
 <p>
 This project is just a simple solution with the basic <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line">CLI Console App</a> from the
 official documentation, the difference being that I've added a dependency to
@@ -425,9 +425,9 @@ guidelines</a>, of course. Now, going back to the testing the Nix build:
 </div>
 </div>
 </div>
-<div id="outline-container-orgcbe5afc" class="outline-3">
-<h3 id="orgcbe5afc">Generating OCI Images</h3>
-<div class="outline-text-3" id="text-orgcbe5afc">
+<div id="outline-container-org0bd04bb" class="outline-3">
+<h3 id="org0bd04bb">Generating OCI Images</h3>
+<div class="outline-text-3" id="text-org0bd04bb">
 <p>
 Similar to the <a href="https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html">previous post</a>, the Container Image looks like this:
 </p>
@@ -462,17 +462,17 @@ And can be tested with:
 </div>
 </div>
 </div>
-<div id="outline-container-org7a314b4" class="outline-2">
-<h2 id="org7a314b4">Conclusion</h2>
-<div class="outline-text-2" id="text-org7a314b4">
+<div id="outline-container-org3d686fe" class="outline-2">
+<h2 id="org3d686fe">Conclusion</h2>
+<div class="outline-text-2" id="text-org3d686fe">
 <p>
 If this sparkled your interest somehow, here's the <a href="https://github.com/schonfinkel/fsharp-nix/tree/master">source code</a>, I've also made
 sure to configure some <a href="https://github.com/schonfinkel/fsharp-nix/actions">Github Actions</a> Workflows there. 
 </p>
 </div>
-<div id="outline-container-org92fa7b4" class="outline-3">
-<h3 id="org92fa7b4"><span class="todo TODO">TODO</span> </h3>
-<div class="outline-text-3" id="text-org92fa7b4">
+<div id="outline-container-org0e6c3cb" class="outline-3">
+<h3 id="org0e6c3cb"><span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-org0e6c3cb">
 <ul class="org-ul">
 <li class="off"><code>[&#xa0;]</code> Optimize the container image, by just shipping the runtime, not the SDK.</li>
 <li class="off"><code>[&#xa0;]</code> Open a PR into the <a href="https://github.com/NixOS/templates/tree/master/dotnet">NixOS Templates</a> repo, maybe adding a <a href="https://safe-stack.github.io/">SAFE</a> stack example

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 13:34 -->
+<!-- 2024-12-26 Thu 13:55 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kubernetes-Storage</title>
@@ -195,7 +195,7 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<link href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/css/main.css" rel="stylesheet">
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
@@ -209,7 +209,7 @@
 <header id="preamble" class="status">
 <nav>
   <img
-    src="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/img/logo.png"
+    src="https://schonfinkel.github.io/static/img/logo.png"
     alt="logo"
     width="128"
     height="128"
@@ -218,23 +218,23 @@
     <h3>"Writing is nothing more than a guided dream."</h3>
   </div>
   <ul>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/index.html">Home</a></li>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blog.html">Blog</a></li>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/notes.html">Notes</a></li>
-    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
   </ul>
 </nav>
 </header>
 <main id="content" class="content">
 <header>
 <h1 class="title">Kubernetes-Storage</h1>
-</header><div id="outline-container-org2846d31" class="outline-2">
-<h2 id="org2846d31">Volume Types</h2>
-<div class="outline-text-2" id="text-org2846d31">
+</header><div id="outline-container-orge756d7a" class="outline-2">
+<h2 id="orge756d7a">Volume Types</h2>
+<div class="outline-text-2" id="text-orge756d7a">
 </div>
-<div id="outline-container-org7c9b8f3" class="outline-3">
-<h3 id="org7c9b8f3">emptyDir</h3>
-<div class="outline-text-3" id="text-org7c9b8f3">
+<div id="outline-container-org38a336f" class="outline-3">
+<h3 id="org38a336f">emptyDir</h3>
+<div class="outline-text-3" id="text-org38a336f">
 <p>
 Empty directory for storing data ephemeral data from the Pods
 </p>
@@ -267,33 +267,33 @@ Empty directory for storing data ephemeral data from the Pods
 </div>
 </div>
 </div>
-<div id="outline-container-org10a0769" class="outline-3">
-<h3 id="org10a0769">hostPath</h3>
-<div class="outline-text-3" id="text-org10a0769">
+<div id="outline-container-orgba5780e" class="outline-3">
+<h3 id="orgba5780e">hostPath</h3>
+<div class="outline-text-3" id="text-orgba5780e">
 <p>
 A volume that's mounted in the Node's filesystem and is shared with a Pod
 </p>
 </div>
 </div>
-<div id="outline-container-org3bc6a09" class="outline-3">
-<h3 id="org3bc6a09">nfs</h3>
-<div class="outline-text-3" id="text-org3bc6a09">
+<div id="outline-container-orgace1448" class="outline-3">
+<h3 id="orgace1448">nfs</h3>
+<div class="outline-text-3" id="text-orgace1448">
 <p>
 A NFS share mounted into the Pod
 </p>
 </div>
 </div>
-<div id="outline-container-orgd74183a" class="outline-3">
-<h3 id="orgd74183a">configMap/secret</h3>
-<div class="outline-text-3" id="text-orgd74183a">
+<div id="outline-container-org04412d7" class="outline-3">
+<h3 id="org04412d7">configMap/secret</h3>
+<div class="outline-text-3" id="text-org04412d7">
 <p>
 Provides access to <a href="20211012215602-kubernetes.html#ID-dd924a84-7d6f-41ec-98c2-aa16582c0d89">Kubernetes</a> resources
 </p>
 </div>
 </div>
-<div id="outline-container-orgc94790a" class="outline-3">
-<h3 id="orgc94790a">persistentVolumeClaim</h3>
-<div class="outline-text-3" id="text-orgc94790a">
+<div id="outline-container-org024ad03" class="outline-3">
+<h3 id="org024ad03">persistentVolumeClaim</h3>
+<div class="outline-text-3" id="text-org024ad03">
 <p>
 A <code>persistentVolume</code> is a cluster-wide storage resource that relies on
 network-attached storage. It's abstracted and associated to a Pod via a
@@ -345,9 +345,9 @@ network-attached storage. It's abstracted and associated to a Pod via a
 </div>
 </div>
 </div>
-<div id="outline-container-org785d798" class="outline-3">
-<h3 id="org785d798">Cloud</h3>
-<div class="outline-text-3" id="text-org785d798">
+<div id="outline-container-org0ebf07a" class="outline-3">
+<h3 id="org0ebf07a">Cloud</h3>
+<div class="outline-text-3" id="text-org0ebf07a">
 <p>
 Cluster-wide storage, which varies depending on the cloud provider
 </p>
