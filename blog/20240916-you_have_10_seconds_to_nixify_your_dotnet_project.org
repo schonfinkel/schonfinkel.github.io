@@ -5,12 +5,13 @@
 
 #+CAPTION: Don "The Gun" Syme, now officially part of the "Nix Gang".
 #+NAME:   fig:gun-syme
-[[../../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png]]
+#+ATTR_HTML: :src ../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png :width 50% :height 50% :align center
+[[file:../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png]]
 
 While this is a click bait title (maybe I've also farmed some zoomer credits out
 the OC), I'm pretty sure that's how Don Syme feels when looks at a [[https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/results][Result]] type
 like ~Result<'T,string>~ in an F# codebase. The reason why I've written this post
-is that I started doing changes in a [[https://github.com/mtrsk/interval.fs][open source project]] I develop/maintain,
+is that I started doing changes in a [[https://github.com/schonfinkel/interval.fs][open source project]] I develop/maintain,
 and realized other .Net people could benefit from this somehow (as most of the
 Nix + .Net guides are from before 2024).
 
@@ -26,7 +27,7 @@ preached it to non-Nixers).
 
 ** Devenv
 
-I've already tackled this in a [[https://mtrsk.github.io/blog/2024/experiments-with-erlang-and-nix/][previous article]], but the best developer
+I've already tackled this in a [[https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html][previous article]], but the best developer
 experience right now is with [[https://devenv.sh/][devenv.sh]]. Unlike the previous article tho, the
 environment setup is way simpler, just a bunch of .Net tools inside the shell
 and call it a day.
@@ -83,7 +84,8 @@ usual .Net tooling:
 Here's a quick demo:
 
 #+NAME:   fig:demo
-[[../../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif]]
+#+ATTR_HTML: :src ../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif :width 50% :height 50% :align center
+[[file:../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif]]
 
 ** Build your project with Nix
 
@@ -161,7 +163,7 @@ guidelines]], of course. Now, going back to the testing the Nix build:
 
 ** Generating OCI Images
 
-Similar to the [[https://mtrsk.github.io/blog/2024/experiments-with-erlang-and-nix/][previous post]], the Container Image looks like this:
+Similar to the [[https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html][previous post]], the Container Image looks like this:
 
 #+BEGIN_SRC shell
   # nix build .#dockerImage
@@ -189,8 +191,8 @@ And can be tested with:
 
 * Conclusion
 
-If this sparkled your interest somehow, here's the [[https://github.com/mtrsk/fsharp-nix/tree/master][source code]], I've also made
-sure to configure some [[https://github.com/mtrsk/fsharp-nix/actions][Github Actions]] Workflows there. 
+If this sparkled your interest somehow, here's the [[https://github.com/schonfinkel/fsharp-nix/tree/master][source code]], I've also made
+sure to configure some [[https://github.com/schonfinkel/fsharp-nix/actions][Github Actions]] Workflows there. 
 
 ** TODO
 - [ ] Optimize the container image, by just shipping the runtime, not the SDK.
