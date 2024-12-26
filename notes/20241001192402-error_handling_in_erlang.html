@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 13:11 -->
+<!-- 2024-12-26 Thu 13:34 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Error Handling in Erlang</title>
@@ -195,7 +195,7 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<link href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
@@ -209,7 +209,7 @@
 <header id="preamble" class="status">
 <nav>
   <img
-    src="https://schonfinkel.github.io/static/img/logo.png"
+    src="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/img/logo.png"
     alt="logo"
     width="128"
     height="128"
@@ -218,10 +218,10 @@
     <h3>"Writing is nothing more than a guided dream."</h3>
   </div>
   <ul>
-    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
-    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
-    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/index.html">Home</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blog.html">Blog</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/notes.html">Notes</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blogroll.html">BlogRoll</a></li>
   </ul>
 </nav>
 </header>
@@ -246,13 +246,13 @@ The part that corrects errors is often generic, so the same error-correcting
 code can be used for many different applications. (<a href="#citeproc_bib_item_1">Armstrong 2013, 201</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgd2475b8" class="outline-2">
-<h2 id="orgd2475b8">Error Handling Semantics</h2>
-<div class="outline-text-2" id="text-orgd2475b8">
+<div id="outline-container-org63235b1" class="outline-2">
+<h2 id="org63235b1">Error Handling Semantics</h2>
+<div class="outline-text-2" id="text-org63235b1">
 </div>
-<div id="outline-container-orge8a56c9" class="outline-3">
-<h3 id="orge8a56c9">Processes</h3>
-<div class="outline-text-3" id="text-orge8a56c9">
+<div id="outline-container-org75c747c" class="outline-3">
+<h3 id="org75c747c">Processes</h3>
+<div class="outline-text-3" id="text-org75c747c">
 <p>
 There are two types of processes: <b>normal processes</b> and <b>system processes</b>. <code>spawn</code>
 (see <a href="20240930224229-concurrent_erlang.html#ID-63607e63-4428-4578-bf2a-12a49649b49c">Concurrent Erlang</a>) creates a normal process. A normal process can become a
@@ -260,9 +260,9 @@ system process by evaluating the BIF <code>process_flag(trap_exit, true)</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc5b6c05" class="outline-3">
-<h3 id="orgc5b6c05">Link</h3>
-<div class="outline-text-3" id="text-orgc5b6c05">
+<div id="outline-container-orgef6b8cf" class="outline-3">
+<h3 id="orgef6b8cf">Link</h3>
+<div class="outline-text-3" id="text-orgef6b8cf">
 <p>
 Linking processes can be thought as an extension of the error handling presented
 when dealing with <a href="20240924122449-sequential_erlang.html#ID-f0da3356-3797-4ddc-8306-cd333f159754">Sequential Erlang</a>. We can, if necessary, catch exceptions
@@ -305,28 +305,28 @@ will do so atomically.</li>
 </ul>
 
 
-<figure id="org729cd67">
+<figure id="org95f006a">
 <img src="../static/img/notes/erlang_process_link.png" alt="erlang_process_link.png">
 
 </figure>
 </div>
-<div id="outline-container-org852c812" class="outline-4">
-<h4 id="org852c812">Link Set</h4>
-<div class="outline-text-4" id="text-org852c812">
+<div id="outline-container-orgd1a6583" class="outline-4">
+<h4 id="orgd1a6583">Link Set</h4>
+<div class="outline-text-4" id="text-orgd1a6583">
 <p>
 The link set of a process <code>P</code> is the set of processes that are linked to <code>P</code>.
 </p>
 
 
-<figure id="org9fb5dad">
+<figure id="org634b34c">
 <img src="../static/img/notes/erlang_link_set.png" alt="erlang_link_set.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org4b1dda7" class="outline-4">
-<h4 id="org4b1dda7">Groups of Processes That All Die Together</h4>
-<div class="outline-text-4" id="text-org4b1dda7">
+<div id="outline-container-org2313aea" class="outline-4">
+<h4 id="org2313aea">Groups of Processes That All Die Together</h4>
+<div class="outline-text-4" id="text-org2313aea">
 <p>
 In the previous example, if a single process from the Link Set fails, all the
 processes from the Set also fail in cascate. Ultimately, the error signals
@@ -335,7 +335,7 @@ dies.
 </p>
 
 
-<figure id="org4285be3">
+<figure id="org1b2cabe">
 <img src="../static/img/notes/erlang_link_set_cascade.png" alt="erlang_link_set_cascade.png">
 
 </figure>
@@ -350,9 +350,9 @@ are linked to it in the form of a tuple. The tuple contains the atom <code>EXIT<
 </div>
 </div>
 </div>
-<div id="outline-container-orga3e4aa5" class="outline-3">
-<h3 id="orga3e4aa5">Exit Signals</h3>
-<div class="outline-text-3" id="text-orga3e4aa5">
+<div id="outline-container-org9dc4700" class="outline-3">
+<h3 id="org9dc4700">Exit Signals</h3>
+<div class="outline-text-3" id="text-org9dc4700">
 <ul class="org-ul">
 <li>A process can termination can be <b>normal</b> or <b>abnormal</b>.
 <ul class="org-ul">
@@ -403,15 +403,15 @@ exit signal will contain the following information:
 </ul>
 
 
-<figure id="orge24c23d">
+<figure id="org80e4ccc">
 <img src="../static/img/notes/erlang_error_exit_signals.png" alt="erlang_error_exit_signals.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orge23f0c5" class="outline-3">
-<h3 id="orge23f0c5">Error Trapping</h3>
-<div class="outline-text-3" id="text-orge23f0c5">
+<div id="outline-container-org717113b" class="outline-3">
+<h3 id="org717113b">Error Trapping</h3>
+<div class="outline-text-3" id="text-org717113b">
 <blockquote>
 <p>
 If your process is set to trap exits, through a call to <code>process_flag(trap_exit,
@@ -420,16 +420,16 @@ process. (<a href="#citeproc_bib_item_2">Laurent 2017, 100</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org99c5ea9" class="outline-4">
-<h4 id="org99c5ea9">Propagation Semantics</h4>
-<div class="outline-text-4" id="text-org99c5ea9">
+<div id="outline-container-org9159da5" class="outline-4">
+<h4 id="org9159da5">Propagation Semantics</h4>
+<div class="outline-text-4" id="text-org9159da5">
 <ul class="org-ul">
 <li>Processes can trap <code>exit</code> signals by calling the BIF <code>process_flag(trap_exit, true)</code>.</li>
 <li>Once trapped, the errors are saved in the mailbox.</li>
 </ul>
 
 
-<figure id="orgafd775d">
+<figure id="org3de80bf">
 <img src="../static/img/notes/erlang_error_trapping.png" alt="erlang_error_trapping.png">
 
 </figure>
@@ -440,9 +440,9 @@ process. (<a href="#citeproc_bib_item_2">Laurent 2017, 100</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-org1432654" class="outline-3">
-<h3 id="org1432654">Monitors</h3>
-<div class="outline-text-3" id="text-org1432654">
+<div id="outline-container-org0eef57d" class="outline-3">
+<h3 id="org0eef57d">Monitors</h3>
+<div class="outline-text-3" id="text-org0eef57d">
 <p>
 Monitors are similar to links but with several significant differences.
 </p>
@@ -457,7 +457,7 @@ A process <code>Pid2</code> can create a monitor for <code>Pid1</code> by callin
 </p>
 
 
-<figure id="org7767fc6">
+<figure id="org3c698b0">
 <img src="../static/img/notes/erlang_monitor.png" alt="erlang_monitor.png">
 
 </figure>
@@ -468,7 +468,7 @@ to the monitoring process.</li>
 </ul>
 
 
-<figure id="org9c5a462">
+<figure id="orge2582cb">
 <img src="../static/img/notes/erlang_monitor_error.png" alt="erlang_monitor_error.png">
 
 </figure>

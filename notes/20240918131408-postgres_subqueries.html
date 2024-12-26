@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 13:11 -->
+<!-- 2024-12-26 Thu 13:34 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Postgres Subqueries</title>
@@ -195,7 +195,7 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<link href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
@@ -209,7 +209,7 @@
 <header id="preamble" class="status">
 <nav>
   <img
-    src="https://schonfinkel.github.io/static/img/logo.png"
+    src="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/static/img/logo.png"
     alt="logo"
     width="128"
     height="128"
@@ -218,46 +218,46 @@
     <h3>"Writing is nothing more than a guided dream."</h3>
   </div>
   <ul>
-    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
-    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
-    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/index.html">Home</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blog.html">Blog</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/notes.html">Notes</a></li>
+    <li><a href="/home/runner/work/schonfinkel.github.io/schonfinkel.github.io/public/blogroll.html">BlogRoll</a></li>
   </ul>
 </nav>
 </header>
 <main id="content" class="content">
 <header>
 <h1 class="title">Postgres Subqueries</h1>
-</header><div id="outline-container-org1133d59" class="outline-2">
-<h2 id="org1133d59">Subqueries as Expressions</h2>
-<div class="outline-text-2" id="text-org1133d59">
+</header><div id="outline-container-org6337da4" class="outline-2">
+<h2 id="org6337da4">Subqueries as Expressions</h2>
+<div class="outline-text-2" id="text-org6337da4">
 </div>
-<div id="outline-container-org172944f" class="outline-3">
-<h3 id="org172944f">Scalar Subquery</h3>
-<div class="outline-text-3" id="text-org172944f">
+<div id="outline-container-org322e661" class="outline-3">
+<h3 id="org322e661">Scalar Subquery</h3>
+<div class="outline-text-3" id="text-org322e661">
 <p>
 Results in a single row
 </p>
 </div>
 </div>
-<div id="outline-container-org9fdbdcc" class="outline-3">
-<h3 id="org9fdbdcc">Multi-Row Subquery</h3>
-<div class="outline-text-3" id="text-org9fdbdcc">
+<div id="outline-container-orgb2fc5d9" class="outline-3">
+<h3 id="orgb2fc5d9">Multi-Row Subquery</h3>
+<div class="outline-text-3" id="text-orgb2fc5d9">
 <p>
 Results in multiple rows, tipically used in the where clause with operators such as <code>IN</code>, <code>NOT</code>, <code>EXISTS</code>, <code>ANY</code> and <code>ALL</code>.
 </p>
 </div>
-<div id="outline-container-org000586d" class="outline-4">
-<h4 id="org000586d">Correlated Subquery</h4>
-<div class="outline-text-4" id="text-org000586d">
+<div id="outline-container-org0939cb3" class="outline-4">
+<h4 id="org0939cb3">Correlated Subquery</h4>
+<div class="outline-text-4" id="text-org0939cb3">
 <p>
 A uncorrelated sub-query is a type of sub-query where the inner query doesn’t depend upon the outer query for its execution.
 </p>
 </div>
 </div>
-<div id="outline-container-org7336bc1" class="outline-4">
-<h4 id="org7336bc1">Uncorrelated Subquery</h4>
-<div class="outline-text-4" id="text-org7336bc1">
+<div id="outline-container-orge11e190" class="outline-4">
+<h4 id="orge11e190">Uncorrelated Subquery</h4>
+<div class="outline-text-4" id="text-orge11e190">
 <p>
 A correlated sub-query is a type of query where the inner query depends upon the outcome of the outer query in order to perform its execution.
 </p>
@@ -265,8 +265,8 @@ A correlated sub-query is a type of query where the inner query depends upon the
 </div>
 </div>
 </div>
-<div id="outline-container-org4ce89c1" class="outline-2">
-<h2 id="org4ce89c1">Subqueries as Tables</h2>
+<div id="outline-container-orgbbc5c26" class="outline-2">
+<h2 id="orgbbc5c26">Subqueries as Tables</h2>
 </div>
 </main>
 <footer id="postamble" class="status">
