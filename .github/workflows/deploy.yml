@@ -22,10 +22,13 @@ jobs:
         uses: cachix/install-nix-action@v27
 
       - name: Build website
-        run: nix develop .#ci --impure -c just ci-publish
+        run: |
+          mkdir -p "$HOME/.emacs.d/"
+          touch "$HOME/.emacs.d/.org-id-locations"
+          nix develop .#ci -c just build
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
