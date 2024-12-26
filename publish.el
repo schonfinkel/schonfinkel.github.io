@@ -47,6 +47,8 @@
 (setq-default root-dir (concat (getenv "PWD") "/"))
 (setq-default static-dir (concat root-dir "static"))
 (setq-default static-html-dir (concat static-dir "/" "html"))
+(setq-default static-img-dir (concat static-dir "/" "img"))
+(setq-default static-css-dir (concat static-dir "/" "css"))
 (setq-default org-blog-dir (concat root-dir "blog"))
 (setq-default org-roam-dir (concat root-dir "notes"))
 (setq-default bibtex-dir (concat root-dir "refs"))
@@ -61,8 +63,13 @@
 (defcustom out-dir (format "%spublic" root-dir) "Directory where the HTML files are going to be exported.")
 (message (format "SETTING OUT DIR: %s" out-dir))
 
-(setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io/"))
+(setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io"))
 (message (format "SETTING URL: %s" url-dir))
+
+(setq-default out-static-dir (concat url-dir "/static/"))
+(setq-default out-css-dir (concat out-static-dir "css"))
+(setq-default out-img-dir (concat out-static-dir "img"))
+(setq-default out-html-dir (concat out-static-dir "html"))
 
 ;;;; Fix bibliography
 (setq org-cite-refs-list '("beam.bib" "databases.bib" "haskell.bib" "refs.bib"))
@@ -137,14 +144,35 @@
          :html-preamble ,website-html-preamble
          :html-postamble ,website-html-postamble)
 
-        ("static"
-         :base-directory ,static-dir
-         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|json\\|html"
-         :publishing-directory ,out-dir
+        ("images"
+         :base-directory ,static-img-dir
+         :base-extension "png\\|jpg\\|gif"
+         :publishing-directory ,out-img-dir
          :recursive t
          :publishing-function org-publish-attachment)
 
-        ("all" :components ("site" "static"))))
+        ("css"
+         :base-directory ,static-css-dir
+         :base-extension "css"
+         :publishing-directory ,out-css-dir
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        ("html"
+         :base-directory ,static-html-dir
+         :base-extension "html"
+         :publishing-directory ,out-html-dir
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        ("other"
+         :base-directory ,static-dir
+         :base-extension "json\\|xml"
+         :publishing-directory ,out-static-dir
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        ("all" :components ("css" "images" "html" "other" "site"))))
 
 ;; Generate the site output
 (org-roam-update-org-id-locations)
