@@ -19,6 +19,9 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v27
 
+      - name: Install Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
       - name: Build website
         run: |
           mkdir -p "$HOME/.emacs.d/"
