@@ -98,6 +98,7 @@
             # for org-roam.
             ci = pkgs.mkShell {
               ENVIRONMENT = "prod";
+              OUT_URL = "https://schonfinkel.github.io/";
               DOTNET_ROOT = "${dotnet}";
               DOTNET_CLI_TELEMETRY_OPTOUT = "1";
               LANG = "en_US.UTF-8";

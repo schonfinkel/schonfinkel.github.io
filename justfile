@@ -28,14 +28,6 @@ d3-download:
 graph:
     python generate-graph.py
 
-# Run Hugo server with drafts
-run: build
-	hugo server --buildDrafts --buildFuture --disableFastRender
-
-# Build for CI
-ci-build: clean
-    nix develop .#ci --impure -c just build
-
 # Removes org backups
 remove-org:
     #!/usr/bin/env bash
