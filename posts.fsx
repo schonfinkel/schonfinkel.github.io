@@ -2,14 +2,25 @@
 
 open System
 
-let createPost (fileName: String) =
+let createPost title (fileName: String) =
     let createdAt = fileName.[0..7]
     let date = $"{createdAt.[0..3]}-{createdAt.[4..5]}-{createdAt.[6..7]}"
-    let name = fileName.[9..].Replace(".org", "")
-    let slug = name.Replace("_", "-")
-    let title = Shared.capitalize name
+    let file = fileName.Replace(".org", "")
 
-    $"+ [[./blog/{fileName}][{title}]]"
+    $"""
+    <div class="stub">
+      <h2>
+        <a href="./blog/{file}.html"> {title} </a>
+      </h2>
+      <small>{date}</small>
+    </div>
+    """
 
-let org = Shared.posts |> List.map (createPost) |> (fun s -> String.Join("\n", s))
+
+let org =
+    Shared.posts
+    |> List.filter (fun (_title, fileName) -> fileName.Contains("draft") |> not)
+    |> List.map (fun (title, fileName) -> createPost title fileName)
+    |> (fun s -> String.Join("\n", s))
+
 printfn "%s" org

@@ -2,14 +2,23 @@
 
 open System
 
-let createNote (fileName: String) =
+let createNote title (fileName: String) =
     let createdAt = fileName.[0..13]
     let date = $"{createdAt.[0..3]}-{createdAt.[4..5]}-{createdAt.[6..7]}"
-    let name = fileName.[15..].Replace(".org", "")
-    let slug = name.Replace("_", "-")
-    let title = Shared.capitalize name
+    let file = fileName.Replace(".org", "")
 
-    $"+ [[./notes/{fileName}][{title}]]"
+    $"""
+    <div class="stub">
+      <h2>
+        <a href="./notes/{file}.html"> {title} </a>
+      </h2>
+      <small>{date}</small>
+    </div>
+    """
 
-let org = Shared.notes |> List.map (createNote) |> (fun s -> String.Join("\n", s))
+let org =
+    Shared.notes
+    |> List.map (fun (title, fileName) -> createNote title fileName)
+    |> (fun s -> String.Join("\n", s))
+
 printfn "%s" org

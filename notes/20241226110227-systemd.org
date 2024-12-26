@@ -72,3 +72,36 @@ and run in the background. Examples of services include Secure Shell, your web
 server of choice, a mail server, and various services that are required for
 proper system operation. [cite:@tevault2022systemd, p.32]
 #+end_quote
+
+*** Unit Section
+
+The top section of a service file is the ~[Unit]~ section, which contains the
+following parameters:
+
++ ~Description~
++ ~After~: Which targets are dependencies for the service.
++ ~Documentation~
+
+To check more options not mentioned here:
+#+begin_quote
+  man systemd.unit
+#+end_quote
+
+*** Service Section
+
+Some usefull service options include:
+
++ ~Type~: Options such as ~forking~, ~notify~.
++ ~Environment~
++ ~EnvironmentFile~
++ ~ExecStartPre~: Tells ~systemd~ what to run before the ~ExecStart~ phase.
++ ~ExecStart~, ~ExecStop~, ~ExecReload~: Command lines for starting, stopping and
+  reloading the service.
++ ~PrivateTmp~: When set to ~true~, this parameter forces the service to write its
+  temporary files to a private ~/tmp/~ directory that nobody else can access.
++ ~Restart~: Options such as ~on-abort~, ~on-failure~ or ~always~.
+
+*** Install Section
+Controls what happens when you enable or disable a ~unit~.
+
++ ~WantedBy~
