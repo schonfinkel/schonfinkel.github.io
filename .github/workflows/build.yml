@@ -24,6 +24,3 @@ jobs:
           mkdir -p "$HOME/.emacs.d/"
           touch "$HOME/.emacs.d/.org-id-locations"
           nix develop .#ci -c just build
-
-      - name: Publish website
-        run: nix develop .#ci -c just publish
