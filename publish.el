@@ -147,6 +147,7 @@
         ("all" :components ("site" "static"))))
 
 ;; Generate the site output
+(org-roam-update-org-id-locations)
 (org-publish-all t)
 
 (message "Build complete!")
