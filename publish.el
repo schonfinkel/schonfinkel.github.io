@@ -41,6 +41,7 @@
 (setq org-export-use-babel t)
 (setq org-export-with-broken-links nil)
 (setq org-element-use-cache nil)
+(setq org-src-preserve-indentation t)
 
 ;;;; Settings
 (setq-default root-dir (concat (getenv "PWD") "/"))
@@ -63,9 +64,8 @@
 (setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io/"))
 (message (format "SETTING URL: %s" url-dir))
 
-(setq org-src-preserve-indentation t)
-
-(setq org-cite-refs-list '("beam.bib" "beam.bib" "databases.bib" "haskell.bib" "refs.bib"))
+;;;; Fix bibliography
+(setq org-cite-refs-list '("beam.bib" "databases.bib" "haskell.bib" "refs.bib"))
 (setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
 (setq org-cite-global-bibliography org-cite-refs-path)
 (setq org-cite-export-processors '((latex biblatex)

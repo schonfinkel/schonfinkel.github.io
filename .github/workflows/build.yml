@@ -19,10 +19,6 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v27
 
-      - name: Build Graph
-        run: |
-          nix develop .#ci -c just graph
-
       - name: Build website
         run: |
           mkdir -p "$HOME/.emacs.d/"

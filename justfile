@@ -14,11 +14,8 @@ default:
 
 # Generate the Markdown files
 build: clean
+    python fix-html.py
     emacs $(pwd) --batch --load publish.el
-
-# Publish content
-public: build
-    hugo
 
 # Download D3
 d3-download:
