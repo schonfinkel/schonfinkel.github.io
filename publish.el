@@ -63,7 +63,7 @@
 (defcustom out-dir (format "%spublic" root-dir) "Directory where the HTML files are going to be exported.")
 (message (format "SETTING OUT DIR: %s" out-dir))
 
-(setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io"))
+(setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir out-dir))
 (message (format "SETTING URL: %s" url-dir))
 
 (setq-default out-static-dir (concat url-dir "/static/"))
