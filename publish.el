@@ -66,7 +66,7 @@
 (setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io"))
 (message (format "SETTING URL: %s" url-dir))
 
-(setq-default out-static-dir (concat url-dir "/static/"))
+(setq-default out-static-dir (concat out-dir "/static/"))
 (setq-default out-css-dir (concat out-static-dir "css"))
 (setq-default out-img-dir (concat out-static-dir "img"))
 (setq-default out-html-dir (concat out-static-dir "html"))
