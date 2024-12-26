@@ -72,7 +72,7 @@
 (setq-default out-html-dir (concat out-static-dir "html"))
 
 ;;;; Fix bibliography
-(setq org-cite-refs-list '("beam.bib" "databases.bib" "haskell.bib" "refs.bib"))
+(setq org-cite-refs-list '("beam.bib" "databases.bib" "distributed_systems.bib" "fp_general.bib" "haskell.bib" "leadership.bib" "math_and_logic.bib" "nixos.bib" "software_engineering.bib" "sysadmin.bib"))
 (setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
 (setq org-cite-global-bibliography org-cite-refs-path)
 (setq org-cite-export-processors '((latex biblatex)

@@ -1,0 +1,74 @@
+:PROPERTIES:
+:ID:       72c31da4-aa99-4e25-ae97-615a9e1d6f93
+:END:
+#+title: systemd
+
+#+begin_quote
+~systemd~ is a suite of basic building blocks for a [[id:8a427ee7-2ef1-489b-af82-91de7be8a3ba][Linux]] system. It provides a
+system and service manager that runs as PID 1 and starts the rest of the system.
+#+end_quote
+
++ It replaces upstart/init
++ It is event-driven
+
+* Units
+
+#+begin_quote
+Instead of using a set of complex Bash shell scripts, the systemd init system
+controls system and service operations with various types of unit files. Each
+unit file has a filename with a filename extension that describes which type of
+unit it is. [cite:@tevault2022systemd, p.18]
+#+end_quote
+
+Unit files are written in three locations:
++ ~/etc/systemd/system~: the default location for unit files that either come with the operating system.
++ ~/run/systemd/system~
++ ~/usr/lib/systemd/system~
+
+** Types of Unit Files
+
+Here's a list of the more common types:
+
+#+begin_src shell
+  systemctl -t help
+#+end_src
+
++ ~service~: These are the configuration files for services.
++ ~socket~: Sockets can either enable communication between different system
+  services or they can automatically wake up a sleeping service when it receives
+  a connection request.
++ ~slice~: Slice units are used when configuring cgroups.
++ ~mount~ and ~automount~: These contain mount point information for filesystems
+  that are controlled by systemd. Normally, they get created automatically, so
+  you shouldn't have to do too much with them.
++ ~target~: Target units are used during system startup, for grouping units and
+  for providing well-known synchronization points.
++ ~timer~: Timer units are for scheduling jobs that run on a schedule. Replaces
+  the old ~cron~ system.
++ ~path~: Path units are for services that can be started via path-based
+  activation.
++ ~swap~: Swap units contain information about your swap partitions.
+
+*** Commands
+
+#+begin_src shell
+  systemctl list-units
+  # You can also view specific types of units with the -t option.
+  systemctl list-units -t service
+  # and also filter it by the service's state
+  systemctl list-units -t service --state=dead
+#+end_src
+
+#+begin_src shell
+  systemctl list-dependencies
+#+end_src
+
+** Service
+#+begin_quote
+Service units are the equivalent of init scripts on old SysV systems. We'll use
+them to configure our various services, which we used to call daemons in the old
+days. A service can be pretty much anything that you want to start automatically
+and run in the background. Examples of services include Secure Shell, your web
+server of choice, a mail server, and various services that are required for
+proper system operation. [cite:@tevault2022systemd, p.32]
+#+end_quote
