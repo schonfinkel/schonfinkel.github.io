@@ -1,6 +1,7 @@
 import fileinput
 import itertools
 import json
+import os
 import pathlib
 import sqlite3
 import sys
@@ -83,7 +84,7 @@ def update_html(graph_data: nx.DiGraph) -> None:
     JS_GRAPH = json_graph.node_link_data(graph_data)
     JSON_GRAPH = json.dumps(JS_GRAPH)
     pathlib.Path("./static/graph.json").write_text(JSON_GRAPH)
-    filepath = pathlib.Path("./layouts/partials/graph.html").resolve()
+    filepath = pathlib.Path("./static/html/graph.html").resolve()
     for line in fileinput.input([filepath], inplace=True):
         if line.strip().startswith("var graph_data ="):
             line = f"var graph_data = {JSON_GRAPH}\n"

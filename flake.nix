@@ -38,7 +38,6 @@
           let
             tooling = with pkgs; [
               just
-              hugo
               sqlite
 
               # To generate the Graph
@@ -82,7 +81,6 @@
               epkgs:
               with epkgs.melpaPackages;
               [
-                ox-hugo
                 citeproc
               ]
               ++ (with epkgs.elpaPackages; [
@@ -99,7 +97,8 @@
             # a custom package with just enough tools to generate the markdown
             # for org-roam.
             ci = pkgs.mkShell {
-              HUGO_ENVIRONMENT = "production";
+              ENVIRONMENT = "prod";
+              OUT_URL = "https://schonfinkel.github.io/";
               DOTNET_ROOT = "${dotnet}";
               DOTNET_CLI_TELEMETRY_OPTOUT = "1";
               LANG = "en_US.UTF-8";
@@ -127,16 +126,14 @@
                     ] ++ [ texenv ] ++ tooling;
 
                     env = {
-                      HUGO_ENVIRONMENT = "development";
+                      ENVIRONMENT = "dev";
                       DOTNET_ROOT = "${dotnet}";
                       DOTNET_CLI_TELEMETRY_OPTOUT = "1";
                       LANG = "en_US.UTF-8";
                     };
 
                     scripts = {
-                      build.exec = "just ci-build";
-                      publish.exec = "just public";
-                      run.exec = "just ci-run";
+                      build.exec = "just build";
                       graph.exec = "just graph";
                       clean.exec = "just clean";
                     };

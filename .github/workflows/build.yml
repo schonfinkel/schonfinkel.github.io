@@ -20,7 +20,7 @@ jobs:
         uses: cachix/install-nix-action@v27
 
       - name: Build website
-        run: nix develop .#ci -c just ci-build
-
-      - name: Publish website
-        run: nix develop .#ci -c just ci-publish
+        run: |
+          mkdir -p "$HOME/.emacs.d/"
+          touch "$HOME/.emacs.d/.org-id-locations"
+          nix develop .#ci -c just build

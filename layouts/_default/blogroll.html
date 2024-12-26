@@ -1,7 +1,0 @@
-{{ define "main" }}
-  <h2>{{.Title}}</h2>
-  <p><a href="{{ .Site.BaseURL  }}/blogroll.xml">OPML File</a></p>
-  {{.Content}}
-
-  {{ $resource := resources.Get "blogroll.xml" | transform.Unmarshal  }}
-{{ end }}
