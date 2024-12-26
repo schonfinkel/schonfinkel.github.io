@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-12-26 Thu 02:19 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>You have 10 seconds to nixify your dotnet project</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io//css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io//img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io//index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io//blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io//notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io//blogroll.html">BlogRoll</a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">You have 10 seconds to nixify your dotnet project</h1>
+<p class="subtitle" role="doc-subtitle">Even .NET can be cool if you Nix it enough</p>
+</header>
+<figure id="orgb48f4d6">
+<img src="../../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png" alt="00_don_gun.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>Don "The Gun" Syme, now officially part of the "Nix Gang".</figcaption>
+</figure>
+
+<p>
+While this is a click bait title (maybe I've also farmed some zoomer credits out
+the OC), I'm pretty sure that's how Don Syme feels when looks at a <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/results">Result</a> type
+like <code>Result&lt;'T,string&gt;</code> in an F# codebase. The reason why I've written this post
+is that I started doing changes in a <a href="https://github.com/mtrsk/interval.fs">open source project</a> I develop/maintain,
+and realized other .Net people could benefit from this somehow (as most of the
+Nix + .Net guides are from before 2024).
+</p>
+<div id="outline-container-orgfd544b3" class="outline-2">
+<h2 id="orgfd544b3">An Opinionated Template</h2>
+<div class="outline-text-2" id="text-orgfd544b3">
+<p>
+Turns out that, while writing this, I've decided to put everything in a template
+that's easy to <del>steal</del> copy, so if you are from the future and have the <a href="https://nixos.org/download/">Nix (the
+package manager)</a> and the <a href="https://nixos.wiki/wiki/Flakes">Flakes</a> feature enabled you'll be able to reproduce this
+post. Additionally, someone beat me into writing a flake for F#, here's <a href="https://github.com/NixOS/templates/tree/master/dotnet">a more
+official take</a> on it, there are a couple changes from my repo and this one,
+mostly because I tend to favor devenv (since it has shown better adoption when I
+preached it to non-Nixers).
+</p>
+</div>
+<div id="outline-container-org8efe6fa" class="outline-3">
+<h3 id="org8efe6fa">Devenv</h3>
+<div class="outline-text-3" id="text-org8efe6fa">
+<p>
+I've already tackled this in a <a href="https://mtrsk.github.io/blog/2024/experiments-with-erlang-and-nix/">previous article</a>, but the best developer
+experience right now is with <a href="https://devenv.sh/">devenv.sh</a>. Unlike the previous article tho, the
+environment setup is way simpler, just a bunch of .Net tools inside the shell
+and call it a day.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix">  #(...)
+  # `nix develop --impure`
+  default = devenv.lib.mkShell {
+    inherit inputs pkgs;
+    modules = [
+      (
+        { pkgs, lib, ... }:
+        {
+          packages = with pkgs; [
+            bash
+            just
+
+            # for dotnet
+            netcoredbg
+            fsautocomplete
+            fantomas
+          ];
+
+          languages.dotnet = {
+            enable = true;
+            package = dotnet;
+          };
+
+          # looks for the .env by default additionaly, there is .filename
+          # if an arbitrary file is desired
+          dotenv.enable = true;
+        }
+      )
+    ];
+  };
+  # (...)
+</pre>
+</div>
+
+<p>
+and similary to the previous post, we can access the environment by doing:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  nix develop --impure
+</pre>
+</div>
+
+<p>
+or, if you have <a href="https://github.com/direnv/direnv">direnv</a>, run <code>direnv allow</code>. Now you can build the project with the
+usual .Net tooling:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  dotnet build
+  # There is also a justfile configured to you can just
+  # type "just" and get all commands
+</pre>
+</div>
+
+<p>
+Here's a quick demo:
+</p>
+
+
+<figure id="orgf4431cb">
+<img src="../../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif" alt="01_demo.gif">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-org7f239ec" class="outline-3">
+<h3 id="org7f239ec">Build your project with Nix</h3>
+<div class="outline-text-3" id="text-org7f239ec">
+<p>
+This project is just a simple solution with the basic <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line">CLI Console App</a> from the
+official documentation, the difference being that I've added a dependency to
+<a href="https://github.com/demystifyfp/FsToolkit.ErrorHandling">FsToolkit.ErrorHandling</a>, just as a way to showcase how to handle nuget
+dependencies later. To package your .Net App there is already the <a href="https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/dotnet.section.md#packaging-a-dotnet-application-packaging-a-dotnet-application">buildDotNetModule</a>,
+you can explore all the other options later in the docs, this is what works for
+the current code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix">  # `nix build`
+  default = pkgs.buildDotnetModule {
+    pname = name;
+    version = version;
+    src = ./.;
+    projectFile = "src/App/App.fsproj";
+    nugetDeps = ./deps.nix;
+
+    dotnet-sdk =
+      with pkgs.dotnetCorePackages;
+      combinePackages [
+        sdk_8_0
+      ];
+    dotnet-runtime = pkgs.dotnetCorePackages.sdk_8_0;
+  };
+</pre>
+</div>
+
+<p>
+To properly build this with nix, you may have noticed that we also import a
+<code>deps.nix</code> file in the previous step. This file contains all the nuget
+dependencies our project uses and their hashes:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix">  { fetchNuGet }: [
+    (fetchNuGet { pname = "FsToolkit.ErrorHandling"; version = "4.16.0"; hash = "sha256-4pRixOtRDgLt4/z71o1XnkuXRa/43LUhl/pDRpofX7s="; })
+  ]
+</pre>
+</div>
+
+<p>
+You don't have to manually create or edit this, as its already documented
+<a href="https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/dotnet.section.md#generating-and-updating-nuget-dependencies-generating-and-updating-nuget-dependencies">here</a>. In this project this is already handled by the <code>just gen-deps</code> (or <code>just gd</code>)
+command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  $ rm deps.nix
+  $ just gd      
+  dotnet restore --packages out
+    Determining projects to restore...
+    All projects are up-to-date for restore.
+  nix run nixpkgs#nuget-to-nix -- out &gt; deps.nix
+  $ cat deps.nix               
+  { fetchNuGet }: [
+    (fetchNuGet { pname = "FsToolkit.ErrorHandling"; version = "4.16.0"; hash = "sha256-4pRixOtRDgLt4/z71o1XnkuXRa/43LUhl/pDRpofX7s="; })
+  ]
+</pre>
+</div>
+
+<p>
+The previous step is also the usual way to update a .Net package in nixpkgs, most
+times you'll just need to get the new version hash and update the nuget hashes
+as well:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  $ cd &lt;my-clone-of-nixpkgs&gt;
+  $ nix-build -A &lt;package-name&gt;.passthru.fetch-deps | bash
+  $ nix-build -A &lt;package-name&gt;
+</pre>
+</div>
+
+<p>
+Then you open a PR to the <a href="https://github.com/NixOS/nixpkgs">official repository</a>, following the <a href="https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md">contribution
+guidelines</a>, of course. Now, going back to the testing the Nix build:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  $ nix build                                                    
+  $ ./result/bin/App 
+  Test
+  # It works
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3242b15" class="outline-3">
+<h3 id="org3242b15">Generating OCI Images</h3>
+<div class="outline-text-3" id="text-org3242b15">
+<p>
+Similar to the <a href="https://mtrsk.github.io/blog/2024/experiments-with-erlang-and-nix/">previous post</a>, the Container Image looks like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  # nix build .#dockerImage
+  dockerImage = pkgs.dockerTools.buildLayeredImage {
+    name = "sample";
+    tag = "latest";
+    created = "now";
+    contents = [ default ];
+    config = {
+      Cmd = [
+        "${default}/bin/App"
+      ];
+    };
+  };
+</pre>
+</div>
+
+<p>
+And can be tested with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  $ nix build .#dockerImage
+  $ docker load &lt; ./result
+  $ docker container run --rm sample:latest
+  Test
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgab9bb67" class="outline-2">
+<h2 id="orgab9bb67">Conclusion</h2>
+<div class="outline-text-2" id="text-orgab9bb67">
+<p>
+If this sparkled your interest somehow, here's the <a href="https://github.com/mtrsk/fsharp-nix/tree/master">source code</a>, I've also made
+sure to configure some <a href="https://github.com/mtrsk/fsharp-nix/actions">Github Actions</a> Workflows there. 
+</p>
+</div>
+<div id="outline-container-orgf72bded" class="outline-3">
+<h3 id="orgf72bded"><span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-orgf72bded">
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> Optimize the container image, by just shipping the runtime, not the SDK.</li>
+<li class="off"><code>[&#xa0;]</code> Open a PR into the <a href="https://github.com/NixOS/templates/tree/master/dotnet">NixOS Templates</a> repo, maybe adding a <a href="https://safe-stack.github.io/">SAFE</a> stack example
+as well and a container build into the Hello Example.</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/mtrsk/mtrsk.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Kubernetes-ConfigMaps</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,105 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">Kubernetes-ConfigMaps</h1>
+</header><div id="outline-container-org21c1c39" class="outline-2">
+<h2 id="org21c1c39">ConfigMaps</h2>
+<div class="outline-text-2" id="text-org21c1c39">
 <p>
-Here's a non-exaustive list of my current interests:
+A ConfigMap is a <a href="20211012215602-kubernetes.html#ID-dd924a84-7d6f-41ec-98c2-aa16582c0d89">Kubernetes</a> API object used to store non-confidential data in
+key-value pairs. Pods can consume ConfigMaps as environment variables,
+command-line arguments, or as configuration files in a volume.
 </p>
 
+<div class="org-src-container">
+<pre class="src src-yaml">  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: game-demo
+    labels:
+      app: game-demo
+  data:
+    # property-like keys; each key maps to a simple value
+    player_initial_lives: "3"
+    ui_properties_file_name: "user-interface.properties"
+  
+    # file-like keys
+    game.properties: |
+      enemy.types=aliens,monsters
+      player.maximum-lives=5    
+    user-interface.properties: |
+      color.good=purple
+      color.bad=yellow
+      allow.textmode=true   
+</pre>
+</div>
+</div>
+<div id="outline-container-orgaaefc47" class="outline-3">
+<h3 id="orgaaefc47">Creating a ConfigMap</h3>
+<div class="outline-text-3" id="text-orgaaefc47">
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>From files</li>
 </ul>
 
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl create configmap [name] --from-file=[filepath]
+</pre>
+</div>
 
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
+<ul class="org-ul">
+<li>From environment variables</li>
+</ul>
 
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl create configmap [name] --from-env-file=[filepath]
+</pre>
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
-<p>
-You may also find me elsewhere in cyberspace, under the following aliases:
-</p>
-
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+</div>
+<div id="outline-container-orga755fe0" class="outline-3">
+<h3 id="orga755fe0">Using ConfigMaps in Pods</h3>
+<div class="outline-text-3" id="text-orga755fe0">
+<div class="org-src-container">
+<pre class="src src-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-demo-pod
+spec:
+  containers:
+    - name: demo
+      image: alpine
+      command: ["sleep", "3600"]
+      env:
+        # Define the environment variable
+        - name: PLAYER_INITIAL_LIVES # Notice that the case is different here
+                                     # from the key name in the ConfigMap.
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo           # The ConfigMap this value comes from.
+              key: player_initial_lives # The key to fetch.
+        - name: UI_PROPERTIES_FILE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo
+              key: ui_properties_file_name
+      volumeMounts:
+      - name: config
+        mountPath: "/config"
+        readOnly: true
+  volumes:
+    # You set volumes at the Pod level, then mount them into containers inside that Pod
+    - name: config
+      configMap:
+        # Provide the name of the ConfigMap you want to mount.
+        name: game-demo
+        # An array of keys from the ConfigMap to create as files
+        items:
+        - key: "game.properties"
+          path: "game.properties"
+        - key: "user-interface.properties"
+          path: "user-interface.properties"
+</pre>
+</div>
 </div>
 </div>
 </div>

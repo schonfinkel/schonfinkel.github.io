@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-12-26 Thu 02:19 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Effective Manager</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io//css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io//img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io//index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io//blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io//notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io//blogroll.html">BlogRoll</a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">The Effective Manager</h1>
+</header><p>
+Notes from the (<a href="#citeproc_bib_item_1">Horstman, Braun, and Sentes 2023</a>).
+</p>
+<div id="outline-container-orgb7594e1" class="outline-2">
+<h2 id="orgb7594e1">Teachable and Sustainable Skills</h2>
+<div class="outline-text-2" id="text-orgb7594e1">
+<blockquote>
+<p>
+However you manage, your techniques, behavior, and philosophy must be both
+teachable to others and sustainable.
+</p>
+</blockquote>
+
+<ol class="org-ol">
+<li>To go up in any organization, you must be able to teach others to do what you
+do.</li>
+<li>If you're irreplacable, you're also unpromotable.</li>
+</ol>
+
+<blockquote>
+<p>
+The way an effective manager manages is visible to others and is teachable to
+others. And the effective manager can repeat the
+</p>
+</blockquote>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Critical Behavior</th>
+<th scope="col" class="org-left">Manager Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Get to know your people</td>
+<td class="org-left">One on ones</td>
+</tr>
+
+<tr>
+<td class="org-left">Communicate about performance</td>
+<td class="org-left">Feedback</td>
+</tr>
+
+<tr>
+<td class="org-left">Ask for more</td>
+<td class="org-left">Coaching</td>
+</tr>
+
+<tr>
+<td class="org-left">Push work down</td>
+<td class="org-left">Delegation</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org08123fe" class="outline-2">
+<h2 id="org08123fe">Know Your People: One On Ones</h2>
+<div class="outline-text-2" id="text-org08123fe">
+<p>
+One on ones are meetings that:
+</p>
+
+<ol class="org-ol">
+<li>That is scheduled</li>
+<li>That is held weekly</li>
+<li>That lasts for 30 minutes</li>
+<li>That is held with each of your directs</li>
+<li>In which the direct's issues are primary</li>
+<li>In which the manager takes notes</li>
+</ol>
+</div>
+<div id="outline-container-org148a204" class="outline-3">
+<h3 id="org148a204">Scheduling</h3>
+<div class="outline-text-3" id="text-org148a204">
+<blockquote>
+<p>
+Scheduling your O3s is actually more important than having them weekly. That's
+why it's first on our list. It is more important
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+Weekly It is best to conduct your One On Ones on a weekly basis. The simplest
+reason for this is that you probably think about your work life in weekly
+increments.
+</p>
+</blockquote>
+
+<p>
+How DO you “stay in touch” with those in your organization who
+are “below” your directs? First, insist on your subordinate
+managers doing One On Ones with their directs. Your
+immediate subordinate managers are responsible for their
+relationships with their directs. The way you maintain your
+relationship with your skips (and even levels below that, if it
+applies to you) is by keeping a strong relationship with your
+directs and relying on them to maintain relationships with theirs.
+Any other model for this just doesn't scale.
+</p>
+
+<p>
+What this means is that you won't be able to have the same
+relationship with people who are two or more levels down from
+you. You won't, but it's okay, because you're not supposed to.
+Efforts to do so are a waste of your most precious resource as a
+manager: your time. Build an organization of effective managers
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org26985a1" class="outline-2">
+<h2 id="org26985a1">Talk about performance - Feedback</h2>
+<div class="outline-text-2" id="text-org26985a1">
+<blockquote>
+<p>
+The second critical manager behavior that leads to results and retention is
+communicating about performance.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+When the average manager gives feedback, the focus is on what happened. The
+manager thinks about what happened in the past and asks herself how to talk to
+the direct—about what happened, in the past, about which the manager can do
+nothing.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+If you don't point out mistakes frequently, your directs assume that, when you
+do choose to talk to them, they think it's because they may be “in trouble.”
+Their defensiveness, then, should not be surprising.
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgab45dc2" class="outline-3">
+<h3 id="orgab45dc2">Encourage Effective Future Behavior</h3>
+<div class="outline-text-3" id="text-orgab45dc2">
+<blockquote>
+<p>
+The moment you switch to a future focus, however, you free yourself up to focus
+on something that you (and they) can do something about. <b>Regardless of whether
+your direct was ineffective or effective this morning, the true purpose of any
+performance communication about either situation is exactly the same: you want
+more effective behavior in the future</b>. If your direct made a mistake, you want
+different behavior. If your direct did something well, you want more of the
+same.
+</p>
+</blockquote>
+
+<p>
+The Manager Tools Feedback Model has four simple steps:
+</p>
+
+<ol class="org-ol">
+<li>Ask: Ask your direct if you can give then some feedback. Also, it's an
+important managerial rule to <b>never ask a question of your directs if you
+don't intend to honor their answer</b>.</li>
+<li><p>
+State the Behavior: How should one pass it's messages to one's peers.
+</p>
+<ul class="org-ul">
+<li>The words you say: The words you choose to say out loud to others are a</li>
+</ul>
+<p>
+choice, and different words produce different results. <b>Your choice of words
+makes a difference in business results</b>. Furthermore, certain words are known
+to produce distinctly better results in certain situations.
+</p>
+<ul class="org-ul">
+<li>How to say words: Watch your tone, tenor and inflection.</li>
+<li>Your facial expressions: Non-verbal language actually accounts for most of
+the perceived meaning in normal conversations.</li>
+<li>Body language: Same as above.</li>
+<li>Work product: What you do and how well you do your job are behaviours as well.
+<ul class="org-ul">
+<li>Quality</li>
+<li>Quantity</li>
+<li>Accuracy</li>
+<li>Timeliness</li>
+<li>Documents</li>
+</ul></li>
+</ul>
+
+<p>
+Here are is template on how to start: "When you &lt;behavior&gt;&#x2026;", for instance:
+</p>
+<ul class="org-ul">
+<li>"When you are ahead of schedule&#x2026;"</li>
+<li>"When you stay an extra hour to find the root cause&#x2026;"</li>
+<li>"When you respond politely after the customer insults you&#x2026;"</li>
+<li>"When you make that extra call to keep the customer informed&#x2026;"</li>
+<li>"When you promise it to me yesterday but don't deliver&#x2026;"</li>
+</ul>
+
+<blockquote>
+<p>
+Would you rather have a 15-second negative feedback
+discussion or a two-minute negative feedback discussion with
+your boss? Shorter is better. Saying “When you” will help you be
+</p>
+</blockquote></li>
+
+<li><p>
+State the Impact of the Behavior
+</p>
+
+<blockquote>
+<p>
+(&#x2026;) effective feedback isn't about waiting until there's a pattern, and it
+doesn't get better with age. And wouldn't you rather know sooner rather than
+later that there's a problem?
+</p>
+</blockquote></li>
+
+<li><p>
+Encourage Effective Future Behavior
+</p>
+
+<blockquote>
+<p>
+When we are giving negative feedback, we are asking the direct to behave
+differently. <b>We're not punishing the past mistake, because we've already
+forgiven it. Remember that our focus is on the future, not the past</b>.
+</p>
+</blockquote></li>
+
+<li>Ask</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org0cf0a03" class="outline-3">
+<h3 id="org0cf0a03">When should I give feedback</h3>
+<div class="outline-text-3" id="text-org0cf0a03">
+<p>
+Feedbacks should be given as early and often as possible, if you can give
+feedback right after noticing positive/negative behaviour that's ideal, of
+course, make sure you do so without others overhearing.
+</p>
+
+<blockquote>
+<p>
+If you keep in mind that sooner is better and that there's no appreciable
+decline in value during the first three to five days, you have a lot more time
+and a lot more opportunities to deliver what it is your directs want—and tell us
+they want. 
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Encouraging feedback can be given in front of other people, unless they don't
+like attention.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org7788307" class="outline-2">
+<h2 id="org7788307">Common Questions and Resistance to Feedback</h2>
+<div class="outline-text-2" id="text-org7788307">
+<p>
+First, ask yourself these three questions before offering feedback.
+</p>
+</div>
+<div id="outline-container-orga5ebda7" class="outline-3">
+<h3 id="orga5ebda7">The questions</h3>
+<div class="outline-text-3" id="text-orga5ebda7">
+</div>
+<div id="outline-container-org5ea9fad" class="outline-4">
+<h4 id="org5ea9fad">Am I angry?</h4>
+<div class="outline-text-4" id="text-org5ea9fad">
+<blockquote>
+<p>
+If you're angry, don't give feedback. Period.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orge34a686" class="outline-4">
+<h4 id="orge34a686">Do I want to remind or punish?</h4>
+<div class="outline-text-4" id="text-orge34a686">
+<p>
+Always focus in encouraging effective future behavior.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcaa0f87" class="outline-4">
+<h4 id="orgcaa0f87">Can I let it go?</h4>
+<div class="outline-text-4" id="text-orgcaa0f87">
+<blockquote>
+<p>
+If you can't let it go in terms of how you feel, we recommend that you do let it
+go by not giving negative feedback.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org6bc5180" class="outline-4">
+<h4 id="org6bc5180">Maybe delay or defer?</h4>
+<div class="outline-text-4" id="text-org6bc5180">
+<p>
+If you can't pass the three tests above, you should either <b>delay</b> or <b>defer</b>.
+</p>
+
+<ul class="org-ul">
+<li>Delay: Hold off giving feedback for a while, a few hours won't hurt.</li>
+<li>Defer: If you're still angry, if you can't let it go completely, don't give
+negative feedback about the behavior. If the bad behavior is corrected, doing
+nothing worked, otherwise, you'll have the another chance to give feedback
+again.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc738e31" class="outline-4">
+<h4 id="orgc738e31">The Shot across the Bow</h4>
+<div class="outline-text-4" id="text-orgc738e31">
+<p>
+What do I do if one of my directs pushes back or refuses feedback? If your
+direct is defensive it means they likely know they're in the wrong. Do not drag
+a conflict from the past and focus on the future.
+</p>
+
+<blockquote>
+<p>
+Once you've given the feedback and the direct has pushed back, pause, smile,
+apologize, and walk away. You've made your point.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org94da0cb" class="outline-3">
+<h3 id="org94da0cb">The capstone: systemic feedback</h3>
+<div class="outline-text-3" id="text-org94da0cb">
+<blockquote>
+<p>
+Systemic feedback changes what you are talking to your direct about and raises
+the level of consequences associated with a continued failure to
+change. Systemic feedback addresses the direct's combination of continued
+failure to change with the direct's stated commitment to change. It addresses
+the greater failure to meet a repeated commitment. Failure to meet commitments
+is a systemic failure that no organization can long
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+Here is the fundamental difference. Standard feedback is about small
+behaviors. Systemic feedback addresses the moral hazard of a direct committing
+to new behavior but then failing to follow through. We can tolerate directs who
+make mistakes. We cannot tolerate directs who repeatedly make commitments they
+don't keep.
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org4ca5d74" class="outline-4">
+<h4 id="org4ca5d74">When to use it?</h4>
+<div class="outline-text-4" id="text-org4ca5d74">
+<blockquote>
+<p>
+You should use systemic feedback when you have already given six instances of
+standard feedback in a period of time that indicates a pattern, and the direct
+has not been engaging in the behavior they've committed to.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org30717ce" class="outline-4">
+<h4 id="org30717ce">How is it different?</h4>
+<div class="outline-text-4" id="text-org30717ce">
+<p>
+In systemic feedbacks you're giving feedback on <b>the failure to meet commitments</b>.
+</p>
+</div>
+</div>
+<div id="outline-container-org40823f2" class="outline-4">
+<h4 id="org40823f2">Two dangers</h4>
+<div class="outline-text-4" id="text-org40823f2">
+<ol class="org-ol">
+<li>Use the standard feedback model before applying the systemic feedback</li>
+<li>Implied sanctions must be delivered</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org31a3ed9" class="outline-2">
+<h2 id="org31a3ed9">How to start giving feedback</h2>
+<div class="outline-text-2" id="text-org31a3ed9">
+</div>
+<div id="outline-container-org2f888f4" class="outline-3">
+<h3 id="org2f888f4">Announce your intention in your weekly staff meeting</h3>
+<div class="outline-text-3" id="text-org2f888f4">
+<blockquote>
+<p>
+Cover the purpose of feedback talk to your directs about the purpose of giving
+feedback, which is to "encourage effective future behavior". 
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Counteract their possible fear by explaining (plainly) why you're using the
+feedback model</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb8fcc59" class="outline-3">
+<h3 id="orgb8fcc59">Give only positive feedback for eigth weeks</h3>
+<div class="outline-text-3" id="text-orgb8fcc59">
+<blockquote>
+<p>
+Don't give any negative feedback as you're learning to use the feedback
+model. If you try to slip in some negative feedback, you run the risk of doing
+it poorly because you haven't yet mastered the model and the delivery. You may
+hurt the feelings of your direct.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Start with one feedback per day</li>
+<li>If you can go five days in a row giving feedback, then raise the limit to two.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga2b8d7b" class="outline-3">
+<h3 id="orga2b8d7b">Stay as positive as you can</h3>
+<div class="outline-text-3" id="text-orga2b8d7b">
+<ul class="org-ul">
+<li>Don't overdo negative feedbacks</li>
+<li>Positive feedbacks are much more powerful tools than negative ones</li>
+</ul>
+
+<blockquote>
+<p>
+If you believe you should be "vigilant" against "mistakes", two things will
+happen gradually: you'll start seeing all the mistakes, and you'll stop seeing
+all the good behaviors.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org67a3a41" class="outline-2">
+<h2 id="org67a3a41">Push work down - Delegation</h2>
+<div class="outline-text-2" id="text-org67a3a41">
+<blockquote>
+<p>
+Learning to delegate is part of the transition to becoming an executive. Too
+many managers today think that because they are smarter and more effective at
+getting things done than their directs, they should try to get more done by
+doing it themselves.
+</p>
+</blockquote>
+
+<p>
+How do we know when something is a task assignment and not a delegation? 
+</p>
+</div>
+<div id="outline-container-org0851346" class="outline-4">
+<h4 id="org0851346">Task assignment x Task delegation</h4>
+<div class="outline-text-4" id="text-org0851346">
+<blockquote>
+<p>
+Delegation, on the other hand, is you turning over responsibility for one of
+your regular responsibilities - something you routinely do - on a permanent or
+long standing basis, to one of your directs.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org73c747d" class="outline-4">
+<h4 id="org73c747d">Why Delegation Is the Solution - The Delegation</h4>
+</div>
+
+<div id="outline-container-org71a3a8b" class="outline-4">
+<h4 id="org71a3a8b">Delegate the Big Black Ball</h4>
+<div class="outline-text-4" id="text-org71a3a8b">
+<ul class="org-ul">
+<li>Not a good idea, since you <b>don't</b> know how to do it, how are you going to
+help your directs to do it?</li>
+<li>You need to understand the work before you can delegate it.</li>
+</ul>
+
+<blockquote>
+<p>
+Don't ever delegate a new responsibility your boss has just given you to one of
+your directs. Learn it first, master it, before
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org80d3f5e" class="outline-4">
+<h4 id="org80d3f5e">Delegate One of the Big Gray Balls</h4>
+<div class="outline-text-4" id="text-org80d3f5e">
+<blockquote>
+<p>
+One of your small balls is a big ball to your direct.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Splitting a big ball wouldn't work either, since you'll have to coordinate the
+task anyway.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org32554d7" class="outline-4">
+<h4 id="org32554d7">Delegate One or More of the Small Balls</h4>
+</div>
+
+<div id="outline-container-orgea01f09" class="outline-3">
+<h3 id="orgea01f09">How to Delegate—The Manager Tools Delegation Model</h3>
+<div class="outline-text-3" id="text-orgea01f09">
+<ol class="org-ol">
+<li>State your desire for help</li>
+<li>Tell them why you're asking them</li>
+<li>Ask for specific acceptance</li>
+<li>Describe the task or project in detail</li>
+<li>Address deadline, quality, and reporting standards</li>
+</ol>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Horstman, Mark, Kate Braun, and Sarah Sentes. 2023. <i>The Effective Manager: Completely Revised and Updated</i>. John Wiley &#38; Sons.</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/mtrsk/mtrsk.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

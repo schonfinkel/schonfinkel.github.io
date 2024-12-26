@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>SQL</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,61 +227,86 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">SQL</h1>
+</header><div id="outline-container-org3841978" class="outline-2">
+<h2 id="org3841978">Logical Query Processing Order</h2>
+<div class="outline-text-2" id="text-org3841978">
+</div>
+<div id="outline-container-orgc68bae1" class="outline-3">
+<h3 id="orgc68bae1">FROM</h3>
+<div class="outline-text-3" id="text-orgc68bae1">
+</div>
+<div id="outline-container-org6f1816e" class="outline-4">
+<h4 id="org6f1816e">JOIN</h4>
+<div class="outline-text-4" id="text-org6f1816e">
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Step</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Cartesian product</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Qualification step (i.e. the ON filter)</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left"><code>LEFT</code> or <code>RIGHT</code> reservations</td>
+</tr>
+</tbody>
+</table>
+
 <p>
-Here's a non-exaustive list of my current interests:
+If the specified <code>JOIN</code> type is a <code>CROSS JOIN</code>, then the query planner stops at Step
+1 and return the cartesian product to the next clause. All other join types
+proceed to the qualification step.
 </p>
 
-<ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
-</ul>
-
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
-</div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+<code>INNER</code> and <code>OUTER</code> <code>JOINS</code> are called "qualified JOINs", the qualification
+predicated is specified using the <code>ON</code> keyword, which filters all rows from the
+previous cartesian step where the predicate is <code>TRUE</code>. If the request is an
+<code>INNER JOIN</code>, then the qualified rows are returned to the next clause, if it is an
+<code>OUTER JOIN</code>, the qualified rows go throught the next step.
 </p>
-
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
 </div>
+<div id="outline-container-org387b386" class="outline-5">
+<h5 id="org387b386">Chiastic Order</h5>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc17bd77" class="outline-3">
+<h3 id="orgc17bd77">WHERE</h3>
+</div>
+<div id="outline-container-orge14ca11" class="outline-3">
+<h3 id="orge14ca11">GROUP BY</h3>
+</div>
+<div id="outline-container-org5a0d1b3" class="outline-3">
+<h3 id="org5a0d1b3">HAVING</h3>
+</div>
+<div id="outline-container-org9cdbd02" class="outline-3">
+<h3 id="org9cdbd02">SELECT</h3>
+</div>
+<div id="outline-container-org241aebc" class="outline-3">
+<h3 id="org241aebc">ORDER BY</h3>
+</div>
+<div id="outline-container-org587c391" class="outline-3">
+<h3 id="org587c391">OFFSET/FETCH</h3>
 </div>
 </div>
 </main>

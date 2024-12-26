@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Natural Deduction</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -204,6 +204,38 @@
     }
   };
 </script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -227,60 +259,217 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">Natural Deduction</h1>
+</header><blockquote>
 <p>
-Here's a non-exaustive list of my current interests:
+In natural deduction, we have a collection of proof rules. They allow us to
+infer formulas from other formulas. By applying these rules in succession, we
+may infer a conclusion from a set of premises.
 </p>
 
-<ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
-</ul>
+<p>
+Suppose we have a set of formulas \(\phi_1, \phi_2, \phi_3, \ldots, \phi_n\), which we will call
+premises, and another formula, \(\psi\), which we will call a conclusion. By applying
+proof rules to the premises, we hope to get some more formulas, and by applying
+more proof rules to those, to eventually obtain the conclusion. This intention
+we denote by:
+</p>
 
+<p>
+\[\phi_1, \phi_2, \phi_3, \ldots, \phi_n \vdash \psi\]
+</p>
 
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
+<p>
+This expression is called a <b>sequent</b>; it is valid if a proof for it can be
+found.
+</p>
 
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+<p>
+(<a href="#citeproc_bib_item_1">Huth and Ryan 2004, 5</a>)
+</p>
+</blockquote>
+<div id="outline-container-org5f17f5e" class="outline-2">
+<h2 id="org5f17f5e">Rules for Natural Deduction</h2>
+<div class="outline-text-2" id="text-org5f17f5e">
+</div>
+<div id="outline-container-orgc9d6ec8" class="outline-3">
+<h3 id="orgc9d6ec8">Conjunction</h3>
+<div class="outline-text-3" id="text-orgc9d6ec8">
+\begin{prooftree}
+\AxiomC{$\phi$}
+\AxiomC{$\psi$}
+\RightLabel{$\land i$}
+\BinaryInfC{$\phi \land \psi$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{$\phi \land \psi$}
+\RightLabel{$\land e_1$}
+\UnaryInfC{$\phi$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{$\phi \land \psi$}
+\RightLabel{$\land e_2$}
+\UnaryInfC{$\psi$}
+\end{prooftree}
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+<div id="outline-container-orgc07e5c1" class="outline-3">
+<h3 id="orgc07e5c1">Double Negation</h3>
+<div class="outline-text-3" id="text-orgc07e5c1">
+\begin{prooftree}
+\AxiomC{$\phi$}
+\RightLabel{$\lnot \lnot i$}
+\UnaryInfC{$\lnot \lnot \phi$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{$\lnot \lnot \phi$}
+\RightLabel{$\lnot \lnot e$}
+\UnaryInfC{$\phi$}
+\end{prooftree}
+</div>
+</div>
+<div id="outline-container-orgbda7003" class="outline-3">
+<h3 id="orgbda7003">Implication</h3>
+<div class="outline-text-3" id="text-orgbda7003">
+\begin{prooftree}
+\AxiomC{$\phi$}
+\AxiomC{$\phi \to \psi$}
+\RightLabel{$\to_e$}
+\BinaryInfC{$\psi$}
+\end{prooftree}
+
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+in order to prove \(\phi \to \psi\), make a temporary assumption of \(\phi\) and then prove \(\psi\).
 </p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+\begin{prooftree}
+\alwaysNoLine
+\AxiomC{[$\phi$]}
+\UnaryInfC{$\vdots$}
+\UnaryInfC{$\psi$}
+\RightLabel{$\to_i$}
+\alwaysSingleLine
+\UnaryInfC{$\phi \to \psi$}
+\end{prooftree}
+
+<blockquote>
+<p>
+Showing \(p \to q\) using the rule \(\to_i\) rule is now called <b>type checking</b>, an
+important topic in the construction of compilers for typed programming
+languages. (<a href="#citeproc_bib_item_1">Huth and Ryan 2004, 12</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org4e95903" class="outline-3">
+<h3 id="org4e95903">Disjunction</h3>
+<div class="outline-text-3" id="text-org4e95903">
+\begin{prooftree}
+\AxiomC{$\phi$}
+\RightLabel{$\lor i_1$}
+\UnaryInfC{$\phi \lor \psi$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{$\psi$}
+\RightLabel{$\lor i_2$}
+\UnaryInfC{$\phi \lor \psi$}
+\end{prooftree}
+
+<p>
+To dissasemble a disjunction, we need to show that either \(\phi \vdash \chi\) or \(\psi
+\vdash \chi\):
+</p>
+
+\begin{prooftree}
+\alwaysNoLine
+\AxiomC{$\phi \lor \psi$}
+\AxiomC{[$\phi$]}
+\UnaryInfC{$\vdots$}
+\UnaryInfC{$\chi$}
+\AxiomC{[$\psi$]}
+\UnaryInfC{$\vdots$}
+\UnaryInfC{$\chi$}
+\RightLabel{$\lor_e$}
+\alwaysSingleLine
+\TrinaryInfC{$\chi$}
+\end{prooftree}
+</div>
+</div>
+<div id="outline-container-orgfa07f50" class="outline-3">
+<h3 id="orgfa07f50">Negation</h3>
+<div class="outline-text-3" id="text-orgfa07f50">
+\begin{prooftree}
+\AxiomC{$\bot$}
+\RightLabel{$\bot_e$}
+\UnaryInfC{$\phi$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{$\psi$}
+\AxiomC{$\lnot \psi$}
+\RightLabel{$\lnot_e$}
+\BinaryInfC{$\bot$}
+\end{prooftree}
+
+\begin{prooftree}
+\alwaysNoLine
+\AxiomC{[$\phi$]}
+\UnaryInfC{$\vdots$}
+\UnaryInfC{$\bot$}
+\RightLabel{$\lnot_i$}
+\alwaysSingleLine
+\UnaryInfC{$\lnot \phi$}
+\end{prooftree}
+</div>
+</div>
+<div id="outline-container-org5ae5a7c" class="outline-3">
+<h3 id="org5ae5a7c">Useful Derived Rules</h3>
+<div class="outline-text-3" id="text-org5ae5a7c">
+</div>
+<div id="outline-container-orgc3c0830" class="outline-4">
+<h4 id="orgc3c0830">Modus Tollens</h4>
+<div class="outline-text-4" id="text-orgc3c0830">
+\begin{prooftree}
+\AxiomC{$\lnot \psi$}
+\AxiomC{$\phi \to \psi$}
+\RightLabel{MT}
+\BinaryInfC{$\lnot \phi$}
+\end{prooftree}
+</div>
+</div>
+<div id="outline-container-org5af661d" class="outline-4">
+<h4 id="org5af661d">Law of the Excluded Middle</h4>
+<div class="outline-text-4" id="text-org5af661d">
+\begin{prooftree}
+\alwaysNoLine
+\AxiomC{}
+\RightLabel{LEM}
+\alwaysSingleLine
+\UnaryInfC{$\phi \lor \lnot \phi$}
+\end{prooftree}
+</div>
+</div>
+<div id="outline-container-org4515b77" class="outline-4">
+<h4 id="org4515b77">Proof by Contradiction</h4>
+<div class="outline-text-4" id="text-org4515b77">
+\begin{prooftree}
+\alwaysNoLine
+\AxiomC{[$\lnot \phi$]}
+\UnaryInfC{$\vdots$}
+\UnaryInfC{$\bot$}
+\RightLabel{$PBC$}
+\alwaysSingleLine
+\UnaryInfC{$\phi$}
+\end{prooftree}
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Huth, Michael, and Mark Ryan. 2004. <i>Logic in Computer Science: Modelling and Reasoning About Systems</i>. Cambridge university press.</div>
+</div>
+</div>
 </div>
 </div>
 </div>

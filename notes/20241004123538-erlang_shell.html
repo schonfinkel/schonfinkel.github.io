@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Erlang Shell</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,194 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
+<h1 class="title">Erlang Shell</h1>
 </header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
+Some features of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> shell.
 </p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<div id="outline-container-org26a8593" class="outline-2">
+<h2 id="org26a8593">Basics</h2>
+<div class="outline-text-2" id="text-org26a8593">
+</div>
+<div id="outline-container-orgb3d7edf" class="outline-3">
+<h3 id="orgb3d7edf">Compiling and Running "Hello World" in the Shell</h3>
+<div class="outline-text-3" id="text-orgb3d7edf">
+<div class="org-src-container">
+<pre class="src src-erlang">  -module(hello).
+  -export([start/0]).
+  
+  start() -&gt;
+      io:format("Hello world~n").
+</pre>
+</div>
+
 <p>
-Here's a non-exaustive list of my current interests:
+Running the <code>hello.erl</code> program in the erlang shell.
 </p>
 
-<ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
-</ul>
+<div class="org-src-container">
+<pre class="src src-shell">  $ erl                          
+  Erlang/OTP 26 [erts-14.2.5] [source] [64-bit] [smp:24:24] [ds:24:24:10] [async-threads:1] [jit:ns]
 
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+  Eshell V14.2.5 (press Ctrl+G to abort, type help(). for help)
+  1&gt; c(hello).
+  {ok,hello}
+  2&gt; hello:start().
+  Hello world
+  ok
+</pre>
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+<div id="outline-container-orgae8a021" class="outline-4">
+<h4 id="orgae8a021">Compiling Outside the Erlang Shell</h4>
+<div class="outline-text-4" id="text-orgae8a021">
+<div class="org-src-container">
+<pre class="src src-shell">  $ erlc hello.erl
+  $ erl -noshell -s hello start -s init stop
+</pre>
+</div>
+
+<blockquote>
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+<code>erlc</code> evokes the Erlang compiler from the command line. The compiler compiles the code in <code>hello.erl</code> and produces an object code file called <code>hello.beam</code>.
 </p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<p>
+The <code>erl -noshell</code> command loads the module <code>hello</code> and evaluates the function
+<code>hello:start()</code>. After this, it evaluates the expression <code>init:stop()</code>, which
+terminates the Erlang session. (<a href="#citeproc_bib_item_1">Armstrong 2013, 14</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgab71e04" class="outline-2">
+<h2 id="orgab71e04">Commands</h2>
+<div class="outline-text-2" id="text-orgab71e04">
+</div>
+<div id="outline-container-orgea3e5b1" class="outline-3">
+<h3 id="orgea3e5b1">Seeing Your Bound Variables</h3>
+<div class="outline-text-3" id="text-orgea3e5b1">
+<p>
+<code>b()</code> shows all bound variables in the current erlang shell.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">    &gt; b().
+    N = 1
+    Number = 5
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdff451b" class="outline-3">
+<h3 id="orgdff451b">Clearing Bound Variables in the Shell</h3>
+<div class="outline-text-3" id="text-orgdff451b">
+<div class="org-src-container">
+<pre class="src src-shell">  &gt; f(N).
+  &gt; f().
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgff1e3fa" class="outline-3">
+<h3 id="orgff1e3fa">Getting Help</h3>
+<div class="outline-text-3" id="text-orgff1e3fa">
+<blockquote>
+<p>
+The Erlang shell has a number of built-in commands. You can see them all
+with the shell command <code>help()</code>. (<a href="#citeproc_bib_item_1">Armstrong 2013, 173</a>).
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgce81261" class="outline-2">
+<h2 id="orgce81261">Compiling and running Erlang programs</h2>
+<div class="outline-text-2" id="text-orgce81261">
+</div>
+<div id="outline-container-org3790e05" class="outline-3">
+<h3 id="org3790e05">Modifying the Environment</h3>
+<div class="outline-text-3" id="text-org3790e05">
+<p>
+You can find the value of the current load path by starting an Erlang shell
+and giving the command <code>code:get_path()</code>. The two most common functions that we
+use to manipulate the load path are as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">% Add a new directory to the start of the load path.
+-spec code:add_patha(Dir) =&gt; true | {error, bad_directory}
+% Add a new directory to the end of the load path.
+-spec code:add_pathz(Dir) =&gt; true | {error, bad_directory}
+</pre>
+</div>
+
+<p>
+Alternatively, you can start Erlang with a command like this:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">$ erl -pa Dir1 -pa Dir2 ... -pz DirK1 -pz DirK2
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org89cdfd0" class="outline-3">
+<h3 id="org89cdfd0">Scripting</h3>
+<div class="outline-text-3" id="text-org89cdfd0">
+<p>
+Often we want to be able to execute an arbitrary Erlang function from the OS command
+line. The <code>-eval</code> argument is very handy for quick scripting.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  erl \
+      -eval 'io:format("Memory: ~p~n", [erlang:memory(total)]).' \
+      -noshell -s init stop
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf837e0a" class="outline-4">
+<h4 id="orgf837e0a">Run As an Escript</h4>
+<div class="outline-text-4" id="text-orgf837e0a">
+<div class="org-src-container">
+<pre class="src src-erlang">  #!/usr/bin/env escript
+
+  main([A]) -&gt;
+      I = list_to_integer(A),
+      F = fac(I),
+      io:format("factorial ~w = ~w~n", [I, F]).
+
+  fac(0) -&gt;
+      1;
+  fac(N) -&gt;
+      N * fac(N - 1).
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd82a87f" class="outline-2">
+<h2 id="orgd82a87f">Debugging</h2>
+<div class="outline-text-2" id="text-orgd82a87f">
+</div>
+<div id="outline-container-org81bacba" class="outline-3">
+<h3 id="org81bacba">Reading Crash Dumps</h3>
+<div class="outline-text-3" id="text-org81bacba">
+<p>
+If Erlang crashes, it leaves behind a file called <code>erl_crash.dump</code>. To start the
+analyzer, give the following command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  crashdump_viewer:start()
+</pre>
+</div>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+</div>
 </div>
 </div>
 </div>

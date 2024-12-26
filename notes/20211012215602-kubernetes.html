@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-12-26 Thu 02:19 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kubernetes</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io//css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io//img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io//index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io//blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io//notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io//blogroll.html">BlogRoll</a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Kubernetes</h1>
+</header><blockquote>
+<p>
+Kubernetes, also known as K8s, is an open-source system for automating
+deployment, scaling, and management of containerized
+applications. &#x2014;kubernetes.io
+</p>
+</blockquote>
+<div id="outline-container-orgf8f391f" class="outline-2">
+<h2 id="orgf8f391f">Architecture</h2>
+<div class="outline-text-2" id="text-orgf8f391f">
+</div>
+<div id="outline-container-orgfb8209f" class="outline-3">
+<h3 id="orgfb8209f">Masters</h3>
+<div class="outline-text-3" id="text-orgfb8209f">
+<p>
+Also know as control plane.
+</p>
+
+<blockquote>
+<p>
+A Kubernetes master is a collection of system services that make up the control
+plane of the cluster. The simplest setups run all the master services on a
+single host. However, this is only suitable for labs and test environments. For
+production environments, multi-master high availability (HA) is a must have. 
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Sweet spot is between 3 or 5 masters, increasing this further would make
+reaching consensus impossible.</li>
+<li>Don't run user applications on masters. This allows masters to concentrate
+only on managing the cluster.</li>
+</ul>
+</div>
+<div id="outline-container-org78f3f6c" class="outline-4">
+<h4 id="org78f3f6c">Components</h4>
+<div class="outline-text-4" id="text-org78f3f6c">
+</div>
+<div id="outline-container-orge6019ea" class="outline-5">
+<h5 id="orge6019ea">kube-apiserver</h5>
+<div class="outline-text-5" id="text-orge6019ea">
+<ul class="org-ul">
+<li>Front-end to the control plane, even the other components of the master node
+have to pass through the API server.</li>
+<li>Exposes a REST API that consumes JSON and YAML.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9bfb92c" class="outline-5">
+<h5 id="org9bfb92c">etcd</h5>
+<div class="outline-text-5" id="text-org9bfb92c">
+<ul class="org-ul">
+<li>The cluster's store.</li>
+<li>Persists the cluster state and configuration.</li>
+<li>Based on <a href="https://etcd.io/">etcd</a>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb8778ee" class="outline-5">
+<h5 id="orgb8778ee">controller-manager</h5>
+<div class="outline-text-5" id="text-orgb8778ee">
+<ul class="org-ul">
+<li>Behaves like a controller of controllers:
+<ul class="org-ul">
+<li>Node controler.</li>
+<li>Deployment controller.</li>
+<li>Endpoint/EndpointSlicer controller.</li>
+</ul></li>
+<li>Implements watch loops in the subcontrolers, to check if their observed state
+is matching the desired state.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9b5def4" class="outline-5">
+<h5 id="org9b5def4">scheduler</h5>
+<div class="outline-text-5" id="text-org9b5def4">
+<ul class="org-ul">
+<li>Default scheduler for kubernetes, watches the <code>kuber-apiserver</code> for new work tasks.</li>
+<li>Assigns work to cluster nodes:
+<ul class="org-ul">
+<li>Affinity/Anti-Affinity.</li>
+<li>Constraints.</li>
+<li>Traits.</li>
+<li>Resources.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge56a705" class="outline-3">
+<h3 id="orge56a705">Nodes</h3>
+<div class="outline-text-3" id="text-orge56a705">
+</div>
+<div id="outline-container-orgc48fb1e" class="outline-4">
+<h4 id="orgc48fb1e">Components</h4>
+<div class="outline-text-4" id="text-orgc48fb1e">
+</div>
+<div id="outline-container-org2631a9d" class="outline-5">
+<h5 id="org2631a9d">kubelet</h5>
+<div class="outline-text-5" id="text-org2631a9d">
+<ul class="org-ul">
+<li>Main <code>kubernetes</code> agent, it runs in every node in the cluster</li>
+<li>Registers node with cluster</li>
+<li>Watches the API Server for work tasks and reports back to masters</li>
+<li>Executes <code>pods</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb673d66" class="outline-5">
+<h5 id="orgb673d66">Container Runtime</h5>
+<div class="outline-text-5" id="text-orgb673d66">
+<ul class="org-ul">
+<li>Performs container-related tasks, like:
+<ul class="org-ul">
+<li>Pulling images</li>
+<li>Start/Stop containers</li>
+</ul></li>
+<li>Can be one of the following pluggable Container Runtime Interface (CRI):
+<ul class="org-ul">
+<li>Docker</li>
+<li>containerd</li>
+<li>CRI-O</li>
+<li>Kata</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org60840f6" class="outline-5">
+<h5 id="org60840f6">kube-proxy</h5>
+<div class="outline-text-5" id="text-org60840f6">
+<ul class="org-ul">
+<li>Networking component, ensures every pod gets it's own unique IP</li>
+<li>Basic loag-balacing</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org8b4ce09" class="outline-3">
+<h3 id="org8b4ce09">Packaging Apps for Kubernetes</h3>
+<div class="outline-text-3" id="text-org8b4ce09">
+<p>
+For an application to run on a Kubernetes cluster it needs to tick a few
+boxes. These include:
+</p>
+
+<ol class="org-ol">
+<li>Packaged as a <code>container</code></li>
+<li>Wrapped in a <code>Pod</code></li>
+<li>Deployed via a declarative <code>manifest</code> file</li>
+</ol>
+</div>
+<div id="outline-container-org3e087dc" class="outline-4">
+<h4 id="org3e087dc">Pods</h4>
+<div class="outline-text-4" id="text-org3e087dc">
+<blockquote>
+<p>
+At the highest-level, a Pod is a ring-fenced environment to run containers. The
+Pod itself doesn’t actually run anything, it’s just a sandbox for hosting
+containers. Keeping it high level, you ring-fence an area of the host OS, build
+a network stack, create a bunch of kernel namespaces, and run one or more
+containers in it. That’s a Pod.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Kubernetes atomic unit of deployment</li>
+<li>A wrapper around containers, that add the following properties which a
+cluster's life easier:
+<ul class="org-ul">
+<li>Annotations</li>
+<li>Labels</li>
+<li>Policies</li>
+<li>Resources</li>
+<li>Co-scheduling</li>
+<li>&#x2026;</li>
+</ul></li>
+<li>Each <code>pod</code> has it's own IP</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org56bdc9f" class="outline-4">
+<h4 id="org56bdc9f">Deployment</h4>
+<div class="outline-text-4" id="text-org56bdc9f">
+<ul class="org-ul">
+<li>A <code>deployment</code> is a higher-level Kubernetes object that wraps around a
+particular Pod and adds features such as scaling, zero-downtime updates, and
+versioned rollbacks.</li>
+</ul>
+</div>
+<div id="outline-container-org0da7146" class="outline-5">
+<h5 id="org0da7146">ReplicaSet</h5>
+<div class="outline-text-5" id="text-org0da7146">
+<p>
+A ReplicaSet's purpose is to maintain a stable set of replica Pods running at
+any given time. As such, it is often used to guarantee the availability of a
+specified number of identical Pod, by implementing the following:
+</p>
+
+<ul class="org-ul">
+<li>Self-healing mechanisms</li>
+<li>Ensure the requested number of pods is running at any given time</li>
+<li>Provide fault-tolerance</li>
+<li>Can be used to scale Pods</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf57b1e2" class="outline-5">
+<h5 id="orgf57b1e2">YAML Structure</h5>
+<div class="outline-text-5" id="text-orgf57b1e2">
+<div class="org-src-container">
+<pre class="src src-yaml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deploy
+  labels:
+    app: web
+spec:
+  selector:
+    matchLabels:
+      app: web
+  replicas: 5
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: web
+    spec: 
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name: &lt;container-name&gt;
+        image: &lt;registry-image&gt;
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org0e860f2" class="outline-3">
+<h3 id="org0e860f2">Service</h3>
+<div class="outline-text-3" id="text-org0e860f2">
+<ul class="org-ul">
+<li>An abstract way to expose an application running on a set of Pods as a network
+service</li>
+<li>Implements a front-end that consists of:
+<ul class="org-ul">
+<li>A stable DNS name</li>
+<li>Permanent IP address and port, not connected to the <code>pod</code> lifecycle</li>
+</ul></li>
+<li>The backend layer has the following tasks:
+<ul class="org-ul">
+<li>Load-balancing across different pods</li>
+<li>Only sends traffic to a healthy pod</li>
+</ul></li>
+<li>Can do session affinity</li>
+<li>Can send traffic to endpoits outside the cluster</li>
+<li>Can do TCP and UDP</li>
+<li>Handles both external access (via the internet) or internally through the
+cluster</li>
+</ul>
+
+<blockquote>
+<p>
+Services use labels and a label selector to know which set of Pods to
+load-balance traffic to. The Service has a label selector that is a list of all
+the labels a Pod must possess in order for it to receive traffic from the
+Service.
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgc704079" class="outline-5">
+<h5 id="orgc704079">Types</h5>
+<div class="outline-text-5" id="text-orgc704079">
+<ul class="org-ul">
+<li><code>Loadbalancer</code>: External access via cloud load-balancer</li>
+<li><code>NotePort</code>: External access via nodes</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: example-nodeport
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 31111
+    protocol: TCP
+  selector:
+    app: web
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>ClusterIP</code> (default): Internal cluster connectivity</li>
+<li><code>ExternalName</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-yaml">  apiVersion: v1
+  kind: Service
+  metadata:
+    name: example-en
+  spec:
+    type: ExternalName
+    externalName: &lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgccd67c9" class="outline-3">
+<h3 id="orgccd67c9">Pods</h3>
+<div class="outline-text-3" id="text-orgccd67c9">
+</div>
+<div id="outline-container-org77ee837" class="outline-5">
+<h5 id="org77ee837">YAML structure</h5>
+<div class="outline-text-5" id="text-org77ee837">
+<div class="org-src-container">
+<pre class="src src-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+  labels:
+    app: web
+spec:
+  containers:
+    - name: web-ctr
+      image: &lt;image-from-registry&gt;
+      ports:
+        - containerPort: 8080
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/mtrsk/mtrsk.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

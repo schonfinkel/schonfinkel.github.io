@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Distributed Replicated Block Device</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,39 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">Distributed Replicated Block Device</h1>
+</header><div id="outline-container-org380c1cc" class="outline-2">
+<h2 id="org380c1cc">Definition</h2>
+<div class="outline-text-2" id="text-org380c1cc">
 <p>
-Here's a non-exaustive list of my current interests:
+Distributed Replicated Block Device (DRBD) is a distributed replicated storage
+system for the <a href="20240924092617-linux.html#ID-8a427ee7-2ef1-489b-af82-91de7be8a3ba">Linux</a> platform.
 </p>
+
+<blockquote>
+<p>
+If you want to create an environment where multiple nodes can access your data simultaneously, the distributed
+replicated block device (DRBD) is an excellent choice. This is particularly true if you want to set up a two-node cluster,
+in which one node must be able to take over the exact state of the other node as fast as possible. The DRBD performs a
+delta-sync of blocks over the network, which ensures that you’ll have the exact same state on different machines in a
+matter of seconds. (Van Vugt 2014, 109)
+</p>
+</blockquote>
 
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>This is basically RAID-1, but over the network.</li>
+<li>Syncronization happens at block-device level, after losing connection the Node
+will catch up the changes that happened in the other node.</li>
 </ul>
-
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
 </div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
-<p>
-You may also find me elsewhere in cyberspace, under the following aliases:
-</p>
-
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<div id="outline-container-org6b8eaec" class="outline-3">
+<h3 id="org6b8eaec">Replication Modes</h3>
+<div class="outline-text-3" id="text-org6b8eaec">
+<dl class="org-dl">
+<dt>Protocol A</dt><dd>Asyncronous Writes</dd>
+<dt>Protocol B</dt><dd>Semi-Syncronous</dd>
+<dt>Protocol C</dt><dd>Syncronous</dd>
+</dl>
 </div>
 </div>
 </div>

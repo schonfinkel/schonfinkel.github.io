@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>How to use private NeoVim plugins on NixOS</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,63 +227,171 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
+<h1 class="title">How to use private NeoVim plugins on NixOS</h1>
+<p class="subtitle" role="doc-subtitle">Some notes for myself, mostly</p>
 </header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
+Over time my config changed a lot since the early days, as of now I'm using a
+combination of <a href="https://nixos.wiki/wiki/Flakes">Flakes</a> and <a href="https://github.com/nix-community/home-manager">home-manager</a> to manage my workstations. I try not to overthink
+too much when it comes to Nix, my current Neovim setup is pretty simple, lua-based, yet,
+fully nixified.
 </p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+
+<div class="org-src-container">
+<pre class="src src-shell">  dotfiles
+  ├── (...)
+  ├── nvim
+  │   ├── files.lua
+  │   ├── line.lua
+  │   ├── lsp.lua
+  │   ├── settings.lua
+  │   ├── tabs.lua
+  │   └── treesitter.lua
+  ├── (...)
+  └── zsh
+  └── zshrc
+</pre>
+</div>
+
 <p>
-Here's a non-exaustive list of my current interests:
+I do it by having a simple directory where all my Neovim derivations stand.
 </p>
 
-<ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
-</ul>
-
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+<div class="org-src-container">
+<pre class="src src-shell">  home
+  ├── (...)
+  ├── development
+  │   ├── cloud.nix
+  │   ├── default.nix
+  │   ├── git.nix
+  │   ├── iac.nix
+  │   ├── kubernetes.nix
+  │   └── programming.nix
+  ├── editors.nix
+  ├── (...)
+  ├── neovim
+  │   ├── default.nix
+  │   ├── packages.nix
+  │   └── private.nix
+  ├── (...)
+  └── zshell.nix
+</pre>
 </div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+here's an example of what a <code>private.nix</code> file would look like, this is useful
+when you want to use some package that's not available yet into <a href="https://github.com/NixOS/nixpkgs">nixpkgs</a>.
 </p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<div class="org-src-container">
+<pre class="src src-nix">  { pkgs, config }:
+
+  let
+    plugin = pkgs.vimUtils.buildVimPlugin;
+  in
+  {
+    vim-taskjuggler = plugin {
+      name = "vim-taskjuggler";
+      src = pkgs.fetchFromGitHub {
+        owner = "kalafut";
+        repo = "vim-taskjuggler";
+        rev = "e94c9a0b06022d11a34310ad5f82c1c2bcd86fb7";
+        sha256 = "0f8smjl6wi52p8n1hhl5zhk8i3lpsfndxxdammyybw2vz17s0j8q";
+      };
+    };
+  }
+</pre>
 </div>
+<p>
+then you can just import it from other files:
+</p>
+<div class="org-src-container">
+<pre class="src src-nix">  { pkgs, config, lib, ... }:
+
+  let
+    plugins = pkgs.vimPlugins;
+    private = import ./private.nix { inherit pkgs config; };
+  in
+  {
+    base = with plugins; [
+      nvim-surround
+      vim-which-key
+      vim-visual-multi
+      hologram-nvim
+    ];
+    eyecandy = with plugins // private; [
+      kanagawa-nvim
+      nvim-colorizer-lua
+      nvim-cursorline
+      nvim-web-devicons
+      tokyonight-nvim
+    ];
+    ui = with plugins; [
+      # File Tree
+      nvim-tree-lua
+      # Find/Filter
+      plenary-nvim
+      telescope-nvim
+      # Status Line
+      lualine-nvim
+      # Tabs
+      barbar-nvim
+    ];
+    lsp = with plugins // private; [
+      nvim-cmp
+      nvim-lspconfig
+      (nvim-treesitter.withPlugins (p:
+        [
+          p.c
+          p.bash
+          p.dockerfile
+          p.gitignore
+          p.lua
+          p.markdown
+          p.nix
+          p.proto
+          p.scheme
+          p.sql
+          p.terraform
+          p.yaml
+        ]
+      ))
+      # Snippets
+      luasnip
+      cmp-git
+      # CMP Plugins
+      cmp-cmdline
+      cmp_luasnip
+      cmp-nvim-lsp
+      cmp-path
+      cmp-treesitter
+    ];
+    tooling = with plugins; [
+      direnv-vim
+      Ionide-vim
+      vim-nix
+      vim-terraform
+    ];
+  }
+</pre>
 </div>
+
+<p>
+and <a href="https://nix-community.github.io/home-manager/options.html#opt-programs.neovim.enable">since Neovim has an awesome module in home-manager</a>, make sure to use it:
+</p>
+<div class="org-src-container">
+<pre class="src src-nix">  programs.neovim = {
+    enable = true;
+
+    # (...)
+    plugins = vimPlugins.base ++ vimPlugins.eyecandy ++ vimPlugins.ui ++ vimPlugins.lsp ++ vimPlugins.tooling;
+  };
+</pre>
 </div>
+
+<p>
+If you want to see an up-to-date version of these dotfiles, feel free to <del>steal</del>
+take a look <a href="https://github.com/mtrsk/nixos-config/tree/master/home/neovim">here</a>.
+</p>
 </main>
 <footer id="postamble" class="status">
 <footer>

@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>OTP</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,94 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">OTP</h1>
+</header><blockquote>
 <p>
-Here's a non-exaustive list of my current interests:
+OTP is a domain-independent set of frameworks, principles, and patterns that
+guide and support the structure, design, implementation, and deployment of
+<a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> systems. Using OTP in your projects will help you avoid accidental
+complexity: things that are difficult because you picked inadequate
+tools. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 20</a>)
 </p>
+</blockquote>
+<div id="outline-container-org4fb2f6b" class="outline-2">
+<h2 id="org4fb2f6b">Behaviors</h2>
+<div class="outline-text-2" id="text-org4fb2f6b">
+<blockquote>
+<p>
+Behaviours are a way of formalizing common patterns in process-oriented
+programming. For example, the concept of a server is general and includes a
+large portion of all processes you’ll ever need to write. All those processes
+have a lot in common—in particular, whether they should be made to follow OTP
+conventions for supervision and other things. (&#x2026;)
+</p>
+
+<p>
+Instead, an OTP behaviour takes such a recurring pattern and divides it into two
+halves: the generic part and the application-specific implementation part. These
+communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org9d400f8" class="outline-3">
+<h3 id="org9d400f8">Components of a Behaviour</h3>
+<div class="outline-text-3" id="text-org9d400f8">
+<ul class="org-ul">
+<li>The interface</li>
+<li>The implementation</li>
+<li>The container</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd0b849a" class="outline-3">
+<h3 id="orgd0b849a">OTP Behaviours</h3>
+<div class="outline-text-3" id="text-orgd0b849a">
+<ul class="org-ul">
+<li><a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44ea-8b7a-d803e9b491af">gen<sub>server</sub></a></li>
+<li><a href="20241013103835-supervisor.html#ID-2daf1307-afb4-49e4-98cb-66ac7eb27cf0">supervisor</a></li>
+<li><code>gen_statem</code>: State Machines</li>
+<li><code>gen_fsm</code>: Finite State Machine</li>
+<li><a href="20241219134317-gen_event.html#ID-0372baa6-420e-483a-9621-7f80f1ad6974">gen<sub>event</sub></a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org27af2f9" class="outline-3">
+<h3 id="org27af2f9">Packaging an Application</h3>
+<div class="outline-text-3" id="text-org27af2f9">
+<blockquote>
+<p>
+Applications are the way you package related modules in Erlang. The focus here
+isn’t on packaging for distribution but on being able to treat a bunch of
+modules as a single entity. Although OTP applications can be merely some library
+code for others to call, more often they’re like creatures with a life of their
+own: they start up, do what they’re designed to do, and shut down. Some can have
+multiple running instances, and some are limited to one instance at a time. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
+</p>
+</blockquote>
 
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>Active Applications have a life cycle and must be started in order to be
+useful.</li>
+<li>Library Applications are a passive collection of modules to be used by other
+applications, and they don’t need to be started or stopped.</li>
 </ul>
 
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+<div class="org-src-container">
+<pre class="src src-nil">{application, example,
+  [{description, "Description Example"},
+   {vsn, "0.0.1"},
+   {modules, [example, example_sup,example_app]},
+   {registered,[example, example_sup]},
+   {applications, [kernel,stdlib]},
+   {mod, {example_app,[]} }]}.
+</pre>
 </div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
-<p>
-You may also find me elsewhere in cyberspace, under the following aliases:
-</p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
+</div>
 </div>
 </div>
 </div>

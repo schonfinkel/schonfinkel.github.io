@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Concurrent Erlang</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,226 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">Concurrent Erlang</h1>
+</header><blockquote>
 <p>
-Here's a non-exaustive list of my current interests:
+I’m sure you’ve met processes before, but only in the context of operating
+systems. In Erlang, processes belong to the programming language and not the
+operating system. This means that Erlang processes will have the same logical
+behavior on any operating system, so we can write portable concurrent code that
+can run on any operating system that supports Erlang.
 </p>
 
+<p>
+In Erlang:
+</p>
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>Creating and destroying processes is very fast.</li>
+<li>Sending messages between processes is very fast.</li>
+<li>Processes behave the same way on all operating systems.</li>
+<li>We can have very large numbers of processes.</li>
+<li>Processes share no memory and are completely independent.</li>
+<li>The only way for processes to interact is through message passing.</li>
+</ul>
+<p>
+(<a href="#citeproc_bib_item_1">Armstrong 2013, 181</a>)
+</p>
+</blockquote>
+<div id="outline-container-org7d9cdb5" class="outline-2">
+<h2 id="org7d9cdb5">Processes</h2>
+<div class="outline-text-2" id="text-org7d9cdb5">
+<p>
+In <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a>, creation of a parallel process is achieved by evaluating the <code>spawn</code>
+primitive. This primitive creates a concurrent process and returns a process
+identifier (PID) that can used to interact with the newly created process:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">Pid = spawn(ModName, FuncName, [Arg1, Arg2, ..., ArgN]).
+</pre>
+</div>
+
+
+<figure id="org7a1bd7d">
+<img src="../static/img/notes/erlang_spawn.png" alt="erlang_spawn.png">
+
+</figure>
+
+<ul class="org-ul">
+<li>This BIF never fails</li>
+<li>A process can either terminate:
+<ul class="org-ul">
+<li>Abormally when run-time errors occur</li>
+<li>Normally when there is no more code to execute</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-orgb0a4ff0" class="outline-3">
+<h3 id="orgb0a4ff0">Modeling Concurrency</h3>
+<div class="outline-text-3" id="text-orgb0a4ff0">
+
+<figure id="org9db1271">
+<img src="../static/img/notes/erlang_send.png" alt="erlang_send.png">
+
+</figure>
+
+<p>
+The syntax <code>Pid ! Msg</code> means "send the message <code>Msg</code> to the process <code>Pid</code>", where <code>Msg</code>
+is from any valid <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> data type. Also, <code>Pid1 ! Pid2 ! ... ! Msg</code> means send the
+message Msg to all the processes <code>Pid1</code>, <code>Pid2</code>, and so on. The <code>receive ... end</code>
+construct is used for a process to read a message that has been sent:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">receive
+   Pattern1 [when Guard1] -&gt; Expression1;
+   Pattern2 [when Guard2] -&gt; Expression2;
+   ...
+end
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Sending a message will never fail.</li>
+<li>A message sent to non-existing processes are throw away.</li>
+<li>Received messages are store in a process' mailbox.</li>
+<li>Mailboxes are scanned sequentially.</li>
+<li><p>
+If a message fails to be pattern matched, it's saved in a queue for later
+processing and the process waits for the next message. It is possible to
+update a process with a new version of the code that retrieves those messages.
+</p>
+
+<p>
+The erlang shell (<code>erl</code>) is itself a process, you can test its message-passing
+functionalities by using the <code>self</code> keyword:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">    1&gt; self() ! hello.
+    hello
+    2&gt; receive X -&gt; X end.
+    hello
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Messages can be matched and selectivelly retrieved.</li>
+<li><p>
+We can force an order (emulating a priority queue) by using multiple receives:
+</p>
+
+
+<figure id="org412ddc6">
+<img src="../static/img/notes/erlang_selective.png" alt="erlang_selective.png">
+
+</figure>
+
+<div class="org-src-container">
+<pre class="src src-erlang">      receive
+        {foo, _} -&gt;
+        (...)
+      end,
+      (...)
+      receive
+        {bar, _} -&gt;
+        (...)
+      end,
+</pre>
+</div>
+
+<p>
+this way the message <code>{foo, ...}</code> is received before the message <code>{bar, ...}</code>.
+</p></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4514f9c" class="outline-3">
+<h3 id="org4514f9c">Registered Processes</h3>
+<div class="outline-text-3" id="text-org4514f9c">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">BIF</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>register(Name, Pid)</code></td>
+<td class="org-left">Associates the name <code>Name</code>, an atom, with the process <code>Pid</code>.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>registered/0</code></td>
+<td class="org-left">Returns a list of names that have been registered using <code>register/2</code>.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>whereis(Name)</code></td>
+<td class="org-left">Returns the pid registered under <code>Name</code>, or <code>undefined</code> if the name is not registered.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>registered()</code></td>
+<td class="org-left">Return a list of all registered processes in the system.</td>
+</tr>
+</tbody>
+</table>
+
+<ul class="org-ul">
+<li>Sending messages to a non-existing registered process causes the calling
+process to terminate with a <code>badarg</code> error.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org64fcbaa" class="outline-3">
+<h3 id="org64fcbaa">Timeouts</h3>
+<div class="outline-text-3" id="text-org64fcbaa">
+<ul class="org-ul">
+<li>If the message <code>Msg</code> is received within the <code>TimeOut</code>, <code>expr01</code> will be
+executed. Otherwise, <code>expr02</code> will be executed.</li>
+<li><code>TimeOut</code> is an integer denoting the time in miliseconds or the Atom <code>infinity</code>.</li>
 </ul>
 
 
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
+<figure id="org96b9050">
+<img src="../static/img/notes/erlang_timeout.png" alt="erlang_timeout.png">
 
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
 </figure>
-</div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
-<p>
-You may also find me elsewhere in cyberspace, under the following aliases:
-</p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<div class="org-src-container">
+<pre class="src src-erlang">  receive 
+    Msg -&gt;
+      &lt;expr01&gt;
+    after TimeOut -&gt;
+      &lt;expr02&gt;
+  end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org41e661f" class="outline-3">
+<h3 id="org41e661f">Skeleton of an Erlang Process</h3>
+<div class="outline-text-3" id="text-org41e661f">
+
+<figure id="org4688f0e">
+<img src="../static/img/notes/erlang_process_skeleton.png" alt="erlang_process_skeleton.png">
+
+</figure>
+
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+</div>
 </div>
 </div>
 </div>

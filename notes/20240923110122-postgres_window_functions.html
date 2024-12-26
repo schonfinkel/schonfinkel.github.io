@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Postgres Window Functions</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,62 +227,46 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">Postgres Window Functions</h1>
+</header><div id="outline-container-org0a3ae8c" class="outline-2">
+<h2 id="org0a3ae8c">Aggregates</h2>
+<div class="outline-text-2" id="text-org0a3ae8c">
+</div>
+<div id="outline-container-orga67cdca" class="outline-3">
+<h3 id="orga67cdca"><code>ROW_NUMBER</code></h3>
+</div>
+
+<div id="outline-container-orge01dfe8" class="outline-3">
+<h3 id="orge01dfe8"><code>LEAD</code></h3>
+<div class="outline-text-3" id="text-orge01dfe8">
 <p>
-Here's a non-exaustive list of my current interests:
+The <code>LEAD()</code> function is used to retrieve data from the next row.
 </p>
-
-<ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
-</ul>
-
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+<div id="outline-container-org41a8d81" class="outline-3">
+<h3 id="org41a8d81"><code>LAG</code></h3>
+<div class="outline-text-3" id="text-org41a8d81">
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+The <code>LAG()</code> function is used to retrieve data from the previous row.
 </p>
+</div>
+</div>
+</div>
+<div id="outline-container-org5b86b84" class="outline-2">
+<h2 id="org5b86b84">Rankings</h2>
+<div class="outline-text-2" id="text-org5b86b84">
+</div>
+<div id="outline-container-orgd99e9cd" class="outline-3">
+<h3 id="orgd99e9cd">Rank</h3>
+</div>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<div id="outline-container-orge5ebc47" class="outline-3">
+<h3 id="orge5ebc47">Dense Rank</h3>
 </div>
 </div>
+<div id="outline-container-org8c2df45" class="outline-2">
+<h2 id="org8c2df45">Value Functions</h2>
 </div>
 </main>
 <footer id="postamble" class="status">

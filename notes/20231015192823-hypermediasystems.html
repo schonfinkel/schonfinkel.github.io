@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Hypermedia Systems</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,96 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">Hypermedia Systems</h1>
+</header><div id="outline-container-org5b06810" class="outline-2">
+<h2 id="org5b06810">Chapter 01 - Hypermedia: A Reintroduction</h2>
+<div class="outline-text-2" id="text-org5b06810">
+</div>
+<div id="outline-container-orgd0bafc5" class="outline-3">
+<h3 id="orgd0bafc5">What Is Hypermedia?</h3>
+<div class="outline-text-3" id="text-orgd0bafc5">
+<blockquote>
 <p>
-Here's a non-exaustive list of my current interests:
+Hypermedia is a media, for example a text, that includes non-linear branching
+from one location in the media to another, via, for example, hyperlinks embedded
+in the media.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org7e50817" class="outline-3">
+<h3 id="org7e50817">A Brief History of Hypermedia</h3>
+<div class="outline-text-3" id="text-org7e50817">
+<p>
+Where did the idea of hypermedia come from?
 </p>
 
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>The 1945 article <a href="20231018194552-as_we_may_think.html#ID-22759a84-3a09-464f-b0f7-e5d0a7bf5295">As We May Think</a>, from Vanevar Bush</li>
+<li>Ted Nelson's work on the "Hypertext Editing System" at Brown University and who later created the File Retrieval and Editing System (FRESS)</li>
+<li>Douglas Engelbart's thesis on the "<a href="20231018195150-the_mother_of_all_demos.html#ID-116d7265-e46f-4b42-b5ef-af1e913e2c12">The Mother of All Demos</a>"</li>
 </ul>
-
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+<div id="outline-container-orgd3e2a05" class="outline-3">
+<h3 id="orgd3e2a05">Modern Implementation</h3>
+<div class="outline-text-3" id="text-orgd3e2a05">
+<ul class="org-ul">
+<li>Tim Berners-Lee's "World Wide Web"</li>
+<li>Roy Fielding's "<a href="20231018195743-architectural_styles_and_the_design_of_network_based_software_architectures.html#ID-f922bff8-f1ab-4322-a0af-b6eba02b2811">Architectural Styles and the Design of Network-based Software Architectures</a>"</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0e80787" class="outline-3">
+<h3 id="org0e80787">The World’s Most Successful Hypertext: HTML</h3>
+<div class="outline-text-3" id="text-org0e80787">
+</div>
+<div id="outline-container-org2c05ac0" class="outline-4">
+<h4 id="org2c05ac0">The Essence of HTML as a Hypermedia</h4>
+<div class="outline-text-4" id="text-org2c05ac0">
+</div>
+<div id="outline-container-orgfd0ecbd" class="outline-5">
+<h5 id="orgfd0ecbd">Anchor tags</h5>
+<div class="outline-text-5" id="text-orgfd0ecbd">
+<div class="org-src-container">
+<pre class="src src-html">&lt;a href="https://hypermedia.systems/"&gt;
+  Hypermedia Systems
+&lt;/a&gt;
+</pre>
+</div>
+<blockquote>
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+An anchor tag consists of the tag itself, <code>&lt;a&gt;&lt;/a&gt;</code>, as well as the attributes
+and content within the tag. Of particular interest is the href attribute, which
+specifies a hypertext reference to another document or document fragment. It is
+this attribute that makes the anchor tag a hypermedia control.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgd731323" class="outline-5">
+<h5 id="orgd731323">Form tags</h5>
+<div class="outline-text-5" id="text-orgd731323">
+<div class="org-src-container">
+<pre class="src src-html">&lt;form action="/signup" method="post"&gt;
+  &lt;input type="text" name="email" placeholder="Enter Email To Sign Up..."/&gt;
+  &lt;button&gt;Sign Up&lt;/button&gt;
+&lt;/form&gt;
+</pre>
+</div>
+<blockquote>
+<p>
+This mechanism allows the user to issue requests to update the state of
+resources on the server. Note that despite this new type of request the
+communication between client and server is still done entirely with hypermedia.
 </p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<p>
+It is the form tag that makes Hypermedia-Driven Applications possible.
+</p>
+</blockquote>
+</div>
+</div>
 </div>
 </div>
 </div>

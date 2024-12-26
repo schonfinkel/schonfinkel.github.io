@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>kubectl</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,194 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
-<p>
-Here's a non-exaustive list of my current interests:
-</p>
-
+<h1 class="title">kubectl</h1>
+</header><div id="outline-container-orge5da898" class="outline-2">
+<h2 id="orge5da898">Commands</h2>
+<div class="outline-text-2" id="text-orge5da898">
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>View cluster information</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl cluster-info
+</pre>
+</div>
+</div>
+<div id="outline-container-org4f8e3a3" class="outline-3">
+<h3 id="org4f8e3a3">Apply &amp; Create</h3>
+<div class="outline-text-3" id="text-org4f8e3a3">
+<ul class="org-ul">
+<li>Just creates a resource</li>
 </ul>
 
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl create ...
+</pre>
+</div>
 
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
+<ul class="org-ul">
+<li>Create or modify a resource</li>
+</ul>
 
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl apply -f pod.yml
+</pre>
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+</div>
+<div id="outline-container-orgddd2573" class="outline-3">
+<h3 id="orgddd2573">Delete</h3>
+<div class="outline-text-3" id="text-orgddd2573">
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+Deleting a pod won't prevent it from being recreated.
 </p>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl delete pod [pod-name]
+</pre>
+</div>
+<p>
+you need to delete it's <code>deployment</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl delete deployment [deployment-name]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge31fd16" class="outline-3">
+<h3 id="orge31fd16">Describe</h3>
+<div class="outline-text-3" id="text-orge31fd16">
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl describe pods &lt;...&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0ecdfbc" class="outline-3">
+<h3 id="org0ecdfbc">Get</h3>
+<div class="outline-text-3" id="text-org0ecdfbc">
+<ul class="org-ul">
+<li>View all the resources</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl get all
+</pre>
+</div>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<ul class="org-ul">
+<li>Get information about the pods</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl get pods --watch
+  kubectl get pods -o wide
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Get information about deployments</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell">  # Lists deployments and their labels
+  kubectl get deployment --show-labels
+  # Get deployments with a specific label
+  kubectl get deployment -l app=nginx
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org660a5c1" class="outline-3">
+<h3 id="org660a5c1">Port-forward</h3>
+<div class="outline-text-3" id="text-org660a5c1">
+<ul class="org-ul">
+<li>Forward port to enables external calls</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell">  kubectl port-forward [pod-name] [external-port]:[internal-port]
+  # For instance...
+  kubectl port-forward [pod-name] 8080:80
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org0580db0" class="outline-2">
+<h2 id="org0580db0">YAML</h2>
+<div class="outline-text-2" id="text-org0580db0">
+</div>
+<div id="outline-container-orgab774c9" class="outline-3">
+<h3 id="orgab774c9">Pod</h3>
+<div class="outline-text-3" id="text-orgab774c9">
+<div class="org-src-container">
+<pre class="src src-yaml">  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: nginx
+    labels:
+      app: nginx
+      ref: stable
+  spec:
+    containers:
+    - name: nginx
+      image: nginx:alpine
+      ports:
+      - containerPort: 80
+</pre>
+</div>
+</div>
+<div id="outline-container-orgfab1fef" class="outline-4">
+<h4 id="orgfab1fef">Pod Healthchecks</h4>
+<div class="outline-text-4" id="text-orgfab1fef">
+<ul class="org-ul">
+<li>Probe Types
+<ul class="org-ul">
+<li>Readiness Probe: Defines when should a container start receiving traffic</li>
+<li>Liveness Probe: Defines when a container is considered unhealthy and should,
+therefore, be restarted.</li>
+</ul></li>
+
+<li>Action Types
+<ul class="org-ul">
+<li>ExecAction</li>
+<li>TCPSocketAction</li>
+<li>HTTPGetAction</li>
+</ul></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-yaml">  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: nginx
+    labels:
+      app: nginx
+      ref: stable
+  spec:
+    containers:
+    - name: nginx
+      image: nginx:alpine
+      ports:
+      - containerPort: 80
+      livenessProbe:
+        httpGet:
+          path: /index.html
+          port: 80
+        initialDelaySeconds: 15
+        timeoutSeconds: 2
+        periodSeconds: 5
+        failureThreshold: 1
+      readinessProbe:
+        httpGet:
+          path: /index.html
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        failureThreshold: 1
+      resources:
+        limits:
+          memory: "128Mi" # 128 Mb
+          cpu: "200m"     # 200 milicpu, i.e, 0.2 cpu or 20% cpu
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>

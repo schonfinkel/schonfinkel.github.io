@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>CAP Theorem</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,130 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
+<h1 class="title">CAP Theorem</h1>
 </header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
+The CAP Theorem is a classic problem in <a href="20211202213813-distributed_systems.html#ID-d7efb05f-fb8f-438c-b09d-ea91dc24ebc3">Distributed Systems</a>, first postulated by
+Eric Brewer in (<a href="#citeproc_bib_item_1">Brewer 2000</a>), and formally proved in (<a href="#citeproc_bib_item_2">Gilbert and Lynch 2002</a>).
 </p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<div id="outline-container-orgd808cf0" class="outline-2">
+<h2 id="orgd808cf0">Definitions</h2>
+<div class="outline-text-2" id="text-orgd808cf0">
 <p>
-Here's a non-exaustive list of my current interests:
+For (<a href="#citeproc_bib_item_1">Brewer 2000</a>), a distributed system has some very specific properties
+and behaviour, being a collected set of Nodes that all share data. A limitation
+of such systems happens when a write request is followed by a read request.
 </p>
 
-<ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
-</ul>
+<div class="org-src-container">
+<pre class="src src-nil">       ┌────────┐
+       │ Client │
+       └────────┘
+     [R] ^    | [W]
+         |    v
+┌−−−−−−−−−−−−−−−−−−−−−−−−−┐
+╎         System          ╎
+╎              ┌────┐     ╎
+╎   ┌──────────│ a0 │──┐  ╎
+╎   │          └────┘  │  ╎
+╎   │             │    │  ╎
+╎ ┌────┐       ┌────┐  │  ╎
+╎ │ a3 │───────│ a1 │  │  ╎
+╎ └────┘       └────┘  │  ╎
+╎                 │    │  ╎
+╎              ┌────┐  │  ╎
+╎              │ a2 │──┘  ╎
+╎              └────┘     ╎
+└−−−−−−−−−−−−−−−−−−−−−−−−−┘
+</pre>
+</div>
+
+<table>
 
 
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
+<colgroup>
+<col  class="org-left">
 
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Read</th>
+<th scope="col" class="org-left">Write</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">A client can read data from the system by talking to any Node</td>
+<td class="org-left">A client can write data to the system by talking to any Node</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>
+The Theorem states that for any given pair of requests this kind of system can
+only guarantee two out of three properties:
+</p>
+
+<dl class="org-dl">
+<dt>Consistency</dt><dd>The system can read data that is (at least) as fresh as what has been just written.</dd>
+<dt>Avaliability</dt><dd>Every request received by a non-failing node in the system must result in a response.</dd>
+<dt>Partition Tolerance</dt><dd>The network will be allowed to lose arbitrarily many messages sent from one node to another.</dd>
+</dl>
+</blockquote>
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+<div id="outline-container-org382231a" class="outline-2">
+<h2 id="org382231a">Idea of the Proof</h2>
+<div class="outline-text-2" id="text-org382231a">
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+Here is a sketch of the proof provided in (<a href="#citeproc_bib_item_2">Gilbert and Lynch 2002</a>), consider the same
+system as before, but focus on a pair of requests (R/W) and two nodes.
 </p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<div class="org-src-container">
+<pre class="src src-nil">                [W]
+    ┌──────────────────────────┐
+    v                          │
+┌−−−−−−−−−−−−−−−−−−−−−−┐       │
+╎        System        ╎       │
+╎                      ╎       │
+╎ ┌────┐        ┌────┐ ╎ [R] ┌──────┐
+╎ │ a0 │ ────── │ a1 │ ╎────&gt;│Client│
+╎ └────┘        └────┘ ╎     └──────┘
+╎                      ╎
+└−−−−−−−−−−−−−−−−−−−−−−┘
+</pre>
+</div>
+
+<p>
+Assume, via contraction, that such a system does follow all <b>CAP</b>
+properties. Given a network partition between <code>a0</code> and <code>a1</code>, the followig will happen:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil">                [W]
+    ┌──────────────────────────┐
+    v                          │
+┌−−−−−−−−−−−−−−−−−−−−−−┐       │
+╎        System        ╎       │
+╎                      ╎       │
+╎ ┌────┐        ┌────┐ ╎ [R] ┌──────┐
+╎ │ a0 │ ──//── │ a1 │ ╎─??─&gt;│Client│
+╎ └────┘        └────┘ ╎     └──────┘
+╎                      ╎
+└−−−−−−−−−−−−−−−−−−−−−−┘
+</pre>
+</div>
+
+<ol class="org-ol">
+<li><code>a1</code> will never receive an update from <code>a0</code>, which will break its avaliability promises (by never delivering the new result)</li>
+<li><code>a1</code> sends stale data back to the client, breaking the consistency property.</li>
+</ol>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Brewer, Eric A. 2000. “Towards Robust Distributed Systems.” In <i>Podc</i>, 7:343–477. 10.1145. Portland, OR.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Gilbert, Seth, and Nancy Lynch. 2002. “Brewer’s Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services.” <i>Acm Sigact News</i> 33 (2): 51–59.</div>
 </div>
 </div>
 </div>

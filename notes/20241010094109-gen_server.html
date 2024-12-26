@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>gen_server</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,62 +227,37 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">gen<sub>server</sub></h1>
+</header><blockquote>
 <p>
-Here's a non-exaustive list of my current interests:
+Much of the work you think of as the core of a program - calculating results,
+storing information, and preparing replies - will fit neatly into the <code>gen_server</code>
+behavior. It provides a core set of methods that let you set up a process,
+respond to requests, end the process gracefully, and even pass state to a new
+process if this one needs to be upgraded in place. (<a href="#citeproc_bib_item_1">Laurent 2017, 148</a>)
+</p>
+</blockquote>
+
+<p>
+<code>gen_server</code> is a generic server process that implements a standard set of
+interface functions and functionality for tracing and error reporting, it also
+fits an <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a> supervision tree.
 </p>
 
+<p>
+The <code>gen_server</code> behaviour interface contains six functions:
+</p>
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li><code>init/1</code></li>
+<li><code>handle_call/3</code>: Sends a synchronous message to a <code>gen_server</code> process and waits for a reply.</li>
+<li><code>handle_cast/2</code>: Sends an asynchronous message to a <code>gen_server</code> process.</li>
+<li><code>handle_info/2</code>: Handles messages sent to a <code>gen_server</code> container that were not sent using one of the call or cast functions.</li>
+<li><code>terminate/2</code>: When a <code>gen_server</code> shuts down, this callback is raised to give you a chance to clean things up.</li>
+<li><code>code_change/3</code></li>
 </ul>
 
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
-</div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
-<p>
-You may also find me elsewhere in cyberspace, under the following aliases:
-</p>
-
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
-</div>
-</div>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
 </div>
 </main>
 <footer id="postamble" class="status">

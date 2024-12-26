@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-12-26 Thu 02:19 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sequential Erlang</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io//css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io//img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io//index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io//blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io//notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io//blogroll.html">BlogRoll</a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Sequential Erlang</h1>
+</header><p>
+The basic constructs of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> language.
+</p>
+<div id="outline-container-org134665a" class="outline-2">
+<h2 id="org134665a">Datatypes</h2>
+<div class="outline-text-2" id="text-org134665a">
+</div>
+<div id="outline-container-org2c52d6b" class="outline-3">
+<h3 id="org2c52d6b">Integers</h3>
+<div class="outline-text-3" id="text-org2c52d6b">
+<ul class="org-ul">
+<li>Large Integers are converted to <code>bignums</code></li>
+</ul>
+
+<blockquote>
+<p>
+If you need to do calculations on integers using a base other than 10, you can use
+Base#Value notation. (<a href="#citeproc_bib_item_2">Laurent 2017, 7</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org51caca0" class="outline-3">
+<h3 id="org51caca0">Floats</h3>
+<div class="outline-text-3" id="text-org51caca0">
+<ul class="org-ul">
+<li>When you divide two integers with <code>/</code>, the result is automatically converted to a floating-point number.</li>
+<li>Integer division is handled by <code>div</code> and <code>rem</code>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgaeb9657" class="outline-3">
+<h3 id="orgaeb9657">Atoms</h3>
+<div class="outline-text-3" id="text-orgaeb9657">
+<ul class="org-ul">
+<li>In Erlang, atoms are used to represent constant values.</li>
+<li>Atoms are also global, and this is achieved without the use of macro
+definitions or include files.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org23a1811" class="outline-3">
+<h3 id="org23a1811">Tuples</h3>
+<div class="outline-text-3" id="text-org23a1811">
+<ul class="org-ul">
+<li>Represents a collection of elements (of any type) that are grouped together.</li>
+<li>Access is normally done by position.</li>
+<li>A tuple whose first element is an atom is called a <code>tagged</code> tuple, i.e., <code>{book,
+  "The Aleph"}</code>.</li>
+</ul>
+
+<blockquote>
+<p>
+Tuples are created automatically when we declare them and are destroyed when
+they can no longer be used. Erlang uses a garbage collector to reclaim all
+unused memory, so we don’t have to worry about memory
+allocation. (<a href="#citeproc_bib_item_1">Armstrong 2013, 35</a>)
+</p>
+</blockquote>
+
+<p>
+You can also pattern match tuples by using free variables:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">  1&gt; Point = {point, 10, 45}.
+  {point,10,45}
+  2&gt; {point, X, Y} = Point.
+  {point,10,45}
+  3&gt; X.
+  10
+  4&gt; Y.
+  45
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7667175" class="outline-3">
+<h3 id="org7667175">Lists</h3>
+<div class="outline-text-3" id="text-org7667175">
+<ul class="org-ul">
+<li>A list is a compound data type with a variable number of terms:
+<code>[Term1,...,TermN]</code>.</li>
+<li>Access is normally done by parttern matching.</li>
+<li>One can add or iterate over lists with the <code>cons</code> operator <code>|</code>, which breaks a
+list into <code>H|T</code> (<code>head</code> and <code>tail</code>),</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-nil">  List = [ Element | List ] OR []
+</pre>
+</div>
+</div>
+<div id="outline-container-orgda0810c" class="outline-4">
+<h4 id="orgda0810c">List Comprehensions</h4>
+<div class="outline-text-4" id="text-orgda0810c">
+<div class="org-src-container">
+<pre class="src src-shell">  1&gt; L = [1,2,3,4,5,6,7].
+  [1,2,3,4,5,6,7]
+  2&gt; [ 2*X || X &lt;- L ].
+  [2,4,6,8,10,12,14]
+  3&gt; 
+</pre>
+</div>
+
+<blockquote>
+<p>
+The most general form of a list comprehension is an expression of the following
+form: <code>[X || Qualifier1, Qualifier2, ...]</code>, where <code>X</code> is an arbitrary expression,
+and each qualifier is either a generator, a bitstring generator, or a filter.
+</p>
+
+<ul class="org-ul">
+<li>Generators are written as <code>Pattern &lt;- ListExpr</code> where <code>ListExpr</code> must be an expression that evaluates to a list of terms.</li>
+<li>Bitstring generators are written as <code>BitStringPattern &lt;= BitStringExpr</code> where <code>BitStringExpr</code> must be an expression that evaluates to a bitstring.</li>
+<li>Filters are either predicates or boolean expressions. (<a href="#citeproc_bib_item_1">Armstrong 2013, 61</a>)</li>
+</ul>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org75df688" class="outline-3">
+<h3 id="org75df688">Strings</h3>
+<div class="outline-text-3" id="text-org75df688">
+<blockquote>
+<p>
+Strictly speaking, there are no strings in Erlang. To represent a string in
+Erlang, we can choose between representing the string as a list of integers or
+as a binary. When a string is represented as a list of integers, each element in
+the list represents a Unicode codepoint.
+</p>
+</blockquote>
+
+<p>
+To print a unicode string one must use the "t" modifier applied to the "s"
+control character in a formatting string, it accepts all Unicode codepoints and
+expect binaries to be in UTF-8:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  1&gt; X = "a\x{221e}b".
+  [97,8734,98]
+  2&gt; io:format("~ts~n",[X]).
+  a∞b
+  ok
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd0eafd5" class="outline-3">
+<h3 id="orgd0eafd5">Records</h3>
+<div class="outline-text-3" id="text-orgd0eafd5">
+<blockquote>
+<p>
+(&#x2026;) records provide a convenient way for associating a tag
+with each of the elements in a tuple. This allows us to refer to an
+element of a tuple by name and not by position. A pre-compiler
+takes the record definition and replaces it with the appropriate tuple
+reference. (<a href="#citeproc_bib_item_1">Armstrong 2013</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-erlang">  -record(todo, {status=reminder,who=joe,text}).
+</pre>
+</div>
+
+<p>
+to load a record from the the shell, one must use the <code>rr</code> command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  1&gt; rr("records.hrl").
+  [todo]
+  2&gt; #todo{}.
+  #todo{status = reminder,who = joe,text = undefined}
+  3&gt; X1 = #todo{status=urgent, text="Fix errata in book"}.
+  #todo{status = urgent,who = joe,text = "Fix errata in book"}
+  4&gt; X2 = X1#todo{status=done}.
+  #todo{status = done,who = joe,text = "Fix errata in book"}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga204446" class="outline-3">
+<h3 id="orga204446">Maps</h3>
+<div class="outline-text-3" id="text-orga204446">
+<p>
+Maps are associative collections of key-value pairs.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  1&gt; TaskPending = #{ status =&gt; pending, description =&gt; 'feed cats' }.
+  #{status =&gt; pending,description =&gt; 'feed cats'}
+  2&gt; TaskDone = TaskPending#{ status := done }.
+  #{status =&gt; done,description =&gt; 'feed cats'}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0c586e2" class="outline-3">
+<h3 id="org0c586e2">Identifiers</h3>
+<div class="outline-text-3" id="text-org0c586e2">
+</div>
+<div id="outline-container-orgaf95233" class="outline-4">
+<h4 id="orgaf95233">Pids</h4>
+</div>
+<div id="outline-container-org3166e49" class="outline-4">
+<h4 id="org3166e49">Ports</h4>
+</div>
+<div id="outline-container-org76f8562" class="outline-4">
+<h4 id="org76f8562">References</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org8338a14" class="outline-2">
+<h2 id="org8338a14">Variables</h2>
+<div class="outline-text-2" id="text-org8338a14">
+<blockquote>
+<p>
+Note that Erlang variables start with uppercase characters. So, <code>X</code>, <code>This</code>, and
+<code>A_long_name</code> are all variables. Names beginning with lowercase letters—for example,
+<code>monday</code> or <code>friday</code> are not variables but are symbolic constants called 
+atoms. (<a href="#citeproc_bib_item_1">Armstrong 2013</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Erlang Variables Do Not Vary</li>
+<li>The scope of a variable is the lexical unit in which it is defined.</li>
+<li>Variables acquire values as the result of a successful pattern matching
+operation (<code>=</code>).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgefaf775" class="outline-2">
+<h2 id="orgefaf775">Pattern Matching</h2>
+<div class="outline-text-2" id="text-orgefaf775">
+<p>
+Pattern matching is used for:
+</p>
+<ul class="org-ul">
+<li>Assigning values to variables</li>
+<li>Redirecting execution flows</li>
+</ul>
+</div>
+<div id="outline-container-orgfedc1c8" class="outline-4">
+<h4 id="orgfedc1c8">case and if Expressions</h4>
+<div class="outline-text-4" id="text-orgfedc1c8">
+<div class="org-src-container">
+<pre class="src src-erlang">  case Expression of
+    Pattern1 [when Guard1] -&gt; Expr_seq1;
+    Pattern2 [when Guard2] -&gt; Expr_seq2;
+    ...
+  end
+
+  if
+    Guard1 -&gt; Expr_seq1;
+    Guard2 -&gt; Expr_seq2;
+    ...
+  end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd8aaf07" class="outline-2">
+<h2 id="orgd8aaf07">Functions</h2>
+<div class="outline-text-2" id="text-orgd8aaf07">
+</div>
+<div id="outline-container-org1b822a7" class="outline-3">
+<h3 id="org1b822a7">Built-in Functions</h3>
+<div class="outline-text-3" id="text-org1b822a7">
+<ul class="org-ul">
+<li>Conventionally, these are part of the <code>erlang</code> module.</li>
+<li>Mostly written in C for fast execution.</li>
+</ul>
+</div>
+<div id="outline-container-org2f8ca2d" class="outline-4">
+<h4 id="org2f8ca2d">List of BiFs</h4>
+<div class="outline-text-4" id="text-org2f8ca2d">
+<ul class="org-ul">
+<li><code>date()</code></li>
+<li><code>time()</code></li>
+<li><code>length(List)</code></li>
+<li><code>size(Tuple)</code></li>
+<li><code>atom_to_list(Atom)</code></li>
+<li><code>list_to_tuple(List)</code></li>
+<li><code>integer_to_list(1000)</code></li>
+<li><code>tuple_to_list(Tuple)</code></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org872ccf9" class="outline-3">
+<h3 id="org872ccf9">Funs: The Basic Unit of Abstraction</h3>
+<div class="outline-text-3" id="text-org872ccf9">
+<p>
+<code>Funs</code> are function closures. <code>Funs</code> are created by expressions of the form: <code>fun(...) -&gt; ... end</code>.
+</p>
+</div>
+<div id="outline-container-orgd5ab380" class="outline-4">
+<h4 id="orgd5ab380">Defining Your Own Control Abstractions</h4>
+<div class="outline-text-4" id="text-orgd5ab380">
+<p>
+If we want additional control structures, we can make our own. Erlang has no for loop, so let’s make one:
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">  for(Max, Max, F) -&gt; [F(Max)];
+  for(I, Max, F) -&gt; [F(I)|for(I+1, Max, F)].
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb174376" class="outline-3">
+<h3 id="orgb174376">Recursion</h3>
+<div class="outline-text-3" id="text-orgb174376">
+</div>
+<div id="outline-container-org470eb4b" class="outline-4">
+<h4 id="org470eb4b">Tail Recursion</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org187bd78" class="outline-2">
+<h2 id="org187bd78">Guards</h2>
+</div>
+
+<div id="outline-container-org8606b6d" class="outline-2">
+<h2 id="org8606b6d">Modules</h2>
+<div class="outline-text-2" id="text-org8606b6d">
+</div>
+<div id="outline-container-org87ff890" class="outline-3">
+<h3 id="org87ff890">Defining Modules</h3>
+<div class="outline-text-3" id="text-org87ff890">
+<div class="org-src-container">
+<pre class="src src-erlang">    -module(drop).
+    -export([fall_velocity/1, mps_to_mph/1, mps_to_kph/1]).
+
+    fall_velocity(Distance) -&gt; math:sqrt(2 * 9.8 * Distance).
+    mps_to_mph(Mps) -&gt; 2.23693629 * Mps.
+    mps_to_kph(Mps) -&gt; 3.6 * Mps.
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbd9601e" class="outline-2">
+<h2 id="orgbd9601e">Error Handling in Sequential Programs</h2>
+<div class="outline-text-2" id="text-orgbd9601e">
+<div class="org-src-container">
+<pre class="src src-erlang">  try FuncOrExpressionSeq of
+    Pattern1 [when Guard1] -&gt; Expressions1;
+    Pattern2 [when Guard2] -&gt; Expressions2;
+    ...
+  catch
+    ExceptionType1: ExPattern1 [when ExGuard1] -&gt; ExExpressions1;
+    ExceptionType2: ExPattern2 [when ExGuard2] -&gt; ExExpressions2;
+    ...
+  after
+    AfterExpressions
+  end
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt><code>exit/1</code></dt><dd>Used to terminate the current process.</dd>
+<dt><code>throw</code></dt><dd>Used as a documentation to the caller, to show that a function might throw this exception.</dd>
+<dt>error</dt><dd>Crashing errors.</dd>
+</dl>
+</div>
+<div id="outline-container-orga9f5f27" class="outline-4">
+<h4 id="orga9f5f27">Fail Fast and Noisily, Fail Politely</h4>
+<div class="outline-text-4" id="text-orga9f5f27">
+<blockquote>
+<p>
+In Erlang, when an error is detected internally by the system or is detected by
+program logic, the correct approach is to crash immediately and generate a
+meaningful error message.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+Second, fail politely means that only the programmer should see the detailed
+error messages produced when a program crashes. A user of the program should
+never see these messages.
+</p>
+</blockquote>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/mtrsk/mtrsk.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

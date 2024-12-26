@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Kubernetes-Storage</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,146 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
-</header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<h1 class="title">Kubernetes-Storage</h1>
+</header><div id="outline-container-orgba9037b" class="outline-2">
+<h2 id="orgba9037b">Volume Types</h2>
+<div class="outline-text-2" id="text-orgba9037b">
+</div>
+<div id="outline-container-orgc23ea09" class="outline-3">
+<h3 id="orgc23ea09">emptyDir</h3>
+<div class="outline-text-3" id="text-orgc23ea09">
 <p>
-Here's a non-exaustive list of my current interests:
+Empty directory for storing data ephemeral data from the Pods
+</p>
+
+<div class="org-src-container">
+<pre class="src src-yaml">  apiVersion: v1
+  kind: Pod
+  spec:
+    volumes:
+      - name: html
+        emptyDir: {}
+    containers:
+      - name: nginx
+        image: nginx:alpine
+        volumeMounts:
+          - name: html
+            mountPath: /usr/share/nginx/html
+            readOnly: false
+  
+      - name: html-example
+        image: alpine:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - while true; do date &gt;&gt; /html/index.html; sleep 10; done
+        volumeMounts:
+          - name: html
+            mountPath: /html
+            readOnly: false
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2d7ecc2" class="outline-3">
+<h3 id="org2d7ecc2">hostPath</h3>
+<div class="outline-text-3" id="text-org2d7ecc2">
+<p>
+A volume that's mounted in the Node's filesystem and is shared with a Pod
+</p>
+</div>
+</div>
+<div id="outline-container-org6e44833" class="outline-3">
+<h3 id="org6e44833">nfs</h3>
+<div class="outline-text-3" id="text-org6e44833">
+<p>
+A NFS share mounted into the Pod
+</p>
+</div>
+</div>
+<div id="outline-container-orgb4093cb" class="outline-3">
+<h3 id="orgb4093cb">configMap/secret</h3>
+<div class="outline-text-3" id="text-orgb4093cb">
+<p>
+Provides access to <a href="20211012215602-kubernetes.html#ID-dd924a84-7d6f-41ec-98c2-aa16582c0d89">Kubernetes</a> resources
+</p>
+</div>
+</div>
+<div id="outline-container-org964a289" class="outline-3">
+<h3 id="org964a289">persistentVolumeClaim</h3>
+<div class="outline-text-3" id="text-org964a289">
+<p>
+A <code>persistentVolume</code> is a cluster-wide storage resource that relies on
+network-attached storage. It's abstracted and associated to a Pod via a
+<code>PersistentVolumeClaim</code> (PVC).
 </p>
 
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>Definying a persistent volume</li>
 </ul>
 
+<div class="org-src-container">
+<pre class="src src-yaml">  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv-1
+  spec:
+    capacity:
+      storage: 20Gi
+    accessModes:
+      - ReadWriteOnce
+      - ReadOnlyMany
+    persistentVolumePolicy: Retain
+    azureFile:
+      secretName: &lt;azure-secret&gt;
+      shareName: &lt;azure-fileshare&gt;
+      readOnly: false
+</pre>
+</div>
 
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
+<ul class="org-ul">
+<li>Setting up a volume claim</li>
+</ul>
 
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
+<div class="org-src-container">
+<pre class="src src-yaml">  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: pv-demo
+    annotations:
+      volume.beta.kubernetes.io/storage-class: accounthdd
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: cdk-cinder
+</pre>
 </div>
 </div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
+</div>
+<div id="outline-container-org4a3fd28" class="outline-3">
+<h3 id="org4a3fd28">Cloud</h3>
+<div class="outline-text-3" id="text-org4a3fd28">
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+Cluster-wide storage, which varies depending on the cloud provider
 </p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<ul class="org-ul">
+<li>AWS
+<ul class="org-ul">
+<li>Elastic Block Store</li>
+</ul></li>
+<li>Azure
+<ul class="org-ul">
+<li>Azure Disk</li>
+<li>Azure File</li>
+</ul></li>
+<li>GCP
+<ul class="org-ul">
+<li>GCE Persistent Disk</li>
+</ul></li>
+</ul>
 </div>
 </div>
 </div>

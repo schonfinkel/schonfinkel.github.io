@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Erlang Term Storage</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,60 +227,57 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
+<h1 class="title">Erlang Term Storage</h1>
 </header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
-</p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
-<p>
-Here's a non-exaustive list of my current interests:
+Erlang Term Storage, commonly referred to as ETS, is a powerful storage engine
+built into <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>. Every entry in an ETS table is a tuple (or corresponding
+record), and one piece of the tuple is designated the key.
 </p>
 
+<p>
+ETS can hold four kinds of collections (<a href="#citeproc_bib_item_1">Laurent 2017, 141</a>):
+</p>
+
+<ol class="org-ol">
+<li>Sets (<code>set</code>): Can contain only one entry with a given key.</li>
+<li>Ordered Sets (<code>ordered_set</code>): Same as a set, but also maintains a traversal
+order based on the keys. Great for anything you want to keep in alphabetic or
+numeric order.</li>
+<li>Bags (<code>bag</code>): Lets you store more than one entry with a given key. However, if
+you have multiple entries that have identical values, they get combined into
+a single entry.</li>
+<li>Duplicate Bags (<code>duplicate_bag</code>): Not only lets you store more than one entry
+with a given key, but also lets you store multiple entries with identical
+values.</li>
+</ol>
+<div id="outline-container-orgc3379f6" class="outline-2">
+<h2 id="orgc3379f6">Creating and populating a table</h2>
+<div class="outline-text-2" id="text-orgc3379f6">
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>The <code>ets:new/2</code> function lets you create a table.</li>
+<li>If you do specify <code>named_table</code>, processes can reach the table as long as they
+know the name, without needing access to that return value.</li>
+<li><p>
+Using the <code>keypos</code> tuple lets you specify which record value should be the key.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">    rd(food, {name, calories, price, group}).
+    ets:new(food, [ordered_set, {keypos,#food.name}, named_table]).
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgea6c793" class="outline-2">
+<h2 id="orgea6c793">Simple Queries</h2>
+<div class="outline-text-2" id="text-orgea6c793">
+<ul class="org-ul">
+<li><code>ets:lookup/2</code></li>
 </ul>
 
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
-</div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
-<p>
-You may also find me elsewhere in cyberspace, under the following aliases:
-</p>
-
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>

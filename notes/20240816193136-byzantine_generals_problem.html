@@ -4,7 +4,7 @@
 <!-- 2024-12-26 Thu 02:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Benevides' Blog</title>
+<title>Byzantine Generals Problem</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -204,6 +204,38 @@
     }
   };
 </script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -227,60 +259,111 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Benevides' Blog</h1>
+<h1 class="title">Byzantine Generals Problem</h1>
 </header><p>
-Hello! I'm <b>Marcos Benevides</b>, a developer from São Luís, MA - Brazil. You're
-going to find my posts, projects and tutorials here, and probably some random
-rambling about byzantine history.
+The Byzantine Generals' Problem is an analogy used to describe the difficulties
+of reaching consensus in <a href="20211202213813-distributed_systems.html#ID-d7efb05f-fb8f-438c-b09d-ea91dc24ebc3">Distributed Systems</a>, this is a summary from
+(<a href="#citeproc_bib_item_1">Lamport, Shostak, and Pease 2019</a>).
 </p>
-<div id="outline-container-org67bf496" class="outline-2">
-<h2 id="org67bf496">Interests</h2>
-<div class="outline-text-2" id="text-org67bf496">
+<div id="outline-container-orgd798e30" class="outline-2">
+<h2 id="orgd798e30">Introduction</h2>
+<div class="outline-text-2" id="text-orgd798e30">
+<blockquote>
 <p>
-Here's a non-exaustive list of my current interests:
+A reliable computer system must be able to cope with the failure of one or more
+of its components. A failed component may exhibit a type of behavior that is
+often overlooked namely, sending conflicting information to different parts of
+the system. The problem of coping with this type of failure is expressed
+abstractly as the <b>Byzantine Generals Problem</b>.
 </p>
-
+</blockquote>
+</div>
+<div id="outline-container-org4d39828" class="outline-3">
+<h3 id="org4d39828">The Classic Problem</h3>
+<div class="outline-text-3" id="text-org4d39828">
 <ul class="org-ul">
-<li>Backend Development</li>
-<li>Infrastructure</li>
-<li>Functional Programming</li>
-<li>GNU/Linux &amp; FOSS</li>
-<li>Logic</li>
-<li>Philosophy</li>
+<li>Each division of Byzantine army is directed by its own general</li>
+<li>Generals, some of which are traitors, communicate each other by messengers</li>
 </ul>
 
-
-<figure id="orgb2bf36f">
-<img src="./img/nixos.gif" alt="nixos.gif" width="25%" height="25%" align="center">
-
-<figcaption><span class="figure-number">Figure 1: </span>btw, I use <a href="https://nixos.org/">NixOS</a>&#x2026;</figcaption>
-</figure>
-</div>
-</div>
-<div id="outline-container-org81d3502" class="outline-2">
-<h2 id="org81d3502">Contact me</h2>
-<div class="outline-text-2" id="text-org81d3502">
 <p>
-You may also find me elsewhere in cyberspace, under the following aliases:
+The generals must have an algorithm that guarantess the following properties:
 </p>
 
-<div>
-  <table style="width:80%">
-    <tr>
-        <td>
-        <a href="https://github.com/schonfinkel" title="My Github profile"><i class='bx bxl-github bx-lg'></i></a>
-        </td>
-        <td>
-        <a href="https://www.linkedin.com/in/schonfinkel" title="My Linkedin profile"><i class='bx bxl-linkedin-square bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="mailto:marcos.schonfinkel@gmail.com" title="My personal email"><i class='bx bx-envelope bx-lg' ></i></a>
-        </td>
-        <td>
-        <a href="https://stackexchange.com/users/5858235/schonfinkel"><img src="https://stackexchange.com/users/flair/5858235.png" alt="profile for Aristu on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Schonfinkel on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        </td>
-    </tr>
-  </table>
+<ol class="org-ol">
+<li>All loyal generals decide upon the same plan of action.</li>
+<li>A small number of traitors cannot cause the loyal generals to adopt a bad
+plan.</li>
+</ol>
+
+<p>
+which can then be restated as:
+</p>
+
+<ol class="org-ol">
+<li>All loyal generals receive the same information upon which they will somehow get to the same decision</li>
+<li>The information sent by a loyal general should be used by all the other loyal generals.</li>
+</ol>
+
+<p>
+This problem is then further reformulated into what into a series of one
+commanding general and multiple lieutenants problem.
+</p>
+
+<blockquote>
+<p>
+<b>Byzantine Generals Problem</b>: A commanding general must send an order to his \(n -
+1\) lieutenant generals such that,
+</p>
+<ul class="org-ul">
+<li>All <b>loyal</b> lieutenants obey the <b>same</b> order.</li>
+<li>If the commanding general is <b>loyal</b>, then every <b>loyal</b> lieutenant <b>obeys</b> the</li>
+</ul>
+<p>
+order he sends. 
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org63658c8" class="outline-2">
+<h2 id="org63658c8">Impossibility Results</h2>
+<div class="outline-text-2" id="text-org63658c8">
+</div>
+<div id="outline-container-org747f75f" class="outline-3">
+<h3 id="org747f75f">3-General Problem with 1 Traitor</h3>
+<div class="outline-text-3" id="text-org747f75f">
+<p>
+This is a special case of BGP and it's unsolvable because a loyal lieutenant
+cannot distinguish betwee a loyal/traitorous officer when conflicting
+information arrives.
+</p>
+<div class="org-src-container">
+<pre class="src src-nil">                 👑
+               ┌─────┐     
+   ┌───────────│  L  │─────────┐
+   │           └─────┘         │
+   │"Attack"                   │"Attack"
+┌─────┐                      ┌─────┐
+│  L  │&lt;─────────────────────│  T  │
+└─────┘   "He said Retreat"  └─────┘
+
+
+                 👑
+               ┌─────┐     
+   ┌───────────│  T  │─────────┐
+   │           └─────┘         │
+   │"Attack"                   │"Retreat"
+┌─────┐                      ┌─────┐
+│  L  │&lt;─────────────────────│  L  │
+└─────┘   "He said Retreat"  └─────┘
+</pre>
+</div>
+
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Lamport, Leslie, Robert Shostak, and Marshall Pease. 2019. “The Byzantine Generals Problem.” In <i>Concurrency: The Works of Leslie Lamport</i>, 203–26.</div>
+</div>
 </div>
 </div>
 </div>
