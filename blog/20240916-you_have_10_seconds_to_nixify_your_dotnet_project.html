@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 02:19 -->
+<!-- 2024-12-26 Thu 13:10 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>You have 10 seconds to nixify your dotnet project</title>
@@ -195,7 +195,7 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<link href="https://schonfinkel.github.io//css/main.css" rel="stylesheet">
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
@@ -209,7 +209,7 @@
 <header id="preamble" class="status">
 <nav>
   <img
-    src="https://schonfinkel.github.io//img/logo.png"
+    src="https://schonfinkel.github.io/static/img/logo.png"
     alt="logo"
     width="128"
     height="128"
@@ -218,10 +218,10 @@
     <h3>"Writing is nothing more than a guided dream."</h3>
   </div>
   <ul>
-    <li><a href="https://schonfinkel.github.io//index.html">Home</a></li>
-    <li><a href="https://schonfinkel.github.io//blog.html">Blog</a></li>
-    <li><a href="https://schonfinkel.github.io//notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io//blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
   </ul>
 </nav>
 </header>
@@ -230,8 +230,8 @@
 <h1 class="title">You have 10 seconds to nixify your dotnet project</h1>
 <p class="subtitle" role="doc-subtitle">Even .NET can be cool if you Nix it enough</p>
 </header>
-<figure id="orgb48f4d6">
-<img src="../../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png" alt="00_don_gun.png">
+<figure id="org9934be5">
+<img src="../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png" alt="00_don_gun.png" width="50%" height="50%" align="center">
 
 <figcaption><span class="figure-number">Figure 1: </span>Don "The Gun" Syme, now officially part of the "Nix Gang".</figcaption>
 </figure>
@@ -240,13 +240,13 @@
 While this is a click bait title (maybe I've also farmed some zoomer credits out
 the OC), I'm pretty sure that's how Don Syme feels when looks at a <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/results">Result</a> type
 like <code>Result&lt;'T,string&gt;</code> in an F# codebase. The reason why I've written this post
-is that I started doing changes in a <a href="https://github.com/mtrsk/interval.fs">open source project</a> I develop/maintain,
+is that I started doing changes in a <a href="https://github.com/schonfinkel/interval.fs">open source project</a> I develop/maintain,
 and realized other .Net people could benefit from this somehow (as most of the
 Nix + .Net guides are from before 2024).
 </p>
-<div id="outline-container-orgfd544b3" class="outline-2">
-<h2 id="orgfd544b3">An Opinionated Template</h2>
-<div class="outline-text-2" id="text-orgfd544b3">
+<div id="outline-container-org8d0b11e" class="outline-2">
+<h2 id="org8d0b11e">An Opinionated Template</h2>
+<div class="outline-text-2" id="text-org8d0b11e">
 <p>
 Turns out that, while writing this, I've decided to put everything in a template
 that's easy to <del>steal</del> copy, so if you are from the future and have the <a href="https://nixos.org/download/">Nix (the
@@ -257,11 +257,11 @@ mostly because I tend to favor devenv (since it has shown better adoption when I
 preached it to non-Nixers).
 </p>
 </div>
-<div id="outline-container-org8efe6fa" class="outline-3">
-<h3 id="org8efe6fa">Devenv</h3>
-<div class="outline-text-3" id="text-org8efe6fa">
+<div id="outline-container-orgcfb1709" class="outline-3">
+<h3 id="orgcfb1709">Devenv</h3>
+<div class="outline-text-3" id="text-orgcfb1709">
 <p>
-I've already tackled this in a <a href="https://mtrsk.github.io/blog/2024/experiments-with-erlang-and-nix/">previous article</a>, but the best developer
+I've already tackled this in a <a href="https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html">previous article</a>, but the best developer
 experience right now is with <a href="https://devenv.sh/">devenv.sh</a>. Unlike the previous article tho, the
 environment setup is way simpler, just a bunch of .Net tools inside the shell
 and call it a day.
@@ -328,15 +328,15 @@ Here's a quick demo:
 </p>
 
 
-<figure id="orgf4431cb">
-<img src="../../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif" alt="01_demo.gif">
+<figure id="orge4d6785">
+<img src="../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif" alt="01_demo.gif" width="50%" height="50%" align="center">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org7f239ec" class="outline-3">
-<h3 id="org7f239ec">Build your project with Nix</h3>
-<div class="outline-text-3" id="text-org7f239ec">
+<div id="outline-container-org7f24796" class="outline-3">
+<h3 id="org7f24796">Build your project with Nix</h3>
+<div class="outline-text-3" id="text-org7f24796">
 <p>
 This project is just a simple solution with the basic <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line">CLI Console App</a> from the
 official documentation, the difference being that I've added a dependency to
@@ -425,11 +425,11 @@ guidelines</a>, of course. Now, going back to the testing the Nix build:
 </div>
 </div>
 </div>
-<div id="outline-container-org3242b15" class="outline-3">
-<h3 id="org3242b15">Generating OCI Images</h3>
-<div class="outline-text-3" id="text-org3242b15">
+<div id="outline-container-org412a14b" class="outline-3">
+<h3 id="org412a14b">Generating OCI Images</h3>
+<div class="outline-text-3" id="text-org412a14b">
 <p>
-Similar to the <a href="https://mtrsk.github.io/blog/2024/experiments-with-erlang-and-nix/">previous post</a>, the Container Image looks like this:
+Similar to the <a href="https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html">previous post</a>, the Container Image looks like this:
 </p>
 
 <div class="org-src-container">
@@ -462,17 +462,17 @@ And can be tested with:
 </div>
 </div>
 </div>
-<div id="outline-container-orgab9bb67" class="outline-2">
-<h2 id="orgab9bb67">Conclusion</h2>
-<div class="outline-text-2" id="text-orgab9bb67">
+<div id="outline-container-orgae31046" class="outline-2">
+<h2 id="orgae31046">Conclusion</h2>
+<div class="outline-text-2" id="text-orgae31046">
 <p>
-If this sparkled your interest somehow, here's the <a href="https://github.com/mtrsk/fsharp-nix/tree/master">source code</a>, I've also made
-sure to configure some <a href="https://github.com/mtrsk/fsharp-nix/actions">Github Actions</a> Workflows there. 
+If this sparkled your interest somehow, here's the <a href="https://github.com/schonfinkel/fsharp-nix/tree/master">source code</a>, I've also made
+sure to configure some <a href="https://github.com/schonfinkel/fsharp-nix/actions">Github Actions</a> Workflows there. 
 </p>
 </div>
-<div id="outline-container-orgf72bded" class="outline-3">
-<h3 id="orgf72bded"><span class="todo TODO">TODO</span> </h3>
-<div class="outline-text-3" id="text-orgf72bded">
+<div id="outline-container-org8aac2e7" class="outline-3">
+<h3 id="org8aac2e7"><span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-org8aac2e7">
 <ul class="org-ul">
 <li class="off"><code>[&#xa0;]</code> Optimize the container image, by just shipping the runtime, not the SDK.</li>
 <li class="off"><code>[&#xa0;]</code> Open a PR into the <a href="https://github.com/NixOS/templates/tree/master/dotnet">NixOS Templates</a> repo, maybe adding a <a href="https://safe-stack.github.io/">SAFE</a> stack example

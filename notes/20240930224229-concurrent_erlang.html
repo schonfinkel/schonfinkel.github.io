@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 02:19 -->
+<!-- 2024-12-26 Thu 13:11 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Concurrent Erlang</title>
@@ -195,7 +195,7 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<link href="https://schonfinkel.github.io//css/main.css" rel="stylesheet">
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
@@ -209,7 +209,7 @@
 <header id="preamble" class="status">
 <nav>
   <img
-    src="https://schonfinkel.github.io//img/logo.png"
+    src="https://schonfinkel.github.io/static/img/logo.png"
     alt="logo"
     width="128"
     height="128"
@@ -218,10 +218,10 @@
     <h3>"Writing is nothing more than a guided dream."</h3>
   </div>
   <ul>
-    <li><a href="https://schonfinkel.github.io//index.html">Home</a></li>
-    <li><a href="https://schonfinkel.github.io//blog.html">Blog</a></li>
-    <li><a href="https://schonfinkel.github.io//notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io//blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
   </ul>
 </nav>
 </header>
@@ -252,9 +252,9 @@ In Erlang:
 (<a href="#citeproc_bib_item_1">Armstrong 2013, 181</a>)
 </p>
 </blockquote>
-<div id="outline-container-org7d9cdb5" class="outline-2">
-<h2 id="org7d9cdb5">Processes</h2>
-<div class="outline-text-2" id="text-org7d9cdb5">
+<div id="outline-container-orgb59824d" class="outline-2">
+<h2 id="orgb59824d">Processes</h2>
+<div class="outline-text-2" id="text-orgb59824d">
 <p>
 In <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a>, creation of a parallel process is achieved by evaluating the <code>spawn</code>
 primitive. This primitive creates a concurrent process and returns a process
@@ -267,7 +267,7 @@ identifier (PID) that can used to interact with the newly created process:
 </div>
 
 
-<figure id="org7a1bd7d">
+<figure id="org437c084">
 <img src="../static/img/notes/erlang_spawn.png" alt="erlang_spawn.png">
 
 </figure>
@@ -281,11 +281,11 @@ identifier (PID) that can used to interact with the newly created process:
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-orgb0a4ff0" class="outline-3">
-<h3 id="orgb0a4ff0">Modeling Concurrency</h3>
-<div class="outline-text-3" id="text-orgb0a4ff0">
+<div id="outline-container-org86775bf" class="outline-3">
+<h3 id="org86775bf">Modeling Concurrency</h3>
+<div class="outline-text-3" id="text-org86775bf">
 
-<figure id="org9db1271">
+<figure id="org50b0f6e">
 <img src="../static/img/notes/erlang_send.png" alt="erlang_send.png">
 
 </figure>
@@ -337,7 +337,7 @@ We can force an order (emulating a priority queue) by using multiple receives:
 </p>
 
 
-<figure id="org412ddc6">
+<figure id="org5aa69c9">
 <img src="../static/img/notes/erlang_selective.png" alt="erlang_selective.png">
 
 </figure>
@@ -362,9 +362,9 @@ this way the message <code>{foo, ...}</code> is received before the message <cod
 </ul>
 </div>
 </div>
-<div id="outline-container-org4514f9c" class="outline-3">
-<h3 id="org4514f9c">Registered Processes</h3>
-<div class="outline-text-3" id="text-org4514f9c">
+<div id="outline-container-orgaae75aa" class="outline-3">
+<h3 id="orgaae75aa">Registered Processes</h3>
+<div class="outline-text-3" id="text-orgaae75aa">
 <table>
 
 
@@ -408,9 +408,9 @@ process to terminate with a <code>badarg</code> error.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org64fcbaa" class="outline-3">
-<h3 id="org64fcbaa">Timeouts</h3>
-<div class="outline-text-3" id="text-org64fcbaa">
+<div id="outline-container-org118ffb5" class="outline-3">
+<h3 id="org118ffb5">Timeouts</h3>
+<div class="outline-text-3" id="text-org118ffb5">
 <ul class="org-ul">
 <li>If the message <code>Msg</code> is received within the <code>TimeOut</code>, <code>expr01</code> will be
 executed. Otherwise, <code>expr02</code> will be executed.</li>
@@ -418,7 +418,7 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </ul>
 
 
-<figure id="org96b9050">
+<figure id="orgae8049d">
 <img src="../static/img/notes/erlang_timeout.png" alt="erlang_timeout.png">
 
 </figure>
@@ -434,11 +434,11 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org41e661f" class="outline-3">
-<h3 id="org41e661f">Skeleton of an Erlang Process</h3>
-<div class="outline-text-3" id="text-org41e661f">
+<div id="outline-container-org632e00c" class="outline-3">
+<h3 id="org632e00c">Skeleton of an Erlang Process</h3>
+<div class="outline-text-3" id="text-org632e00c">
 
-<figure id="org4688f0e">
+<figure id="org09ebc52">
 <img src="../static/img/notes/erlang_process_skeleton.png" alt="erlang_process_skeleton.png">
 
 </figure>

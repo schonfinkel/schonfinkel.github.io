@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 02:19 -->
+<!-- 2024-12-26 Thu 13:11 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SQL</title>
@@ -195,7 +195,7 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<link href="https://schonfinkel.github.io//css/main.css" rel="stylesheet">
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
@@ -209,7 +209,7 @@
 <header id="preamble" class="status">
 <nav>
   <img
-    src="https://schonfinkel.github.io//img/logo.png"
+    src="https://schonfinkel.github.io/static/img/logo.png"
     alt="logo"
     width="128"
     height="128"
@@ -218,27 +218,27 @@
     <h3>"Writing is nothing more than a guided dream."</h3>
   </div>
   <ul>
-    <li><a href="https://schonfinkel.github.io//index.html">Home</a></li>
-    <li><a href="https://schonfinkel.github.io//blog.html">Blog</a></li>
-    <li><a href="https://schonfinkel.github.io//notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io//blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
   </ul>
 </nav>
 </header>
 <main id="content" class="content">
 <header>
 <h1 class="title">SQL</h1>
-</header><div id="outline-container-org3841978" class="outline-2">
-<h2 id="org3841978">Logical Query Processing Order</h2>
-<div class="outline-text-2" id="text-org3841978">
+</header><div id="outline-container-orgc359080" class="outline-2">
+<h2 id="orgc359080">Logical Query Processing Order</h2>
+<div class="outline-text-2" id="text-orgc359080">
 </div>
-<div id="outline-container-orgc68bae1" class="outline-3">
-<h3 id="orgc68bae1">FROM</h3>
-<div class="outline-text-3" id="text-orgc68bae1">
+<div id="outline-container-org31520f7" class="outline-3">
+<h3 id="org31520f7">FROM</h3>
+<div class="outline-text-3" id="text-org31520f7">
 </div>
-<div id="outline-container-org6f1816e" class="outline-4">
-<h4 id="org6f1816e">JOIN</h4>
-<div class="outline-text-4" id="text-org6f1816e">
+<div id="outline-container-org2e0af4f" class="outline-4">
+<h4 id="org2e0af4f">JOIN</h4>
+<div class="outline-text-4" id="text-org2e0af4f">
 <table>
 
 
@@ -285,28 +285,28 @@ previous cartesian step where the predicate is <code>TRUE</code>. If the request
 <code>OUTER JOIN</code>, the qualified rows go throught the next step.
 </p>
 </div>
-<div id="outline-container-org387b386" class="outline-5">
-<h5 id="org387b386">Chiastic Order</h5>
+<div id="outline-container-org38d7402" class="outline-5">
+<h5 id="org38d7402">Chiastic Order</h5>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc17bd77" class="outline-3">
-<h3 id="orgc17bd77">WHERE</h3>
+<div id="outline-container-org0acd73c" class="outline-3">
+<h3 id="org0acd73c">WHERE</h3>
 </div>
-<div id="outline-container-orge14ca11" class="outline-3">
-<h3 id="orge14ca11">GROUP BY</h3>
+<div id="outline-container-org87fa27a" class="outline-3">
+<h3 id="org87fa27a">GROUP BY</h3>
 </div>
-<div id="outline-container-org5a0d1b3" class="outline-3">
-<h3 id="org5a0d1b3">HAVING</h3>
+<div id="outline-container-org20c17e6" class="outline-3">
+<h3 id="org20c17e6">HAVING</h3>
 </div>
-<div id="outline-container-org9cdbd02" class="outline-3">
-<h3 id="org9cdbd02">SELECT</h3>
+<div id="outline-container-org8c2e150" class="outline-3">
+<h3 id="org8c2e150">SELECT</h3>
 </div>
-<div id="outline-container-org241aebc" class="outline-3">
-<h3 id="org241aebc">ORDER BY</h3>
+<div id="outline-container-org1cad82f" class="outline-3">
+<h3 id="org1cad82f">ORDER BY</h3>
 </div>
-<div id="outline-container-org587c391" class="outline-3">
-<h3 id="org587c391">OFFSET/FETCH</h3>
+<div id="outline-container-org7449d12" class="outline-3">
+<h3 id="org7449d12">OFFSET/FETCH</h3>
 </div>
 </div>
 </main>
