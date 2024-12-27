@@ -94,5 +94,16 @@ automatically - communication must always be triggered by one node looking for
 another. [cite:@logan2010erlang p.197]
 #+end_quote
 
+** The Cookie Protection System
+
+For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
+1. Store the same cookie in the file ~$HOME/.erlang.cookie~.
+2. Using the ~-setcookie C~ command line argument:
+#+begin_src shell
+  erl -setcookie <cookie>
+#+end_src
+3. The BIF ~erlang:set_cookie(node(), C)~ sets the cookie of the local node to the atom ~C~.
+
+* Socket-Based Distribution
 
 #+print_bibliography: 

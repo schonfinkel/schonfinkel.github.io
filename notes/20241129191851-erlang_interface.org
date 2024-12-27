@@ -2,5 +2,20 @@
 :ID:       6422d659-d57d-4672-a90a-0649b5cbe905
 :END:
 #+title: Erlang Interface
-#+HUGO_CATEGORIES: "Functional Programming"
-#+HUGO_TAGS: "Erlang"
+
+#+begin_quote
+[[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] communicates with external programs through objects called ports. If we
+send a message to a port, the message will be sent to the external program
+connected to the port. Messages from the external program will appear as Erlang
+messages that come from the ports.
+
+(...)
+
+Note the difference between using a port to communicate with an external process
+and a socket. If you use a port, the port will behave like an Erlang process, so
+you can link to it, send messages to it from a remote distributed Erlang node,
+and so on. If you use a socket, it will not behave like a
+process. [cite:@armstrong2013 p.232]
+#+end_quote
+
+#+print_bibliography: 
