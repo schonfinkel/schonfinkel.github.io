@@ -124,7 +124,7 @@
 
          :export-with-tags nil
          :exclude-tags ("todo" "noexport")
-         :exclude "level-.*\\|.*\.draft\.org\\|*direnv*"
+         :exclude "level-.*\\|.*\.draft\.org\\|.direnv*"
          :section-numbers nil
          :headline-levels 5
 

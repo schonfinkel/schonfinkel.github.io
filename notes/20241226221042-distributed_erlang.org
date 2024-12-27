@@ -71,7 +71,28 @@ mode. [cite:@logan2010erlang p.194]
 #+end_quote
 
 ** Connecting Nodes
+*** Hidden Nodes
+#+begin_quote
+It's possible to connect clusters via special nodes to form a larger, not fully
+connected cluster. Such nodes are configured not to propagate information about
+other nodes, or even to be invisible to the other nodes, which can be useful for
+nonintrusive inspection of a cluster. [cite:@logan2010erlang p.195]
+#+end_quote
 
+*** EPMD
+
+#+begin_quote
+EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
+checks that EPMD is running on your local machine and starts it otherwise. EPMD
+keeps track of which nodes are running on the local machine and what ports they
+have been assigned. When an Erlang node on one machine wants to talk to a remote
+node, the local EPMD talks to the EPMD on the remote machine (by default using
+TCP/IP on port 4369) and asks if it has a node by that name up and running. If
+so, the remote EPMD replies with the port used for communicating directly with
+the remote node. But EPMDs never try to locate each other
+automatically - communication must always be triggered by one node looking for
+another. [cite:@logan2010erlang p.197]
+#+end_quote
 
 
 #+print_bibliography: 
