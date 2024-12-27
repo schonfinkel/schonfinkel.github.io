@@ -1,0 +1,109 @@
+:PROPERTIES:
+:ID:       2cb21389-b6de-4c39-9c9a-1a635ff1529f
+:END:
+#+title: Distributed Erlang
+
+#+begin_quote
+[[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] makes certain types of distributed programming extremely easy; in no time
+at all, and with very little code, you can have a number of machines across a
+network happily chatting with one another. Two fundamental features of Erlang
+make this possible:
+    + Process communication by copying
+    + Location Transparency
+[cite:@logan2010erlang p.191]
+#+end_quote
+
+#+NAME: distributed-erlang
+#+BEGIN_SRC dot :file ../static/img/notes/distributed_erlang.png :cmdline -Kdot -Tpng :exports results
+graph g {
+  layout=fdp
+  node [
+    shape=circle,
+    fixedsize=true,
+    width=0.25,
+    color="black",
+    fillcolor="white",
+    style="filled,solid",
+    fontsize=12,
+  ];
+
+  p1 [label="P₁"]
+  p2 [label="P₂"]
+
+  subgraph clusterG0 {
+    subgraph clusterG1 {
+      label="Computer A"
+      bgcolor=white
+      p1
+    }
+
+    subgraph clusterG2 {
+      label="Computer B"
+      bgcolor=white
+      p2
+    }
+
+    p1 -- p2 [style=dashed]
+  }
+}
+#+END_SRC
+
+#+RESULTS: distributed-erlang
+[[file:../static/img/notes/distributed_erlang.png]]
+
+
+* Nodes and Clustering
+
+** Starting a Node
+To start an Erlang node in distributed mode, you run ~erl~ with one of the flags
+~-name~ or ~-sname~:
+#+begin_src shell
+  # Used in normal environments with FQDN
+  erl –name node_name
+  # Used when FQDNs don't work
+  erl –sname node_name
+#+end_src
+
+#+begin_quote
+Nodes with short names and long names work in different communication modes and
+can't be part of the same Erlang cluster. All connected nodes must use the same
+mode. [cite:@logan2010erlang p.194]
+#+end_quote
+
+** Connecting Nodes
+*** Hidden Nodes
+#+begin_quote
+It's possible to connect clusters via special nodes to form a larger, not fully
+connected cluster. Such nodes are configured not to propagate information about
+other nodes, or even to be invisible to the other nodes, which can be useful for
+nonintrusive inspection of a cluster. [cite:@logan2010erlang p.195]
+#+end_quote
+
+*** EPMD
+
+#+begin_quote
+EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
+checks that EPMD is running on your local machine and starts it otherwise. EPMD
+keeps track of which nodes are running on the local machine and what ports they
+have been assigned. When an Erlang node on one machine wants to talk to a remote
+node, the local EPMD talks to the EPMD on the remote machine (by default using
+TCP/IP on port 4369) and asks if it has a node by that name up and running. If
+so, the remote EPMD replies with the port used for communicating directly with
+the remote node. But EPMDs never try to locate each other
+automatically - communication must always be triggered by one node looking for
+another. [cite:@logan2010erlang p.197]
+#+end_quote
+
+** The Cookie Protection System
+
+For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
+1. Store the same cookie in the file ~$HOME/.erlang.cookie~.
+2. Using the ~-setcookie C~ command line argument:
+#+begin_src shell
+  erl -setcookie <cookie>
+#+end_src
+3. The BIF ~erlang:set_cookie(node(), C)~ sets the cookie of the local node to the atom ~C~.
+
+* Socket-Based Distribution
+
+#+print_bibliography: 

@@ -3,90 +3,660 @@ This is the place where I dump my [[https://www.orgroam.com/][Org ROAM]] notes.
 #+INCLUDE: ./static/html/graph.html export html
 
 #+header: :exports results
-#+header: :results raw
-#+header: :output drawer
+#+header: :results html
 #+NAME: export-posts
 #+BEGIN_SRC shell
   dotnet fsi notes.fsx
 #+END_SRC
 
 #+RESULTS: export-posts
-+ [[./notes/20241219210226-otp_logging.org][Otp Logging]]
-+ [[./notes/20241219134317-gen_event.org][Gen Event]]
-+ [[./notes/20241218094425-erlang_debugger.org][Erlang Debugger]]
-+ [[./notes/20241217132913-mnesia.org][Mnesia]]
-+ [[./notes/20241129191851-erlang_interface.org][Erlang Interface]]
-+ [[./notes/20241016211301-natural_deduction.org][Natural Deduction]]
-+ [[./notes/20241016180340-tcp_ip.org][Tcp Ip]]
-+ [[./notes/20241016121322-konig_s_lemma.org][Konig S Lemma]]
-+ [[./notes/20241015105852-osi_model.org][Osi Model]]
-+ [[./notes/20241013162211-partial_order.org][Partial Order]]
-+ [[./notes/20241013113437-relation.org][Relation]]
-+ [[./notes/20241013103835-supervisor.org][Supervisor]]
-+ [[./notes/20241011135759-dependent_types.org][Dependent Types]]
-+ [[./notes/20241011135148-functional_programming.org][Functional Programming]]
-+ [[./notes/20241010155009-relational_algebra.org][Relational Algebra]]
-+ [[./notes/20241010094109-gen_server.org][Gen Server]]
-+ [[./notes/20241010093430-erlang_term_storage.org][Erlang Term Storage]]
-+ [[./notes/20241009215607-relational_theory.org][Relational Theory]]
-+ [[./notes/20241009203936-management.org][Management]]
-+ [[./notes/20241009131720-the_two_generals_problem.org][The Two Generals Problem]]
-+ [[./notes/20241009115044-immutable_architectures.org][Immutable Architectures]]
-+ [[./notes/20241009110639-fallacies_of_distributed_computing.org][Fallacies Of Distributed Computing]]
-+ [[./notes/20241009092203-dializer.org][Dializer]]
-+ [[./notes/20241008121957-haskell.org][Haskell]]
-+ [[./notes/20241007121610-nixos.org][Nixos]]
-+ [[./notes/20241006120221-elixir.org][Elixir]]
-+ [[./notes/20241004123538-erlang_shell.org][Erlang Shell]]
-+ [[./notes/20241001192402-error_handling_in_erlang.org][Error Handling In Erlang]]
-+ [[./notes/20241001154953-scsi.org][Scsi]]
-+ [[./notes/20241001144549-postgres_server.org][Postgres Server]]
-+ [[./notes/20240930224229-concurrent_erlang.org][Concurrent Erlang]]
-+ [[./notes/20240928223026-sql.org][Sql]]
-+ [[./notes/20240928181517-otp.org][Otp]]
-+ [[./notes/20240928110111-split_brain.org][Split Brain]]
-+ [[./notes/20240926235726-stonith.org][Stonith]]
-+ [[./notes/20240926233504-clusters.org][Clusters]]
-+ [[./notes/20240925092856-quorum.org][Quorum]]
-+ [[./notes/20240924205200-iscsi.org][Iscsi]]
-+ [[./notes/20240924204159-drbd.org][Drbd]]
-+ [[./notes/20240924122449-sequential_erlang.org][Sequential Erlang]]
-+ [[./notes/20240924092617-linux.org][Linux]]
-+ [[./notes/20240923110122-postgres_window_functions.org][Postgres Window Functions]]
-+ [[./notes/20240922141319-nixos_modules.org][Nixos Modules]]
-+ [[./notes/20240922120854-nix.org][Nix]]
-+ [[./notes/20240921194608-postgres_indexes.org][Postgres Indexes]]
-+ [[./notes/20240921194441-postgres_functions.org][Postgres Functions]]
-+ [[./notes/20240921191551-postgres_ctes.org][Postgres Ctes]]
-+ [[./notes/20240918131408-postgres_subqueries.org][Postgres Subqueries]]
-+ [[./notes/20240820100534-postgres.org][Postgres]]
-+ [[./notes/20240816193136-byzantine_generals_problem.org][Byzantine Generals Problem]]
-+ [[./notes/20240715225258-type_driven_development.org][Type Driven Development]]
-+ [[./notes/20240711090045-cap_theorem.org][Cap Theorem]]
-+ [[./notes/20240709110323-designing_for_scalability_with_erlang.org][Designing For Scalability With Erlang]]
-+ [[./notes/20240619115816-monad.org][Monad]]
-+ [[./notes/20240619114451-erlang.org][Erlang]]
-+ [[./notes/20231018195743-architectural_styles_and_the_design_of_network_based_software_architectures.org][Architectural Styles And The Design Of Network Based Software Architectures]]
-+ [[./notes/20231018195150-the_mother_of_all_demos.org][The Mother Of All Demos]]
-+ [[./notes/20231018194552-as_we_may_think.org][As We May Think]]
-+ [[./notes/20231015192823-hypermediasystems.org][Hypermediasystems]]
-+ [[./notes/20231008214945-monoid.org][Monoid]]
-+ [[./notes/20231007182834-r_module_homomorphism.org][R Module Homomorphism]]
-+ [[./notes/20231007165834-left_r_module.org][Left R Module]]
-+ [[./notes/20231007164648-commutative_ring.org][Commutative Ring]]
-+ [[./notes/20231007164540-abelian_group.org][Abelian Group]]
-+ [[./notes/20231005194145-algebraic_models_for_accounting_systems.org][Algebraic Models For Accounting Systems]]
-+ [[./notes/20230411100120-managing_a_programming_project.org][Managing A Programming Project]]
-+ [[./notes/20220204231800-mandarin_chinese.org][Mandarin Chinese]]
-+ [[./notes/20211208202505-kubernetes_ingress.org][Kubernetes Ingress]]
-+ [[./notes/20211202213813-distributed_systems.org][Distributed Systems]]
-+ [[./notes/20211201115324-gitops.org][Gitops]]
-+ [[./notes/20211108165331-kubernetes_secrets.org][Kubernetes Secrets]]
-+ [[./notes/20211107141903-the_effective_manager.org][The Effective Manager]]
-+ [[./notes/20211104221056-history_of_logic.org][History Of Logic]]
-+ [[./notes/20211103202637-kubernetes_configmaps.org][Kubernetes Configmaps]]
-+ [[./notes/20211103110648-kubernetes_storage.org][Kubernetes Storage]]
-+ [[./notes/20211029092528-dns.org][Dns]]
-+ [[./notes/20211023140908-helm.org][Helm]]
-+ [[./notes/20211013230422-kubectl.org][Kubectl]]
-+ [[./notes/20211012215602-kubernetes.org][Kubernetes]]
+#+begin_export html
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241226221042-distributed_erlang.html"> Distributed Erlang </a>
+      </h2>
+      <small>2024-12-26</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241226110227-systemd.html"> systemd </a>
+      </h2>
+      <small>2024-12-26</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241219210226-otp_logging.html"> OTP Logging </a>
+      </h2>
+      <small>2024-12-19</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241219134317-gen_event.html"> gen_event </a>
+      </h2>
+      <small>2024-12-19</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241218094425-erlang_debugger.html"> Erlang Debugger </a>
+      </h2>
+      <small>2024-12-18</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241217132913-mnesia.html"> MNESIA </a>
+      </h2>
+      <small>2024-12-17</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241129191851-erlang_interface.html"> Erlang Interface </a>
+      </h2>
+      <small>2024-11-29</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241016211301-natural_deduction.html"> Natural Deduction </a>
+      </h2>
+      <small>2024-10-16</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241016180340-tcp_ip.html"> TCP/IP </a>
+      </h2>
+      <small>2024-10-16</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241016121322-konig_s_lemma.html"> König's Lemma </a>
+      </h2>
+      <small>2024-10-16</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241015105852-osi_model.html"> OSI Model </a>
+      </h2>
+      <small>2024-10-15</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241013162211-partial_order.html"> Partial Order </a>
+      </h2>
+      <small>2024-10-13</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241013113437-relation.html"> Relation </a>
+      </h2>
+      <small>2024-10-13</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241013103835-supervisor.html"> supervisor </a>
+      </h2>
+      <small>2024-10-13</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241011135759-dependent_types.html"> Dependent Types </a>
+      </h2>
+      <small>2024-10-11</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241011135148-functional_programming.html"> Functional Programming </a>
+      </h2>
+      <small>2024-10-11</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241010155009-relational_algebra.html"> Relational Algebra </a>
+      </h2>
+      <small>2024-10-10</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241010094109-gen_server.html"> gen_server </a>
+      </h2>
+      <small>2024-10-10</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241010093430-erlang_term_storage.html"> Erlang Term Storage </a>
+      </h2>
+      <small>2024-10-10</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241009215607-relational_theory.html"> Relational Theory </a>
+      </h2>
+      <small>2024-10-09</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241009203936-management.html"> Management </a>
+      </h2>
+      <small>2024-10-09</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241009131720-the_two_generals_problem.html"> The Two Generals' Problem </a>
+      </h2>
+      <small>2024-10-09</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241009115044-immutable_architectures.html"> Immutable Architectures </a>
+      </h2>
+      <small>2024-10-09</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241009110639-fallacies_of_distributed_computing.html"> Fallacies of Distributed Computing </a>
+      </h2>
+      <small>2024-10-09</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241009092203-dializer.html"> Dializer </a>
+      </h2>
+      <small>2024-10-09</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241008121957-haskell.html"> Haskell </a>
+      </h2>
+      <small>2024-10-08</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241007121610-nixos.html"> NixOS </a>
+      </h2>
+      <small>2024-10-07</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241006120221-elixir.html"> Elixir </a>
+      </h2>
+      <small>2024-10-06</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241004123538-erlang_shell.html"> Erlang Shell </a>
+      </h2>
+      <small>2024-10-04</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241001192402-error_handling_in_erlang.html"> Error Handling in Erlang </a>
+      </h2>
+      <small>2024-10-01</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241001154953-scsi.html"> SCSI </a>
+      </h2>
+      <small>2024-10-01</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20241001144549-postgres_server.html"> Postgres Server </a>
+      </h2>
+      <small>2024-10-01</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240930224229-concurrent_erlang.html"> Concurrent Erlang </a>
+      </h2>
+      <small>2024-09-30</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240928223026-sql.html"> SQL </a>
+      </h2>
+      <small>2024-09-28</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240928181517-otp.html"> OTP </a>
+      </h2>
+      <small>2024-09-28</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240928110111-split_brain.html"> Split Brain </a>
+      </h2>
+      <small>2024-09-28</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240926235726-stonith.html"> STONITH </a>
+      </h2>
+      <small>2024-09-26</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240926233504-clusters.html"> Cluster </a>
+      </h2>
+      <small>2024-09-26</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240925092856-quorum.html"> Quorum </a>
+      </h2>
+      <small>2024-09-25</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240924205200-iscsi.html"> Internet Small Computer Systems Interface </a>
+      </h2>
+      <small>2024-09-24</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240924204159-drbd.html"> Distributed Replicated Block Device  </a>
+      </h2>
+      <small>2024-09-24</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240924122449-sequential_erlang.html"> Sequential Erlang </a>
+      </h2>
+      <small>2024-09-24</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240924092617-linux.html"> Linux </a>
+      </h2>
+      <small>2024-09-24</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240923110122-postgres_window_functions.html"> Postgres Window Functions </a>
+      </h2>
+      <small>2024-09-23</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240922141319-nixos_modules.html"> NixOS Modules </a>
+      </h2>
+      <small>2024-09-22</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240922120854-nix.html"> Nix </a>
+      </h2>
+      <small>2024-09-22</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240921194608-postgres_indexes.html"> Postgres Indexes </a>
+      </h2>
+      <small>2024-09-21</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240921194441-postgres_functions.html"> Postgres Functions </a>
+      </h2>
+      <small>2024-09-21</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240921191551-postgres_ctes.html"> Postgres CTEs </a>
+      </h2>
+      <small>2024-09-21</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240918131408-postgres_subqueries.html"> Postgres Subqueries </a>
+      </h2>
+      <small>2024-09-18</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240820100534-postgres.html"> Postgres </a>
+      </h2>
+      <small>2024-08-20</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240816193136-byzantine_generals_problem.html"> Byzantine Generals Problem </a>
+      </h2>
+      <small>2024-08-16</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240715225258-type_driven_development.html"> Type-Driven Development with Idris </a>
+      </h2>
+      <small>2024-07-15</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240711090045-cap_theorem.html"> CAP Theorem </a>
+      </h2>
+      <small>2024-07-11</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240709110323-designing_for_scalability_with_erlang.html"> Designing for Scalability With Erlang/OTP </a>
+      </h2>
+      <small>2024-07-09</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240619115816-monad.html"> Monad </a>
+      </h2>
+      <small>2024-06-19</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20240619114451-erlang.html"> Erlang </a>
+      </h2>
+      <small>2024-06-19</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231018195743-architectural_styles_and_the_design_of_network_based_software_architectures.html"> Architectural Styles and the Design of Network-based Software Architectures </a>
+      </h2>
+      <small>2023-10-18</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231018195150-the_mother_of_all_demos.html"> The Mother of All Demos </a>
+      </h2>
+      <small>2023-10-18</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231018194552-as_we_may_think.html"> As We May Think </a>
+      </h2>
+      <small>2023-10-18</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231015192823-hypermediasystems.html"> Hypermedia Systems </a>
+      </h2>
+      <small>2023-10-15</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231008214945-monoid.html"> Monoid </a>
+      </h2>
+      <small>2023-10-08</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231007182834-r_module_homomorphism.html"> R-Module Homomorphism </a>
+      </h2>
+      <small>2023-10-07</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231007165834-left_r_module.html"> Left R-Module </a>
+      </h2>
+      <small>2023-10-07</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231007164648-commutative_ring.html"> Commutative Ring </a>
+      </h2>
+      <small>2023-10-07</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231007164540-abelian_group.html"> Abelian Group </a>
+      </h2>
+      <small>2023-10-07</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20231005194145-algebraic_models_for_accounting_systems.html"> Algebraic Models for Accounting Systems </a>
+      </h2>
+      <small>2023-10-05</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20230411100120-managing_a_programming_project.html"> Managing a Programming Project </a>
+      </h2>
+      <small>2023-04-11</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20220204231800-mandarin_chinese.html"> mandarin-chinese </a>
+      </h2>
+      <small>2022-02-04</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211208202505-kubernetes_ingress.html"> Kubernetes-Ingress </a>
+      </h2>
+      <small>2021-12-08</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211202213813-distributed_systems.html"> Distributed Systems </a>
+      </h2>
+      <small>2021-12-02</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211201115324-gitops.html"> GitOps </a>
+      </h2>
+      <small>2021-12-01</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211108165331-kubernetes_secrets.html"> Kubernetes-Secrets </a>
+      </h2>
+      <small>2021-11-08</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211107141903-the_effective_manager.html"> The Effective Manager </a>
+      </h2>
+      <small>2021-11-07</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211104221056-history_of_logic.html"> History of Logic </a>
+      </h2>
+      <small>2021-11-04</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211103202637-kubernetes_configmaps.html"> Kubernetes-ConfigMaps </a>
+      </h2>
+      <small>2021-11-03</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211103110648-kubernetes_storage.html"> Kubernetes-Storage </a>
+      </h2>
+      <small>2021-11-03</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211029092528-dns.html"> DNS </a>
+      </h2>
+      <small>2021-10-29</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211023140908-helm.html"> Helm </a>
+      </h2>
+      <small>2021-10-23</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211013230422-kubectl.html"> kubectl </a>
+      </h2>
+      <small>2021-10-13</small>
+    </div>
+    
+
+    <div class="stub">
+      <h2>
+        <a href="./notes/20211012215602-kubernetes.html"> Kubernetes </a>
+      </h2>
+      <small>2021-10-12</small>
+    </div>
+    
+#+end_export

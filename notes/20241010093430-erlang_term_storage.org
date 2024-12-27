@@ -33,10 +33,19 @@ ETS can hold four kinds of collections [cite:@laurent2017 p.141]:
   #+begin_src erlang
     rd(food, {name, calories, price, group}).
     ets:new(food, [ordered_set, {keypos,#food.name}, named_table]).
+    %% or dets:open_file, if you want to use dts
+  #+end_src
+
++ To dispose of a table:
+
+  #+begin_src erlang
+    ets:delete(TableId)
+    % or
+    dets:close(TableId)
   #+end_src
 
 
 * Simple Queries
-+ ~ets:lookup/2~
++ ~ets:lookup/2~: Which is defined for both ETS and DTS.
 
 #+print_bibliography: 

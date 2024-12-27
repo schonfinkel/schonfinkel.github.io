@@ -2,17 +2,26 @@
 :ID:       568e0595-4bf0-40b5-981f-fd0aa9312785
 :END:
 #+title: MNESIA
-#+HUGO_CATEGORIES: "Functional Programming"
-#+HUGO_TAGS: "Erlang" "Elixir" "OTP"
 
 Mnesia is a database management system (DBMS) that comes with [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]]. It uses
 the [[id:37c6ea44-0c80-4c57-a36e-98d37e8a3413][Erlang Term Storage]] and DETS underneath, but provides many more features
 than those components.
 
 * Creating the initial Database
-#+begin_src erlang
-  mnesia:create_schema([node()])
-#+end_src
+
+During the course of creating this database, you’ll do the following:
+
+   1. Initialize MNESIA
+   2. Start a Node
+   3. Create a Schema
+    #+begin_src erlang
+      mnesia:create_schema([node()])
+    #+end_src
+   4. Create the DB Tables
+    #+begin_src erlang
+      mnesia:create_table(your_record, [{type, bag}, ...])
+    #+end_src
+   5. Populate Tables
 
 #+begin_quote
 By default, Mnesia will store your table in RAM only (~ram_copies~) on the current
