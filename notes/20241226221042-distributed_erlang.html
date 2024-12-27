@@ -4,7 +4,7 @@
 <!-- 2024-12-27 Fri 21:49 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Postgres Functions</title>
+<title>Distributed Erlang</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,27 +227,118 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Postgres Functions</h1>
-</header><div id="outline-container-orgc514d45" class="outline-2">
-<h2 id="orgc514d45">Functions</h2>
-<div class="outline-text-2" id="text-orgc514d45">
+<h1 class="title">Distributed Erlang</h1>
+</header><blockquote>
+<p>
+<a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> makes certain types of distributed programming extremely easy; in no time
+at all, and with very little code, you can have a number of machines across a
+network happily chatting with one another. Two fundamental features of Erlang
+make this possible:
+</p>
+<ul class="org-ul">
+<li>Process communication by copying</li>
+<li>Location Transparency</li>
+</ul>
+<p>
+(<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 191</a>)
+</p>
+</blockquote>
+
+
+<figure id="org3dc0e81">
+<img src="../static/img/notes/distributed_erlang.png" alt="distributed_erlang.png">
+
+</figure>
+<div id="outline-container-orgf9e8f75" class="outline-2">
+<h2 id="orgf9e8f75">Nodes and Clustering</h2>
+<div class="outline-text-2" id="text-orgf9e8f75">
+</div>
+<div id="outline-container-orge07f248" class="outline-3">
+<h3 id="orge07f248">Starting a Node</h3>
+<div class="outline-text-3" id="text-orge07f248">
+<p>
+To start an Erlang node in distributed mode, you run <code>erl</code> with one of the flags
+<code>-name</code> or <code>-sname</code>:
+</p>
 <div class="org-src-container">
-<pre class="src src-plpgsql">CREATE OR REPLACE FUNCTION
-  function_name(arg1 INT, arg2 INT, arg3 INT)
-RETURNS
-  SETOF VARCHAR
-LANGUAGE
-  plpgsql
-AS
-$$
-BEGIN
-  (...)
-END;
-$$;
+<pre class="src src-shell">  # Used in normal environments with FQDN
+  erl –name node_name
+  # Used when FQDNs don't work
+  erl –sname node_name
 </pre>
 </div>
 
+<blockquote>
+<p>
+Nodes with short names and long names work in different communication modes and
+can't be part of the same Erlang cluster. All connected nodes must use the same
+mode. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 194</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgb7b0089" class="outline-3">
+<h3 id="orgb7b0089">Connecting Nodes</h3>
+<div class="outline-text-3" id="text-orgb7b0089">
+</div>
+<div id="outline-container-orgf8d9b60" class="outline-4">
+<h4 id="orgf8d9b60">Hidden Nodes</h4>
+<div class="outline-text-4" id="text-orgf8d9b60">
+<blockquote>
+<p>
+It's possible to connect clusters via special nodes to form a larger, not fully
+connected cluster. Such nodes are configured not to propagate information about
+other nodes, or even to be invisible to the other nodes, which can be useful for
+nonintrusive inspection of a cluster. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 195</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org0db0b9a" class="outline-4">
+<h4 id="org0db0b9a">EPMD</h4>
+<div class="outline-text-4" id="text-org0db0b9a">
+<blockquote>
+<p>
+EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
+checks that EPMD is running on your local machine and starts it otherwise. EPMD
+keeps track of which nodes are running on the local machine and what ports they
+have been assigned. When an Erlang node on one machine wants to talk to a remote
+node, the local EPMD talks to the EPMD on the remote machine (by default using
+TCP/IP on port 4369) and asks if it has a node by that name up and running. If
+so, the remote EPMD replies with the port used for communicating directly with
+the remote node. But EPMDs never try to locate each other
+automatically - communication must always be triggered by one node looking for
+another. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 197</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org75048fc" class="outline-3">
+<h3 id="org75048fc">The Cookie Protection System</h3>
+<div class="outline-text-3" id="text-org75048fc">
+<p>
+For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
+</p>
+<ol class="org-ol">
+<li>Store the same cookie in the file <code>$HOME/.erlang.cookie</code>.</li>
+<li>Using the <code>-setcookie C</code> command line argument:</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-shell">  erl -setcookie &lt;cookie&gt;
+</pre>
+</div>
+<ol class="org-ol">
+<li>The BIF <code>erlang:set_cookie(node(), C)</code> sets the cookie of the local node to the atom <code>C</code>.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org7a59f0e" class="outline-2">
+<h2 id="org7a59f0e">Socket-Based Distribution</h2>
+<div class="outline-text-2" id="text-org7a59f0e">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>

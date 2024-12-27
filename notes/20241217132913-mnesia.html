@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 13:55 -->
+<!-- 2024-12-27 Fri 21:49 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MNESIA</title>
@@ -233,13 +233,32 @@ Mnesia is a database management system (DBMS) that comes with <a href="202406191
 the <a href="20241010093430-erlang_term_storage.html#ID-37c6ea44-0c80-4c57-a36e-98d37e8a3413">Erlang Term Storage</a> and DETS underneath, but provides many more features
 than those components.
 </p>
-<div id="outline-container-org29ee6ae" class="outline-2">
-<h2 id="org29ee6ae">Creating the initial Database</h2>
-<div class="outline-text-2" id="text-org29ee6ae">
+<div id="outline-container-orgb3f7a0a" class="outline-2">
+<h2 id="orgb3f7a0a">Creating the initial Database</h2>
+<div class="outline-text-2" id="text-orgb3f7a0a">
+<p>
+During the course of creating this database, you’ll do the following:
+</p>
+
+<ol class="org-ol">
+<li>Initialize MNESIA</li>
+<li>Start a Node</li>
+<li><p>
+Create a Schema
+</p>
 <div class="org-src-container">
-<pre class="src src-erlang">  mnesia:create_schema([node()])
+<pre class="src src-erlang">      mnesia:create_schema([node()])
 </pre>
-</div>
+</div></li>
+<li><p>
+Create the DB Tables
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">      mnesia:create_table(your_record, [{type, bag}, ...])
+</pre>
+</div></li>
+<li>Populate Tables</li>
+</ol>
 
 <blockquote>
 <p>

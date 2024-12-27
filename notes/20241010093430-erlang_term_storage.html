@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 13:55 -->
+<!-- 2024-12-27 Fri 21:49 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Erlang Term Storage</title>
@@ -250,9 +250,9 @@ a single entry.</li>
 with a given key, but also lets you store multiple entries with identical
 values.</li>
 </ol>
-<div id="outline-container-orgc7bd3d8" class="outline-2">
-<h2 id="orgc7bd3d8">Creating and populating a table</h2>
-<div class="outline-text-2" id="text-orgc7bd3d8">
+<div id="outline-container-org92b78d1" class="outline-2">
+<h2 id="org92b78d1">Creating and populating a table</h2>
+<div class="outline-text-2" id="text-org92b78d1">
 <ul class="org-ul">
 <li>The <code>ets:new/2</code> function lets you create a table.</li>
 <li>If you do specify <code>named_table</code>, processes can reach the table as long as they
@@ -264,16 +264,28 @@ Using the <code>keypos</code> tuple lets you specify which record value should b
 <div class="org-src-container">
 <pre class="src src-erlang">    rd(food, {name, calories, price, group}).
     ets:new(food, [ordered_set, {keypos,#food.name}, named_table]).
+    %% or dets:open_file, if you want to use dts
+</pre>
+</div></li>
+
+<li><p>
+To dispose of a table:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang">    ets:delete(TableId)
+    % or
+    dets:close(TableId)
 </pre>
 </div></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc91644b" class="outline-2">
-<h2 id="orgc91644b">Simple Queries</h2>
-<div class="outline-text-2" id="text-orgc91644b">
+<div id="outline-container-org70e543b" class="outline-2">
+<h2 id="org70e543b">Simple Queries</h2>
+<div class="outline-text-2" id="text-org70e543b">
 <ul class="org-ul">
-<li><code>ets:lookup/2</code></li>
+<li><code>ets:lookup/2</code>: Which is defined for both ETS and DTS.</li>
 </ul>
 
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">

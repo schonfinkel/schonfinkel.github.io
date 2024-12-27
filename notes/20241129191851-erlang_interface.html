@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-26 Thu 13:55 -->
+<!-- 2024-12-27 Fri 21:49 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Erlang Interface</title>
@@ -228,7 +228,31 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Erlang Interface</h1>
-</header></main>
+</header><blockquote>
+<p>
+<a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> communicates with external programs through objects called ports. If we
+send a message to a port, the message will be sent to the external program
+connected to the port. Messages from the external program will appear as Erlang
+messages that come from the ports.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+Note the difference between using a port to communicate with an external process
+and a socket. If you use a port, the port will behave like an Erlang process, so
+you can link to it, send messages to it from a remote distributed Erlang node,
+and so on. If you use a socket, it will not behave like a
+process. (<a href="#citeproc_bib_item_1">Armstrong 2013, 232</a>)
+</p>
+</blockquote>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+</div>
+</main>
 <footer id="postamble" class="status">
 <footer>
   </br>

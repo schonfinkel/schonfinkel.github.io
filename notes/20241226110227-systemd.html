@@ -4,7 +4,7 @@
 <!-- 2024-12-27 Fri 21:49 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Postgres Functions</title>
+<title>systemd</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -227,27 +227,157 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Postgres Functions</h1>
-</header><div id="outline-container-orgc514d45" class="outline-2">
-<h2 id="orgc514d45">Functions</h2>
-<div class="outline-text-2" id="text-orgc514d45">
+<h1 class="title">systemd</h1>
+</header><blockquote>
+<p>
+<code>systemd</code> is a suite of basic building blocks for a <a href="20240924092617-linux.html#ID-8a427ee7-2ef1-489b-af82-91de7be8a3ba">Linux</a> system. It provides a
+system and service manager that runs as PID 1 and starts the rest of the system.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>It replaces upstart/init</li>
+<li>It is event-driven</li>
+</ul>
+<div id="outline-container-orgca72a7f" class="outline-2">
+<h2 id="orgca72a7f">Units</h2>
+<div class="outline-text-2" id="text-orgca72a7f">
+<blockquote>
+<p>
+Instead of using a set of complex Bash shell scripts, the systemd init system
+controls system and service operations with various types of unit files. Each
+unit file has a filename with a filename extension that describes which type of
+unit it is. (, Tevault 2022, 18)
+</p>
+</blockquote>
+
+<p>
+Unit files are written in three locations:
+</p>
+<ul class="org-ul">
+<li><code>/etc/systemd/system</code>: the default location for unit files that either come with the operating system.</li>
+<li><code>/run/systemd/system</code></li>
+<li><code>/usr/lib/systemd/system</code></li>
+</ul>
+</div>
+<div id="outline-container-org334be28" class="outline-3">
+<h3 id="org334be28">Types of Unit Files</h3>
+<div class="outline-text-3" id="text-org334be28">
+<p>
+Here's a list of the more common types:
+</p>
+
 <div class="org-src-container">
-<pre class="src src-plpgsql">CREATE OR REPLACE FUNCTION
-  function_name(arg1 INT, arg2 INT, arg3 INT)
-RETURNS
-  SETOF VARCHAR
-LANGUAGE
-  plpgsql
-AS
-$$
-BEGIN
-  (...)
-END;
-$$;
+<pre class="src src-shell">  systemctl -t help
 </pre>
 </div>
 
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<ul class="org-ul">
+<li><code>service</code>: These are the configuration files for services.</li>
+<li><code>socket</code>: Sockets can either enable communication between different system
+services or they can automatically wake up a sleeping service when it receives
+a connection request.</li>
+<li><code>slice</code>: Slice units are used when configuring cgroups.</li>
+<li><code>mount</code> and <code>automount</code>: These contain mount point information for filesystems
+that are controlled by systemd. Normally, they get created automatically, so
+you shouldn't have to do too much with them.</li>
+<li><code>target</code>: Target units are used during system startup, for grouping units and
+for providing well-known synchronization points.</li>
+<li><code>timer</code>: Timer units are for scheduling jobs that run on a schedule. Replaces
+the old <code>cron</code> system.</li>
+<li><code>path</code>: Path units are for services that can be started via path-based
+activation.</li>
+<li><code>swap</code>: Swap units contain information about your swap partitions.</li>
+</ul>
+</div>
+<div id="outline-container-org398e0fc" class="outline-4">
+<h4 id="org398e0fc">Commands</h4>
+<div class="outline-text-4" id="text-org398e0fc">
+<div class="org-src-container">
+<pre class="src src-shell">  systemctl list-units
+  # You can also view specific types of units with the -t option.
+  systemctl list-units -t service
+  # and also filter it by the service's state
+  systemctl list-units -t service --state=dead
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-shell">  systemctl list-dependencies
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc027d41" class="outline-3">
+<h3 id="orgc027d41">Service</h3>
+<div class="outline-text-3" id="text-orgc027d41">
+<blockquote>
+<p>
+Service units are the equivalent of init scripts on old SysV systems. We'll use
+them to configure our various services, which we used to call daemons in the old
+days. A service can be pretty much anything that you want to start automatically
+and run in the background. Examples of services include Secure Shell, your web
+server of choice, a mail server, and various services that are required for
+proper system operation. (, Tevault 2022, 32)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgdd5de5b" class="outline-4">
+<h4 id="orgdd5de5b">Unit Section</h4>
+<div class="outline-text-4" id="text-orgdd5de5b">
+<p>
+The top section of a service file is the <code>[Unit]</code> section, which contains the
+following parameters:
+</p>
+
+<ul class="org-ul">
+<li><code>Description</code></li>
+<li><code>After</code>: Which targets are dependencies for the service.</li>
+<li><code>Documentation</code></li>
+</ul>
+
+<p>
+To check more options not mentioned here:
+</p>
+<blockquote>
+<p>
+man systemd.unit
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org047baff" class="outline-4">
+<h4 id="org047baff">Service Section</h4>
+<div class="outline-text-4" id="text-org047baff">
+<p>
+Some usefull service options include:
+</p>
+
+<ul class="org-ul">
+<li><code>Type</code>: Options such as <code>forking</code>, <code>notify</code>.</li>
+<li><code>Environment</code></li>
+<li><code>EnvironmentFile</code></li>
+<li><code>ExecStartPre</code>: Tells <code>systemd</code> what to run before the <code>ExecStart</code> phase.</li>
+<li><code>ExecStart</code>, <code>ExecStop</code>, <code>ExecReload</code>: Command lines for starting, stopping and
+reloading the service.</li>
+<li><code>PrivateTmp</code>: When set to <code>true</code>, this parameter forces the service to write its
+temporary files to a private <code>/tmp/</code> directory that nobody else can access.</li>
+<li><code>Restart</code>: Options such as <code>on-abort</code>, <code>on-failure</code> or <code>always</code>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc064f2e" class="outline-4">
+<h4 id="orgc064f2e">Install Section</h4>
+<div class="outline-text-4" id="text-orgc064f2e">
+<p>
+Controls what happens when you enable or disable a <code>unit</code>.
+</p>
+
+<ul class="org-ul">
+<li><code>WantedBy</code></li>
+</ul>
+</div>
 </div>
 </div>
 </div>
