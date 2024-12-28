@@ -9,6 +9,7 @@
 
 (require 'citeproc)
 (require 'find-lisp)
+(require 'htmlize)
 (require 'oc-csl)
 (require 'org)
 (require 'org-roam)
@@ -43,6 +44,15 @@
 (setq org-element-use-cache nil)
 (setq org-src-preserve-indentation t)
 
+(setq org-src-fontify-natively t)
+
+;; Don't show validation link
+(setq org-html-validation-link nil)
+;; Use our own scripts
+(setq org-html-head-include-scripts nil)
+;; Use our own styles
+(setq org-html-head-include-default-style nil) 
+
 ;;;; Settings
 (setq-default root-dir (concat (getenv "PWD") "/"))
 (setq-default static-dir (concat root-dir "static"))
@@ -72,7 +82,16 @@
 (setq-default out-html-dir (concat out-static-dir "html"))
 
 ;;;; Fix bibliography
-(setq org-cite-refs-list '("beam.bib" "databases.bib" "distributed_systems.bib" "fp_general.bib" "haskell.bib" "leadership.bib" "math_and_logic.bib" "nixos.bib" "software_engineering.bib" "sysadmin.bib"))
+(setq org-cite-refs-list '("articles.bib" 
+                           "beam.bib" 
+                           "databases.bib"
+                           "fp_general.bib" 
+                           "haskell.bib" 
+                           "leadership.bib" 
+                           "math_and_logic.bib" 
+                           "nixos.bib" 
+                           "software_engineering.bib" 
+                           "sysadmin.bib"))
 (setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
 (setq org-cite-global-bibliography org-cite-refs-path)
 (setq org-cite-export-processors '((latex biblatex)
@@ -80,13 +99,12 @@
                                    (html csl)
                                    (t csl)))
 
-;; Tell `org-id-locations' and the org-roam DB about the new work directory
-;;;;(setq org-id-locations-file ".orgids")
+;;;; Org-Roam Settings
 (setq org-roam-directory org-roam-dir)
 (setq org-roam-db-location (concat emacs-dir-path "org-roam.db"))
-(setq org-roam-db-extra-links-exclude-keys
-      '((node-property "ROAM_REFS" "BACKLINKS")
-        (keyword "transclude")))
+;;(setq org-roam-db-extra-links-exclude-keys
+;;      '((node-property "ROAM_REFS" "BACKLINKS")
+;;        (keyword "transclude")))
 
 
 ;;;; Customize the HTML output
@@ -118,6 +136,7 @@
          :recursive t
 
          :with-creator t
+         :with-tags t
          :with-title t
          :with-toc nil
          :with-date t

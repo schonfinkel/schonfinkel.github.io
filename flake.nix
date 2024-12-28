@@ -39,6 +39,8 @@
             tooling = with pkgs; [
               just
               sqlite
+              icu
+              tzdata
 
               # To generate the Graph
               (pkgs.python3.withPackages (python-pkgs: [
@@ -82,6 +84,7 @@
               with epkgs.melpaPackages;
               [
                 citeproc
+                htmlize
               ]
               ++ (with epkgs.elpaPackages; [
                 org
@@ -94,19 +97,14 @@
             # `nix develop .#ci`
             # Reduce the number of packages to the bare minimum needed for CI,
             # by removing LaTeX and not using my own Emacs configuration, but
-            # a custom package with just enough tools to generate the markdown
-            # for org-roam.
+            # a custom package with just enough tools for org-publish.
             ci = pkgs.mkShell {
               ENVIRONMENT = "prod";
               OUT_URL = "https://schonfinkel.github.io/";
               DOTNET_ROOT = "${dotnet}";
               DOTNET_CLI_TELEMETRY_OPTOUT = "1";
               LANG = "en_US.UTF-8";
-              buildInputs = [
-                dotnet
-                pkgs.icu
-                pkgs.tzdata
-              ] ++ [ customEmacs ] ++ tooling;
+              buildInputs = [ dotnet customEmacs ] ++ tooling;
             };
 
             # `nix develop --impure`
@@ -119,11 +117,7 @@
                 (
                   { pkgs, lib, ... }:
                   {
-                    packages = [
-                      dotnet
-                      pkgs.icu
-                      pkgs.tzdata
-                    ] ++ [ texenv ] ++ tooling;
+                    packages = [ dotnet texenv ] ++ tooling;
 
                     env = {
                       ENVIRONMENT = "dev";
@@ -140,8 +134,6 @@
 
                     enterShell = ''
                       echo "Starting environment..."
-                      hugo version
-                      export CONTENT_DIR=$(pwd)/content-org"
                     '';
                   }
                 )
