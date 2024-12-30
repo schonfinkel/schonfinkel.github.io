@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-12-30 Mon 02:48 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to use private NeoVim plugins on NixOS</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="https://schonfinkel.github.io/index.html"> HOME </a>
+</div><div id="content" class="content">
+<h1 class="title">How to use private NeoVim plugins on NixOS
+<br />
+<span class="subtitle">Some notes for myself, mostly</span>
+</h1>
+<p>
+Over time my config changed a lot since the early days, as of now I'm using a
+combination of <a href="https://nixos.wiki/wiki/Flakes">Flakes</a> and <a href="https://github.com/nix-community/home-manager">home-manager</a> to manage my workstations. I try not to overthink
+too much when it comes to Nix, my current Neovim setup is pretty simple, lua-based, yet,
+fully nixified.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  dotfiles
+  &#9500;&#9472;&#9472; (...)
+  &#9500;&#9472;&#9472; nvim
+  &#9474;   &#9500;&#9472;&#9472; files.lua
+  &#9474;   &#9500;&#9472;&#9472; line.lua
+  &#9474;   &#9500;&#9472;&#9472; lsp.lua
+  &#9474;   &#9500;&#9472;&#9472; settings.lua
+  &#9474;   &#9500;&#9472;&#9472; tabs.lua
+  &#9474;   &#9492;&#9472;&#9472; treesitter.lua
+  &#9500;&#9472;&#9472; (...)
+  &#9492;&#9472;&#9472; zsh
+  &#9492;&#9472;&#9472; zshrc
+</pre>
+</div>
+
+<p>
+I do it by having a simple directory where all my Neovim derivations stand.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  home
+  &#9500;&#9472;&#9472; (...)
+  &#9500;&#9472;&#9472; development
+  &#9474;   &#9500;&#9472;&#9472; cloud.nix
+  &#9474;   &#9500;&#9472;&#9472; default.nix
+  &#9474;   &#9500;&#9472;&#9472; git.nix
+  &#9474;   &#9500;&#9472;&#9472; iac.nix
+  &#9474;   &#9500;&#9472;&#9472; kubernetes.nix
+  &#9474;   &#9492;&#9472;&#9472; programming.nix
+  &#9500;&#9472;&#9472; editors.nix
+  &#9500;&#9472;&#9472; (...)
+  &#9500;&#9472;&#9472; neovim
+  &#9474;   &#9500;&#9472;&#9472; default.nix
+  &#9474;   &#9500;&#9472;&#9472; packages.nix
+  &#9474;   &#9492;&#9472;&#9472; private.nix
+  &#9500;&#9472;&#9472; (...)
+  &#9492;&#9472;&#9472; zshell.nix
+</pre>
+</div>
+
+<p>
+here's an example of what a <code>private.nix</code> file would look like, this is useful
+when you want to use some package that's not available yet into <a href="https://github.com/NixOS/nixpkgs">nixpkgs</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix">  { pkgs, config }:
+
+  let
+    plugin = pkgs.vimUtils.buildVimPlugin;
+  in
+  {
+    vim-taskjuggler = plugin {
+      name = "vim-taskjuggler";
+      src = pkgs.fetchFromGitHub {
+        owner = "kalafut";
+        repo = "vim-taskjuggler";
+        rev = "e94c9a0b06022d11a34310ad5f82c1c2bcd86fb7";
+        sha256 = "0f8smjl6wi52p8n1hhl5zhk8i3lpsfndxxdammyybw2vz17s0j8q";
+      };
+    };
+  }
+</pre>
+</div>
+<p>
+then you can just import it from other files:
+</p>
+<div class="org-src-container">
+<pre class="src src-nix">  { pkgs, config, lib, ... }:
+
+  let
+    plugins = pkgs.vimPlugins;
+    private = import ./private.nix { inherit pkgs config; };
+  in
+  {
+    base = with plugins; [
+      nvim-surround
+      vim-which-key
+      vim-visual-multi
+      hologram-nvim
+    ];
+    eyecandy = with plugins // private; [
+      kanagawa-nvim
+      nvim-colorizer-lua
+      nvim-cursorline
+      nvim-web-devicons
+      tokyonight-nvim
+    ];
+    ui = with plugins; [
+      # File Tree
+      nvim-tree-lua
+      # Find/Filter
+      plenary-nvim
+      telescope-nvim
+      # Status Line
+      lualine-nvim
+      # Tabs
+      barbar-nvim
+    ];
+    lsp = with plugins // private; [
+      nvim-cmp
+      nvim-lspconfig
+      (nvim-treesitter.withPlugins (p:
+        [
+          p.c
+          p.bash
+          p.dockerfile
+          p.gitignore
+          p.lua
+          p.markdown
+          p.nix
+          p.proto
+          p.scheme
+          p.sql
+          p.terraform
+          p.yaml
+        ]
+      ))
+      # Snippets
+      luasnip
+      cmp-git
+      # CMP Plugins
+      cmp-cmdline
+      cmp_luasnip
+      cmp-nvim-lsp
+      cmp-path
+      cmp-treesitter
+    ];
+    tooling = with plugins; [
+      direnv-vim
+      Ionide-vim
+      vim-nix
+      vim-terraform
+    ];
+  }
+</pre>
+</div>
+
+<p>
+and <a href="https://nix-community.github.io/home-manager/options.html#opt-programs.neovim.enable">since Neovim has an awesome module in home-manager</a>, make sure to use it:
+</p>
+<div class="org-src-container">
+<pre class="src src-nix">  programs.neovim = {
+    enable = true;
+
+    # (...)
+    plugins = vimPlugins.base ++ vimPlugins.eyecandy ++ vimPlugins.ui ++ vimPlugins.lsp ++ vimPlugins.tooling;
+  };
+</pre>
+</div>
+
+<p>
+If you want to see an up-to-date version of these dotfiles, feel free to <del>steal</del>
+take a look <a href="https://github.com/mtrsk/nixos-config/tree/master/home/neovim">here</a>.
+</p>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2023-09-17 Sun 00:00</p>
+<p class="author">Author: Marcos Benevides</p>
+<p class="date">Created: 2024-12-30 Mon 02:48</p>
+</div>
+</body>
+</html>

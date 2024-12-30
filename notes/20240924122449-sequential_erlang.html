@@ -1,199 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-27 Fri 21:49 -->
+<!-- 2024-12-30 Mon 02:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sequential Erlang</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
@@ -221,7 +46,8 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.html"><i class='bx bx-rss'></i></a></li>
   </ul>
 </nav>
 </header>
@@ -231,13 +57,13 @@
 </header><p>
 The basic constructs of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> language.
 </p>
-<div id="outline-container-org28fe352" class="outline-2">
-<h2 id="org28fe352">Datatypes</h2>
-<div class="outline-text-2" id="text-org28fe352">
+<div id="outline-container-orgfc9f9dc" class="outline-2">
+<h2 id="orgfc9f9dc">Datatypes</h2>
+<div class="outline-text-2" id="text-orgfc9f9dc">
 </div>
-<div id="outline-container-orgf5005c2" class="outline-3">
-<h3 id="orgf5005c2">Integers</h3>
-<div class="outline-text-3" id="text-orgf5005c2">
+<div id="outline-container-orgec7f3be" class="outline-3">
+<h3 id="orgec7f3be">Integers</h3>
+<div class="outline-text-3" id="text-orgec7f3be">
 <ul class="org-ul">
 <li>Large Integers are converted to <code>bignums</code></li>
 </ul>
@@ -250,18 +76,18 @@ Base#Value notation. (<a href="#citeproc_bib_item_2">Laurent 2017, 7</a>)
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orge94c0b1" class="outline-3">
-<h3 id="orge94c0b1">Floats</h3>
-<div class="outline-text-3" id="text-orge94c0b1">
+<div id="outline-container-org812f5e3" class="outline-3">
+<h3 id="org812f5e3">Floats</h3>
+<div class="outline-text-3" id="text-org812f5e3">
 <ul class="org-ul">
 <li>When you divide two integers with <code>/</code>, the result is automatically converted to a floating-point number.</li>
 <li>Integer division is handled by <code>div</code> and <code>rem</code>.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbbebf92" class="outline-3">
-<h3 id="orgbbebf92">Atoms</h3>
-<div class="outline-text-3" id="text-orgbbebf92">
+<div id="outline-container-org6d5a894" class="outline-3">
+<h3 id="org6d5a894">Atoms</h3>
+<div class="outline-text-3" id="text-org6d5a894">
 <ul class="org-ul">
 <li>In Erlang, atoms are used to represent constant values.</li>
 <li>Atoms are also global, and this is achieved without the use of macro
@@ -269,9 +95,9 @@ definitions or include files.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0727981" class="outline-3">
-<h3 id="org0727981">Tuples</h3>
-<div class="outline-text-3" id="text-org0727981">
+<div id="outline-container-org88def13" class="outline-3">
+<h3 id="org88def13">Tuples</h3>
+<div class="outline-text-3" id="text-org88def13">
 <ul class="org-ul">
 <li>Represents a collection of elements (of any type) that are grouped together.</li>
 <li>Access is normally done by position.</li>
@@ -292,7 +118,7 @@ allocation. (<a href="#citeproc_bib_item_1">Armstrong 2013, 35</a>)
 You can also pattern match tuples by using free variables:
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">  1&gt; Point = {point, 10, 45}.
+<pre class="src src-shell">  1&gt; Point = {point, 10, 45}<span style="font-weight: bold;">.</span>
   {point,10,45}
   2&gt; {point, X, Y} = Point.
   {point,10,45}
@@ -304,9 +130,9 @@ You can also pattern match tuples by using free variables:
 </div>
 </div>
 </div>
-<div id="outline-container-orgf701ff0" class="outline-3">
-<h3 id="orgf701ff0">Lists</h3>
-<div class="outline-text-3" id="text-orgf701ff0">
+<div id="outline-container-orgf716e70" class="outline-3">
+<h3 id="orgf716e70">Lists</h3>
+<div class="outline-text-3" id="text-orgf716e70">
 <ul class="org-ul">
 <li>A list is a compound data type with a variable number of terms:
 <code>[Term1,...,TermN]</code>.</li>
@@ -320,9 +146,9 @@ list into <code>H|T</code> (<code>head</code> and <code>tail</code>),</li>
 </pre>
 </div>
 </div>
-<div id="outline-container-org5a592d8" class="outline-4">
-<h4 id="org5a592d8">List Comprehensions</h4>
-<div class="outline-text-4" id="text-org5a592d8">
+<div id="outline-container-orga49de97" class="outline-4">
+<h4 id="orga49de97">List Comprehensions</h4>
+<div class="outline-text-4" id="text-orga49de97">
 <div class="org-src-container">
 <pre class="src src-shell">  1&gt; L = [1,2,3,4,5,6,7].
   [1,2,3,4,5,6,7]
@@ -348,9 +174,9 @@ and each qualifier is either a generator, a bitstring generator, or a filter.
 </div>
 </div>
 </div>
-<div id="outline-container-org7e92f6e" class="outline-3">
-<h3 id="org7e92f6e">Strings</h3>
-<div class="outline-text-3" id="text-org7e92f6e">
+<div id="outline-container-orgdbc6df3" class="outline-3">
+<h3 id="orgdbc6df3">Strings</h3>
+<div class="outline-text-3" id="text-orgdbc6df3">
 <blockquote>
 <p>
 Strictly speaking, there are no strings in Erlang. To represent a string in
@@ -367,18 +193,18 @@ expect binaries to be in UTF-8:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  1&gt; X = "a\x{221e}b".
+<pre class="src src-shell">  1&gt; X = <span style="font-style: italic;">"a\x{221e}b"</span>.
   [97,8734,98]
-  2&gt; io:format("~ts~n",[X]).
-  a∞b
+  2&gt; io:format(<span style="font-style: italic;">"~ts~n"</span>,[X])<span style="font-weight: bold;">.</span>
+  a&#8734;b
   ok
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge21c061" class="outline-3">
-<h3 id="orge21c061">Records</h3>
-<div class="outline-text-3" id="text-orge21c061">
+<div id="outline-container-orgca5249d" class="outline-3">
+<h3 id="orgca5249d">Records</h3>
+<div class="outline-text-3" id="text-orgca5249d">
 <blockquote>
 <p>
 (&#x2026;) records provide a convenient way for associating a tag
@@ -399,52 +225,52 @@ to load a record from the the shell, one must use the <code>rr</code> command:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  1&gt; rr("records.hrl").
+<pre class="src src-shell">  1&gt; rr(<span style="font-style: italic;">"records.hrl"</span>)<span style="font-weight: bold;">.</span>
   [todo]
-  2&gt; #todo{}.
-  #todo{status = reminder,who = joe,text = undefined}
-  3&gt; X1 = #todo{status=urgent, text="Fix errata in book"}.
-  #todo{status = urgent,who = joe,text = "Fix errata in book"}
-  4&gt; X2 = X1#todo{status=done}.
-  #todo{status = done,who = joe,text = "Fix errata in book"}
+  2&gt; <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">todo{}.</span>
+  <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">todo{status = reminder,who = joe,text = undefined}</span>
+  3&gt; X1 = <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">todo{status=urgent, text="Fix errata in book"}.</span>
+  <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">todo{status = urgent,who = joe,text = "Fix errata in book"}</span>
+  4&gt; X2 = X1#todo{<span style="font-weight: bold; font-style: italic;">status</span>=done}<span style="font-weight: bold;">.</span>
+  <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">todo{status = done,who = joe,text = "Fix errata in book"}</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org526eae1" class="outline-3">
-<h3 id="org526eae1">Maps</h3>
-<div class="outline-text-3" id="text-org526eae1">
+<div id="outline-container-orgd2340fe" class="outline-3">
+<h3 id="orgd2340fe">Maps</h3>
+<div class="outline-text-3" id="text-orgd2340fe">
 <p>
 Maps are associative collections of key-value pairs.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  1&gt; TaskPending = #{ status =&gt; pending, description =&gt; 'feed cats' }.
-  #{status =&gt; pending,description =&gt; 'feed cats'}
-  2&gt; TaskDone = TaskPending#{ status := done }.
-  #{status =&gt; done,description =&gt; 'feed cats'}
+<pre class="src src-shell">  1&gt; TaskPending = <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">{ status =&gt; pending, description =&gt; 'feed cats' }.</span>
+  <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">{status =&gt; pending,description =&gt; 'feed cats'}</span>
+  2&gt; TaskDone = TaskPending#{ status := done }<span style="font-weight: bold;">.</span>
+  <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">{status =&gt; done,description =&gt; 'feed cats'}</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9961d47" class="outline-3">
-<h3 id="org9961d47">Identifiers</h3>
-<div class="outline-text-3" id="text-org9961d47">
+<div id="outline-container-org9c225fe" class="outline-3">
+<h3 id="org9c225fe">Identifiers</h3>
+<div class="outline-text-3" id="text-org9c225fe">
 </div>
-<div id="outline-container-org54c6252" class="outline-4">
-<h4 id="org54c6252">Pids</h4>
+<div id="outline-container-orgf56cf38" class="outline-4">
+<h4 id="orgf56cf38">Pids</h4>
 </div>
-<div id="outline-container-orged00001" class="outline-4">
-<h4 id="orged00001">Ports</h4>
+<div id="outline-container-orgb15eee9" class="outline-4">
+<h4 id="orgb15eee9">Ports</h4>
 </div>
-<div id="outline-container-orge26b000" class="outline-4">
-<h4 id="orge26b000">References</h4>
+<div id="outline-container-org472a773" class="outline-4">
+<h4 id="org472a773">References</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-org1c7bfca" class="outline-2">
-<h2 id="org1c7bfca">Variables</h2>
-<div class="outline-text-2" id="text-org1c7bfca">
+<div id="outline-container-org98362b9" class="outline-2">
+<h2 id="org98362b9">Variables</h2>
+<div class="outline-text-2" id="text-org98362b9">
 <blockquote>
 <p>
 Note that Erlang variables start with uppercase characters. So, <code>X</code>, <code>This</code>, and
@@ -462,9 +288,9 @@ operation (<code>=</code>).</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org81987ef" class="outline-2">
-<h2 id="org81987ef">Pattern Matching</h2>
-<div class="outline-text-2" id="text-org81987ef">
+<div id="outline-container-org310600e" class="outline-2">
+<h2 id="org310600e">Pattern Matching</h2>
+<div class="outline-text-2" id="text-org310600e">
 <p>
 Pattern matching is used for:
 </p>
@@ -473,9 +299,9 @@ Pattern matching is used for:
 <li>Redirecting execution flows</li>
 </ul>
 </div>
-<div id="outline-container-orgd2da1de" class="outline-4">
-<h4 id="orgd2da1de">case and if Expressions</h4>
-<div class="outline-text-4" id="text-orgd2da1de">
+<div id="outline-container-orgee60d8f" class="outline-4">
+<h4 id="orgee60d8f">case and if Expressions</h4>
+<div class="outline-text-4" id="text-orgee60d8f">
 <div class="org-src-container">
 <pre class="src src-erlang">  case Expression of
     Pattern1 [when Guard1] -&gt; Expr_seq1;
@@ -493,21 +319,21 @@ Pattern matching is used for:
 </div>
 </div>
 </div>
-<div id="outline-container-orge0a2ff0" class="outline-2">
-<h2 id="orge0a2ff0">Functions</h2>
-<div class="outline-text-2" id="text-orge0a2ff0">
+<div id="outline-container-org010ab72" class="outline-2">
+<h2 id="org010ab72">Functions</h2>
+<div class="outline-text-2" id="text-org010ab72">
 </div>
-<div id="outline-container-org431f48f" class="outline-3">
-<h3 id="org431f48f">Built-in Functions</h3>
-<div class="outline-text-3" id="text-org431f48f">
+<div id="outline-container-orgb52ae58" class="outline-3">
+<h3 id="orgb52ae58">Built-in Functions</h3>
+<div class="outline-text-3" id="text-orgb52ae58">
 <ul class="org-ul">
 <li>Conventionally, these are part of the <code>erlang</code> module.</li>
 <li>Mostly written in C for fast execution.</li>
 </ul>
 </div>
-<div id="outline-container-org9181706" class="outline-4">
-<h4 id="org9181706">List of BiFs</h4>
-<div class="outline-text-4" id="text-org9181706">
+<div id="outline-container-org6e903ca" class="outline-4">
+<h4 id="org6e903ca">List of BiFs</h4>
+<div class="outline-text-4" id="text-org6e903ca">
 <ul class="org-ul">
 <li><code>date()</code></li>
 <li><code>time()</code></li>
@@ -521,16 +347,16 @@ Pattern matching is used for:
 </div>
 </div>
 </div>
-<div id="outline-container-org059fc2d" class="outline-3">
-<h3 id="org059fc2d">Funs: The Basic Unit of Abstraction</h3>
-<div class="outline-text-3" id="text-org059fc2d">
+<div id="outline-container-org40a45a0" class="outline-3">
+<h3 id="org40a45a0">Funs: The Basic Unit of Abstraction</h3>
+<div class="outline-text-3" id="text-org40a45a0">
 <p>
 <code>Funs</code> are function closures. <code>Funs</code> are created by expressions of the form: <code>fun(...) -&gt; ... end</code>.
 </p>
 </div>
-<div id="outline-container-org92f9e93" class="outline-4">
-<h4 id="org92f9e93">Defining Your Own Control Abstractions</h4>
-<div class="outline-text-4" id="text-org92f9e93">
+<div id="outline-container-org3681bae" class="outline-4">
+<h4 id="org3681bae">Defining Your Own Control Abstractions</h4>
+<div class="outline-text-4" id="text-org3681bae">
 <p>
 If we want additional control structures, we can make our own. Erlang has no for loop, so let’s make one:
 </p>
@@ -542,26 +368,26 @@ If we want additional control structures, we can make our own. Erlang has no for
 </div>
 </div>
 </div>
-<div id="outline-container-org69fd649" class="outline-3">
-<h3 id="org69fd649">Recursion</h3>
-<div class="outline-text-3" id="text-org69fd649">
+<div id="outline-container-orgfc7d955" class="outline-3">
+<h3 id="orgfc7d955">Recursion</h3>
+<div class="outline-text-3" id="text-orgfc7d955">
 </div>
-<div id="outline-container-org84f4672" class="outline-4">
-<h4 id="org84f4672">Tail Recursion</h4>
+<div id="outline-container-org837495a" class="outline-4">
+<h4 id="org837495a">Tail Recursion</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-org850b304" class="outline-2">
-<h2 id="org850b304">Guards</h2>
+<div id="outline-container-org6f1f83f" class="outline-2">
+<h2 id="org6f1f83f">Guards</h2>
 </div>
 
-<div id="outline-container-org85cb780" class="outline-2">
-<h2 id="org85cb780">Modules</h2>
-<div class="outline-text-2" id="text-org85cb780">
+<div id="outline-container-org2eb4277" class="outline-2">
+<h2 id="org2eb4277">Modules</h2>
+<div class="outline-text-2" id="text-org2eb4277">
 </div>
-<div id="outline-container-org0e6ce16" class="outline-3">
-<h3 id="org0e6ce16">Defining Modules</h3>
-<div class="outline-text-3" id="text-org0e6ce16">
+<div id="outline-container-orgc89593d" class="outline-3">
+<h3 id="orgc89593d">Defining Modules</h3>
+<div class="outline-text-3" id="text-orgc89593d">
 <div class="org-src-container">
 <pre class="src src-erlang">    -module(drop).
     -export([fall_velocity/1, mps_to_mph/1, mps_to_kph/1]).
@@ -574,9 +400,9 @@ If we want additional control structures, we can make our own. Erlang has no for
 </div>
 </div>
 </div>
-<div id="outline-container-org70cd72c" class="outline-2">
-<h2 id="org70cd72c">Error Handling in Sequential Programs</h2>
-<div class="outline-text-2" id="text-org70cd72c">
+<div id="outline-container-org1bf506f" class="outline-2">
+<h2 id="org1bf506f">Error Handling in Sequential Programs</h2>
+<div class="outline-text-2" id="text-org1bf506f">
 <div class="org-src-container">
 <pre class="src src-erlang">  try FuncOrExpressionSeq of
     Pattern1 [when Guard1] -&gt; Expressions1;
@@ -598,9 +424,9 @@ If we want additional control structures, we can make our own. Erlang has no for
 <dt>error</dt><dd>Crashing errors.</dd>
 </dl>
 </div>
-<div id="outline-container-org857afd9" class="outline-4">
-<h4 id="org857afd9">Fail Fast and Noisily, Fail Politely</h4>
-<div class="outline-text-4" id="text-org857afd9">
+<div id="outline-container-org11adcb7" class="outline-4">
+<h4 id="org11adcb7">Fail Fast and Noisily, Fail Politely</h4>
+<div class="outline-text-4" id="text-org11adcb7">
 <blockquote>
 <p>
 In Erlang, when an error is detected internally by the system or is detected by

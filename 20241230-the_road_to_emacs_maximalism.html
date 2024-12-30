@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-12-30 Mon 02:48 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The road to Emacs maximalism</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="https://schonfinkel.github.io/index.html"> HOME </a>
+</div><div id="content" class="content">
+<h1 class="title">The road to Emacs maximalism
+<br />
+<span class="subtitle">Building an Emacs Utopia with hot glue, duct tape and Nix</span>
+</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org264fafd">1. Introduction</a>
+<ul>
+<li><a href="#org0a83d4e">1.1. Literate Programming</a></li>
+</ul>
+</li>
+<li><a href="#org1aafb10">2. Orgmode</a>
+<ul>
+<li><a href="#org6cbe995">2.1. Arbitrary Code Execution and Generation</a></li>
+<li><a href="#org42036b3">2.2. Roam</a>
+<ul>
+<li><a href="#orga6175a8">2.2.1. Stealing the Graph</a></li>
+</ul>
+</li>
+<li><a href="#orgcf36abf">2.3. Diagrams as Code</a></li>
+<li><a href="#org1d19228">2.4. Exports</a></li>
+</ul>
+</li>
+<li><a href="#org7828940">3. The Infrastructure</a>
+<ul>
+<li><a href="#org946db82">3.1. Nix</a></li>
+<li><a href="#org8d9ca3c">3.2. Continous Integration</a></li>
+<li><a href="#orga977527">3.3. What is Still Missing</a></li>
+</ul>
+</li>
+<li><a href="#orgeb0cc95">4. Notable Mentions</a>
+<ul>
+<li><a href="#org897d040">4.1. Hugo</a></li>
+<li><a href="#orgce670b4">4.2. Quartz</a></li>
+<li><a href="#org2e72967">4.3. Emanote</a></li>
+</ul>
+</li>
+<li><a href="#org4d07b1a">5. Conclusion</a></li>
+<li><a href="#orgc7fde4c">6. References</a></li>
+</ul>
+</div>
+</div>
+<blockquote>
+<p>
+I’ve stumbled across a method of composing programs that excites me very
+much. In fact, my enthusiasm is so great that I must warn the reader to discount
+much of what I shall say as the ravings of a fanatic who thinks he has just seen
+a great light. (<a href="#citeproc_bib_item_1">Knuth 1984, 1</a>)
+</p>
+</blockquote>
+<div id="outline-container-org264fafd" class="outline-2">
+<h2 id="org264fafd"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+A couple years ago I've started watching <a href="https://github.com/sponsors/daviwil">David Wilson's</a> channel (also know as
+<a href="https://www.youtube.com/c/SystemCrafters">SystemCrafters</a>), originally his channel focused heavilly on<a href="https://fsharp.org/"> F#</a> (and that's how
+I've found him), but eventually he started posting more and "GNU slash Emacs"
+content. I lost interest on the channel at the time, while he did indeed
+showcase a level of productivity that was way above what I had, I felt like it
+could be easily emulated with a combination of Neovim and some other Linux
+tools.
+</p>
+
+<p>
+Everything changed once I saw his <a href="https://www.youtube.com/watch?v=AyhPmypHDEw">presentation</a> about of <a href="https://www.orgroam.com/">org-roam</a>, my brain got
+hijacked by the idea of testing Emacs. I had already heard about <a href="https://orgmode.org/">orgmode</a> before,
+but it was never on my radar since it always felt like some <a href="https://xkcd.com/378/">"Emacs weirdo"</a>
+cool-aid. What got me impressed was that I always had the need for some tool to
+help me organize my notes (specially during college where most of my annotations
+got lost). To fill this gap, such a tool would need to have the following
+properties:
+</p>
+
+<ol class="org-ol">
+<li>Document everything that I've done.</li>
+<li>Register and link everything that I've read, preferably by integrating:
+<ul class="org-ul">
+<li>Text</li>
+<li>Math</li>
+<li>Code</li>
+<li>Citations</li>
+</ul></li>
+<li>Manage and track figures, while maintaing referential integrity.</li>
+<li>Be free (as in freedom) or open source.</li>
+</ol>
+
+<p>
+Obsidian tickles most of these (if you consider its plugins), but the <a href="https://obsidian.md/license">license</a> is
+a little bit worrying and you can bet they will pull an <a href="https://github.com/Kong/insomnia/issues/6577">insomnia</a> in the
+future. <a href="https://github.com/logseq/logseq">Logseq</a> is a much better alternative in this regard, plus you have the
+option of using something much better than <code>markdown</code> or <code>reStructuredText</code> and that
+is <code>org</code>.
+</p>
+
+<blockquote>
+<p>
+(&#x2026;) trivial usage of <b>Org-mode</b> is nothing more than text editing, from which
+point the user can start to add special plain text <b>Org-mode</b> elements to the
+document. <b>Org-mode</b> is therefore easy to adopt and aims to be a general solution
+for authoring projects with mixed computational and natural languages. It
+supports multiple programming languages, export targets, and work flows.
+(<a href="#citeproc_bib_item_2">Schulte et al. 2012, 2</a>)
+</p>
+</blockquote>
+
+<p>
+Org is a major<a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Modes.html"> mode</a> in Emacs, it is also a markup language but much more
+powerful (and I would argue a better tool) than any of the current
+alternatives. If properly configured, <code>orgmode</code> can combine writing, planning,
+scheduling, linking and programming into a cohesive workflow.
+</p>
+
+<blockquote>
+<p>
+<b>Org-mode</b> extends <b>Emacs</b> with a simple and powerful markup language that turns it
+into a language for creating, parsing, and interacting with
+hierarchically-organized text documents. Its rich feature set includes text
+structuring, project management, and a publishing system that can export to a
+variety of formats. Source code and data are located in active blocks, distinct
+from text sections, where "active" here means that code and data blocks can be
+evaluated to return their contents or their computational results. The results
+of code block evaluation can be written to a named data block in the document,
+where it can be referred to by other code blocks, any one of which can be
+written in a different computing language. In this way, an <b>Org-mode</b> buffer
+becomes a place where different computer languages communicate with one
+another. Like <b>Emacs</b>, <b>Org-mode</b> is extensible: support for new languages can be
+added by the user in a modular fashion through the definition of a small number
+of <b>Emacs Lisp</b> functions.
+(<a href="#citeproc_bib_item_2">Schulte et al. 2012, 7</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org0a83d4e" class="outline-3">
+<h3 id="org0a83d4e"><span class="section-number-3">1.1.</span> Literate Programming</h3>
+<div class="outline-text-3" id="text-1-1">
+<blockquote>
+<p>
+I believe that the time is ripe for significantly better documentation of
+programs, and that we can best achieve this by considering programs to be works
+of literature. Hence, my title: "Literate Programming."
+(<a href="#citeproc_bib_item_1">Knuth 1984, 1</a>)
+</p>
+</blockquote>
+
+<p>
+I must admit that, even though the idea itself seems interesting, time has
+proven that "literate programming" the way Knuth is suggesting is impractical,
+but lets forgive him, it was 1984. When it comes to documentation, I would
+rather deal with a good type system (like the ones inpired by the ML-family of
+languages) and/or have proper documentation tooling (<a href="https://hexdocs.pm/elixir/docs-tests-and-with.html#doctests">hexdocs</a> is the gold
+standard as far as I could experience).
+</p>
+
+<p>
+I'm emphasizing this because <a href="https://orgmode.org/worg/org-contrib/babel/intro.html">org-babel</a> (which is part of <code>org-mode</code>) is a
+practical tool to make <code>Emacs</code> a literate programming environment.
+</p>
+
+<blockquote>
+<p>
+Borrowing terms from the literate programming literature, <code>Org-mode</code> supports both
+<b>weaving</b> - the exportation of a mixed code/prose document to a format suitable
+for reading by a human - and <b>tangling</b> - the exportation of a mixed code/prose
+document to a pure code file suitable for execution by a
+computer. (<a href="#citeproc_bib_item_2">Schulte et al. 2012, 12</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org1aafb10" class="outline-2">
+<h2 id="org1aafb10"><span class="section-number-2">2.</span> Orgmode</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org6cbe995" class="outline-3">
+<h3 id="org6cbe995"><span class="section-number-3">2.1.</span> Arbitrary Code Execution and Generation</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Here's what my <code>blog.org</code> file looks like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">    Here you'll find my latest content, projects, tutorials and ramblings.
+
+<span style="font-weight: bold; font-style: italic;">    #+header: :exports results</span>
+<span style="font-weight: bold; font-style: italic;">    #+header: :results html</span>
+<span style="font-weight: bold; font-style: italic;">    #+NAME: export-posts</span>
+<span style="font-weight: bold; font-style: italic;">    #+BEGIN_SRC shell</span>
+    dotnet fsi posts.fsx
+<span style="font-weight: bold; font-style: italic;">    #+END_SRC</span>
+</pre>
+</div>
+
+<p>
+it's a single line that also calls a shell command, <code>dotnet fsi posts.fsx</code>,
+<code>posts.fsx</code> in an <code>F#</code> file that generates html content as a huge string:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  $ dotnet fsi posts.fsx 
+
+      &lt;div <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"stub"</span>&gt;
+        &lt;h2&gt;
+          &lt;a <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"./blog/20241231-the_road_to_emacs_maximalism.html"</span>&gt; The road to Emacs maximalism &lt;/a&gt;
+        &lt;/h2&gt;
+        &lt;small&gt;2024-12-31&lt;/small&gt;
+      &lt;/div&gt;
+      
+
+      &lt;div <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"stub"</span>&gt;
+        &lt;h2&gt;
+          &lt;a <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"./blog/20240916-you_have_10_seconds_to_nixify_your_dotnet_project.html"</span>&gt; You have 10 seconds to nixify your dotnet project &lt;/a&gt;
+        &lt;/h2&gt;
+        &lt;small&gt;2024-09-16&lt;/small&gt;
+      &lt;/div&gt;
+
+      <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">And so on...</span>
+</pre>
+</div>
+
+<p>
+This could have been done in any language really, but I felt more confortable
+quickly pulling this in <code>F#</code>, the <code>#+header: :results html</code> makes sure this will be
+correctly exported to <code>html</code> once we run the <code>publish.el</code> file (either locally on in
+CI). 
+</p>
+</div>
+</div>
+<div id="outline-container-org42036b3" class="outline-3">
+<h3 id="org42036b3"><span class="section-number-3">2.2.</span> Roam</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Similar to the previous section, my <a href="https://schonfinkel.github.io/notes.html">notes</a> are also generated via some hacky <code>F#</code>
+script:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  This is the place where I dump my <span style="text-decoration: underline;"><a href="https://www.orgroam.com/">Org ROAM</a></span> notes.
+
+<span style="font-weight: bold; font-style: italic;">  #+INCLUDE: ./static/html/graph.html export html</span>
+
+<span style="font-weight: bold; font-style: italic;">  #+header: :exports results</span>
+<span style="font-weight: bold; font-style: italic;">  #+header: :results html</span>
+<span style="font-weight: bold; font-style: italic;">  #+NAME: export-posts</span>
+<span style="font-weight: bold; font-style: italic;">  #+BEGIN_SRC shell</span>
+    dotnet fsi notes.fsx
+<span style="font-weight: bold; font-style: italic;">  #+END_SRC</span>
+</pre>
+</div>
+
+<p>
+The difference being that there is an extra <code>#+INCLUDE:</code> directive importing
+actual html code. That's where the <code>d3.js</code> graph setup is.
+</p>
+</div>
+<div id="outline-container-orga6175a8" class="outline-4">
+<h4 id="orga6175a8"><span class="section-number-4">2.2.1.</span> Stealing the Graph</h4>
+<div class="outline-text-4" id="text-2-2-1">
+
+<div id="orgd5ad4e3" class="figure">
+<p><img src="https://schonfinkel.github.io/index.html/../static/img/the_road_to_emacs_maximalism/notes.png" alt="notes.png" width="70%" height="70%" align="center" />
+</p>
+<p><span class="figure-number">Figure 1: </span>My crappy graph</p>
+</div>
+
+<p>
+I've blatantly copied from Hugo Cisnero's <a href="https://hugocisneros.com/blog/my-org-roam-notes-workflow/">awesome blogpost</a> a couple years ago
+and I really like how he generated a graph out of the <code>sqlite</code> db already used by
+<code>org-roam</code>. Some minimal changes were required to render my graph, it is sparser
+than his, so forcing a minimum number of communites doesn't look that good (a
+quick hack is taking the number of <a href="https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.components.weakly_connected_components.html#networkx.algorithms.components.weakly_connected_components">weakly connected components</a>).
+</p>
+
+<p>
+Note that this used to be an <a href="https://github.com/org-roam/org-roam-ui/discussions/109#discussioncomment-8272050">feature request</a> on Github, until someone actually
+created a <a href="https://github.com/marketplace/actions/publish-org-roam-ui">publish-org-roam-ui</a> github action. Maybe that's what most people need,
+but it won't work for me, at least in the iteration of this blog.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcf36abf" class="outline-3">
+<h3 id="orgcf36abf"><span class="section-number-3">2.3.</span> Diagrams as Code</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+For my current needs <code>graphviz</code> is enough, but I can keep adding similar
+tools later:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-dot" id="orga798116">  digraph {
+    a -&gt; b;
+    b -&gt; c;
+    c -&gt; a;
+  }
+</pre>
+</div>
+
+
+<div id="org65ce65d" class="figure">
+<p><img src="https://schonfinkel.github.io/index.html/../static/img/the_road_to_emacs_maximalism/graphviz_example.png" alt="graphviz_example.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org1d19228" class="outline-3">
+<h3 id="org1d19228"><span class="section-number-3">2.4.</span> Exports</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+You take an org file and <a href="https://orgmode.org/manual/Publishing-options.html">export it</a> to different formats like: <code>html</code> (that's how
+this blog is made), <code>LaTeX</code>, <code>markdown</code>, etc. Currently I only care about the <code>html</code>
+export and you can find the <code>publish.el</code> file <a href="https://github.com/schonfinkel/schonfinkel.github.io/blob/master/publish.el">here.</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7828940" class="outline-2">
+<h2 id="org7828940"><span class="section-number-2">3.</span> The Infrastructure</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Knuth has a point about some of the portability issues on his "Literate
+Programming" paper, even though the markup language (<code>WEB</code>) was portable to
+different systems, the same could not be said of the <code>PASCAL</code> compilers that were
+generating the code:
+</p>
+
+<blockquote>
+<p>
+Furthermore, many of the world's PASCAL compilers are incredibly
+bizarre. Therefore it is quite naive to believe that a single program TANGLE.PAS
+could actually work on very many different machines, or even that one single
+source file TANGLE.WEB could be adequate; some system-dependent changes are
+inevitable. (<a href="#citeproc_bib_item_1">Knuth 1984, 10</a>)
+</p>
+</blockquote>
+
+<p>
+Technically, any modern literate programming environment (heck any programming
+environment in general) is going to suffer from similar issues (instead of
+multiple compilers we have multiple package managers and DLL hell). If you use a
+<code>python</code> notebook and never bothered to pin your dependencies, or worse, if no one
+knows which version of the interpreter was used initially, then give it a couple
+months and there's a pretty good chance it will never run.
+</p>
+</div>
+<div id="outline-container-org946db82" class="outline-3">
+<h3 id="org946db82"><span class="section-number-3">3.1.</span> Nix</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+To make this less likelly to happen, my development environment heavilly relies
+on <a href="https://nixos.org/">Nix</a> and <a href="https://devenv.sh/">devenv</a>. Everything is set in a single <a href="https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix">flake.nix</a> file, a <code>LaTeX</code>
+environment with a couple dependencis, some <code>.NET</code> and <code>Python</code> libs, <code>sqlite</code>, <a href="https://github.com/casey/just">just</a>
+and even a custom <code>Emacs</code> to be used in CI, this might seem cursed but it's really
+easy to pull this off on Nix:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix">  # (...)
+  customEmacs = (pkgs.emacsPackagesFor pkgs.emacs-nox).emacsWithPackages (
+    epkgs:
+    with epkgs.melpaPackages;
+    [
+      citeproc
+      htmlize
+      ox-rss
+    ]
+    ++ (with epkgs.elpaPackages; [
+      org
+      org-roam
+      org-roam-ui
+    ])
+  );
+  # (...)
+</pre>
+</div>
+
+<p>
+this is only used the CI shell, where we require <code>Emacs</code> with a minimum set of
+plugins to publish the website, the default (impure) development shell is still
+going to pull your local Emacs:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix">  {
+    # `nix develop .#ci`
+    # Reduce the number of packages to the bare minimum needed for CI,
+    # by removing LaTeX and not using my own Emacs configuration, but
+    # a custom package with just enough tools for org-publish.
+    ci = pkgs.mkShell {
+      ENVIRONMENT = "prod";
+      OUT_URL = "https://schonfinkel.github.io/";
+      DOTNET_ROOT = "${dotnet}";
+      DOTNET_CLI_TELEMETRY_OPTOUT = "1";
+      LANG = "en_US.UTF-8";
+      buildInputs = [ dotnet customEmacs ] ++ tooling;
+    };
+
+    # `nix develop --impure`
+    # This is the development shell, meant to be used as an impure
+    # shell, so no custom Emacs here, just use your global package
+    # switch back to the CI shell for builds.
+    default = devenv.lib.mkShell {
+      inherit inputs pkgs;
+      modules = [
+        (
+          { pkgs, lib, ... }:
+          {
+            packages = [ dotnet texenv ] ++ tooling;
+
+            env = {
+              ENVIRONMENT = "dev";
+              DOTNET_ROOT = "${dotnet}";
+              DOTNET_CLI_TELEMETRY_OPTOUT = "1";
+              LANG = "en_US.UTF-8";
+            };
+
+            scripts = {
+              build.exec = "just build";
+              graph.exec = "just graph";
+              clean.exec = "just clean";
+            };
+
+            enterShell = ''
+              echo "Starting environment..."
+            '';
+          }
+        )
+      ];
+  };
+</pre>
+</div>
+
+<p>
+the full setup can be found in the main <a href="https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix">repo</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org8d9ca3c" class="outline-3">
+<h3 id="org8d9ca3c"><span class="section-number-3">3.2.</span> Continous Integration</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Again, I benefit from a somewhat easy to setup CI pipeline thanks to
+<a href="https://github.com/cachix/install-nix-action">install-nix</a>, it's a copy of what I already do locally. And you can also benefit
+from faster builds with the <a href="https://github.com/DeterminateSystems/magic-nix-cache">magic-nix-cache</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-yaml">      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+
+      - name: Install Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Build website
+        run: |
+          mkdir -p "$HOME/.emacs.d/"
+          touch "$HOME/.emacs.d/.org-id-locations"
+          nix develop .#ci -c just build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga977527" class="outline-3">
+<h3 id="orga977527"><span class="section-number-3">3.3.</span> What is Still Missing</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Anki-Like Flashcards: With either <a href="https://orgmode.org/worg/org-contrib/org-drill.html%5C">org-drill</a> or <a href="https://www.leonrische.me/fc/index.html">org-fc</a>.</li>
+
+<li>Integration with <a href="https://github.com/jkitchin/org-ref">org-ref</a>: <code>org-ref</code> offers a suite of tools that would make
+keeping track of references easier as the number of notes and posts increases.</li>
+
+<li>Remove some of the Polyglot Templating: Although the polyglot usage of
+different programming languages here was a good way to show some of orgmode's
+source block features, I know my usage of <code>F#</code> is unecessary, I could have done
+the same in pure <code>elisp</code>, but I still suck at it.</li>
+
+<li>Not related to the blog itself, but <a href="https://orgmode.org/manual/Agenda-Views.html">org-agenda</a> looks slick.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeb0cc95" class="outline-2">
+<h2 id="orgeb0cc95"><span class="section-number-2">4.</span> Notable Mentions</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org897d040" class="outline-3">
+<h3 id="org897d040"><span class="section-number-3">4.1.</span> Hugo</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+This blog was originally fully integrated with<a href="https://gohugo.io/"> hugo</a> and <a href="https://ox-hugo.scripter.co/">ox-hugo</a> (first stolen
+from <a href="https://github.com/ratsclub">my close friend</a>), but eventually I've started facing issues since the way I
+organize files (one per post) is not recommended by ox-hugo. The "per-post"
+setup actually worked, but <code>hugo</code> is also a project that moves very fast and I
+quickly faced a situation where upgrading it broke my workflow, luckily I
+develop in a sandbox environment and was able to ignore this versioning issue
+for a couple months.
+</p>
+</div>
+</div>
+<div id="outline-container-orgce670b4" class="outline-3">
+<h3 id="orgce670b4"><span class="section-number-3">4.2.</span> Quartz</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Similar to <code>hugo</code>, although <a href="https://quartz.jzhao.xyz/">Quartz</a> is also built to support <a href="https://obsidian.md/">Obsidian</a>-like notes.
+</p>
+</div>
+</div>
+<div id="outline-container-org2e72967" class="outline-3">
+<h3 id="org2e72967"><span class="section-number-3">4.3.</span> Emanote</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Before doing the full refactor and moving it back to a pure <a href="https://orgmode.org/manual/Publishing.html">org-publish</a>
+workflow, I found out about <a href="https://emanote.srid.ca/">emanote</a>. It is similar to Quartz, but it feels
+overall better since the license is <code>AGPL v3</code>. It's also built atop of Markdown,
+but there are <a href="https://github.com/srid/emanote/blob/master/docs/guide/orgmode.org">steps</a> on how to configure this to use <code>org</code> as well. May be a good
+choice for people already familiar with Haskell and Nix.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org4d07b1a" class="outline-2">
+<h2 id="org4d07b1a"><span class="section-number-2">5.</span> Conclusion</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+While I haven't moved all my development workflow to <code>Emacs</code> (it might be a matter
+a time), <code>Emacs</code> already stole all my note-taking and blogging capabilities and
+I'll probably stick with it for a long time. I still hope <code>Neovim</code> gets something
+similar, it is already a huge improvement above vanilla <code>vim</code> offered thanks to
+many new features (and allowing a <a href="https://neovim.io/doc/user/lua-guide.html">real language</a> for configuration instead of
+<code>VimL</code>). There is also some work being done in <a href="https://github.com/nvim-orgmode/orgmode">replicating org</a> using <code>lua</code>, but it
+would be interesting to see if the community can pull some similar plugins as
+well.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc7fde4c" class="outline-2">
+<h2 id="orgc7fde4c"><span class="section-number-2">6.</span> References</h2>
+<div class="outline-text-2" id="text-6">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Knuth, Donald Ervin. 1984. “Literate Programming.” <i>The Computer Journal</i> 27 (2): 97–111.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Schulte, Eric, Dan Davison, Thomas Dye, and Carsten Dominik. 2012. “A Multi-Language Computing Environment for Literate Programming and Reproducible Research.” <i>Journal of Statistical Software</i> 46: 1–24.</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2024-12-30 Mon 00:00</p>
+<p class="author">Author: Marcos Benevides</p>
+<p class="date">Created: 2024-12-30 Mon 02:48</p>
+</div>
+</body>
+</html>

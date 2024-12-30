@@ -1,199 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-27 Fri 21:49 -->
+<!-- 2024-12-30 Mon 02:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Error Handling in Erlang</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
@@ -221,7 +46,8 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.html"><i class='bx bx-rss'></i></a></li>
   </ul>
 </nav>
 </header>
@@ -246,13 +72,13 @@ The part that corrects errors is often generic, so the same error-correcting
 code can be used for many different applications. (<a href="#citeproc_bib_item_1">Armstrong 2013, 201</a>)
 </p>
 </blockquote>
-<div id="outline-container-org8592f2f" class="outline-2">
-<h2 id="org8592f2f">Error Handling Semantics</h2>
-<div class="outline-text-2" id="text-org8592f2f">
+<div id="outline-container-org5fe4137" class="outline-2">
+<h2 id="org5fe4137">Error Handling Semantics</h2>
+<div class="outline-text-2" id="text-org5fe4137">
 </div>
-<div id="outline-container-orgaa33f2c" class="outline-3">
-<h3 id="orgaa33f2c">Processes</h3>
-<div class="outline-text-3" id="text-orgaa33f2c">
+<div id="outline-container-orga3af80a" class="outline-3">
+<h3 id="orga3af80a">Processes</h3>
+<div class="outline-text-3" id="text-orga3af80a">
 <p>
 There are two types of processes: <b>normal processes</b> and <b>system processes</b>. <code>spawn</code>
 (see <a href="20240930224229-concurrent_erlang.html#ID-63607e63-4428-4578-bf2a-12a49649b49c">Concurrent Erlang</a>) creates a normal process. A normal process can become a
@@ -260,9 +86,9 @@ system process by evaluating the BIF <code>process_flag(trap_exit, true)</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgadb9ebc" class="outline-3">
-<h3 id="orgadb9ebc">Link</h3>
-<div class="outline-text-3" id="text-orgadb9ebc">
+<div id="outline-container-org1a19e9c" class="outline-3">
+<h3 id="org1a19e9c">Link</h3>
+<div class="outline-text-3" id="text-org1a19e9c">
 <p>
 Linking processes can be thought as an extension of the error handling presented
 when dealing with <a href="20240924122449-sequential_erlang.html#ID-f0da3356-3797-4ddc-8306-cd333f159754">Sequential Erlang</a>. We can, if necessary, catch exceptions
@@ -305,28 +131,28 @@ will do so atomically.</li>
 </ul>
 
 
-<figure id="orgafcc433">
+<figure id="org8d5f198">
 <img src="../static/img/notes/erlang_process_link.png" alt="erlang_process_link.png">
 
 </figure>
 </div>
-<div id="outline-container-orgd18a3b0" class="outline-4">
-<h4 id="orgd18a3b0">Link Set</h4>
-<div class="outline-text-4" id="text-orgd18a3b0">
+<div id="outline-container-org72112ee" class="outline-4">
+<h4 id="org72112ee">Link Set</h4>
+<div class="outline-text-4" id="text-org72112ee">
 <p>
 The link set of a process <code>P</code> is the set of processes that are linked to <code>P</code>.
 </p>
 
 
-<figure id="org44919ea">
+<figure id="orgfee4af5">
 <img src="../static/img/notes/erlang_link_set.png" alt="erlang_link_set.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org3a15546" class="outline-4">
-<h4 id="org3a15546">Groups of Processes That All Die Together</h4>
-<div class="outline-text-4" id="text-org3a15546">
+<div id="outline-container-org8423dcd" class="outline-4">
+<h4 id="org8423dcd">Groups of Processes That All Die Together</h4>
+<div class="outline-text-4" id="text-org8423dcd">
 <p>
 In the previous example, if a single process from the Link Set fails, all the
 processes from the Set also fail in cascate. Ultimately, the error signals
@@ -335,7 +161,7 @@ dies.
 </p>
 
 
-<figure id="org5462861">
+<figure id="orga8c9f05">
 <img src="../static/img/notes/erlang_link_set_cascade.png" alt="erlang_link_set_cascade.png">
 
 </figure>
@@ -350,9 +176,9 @@ are linked to it in the form of a tuple. The tuple contains the atom <code>EXIT<
 </div>
 </div>
 </div>
-<div id="outline-container-orgcabfc11" class="outline-3">
-<h3 id="orgcabfc11">Exit Signals</h3>
-<div class="outline-text-3" id="text-orgcabfc11">
+<div id="outline-container-org4fba7dd" class="outline-3">
+<h3 id="org4fba7dd">Exit Signals</h3>
+<div class="outline-text-3" id="text-org4fba7dd">
 <ul class="org-ul">
 <li>A process can termination can be <b>normal</b> or <b>abnormal</b>.
 <ul class="org-ul">
@@ -403,15 +229,15 @@ exit signal will contain the following information:
 </ul>
 
 
-<figure id="org1a8f299">
+<figure id="orga24e523">
 <img src="../static/img/notes/erlang_error_exit_signals.png" alt="erlang_error_exit_signals.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orgee02c10" class="outline-3">
-<h3 id="orgee02c10">Error Trapping</h3>
-<div class="outline-text-3" id="text-orgee02c10">
+<div id="outline-container-orgec4d481" class="outline-3">
+<h3 id="orgec4d481">Error Trapping</h3>
+<div class="outline-text-3" id="text-orgec4d481">
 <blockquote>
 <p>
 If your process is set to trap exits, through a call to <code>process_flag(trap_exit,
@@ -420,16 +246,16 @@ process. (<a href="#citeproc_bib_item_2">Laurent 2017, 100</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org132d973" class="outline-4">
-<h4 id="org132d973">Propagation Semantics</h4>
-<div class="outline-text-4" id="text-org132d973">
+<div id="outline-container-org96077b6" class="outline-4">
+<h4 id="org96077b6">Propagation Semantics</h4>
+<div class="outline-text-4" id="text-org96077b6">
 <ul class="org-ul">
 <li>Processes can trap <code>exit</code> signals by calling the BIF <code>process_flag(trap_exit, true)</code>.</li>
 <li>Once trapped, the errors are saved in the mailbox.</li>
 </ul>
 
 
-<figure id="org257e5f3">
+<figure id="org93fae5e">
 <img src="../static/img/notes/erlang_error_trapping.png" alt="erlang_error_trapping.png">
 
 </figure>
@@ -440,9 +266,9 @@ process. (<a href="#citeproc_bib_item_2">Laurent 2017, 100</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-orga250681" class="outline-3">
-<h3 id="orga250681">Monitors</h3>
-<div class="outline-text-3" id="text-orga250681">
+<div id="outline-container-org41b9fce" class="outline-3">
+<h3 id="org41b9fce">Monitors</h3>
+<div class="outline-text-3" id="text-org41b9fce">
 <p>
 Monitors are similar to links but with several significant differences.
 </p>
@@ -457,7 +283,7 @@ A process <code>Pid2</code> can create a monitor for <code>Pid1</code> by callin
 </p>
 
 
-<figure id="org839fa71">
+<figure id="org4c0a8e6">
 <img src="../static/img/notes/erlang_monitor.png" alt="erlang_monitor.png">
 
 </figure>
@@ -468,7 +294,7 @@ to the monitoring process.</li>
 </ul>
 
 
-<figure id="orgb583276">
+<figure id="org0e97cc9">
 <img src="../static/img/notes/erlang_monitor_error.png" alt="erlang_monitor_error.png">
 
 </figure>

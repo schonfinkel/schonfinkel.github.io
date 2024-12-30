@@ -1,199 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-27 Fri 21:49 -->
+<!-- 2024-12-30 Mon 02:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Effective Manager</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
@@ -221,7 +46,8 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.html"><i class='bx bx-rss'></i></a></li>
   </ul>
 </nav>
 </header>
@@ -231,9 +57,9 @@
 </header><p>
 Notes from the (<a href="#citeproc_bib_item_1">Horstman, Braun, and Sentes 2023</a>).
 </p>
-<div id="outline-container-org708a3e0" class="outline-2">
-<h2 id="org708a3e0">Teachable and Sustainable Skills</h2>
-<div class="outline-text-2" id="text-org708a3e0">
+<div id="outline-container-org1b1c791" class="outline-2">
+<h2 id="org1b1c791">Teachable and Sustainable Skills</h2>
+<div class="outline-text-2" id="text-org1b1c791">
 <blockquote>
 <p>
 However you manage, your techniques, behavior, and philosophy must be both
@@ -292,9 +118,9 @@ others. And the effective manager can repeat the
 </table>
 </div>
 </div>
-<div id="outline-container-orgd9ec3aa" class="outline-2">
-<h2 id="orgd9ec3aa">Know Your People: One On Ones</h2>
-<div class="outline-text-2" id="text-orgd9ec3aa">
+<div id="outline-container-orgda23b61" class="outline-2">
+<h2 id="orgda23b61">Know Your People: One On Ones</h2>
+<div class="outline-text-2" id="text-orgda23b61">
 <p>
 One on ones are meetings that:
 </p>
@@ -308,9 +134,9 @@ One on ones are meetings that:
 <li>In which the manager takes notes</li>
 </ol>
 </div>
-<div id="outline-container-org6347ecd" class="outline-3">
-<h3 id="org6347ecd">Scheduling</h3>
-<div class="outline-text-3" id="text-org6347ecd">
+<div id="outline-container-org7817ec1" class="outline-3">
+<h3 id="org7817ec1">Scheduling</h3>
+<div class="outline-text-3" id="text-org7817ec1">
 <blockquote>
 <p>
 Scheduling your O3s is actually more important than having them weekly. That's
@@ -348,9 +174,9 @@ manager: your time. Build an organization of effective managers
 </div>
 </div>
 </div>
-<div id="outline-container-org9b7747c" class="outline-2">
-<h2 id="org9b7747c">Talk about performance - Feedback</h2>
-<div class="outline-text-2" id="text-org9b7747c">
+<div id="outline-container-orgdf1b45c" class="outline-2">
+<h2 id="orgdf1b45c">Talk about performance - Feedback</h2>
+<div class="outline-text-2" id="text-orgdf1b45c">
 <blockquote>
 <p>
 The second critical manager behavior that leads to results and retention is
@@ -375,9 +201,9 @@ Their defensiveness, then, should not be surprising.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org1057ae3" class="outline-3">
-<h3 id="org1057ae3">Encourage Effective Future Behavior</h3>
-<div class="outline-text-3" id="text-org1057ae3">
+<div id="outline-container-orga2b0e65" class="outline-3">
+<h3 id="orga2b0e65">Encourage Effective Future Behavior</h3>
+<div class="outline-text-3" id="text-orga2b0e65">
 <blockquote>
 <p>
 The moment you switch to a future focus, however, you free yourself up to focus
@@ -471,9 +297,9 @@ forgiven it. Remember that our focus is on the future, not the past</b>.
 </ol>
 </div>
 </div>
-<div id="outline-container-org0ad3710" class="outline-3">
-<h3 id="org0ad3710">When should I give feedback</h3>
-<div class="outline-text-3" id="text-org0ad3710">
+<div id="outline-container-org9f0d209" class="outline-3">
+<h3 id="org9f0d209">When should I give feedback</h3>
+<div class="outline-text-3" id="text-org9f0d209">
 <p>
 Feedbacks should be given as early and often as possible, if you can give
 feedback right after noticing positive/negative behaviour that's ideal, of
@@ -496,20 +322,20 @@ like attention.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org7f85ca8" class="outline-2">
-<h2 id="org7f85ca8">Common Questions and Resistance to Feedback</h2>
-<div class="outline-text-2" id="text-org7f85ca8">
+<div id="outline-container-org42941c1" class="outline-2">
+<h2 id="org42941c1">Common Questions and Resistance to Feedback</h2>
+<div class="outline-text-2" id="text-org42941c1">
 <p>
 First, ask yourself these three questions before offering feedback.
 </p>
 </div>
-<div id="outline-container-org3ab26a3" class="outline-3">
-<h3 id="org3ab26a3">The questions</h3>
-<div class="outline-text-3" id="text-org3ab26a3">
+<div id="outline-container-orga716d86" class="outline-3">
+<h3 id="orga716d86">The questions</h3>
+<div class="outline-text-3" id="text-orga716d86">
 </div>
-<div id="outline-container-org4d0d069" class="outline-4">
-<h4 id="org4d0d069">Am I angry?</h4>
-<div class="outline-text-4" id="text-org4d0d069">
+<div id="outline-container-org2fabdfe" class="outline-4">
+<h4 id="org2fabdfe">Am I angry?</h4>
+<div class="outline-text-4" id="text-org2fabdfe">
 <blockquote>
 <p>
 If you're angry, don't give feedback. Period.
@@ -517,17 +343,17 @@ If you're angry, don't give feedback. Period.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgc8062c9" class="outline-4">
-<h4 id="orgc8062c9">Do I want to remind or punish?</h4>
-<div class="outline-text-4" id="text-orgc8062c9">
+<div id="outline-container-org26807cf" class="outline-4">
+<h4 id="org26807cf">Do I want to remind or punish?</h4>
+<div class="outline-text-4" id="text-org26807cf">
 <p>
 Always focus in encouraging effective future behavior.
 </p>
 </div>
 </div>
-<div id="outline-container-org8179f1d" class="outline-4">
-<h4 id="org8179f1d">Can I let it go?</h4>
-<div class="outline-text-4" id="text-org8179f1d">
+<div id="outline-container-org44c9087" class="outline-4">
+<h4 id="org44c9087">Can I let it go?</h4>
+<div class="outline-text-4" id="text-org44c9087">
 <blockquote>
 <p>
 If you can't let it go in terms of how you feel, we recommend that you do let it
@@ -536,9 +362,9 @@ go by not giving negative feedback.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org4b70c90" class="outline-4">
-<h4 id="org4b70c90">Maybe delay or defer?</h4>
-<div class="outline-text-4" id="text-org4b70c90">
+<div id="outline-container-orgde4ea29" class="outline-4">
+<h4 id="orgde4ea29">Maybe delay or defer?</h4>
+<div class="outline-text-4" id="text-orgde4ea29">
 <p>
 If you can't pass the three tests above, you should either <b>delay</b> or <b>defer</b>.
 </p>
@@ -552,9 +378,9 @@ again.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8a418da" class="outline-4">
-<h4 id="org8a418da">The Shot across the Bow</h4>
-<div class="outline-text-4" id="text-org8a418da">
+<div id="outline-container-org7228d36" class="outline-4">
+<h4 id="org7228d36">The Shot across the Bow</h4>
+<div class="outline-text-4" id="text-org7228d36">
 <p>
 What do I do if one of my directs pushes back or refuses feedback? If your
 direct is defensive it means they likely know they're in the wrong. Do not drag
@@ -570,9 +396,9 @@ apologize, and walk away. You've made your point.
 </div>
 </div>
 </div>
-<div id="outline-container-org89c6b99" class="outline-3">
-<h3 id="org89c6b99">The capstone: systemic feedback</h3>
-<div class="outline-text-3" id="text-org89c6b99">
+<div id="outline-container-org94f3285" class="outline-3">
+<h3 id="org94f3285">The capstone: systemic feedback</h3>
+<div class="outline-text-3" id="text-org94f3285">
 <blockquote>
 <p>
 Systemic feedback changes what you are talking to your direct about and raises
@@ -594,9 +420,9 @@ don't keep.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgc5c9995" class="outline-4">
-<h4 id="orgc5c9995">When to use it?</h4>
-<div class="outline-text-4" id="text-orgc5c9995">
+<div id="outline-container-org709d5f0" class="outline-4">
+<h4 id="org709d5f0">When to use it?</h4>
+<div class="outline-text-4" id="text-org709d5f0">
 <blockquote>
 <p>
 You should use systemic feedback when you have already given six instances of
@@ -606,17 +432,17 @@ has not been engaging in the behavior they've committed to.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgf8a330f" class="outline-4">
-<h4 id="orgf8a330f">How is it different?</h4>
-<div class="outline-text-4" id="text-orgf8a330f">
+<div id="outline-container-orgcc3026d" class="outline-4">
+<h4 id="orgcc3026d">How is it different?</h4>
+<div class="outline-text-4" id="text-orgcc3026d">
 <p>
 In systemic feedbacks you're giving feedback on <b>the failure to meet commitments</b>.
 </p>
 </div>
 </div>
-<div id="outline-container-org528c2db" class="outline-4">
-<h4 id="org528c2db">Two dangers</h4>
-<div class="outline-text-4" id="text-org528c2db">
+<div id="outline-container-org7c28d99" class="outline-4">
+<h4 id="org7c28d99">Two dangers</h4>
+<div class="outline-text-4" id="text-org7c28d99">
 <ol class="org-ol">
 <li>Use the standard feedback model before applying the systemic feedback</li>
 <li>Implied sanctions must be delivered</li>
@@ -625,13 +451,13 @@ In systemic feedbacks you're giving feedback on <b>the failure to meet commitmen
 </div>
 </div>
 </div>
-<div id="outline-container-org67ffe0e" class="outline-2">
-<h2 id="org67ffe0e">How to start giving feedback</h2>
-<div class="outline-text-2" id="text-org67ffe0e">
+<div id="outline-container-org3e96407" class="outline-2">
+<h2 id="org3e96407">How to start giving feedback</h2>
+<div class="outline-text-2" id="text-org3e96407">
 </div>
-<div id="outline-container-org3ea06d7" class="outline-3">
-<h3 id="org3ea06d7">Announce your intention in your weekly staff meeting</h3>
-<div class="outline-text-3" id="text-org3ea06d7">
+<div id="outline-container-org16c0f0f" class="outline-3">
+<h3 id="org16c0f0f">Announce your intention in your weekly staff meeting</h3>
+<div class="outline-text-3" id="text-org16c0f0f">
 <blockquote>
 <p>
 Cover the purpose of feedback talk to your directs about the purpose of giving
@@ -645,9 +471,9 @@ feedback model</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org500efd2" class="outline-3">
-<h3 id="org500efd2">Give only positive feedback for eigth weeks</h3>
-<div class="outline-text-3" id="text-org500efd2">
+<div id="outline-container-orgeb8864a" class="outline-3">
+<h3 id="orgeb8864a">Give only positive feedback for eigth weeks</h3>
+<div class="outline-text-3" id="text-orgeb8864a">
 <blockquote>
 <p>
 Don't give any negative feedback as you're learning to use the feedback
@@ -663,9 +489,9 @@ hurt the feelings of your direct.
 </ul>
 </div>
 </div>
-<div id="outline-container-org4307eb7" class="outline-3">
-<h3 id="org4307eb7">Stay as positive as you can</h3>
-<div class="outline-text-3" id="text-org4307eb7">
+<div id="outline-container-org79d02b8" class="outline-3">
+<h3 id="org79d02b8">Stay as positive as you can</h3>
+<div class="outline-text-3" id="text-org79d02b8">
 <ul class="org-ul">
 <li>Don't overdo negative feedbacks</li>
 <li>Positive feedbacks are much more powerful tools than negative ones</li>
@@ -681,9 +507,9 @@ all the good behaviors.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf42a0a9" class="outline-2">
-<h2 id="orgf42a0a9">Push work down - Delegation</h2>
-<div class="outline-text-2" id="text-orgf42a0a9">
+<div id="outline-container-org3633ce3" class="outline-2">
+<h2 id="org3633ce3">Push work down - Delegation</h2>
+<div class="outline-text-2" id="text-org3633ce3">
 <blockquote>
 <p>
 Learning to delegate is part of the transition to becoming an executive. Too
@@ -697,9 +523,9 @@ doing it themselves.
 How do we know when something is a task assignment and not a delegation? 
 </p>
 </div>
-<div id="outline-container-org6655534" class="outline-4">
-<h4 id="org6655534">Task assignment x Task delegation</h4>
-<div class="outline-text-4" id="text-org6655534">
+<div id="outline-container-org7043b71" class="outline-4">
+<h4 id="org7043b71">Task assignment x Task delegation</h4>
+<div class="outline-text-4" id="text-org7043b71">
 <blockquote>
 <p>
 Delegation, on the other hand, is you turning over responsibility for one of
@@ -709,13 +535,13 @@ long standing basis, to one of your directs.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgb90b986" class="outline-4">
-<h4 id="orgb90b986">Why Delegation Is the Solution - The Delegation</h4>
+<div id="outline-container-orgf9887f9" class="outline-4">
+<h4 id="orgf9887f9">Why Delegation Is the Solution - The Delegation</h4>
 </div>
 
-<div id="outline-container-org13e30dd" class="outline-4">
-<h4 id="org13e30dd">Delegate the Big Black Ball</h4>
-<div class="outline-text-4" id="text-org13e30dd">
+<div id="outline-container-org7fc75a4" class="outline-4">
+<h4 id="org7fc75a4">Delegate the Big Black Ball</h4>
+<div class="outline-text-4" id="text-org7fc75a4">
 <ul class="org-ul">
 <li>Not a good idea, since you <b>don't</b> know how to do it, how are you going to
 help your directs to do it?</li>
@@ -730,9 +556,9 @@ your directs. Learn it first, master it, before
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org518cf2b" class="outline-4">
-<h4 id="org518cf2b">Delegate One of the Big Gray Balls</h4>
-<div class="outline-text-4" id="text-org518cf2b">
+<div id="outline-container-orgb61ce21" class="outline-4">
+<h4 id="orgb61ce21">Delegate One of the Big Gray Balls</h4>
+<div class="outline-text-4" id="text-orgb61ce21">
 <blockquote>
 <p>
 One of your small balls is a big ball to your direct.
@@ -745,13 +571,13 @@ task anyway.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1c815e2" class="outline-4">
-<h4 id="org1c815e2">Delegate One or More of the Small Balls</h4>
+<div id="outline-container-orge2f42af" class="outline-4">
+<h4 id="orge2f42af">Delegate One or More of the Small Balls</h4>
 </div>
 
-<div id="outline-container-org406fdf7" class="outline-3">
-<h3 id="org406fdf7">How to Delegate—The Manager Tools Delegation Model</h3>
-<div class="outline-text-3" id="text-org406fdf7">
+<div id="outline-container-orgecbb1b9" class="outline-3">
+<h3 id="orgecbb1b9">How to Delegate—The Manager Tools Delegation Model</h3>
+<div class="outline-text-3" id="text-orgecbb1b9">
 <ol class="org-ol">
 <li>State your desire for help</li>
 <li>Tell them why you're asking them</li>

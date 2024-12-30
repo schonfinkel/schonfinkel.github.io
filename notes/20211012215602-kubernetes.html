@@ -1,199 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-27 Fri 21:49 -->
+<!-- 2024-12-30 Mon 02:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kubernetes</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
@@ -221,7 +46,8 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.html"><i class='bx bx-rss'></i></a></li>
   </ul>
 </nav>
 </header>
@@ -235,13 +61,13 @@ deployment, scaling, and management of containerized
 applications. &#x2014;kubernetes.io
 </p>
 </blockquote>
-<div id="outline-container-orge4ab012" class="outline-2">
-<h2 id="orge4ab012">Architecture</h2>
-<div class="outline-text-2" id="text-orge4ab012">
+<div id="outline-container-orgf7aba2e" class="outline-2">
+<h2 id="orgf7aba2e">Architecture</h2>
+<div class="outline-text-2" id="text-orgf7aba2e">
 </div>
-<div id="outline-container-org9212d3e" class="outline-3">
-<h3 id="org9212d3e">Masters</h3>
-<div class="outline-text-3" id="text-org9212d3e">
+<div id="outline-container-orga6c0fa3" class="outline-3">
+<h3 id="orga6c0fa3">Masters</h3>
+<div class="outline-text-3" id="text-orga6c0fa3">
 <p>
 Also know as control plane.
 </p>
@@ -262,13 +88,13 @@ reaching consensus impossible.</li>
 only on managing the cluster.</li>
 </ul>
 </div>
-<div id="outline-container-org1414547" class="outline-4">
-<h4 id="org1414547">Components</h4>
-<div class="outline-text-4" id="text-org1414547">
+<div id="outline-container-org780a3db" class="outline-4">
+<h4 id="org780a3db">Components</h4>
+<div class="outline-text-4" id="text-org780a3db">
 </div>
-<div id="outline-container-orgf0a1cb9" class="outline-5">
-<h5 id="orgf0a1cb9">kube-apiserver</h5>
-<div class="outline-text-5" id="text-orgf0a1cb9">
+<div id="outline-container-org8366686" class="outline-5">
+<h5 id="org8366686">kube-apiserver</h5>
+<div class="outline-text-5" id="text-org8366686">
 <ul class="org-ul">
 <li>Front-end to the control plane, even the other components of the master node
 have to pass through the API server.</li>
@@ -276,9 +102,9 @@ have to pass through the API server.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org6687cd2" class="outline-5">
-<h5 id="org6687cd2">etcd</h5>
-<div class="outline-text-5" id="text-org6687cd2">
+<div id="outline-container-org2fa6034" class="outline-5">
+<h5 id="org2fa6034">etcd</h5>
+<div class="outline-text-5" id="text-org2fa6034">
 <ul class="org-ul">
 <li>The cluster's store.</li>
 <li>Persists the cluster state and configuration.</li>
@@ -286,9 +112,9 @@ have to pass through the API server.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org40f2ba0" class="outline-5">
-<h5 id="org40f2ba0">controller-manager</h5>
-<div class="outline-text-5" id="text-org40f2ba0">
+<div id="outline-container-org04770de" class="outline-5">
+<h5 id="org04770de">controller-manager</h5>
+<div class="outline-text-5" id="text-org04770de">
 <ul class="org-ul">
 <li>Behaves like a controller of controllers:
 <ul class="org-ul">
@@ -301,9 +127,9 @@ is matching the desired state.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org608491a" class="outline-5">
-<h5 id="org608491a">scheduler</h5>
-<div class="outline-text-5" id="text-org608491a">
+<div id="outline-container-org79b448c" class="outline-5">
+<h5 id="org79b448c">scheduler</h5>
+<div class="outline-text-5" id="text-org79b448c">
 <ul class="org-ul">
 <li>Default scheduler for kubernetes, watches the <code>kuber-apiserver</code> for new work tasks.</li>
 <li>Assigns work to cluster nodes:
@@ -318,17 +144,17 @@ is matching the desired state.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdfa9616" class="outline-3">
-<h3 id="orgdfa9616">Nodes</h3>
-<div class="outline-text-3" id="text-orgdfa9616">
+<div id="outline-container-orgb5f6a8a" class="outline-3">
+<h3 id="orgb5f6a8a">Nodes</h3>
+<div class="outline-text-3" id="text-orgb5f6a8a">
 </div>
-<div id="outline-container-orgcce9ec0" class="outline-4">
-<h4 id="orgcce9ec0">Components</h4>
-<div class="outline-text-4" id="text-orgcce9ec0">
+<div id="outline-container-org7432589" class="outline-4">
+<h4 id="org7432589">Components</h4>
+<div class="outline-text-4" id="text-org7432589">
 </div>
-<div id="outline-container-orge17a7ac" class="outline-5">
-<h5 id="orge17a7ac">kubelet</h5>
-<div class="outline-text-5" id="text-orge17a7ac">
+<div id="outline-container-orgfa0cd55" class="outline-5">
+<h5 id="orgfa0cd55">kubelet</h5>
+<div class="outline-text-5" id="text-orgfa0cd55">
 <ul class="org-ul">
 <li>Main <code>kubernetes</code> agent, it runs in every node in the cluster</li>
 <li>Registers node with cluster</li>
@@ -337,9 +163,9 @@ is matching the desired state.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org735874b" class="outline-5">
-<h5 id="org735874b">Container Runtime</h5>
-<div class="outline-text-5" id="text-org735874b">
+<div id="outline-container-org1174bca" class="outline-5">
+<h5 id="org1174bca">Container Runtime</h5>
+<div class="outline-text-5" id="text-org1174bca">
 <ul class="org-ul">
 <li>Performs container-related tasks, like:
 <ul class="org-ul">
@@ -356,9 +182,9 @@ is matching the desired state.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orga081a03" class="outline-5">
-<h5 id="orga081a03">kube-proxy</h5>
-<div class="outline-text-5" id="text-orga081a03">
+<div id="outline-container-orgfa43998" class="outline-5">
+<h5 id="orgfa43998">kube-proxy</h5>
+<div class="outline-text-5" id="text-orgfa43998">
 <ul class="org-ul">
 <li>Networking component, ensures every pod gets it's own unique IP</li>
 <li>Basic loag-balacing</li>
@@ -367,9 +193,9 @@ is matching the desired state.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org7b34015" class="outline-3">
-<h3 id="org7b34015">Packaging Apps for Kubernetes</h3>
-<div class="outline-text-3" id="text-org7b34015">
+<div id="outline-container-org5dd6756" class="outline-3">
+<h3 id="org5dd6756">Packaging Apps for Kubernetes</h3>
+<div class="outline-text-3" id="text-org5dd6756">
 <p>
 For an application to run on a Kubernetes cluster it needs to tick a few
 boxes. These include:
@@ -381,9 +207,9 @@ boxes. These include:
 <li>Deployed via a declarative <code>manifest</code> file</li>
 </ol>
 </div>
-<div id="outline-container-orgf026166" class="outline-4">
-<h4 id="orgf026166">Pods</h4>
-<div class="outline-text-4" id="text-orgf026166">
+<div id="outline-container-org30534dd" class="outline-4">
+<h4 id="org30534dd">Pods</h4>
+<div class="outline-text-4" id="text-org30534dd">
 <blockquote>
 <p>
 At the highest-level, a Pod is a ring-fenced environment to run containers. The
@@ -410,18 +236,18 @@ cluster's life easier:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc918e09" class="outline-4">
-<h4 id="orgc918e09">Deployment</h4>
-<div class="outline-text-4" id="text-orgc918e09">
+<div id="outline-container-orgaa8d1bb" class="outline-4">
+<h4 id="orgaa8d1bb">Deployment</h4>
+<div class="outline-text-4" id="text-orgaa8d1bb">
 <ul class="org-ul">
 <li>A <code>deployment</code> is a higher-level Kubernetes object that wraps around a
 particular Pod and adds features such as scaling, zero-downtime updates, and
 versioned rollbacks.</li>
 </ul>
 </div>
-<div id="outline-container-orgc48aebb" class="outline-5">
-<h5 id="orgc48aebb">ReplicaSet</h5>
-<div class="outline-text-5" id="text-orgc48aebb">
+<div id="outline-container-org3481867" class="outline-5">
+<h5 id="org3481867">ReplicaSet</h5>
+<div class="outline-text-5" id="text-org3481867">
 <p>
 A ReplicaSet's purpose is to maintain a stable set of replica Pods running at
 any given time. As such, it is often used to guarantee the availability of a
@@ -436,9 +262,9 @@ specified number of identical Pod, by implementing the following:
 </ul>
 </div>
 </div>
-<div id="outline-container-org405229c" class="outline-5">
-<h5 id="org405229c">YAML Structure</h5>
-<div class="outline-text-5" id="text-org405229c">
+<div id="outline-container-org4a36906" class="outline-5">
+<h5 id="org4a36906">YAML Structure</h5>
+<div class="outline-text-5" id="text-org4a36906">
 <div class="org-src-container">
 <pre class="src src-yaml">apiVersion: apps/v1
 kind: Deployment
@@ -475,9 +301,9 @@ spec:
 </div>
 </div>
 </div>
-<div id="outline-container-org0ffdf16" class="outline-3">
-<h3 id="org0ffdf16">Service</h3>
-<div class="outline-text-3" id="text-org0ffdf16">
+<div id="outline-container-org9da4eda" class="outline-3">
+<h3 id="org9da4eda">Service</h3>
+<div class="outline-text-3" id="text-org9da4eda">
 <ul class="org-ul">
 <li>An abstract way to expose an application running on a set of Pods as a network
 service</li>
@@ -507,9 +333,9 @@ Service.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org2fd0c7a" class="outline-5">
-<h5 id="org2fd0c7a">Types</h5>
-<div class="outline-text-5" id="text-org2fd0c7a">
+<div id="outline-container-orga32123b" class="outline-5">
+<h5 id="orga32123b">Types</h5>
+<div class="outline-text-5" id="text-orga32123b">
 <ul class="org-ul">
 <li><code>Loadbalancer</code>: External access via cloud load-balancer</li>
 <li><code>NotePort</code>: External access via nodes</li>
@@ -550,13 +376,13 @@ spec:
 </div>
 </div>
 </div>
-<div id="outline-container-org398aff7" class="outline-3">
-<h3 id="org398aff7">Pods</h3>
-<div class="outline-text-3" id="text-org398aff7">
+<div id="outline-container-orgc61f880" class="outline-3">
+<h3 id="orgc61f880">Pods</h3>
+<div class="outline-text-3" id="text-orgc61f880">
 </div>
-<div id="outline-container-org42ddf76" class="outline-5">
-<h5 id="org42ddf76">YAML structure</h5>
-<div class="outline-text-5" id="text-org42ddf76">
+<div id="outline-container-orga542df8" class="outline-5">
+<h5 id="orga542df8">YAML structure</h5>
+<div class="outline-text-5" id="text-orga542df8">
 <div class="org-src-container">
 <pre class="src src-yaml">apiVersion: v1
 kind: Pod

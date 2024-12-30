@@ -1,199 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-27 Fri 21:49 -->
+<!-- 2024-12-30 Mon 02:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Erlang Shell</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
@@ -221,7 +46,8 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/blogroll.html">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.html"><i class='bx bx-rss'></i></a></li>
   </ul>
 </nav>
 </header>
@@ -231,13 +57,13 @@
 </header><p>
 Some features of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> shell.
 </p>
-<div id="outline-container-org9fe5a4e" class="outline-2">
-<h2 id="org9fe5a4e">Basics</h2>
-<div class="outline-text-2" id="text-org9fe5a4e">
+<div id="outline-container-org586f03e" class="outline-2">
+<h2 id="org586f03e">Basics</h2>
+<div class="outline-text-2" id="text-org586f03e">
 </div>
-<div id="outline-container-org70a38c3" class="outline-3">
-<h3 id="org70a38c3">Compiling and Running "Hello World" in the Shell</h3>
-<div class="outline-text-3" id="text-org70a38c3">
+<div id="outline-container-org6b5784a" class="outline-3">
+<h3 id="org6b5784a">Compiling and Running "Hello World" in the Shell</h3>
+<div class="outline-text-3" id="text-org6b5784a">
 <div class="org-src-container">
 <pre class="src src-erlang">  -module(hello).
   -export([start/0]).
@@ -255,18 +81,18 @@ Running the <code>hello.erl</code> program in the erlang shell.
 <pre class="src src-shell">  $ erl                          
   Erlang/OTP 26 [erts-14.2.5] [source] [64-bit] [smp:24:24] [ds:24:24:10] [async-threads:1] [jit:ns]
 
-  Eshell V14.2.5 (press Ctrl+G to abort, type help(). for help)
-  1&gt; c(hello).
+  Eshell V14.2.5 (press Ctrl+G to abort, type help()<span style="font-weight: bold;">.</span> for help)
+  1&gt; c(hello)<span style="font-weight: bold;">.</span>
   {ok,hello}
-  2&gt; hello:start().
+  2&gt; hello:start()<span style="font-weight: bold;">.</span>
   Hello world
   ok
 </pre>
 </div>
 </div>
-<div id="outline-container-org8cc5c40" class="outline-4">
-<h4 id="org8cc5c40">Compiling Outside the Erlang Shell</h4>
-<div class="outline-text-4" id="text-org8cc5c40">
+<div id="outline-container-orgea51f03" class="outline-4">
+<h4 id="orgea51f03">Compiling Outside the Erlang Shell</h4>
+<div class="outline-text-4" id="text-orgea51f03">
 <div class="org-src-container">
 <pre class="src src-shell">  $ erlc hello.erl
   $ erl -noshell -s hello start -s init stop
@@ -288,38 +114,38 @@ terminates the Erlang session. (<a href="#citeproc_bib_item_1">Armstrong 2013, 1
 </div>
 </div>
 </div>
-<div id="outline-container-org6a59930" class="outline-2">
-<h2 id="org6a59930">Commands</h2>
-<div class="outline-text-2" id="text-org6a59930">
+<div id="outline-container-orga485a3b" class="outline-2">
+<h2 id="orga485a3b">Commands</h2>
+<div class="outline-text-2" id="text-orga485a3b">
 </div>
-<div id="outline-container-org930a8fc" class="outline-3">
-<h3 id="org930a8fc">Seeing Your Bound Variables</h3>
-<div class="outline-text-3" id="text-org930a8fc">
+<div id="outline-container-org2df3efd" class="outline-3">
+<h3 id="org2df3efd">Seeing Your Bound Variables</h3>
+<div class="outline-text-3" id="text-org2df3efd">
 <p>
 <code>b()</code> shows all bound variables in the current erlang shell.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">    &gt; b().
+<pre class="src src-shell">    &gt; b()<span style="font-weight: bold;">.</span>
     N = 1
     Number = 5
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org908b0cd" class="outline-3">
-<h3 id="org908b0cd">Clearing Bound Variables in the Shell</h3>
-<div class="outline-text-3" id="text-org908b0cd">
+<div id="outline-container-orgb610192" class="outline-3">
+<h3 id="orgb610192">Clearing Bound Variables in the Shell</h3>
+<div class="outline-text-3" id="text-orgb610192">
 <div class="org-src-container">
-<pre class="src src-shell">  &gt; f(N).
-  &gt; f().
+<pre class="src src-shell">  &gt; f(N)<span style="font-weight: bold;">.</span>
+  &gt; f()<span style="font-weight: bold;">.</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8700ee0" class="outline-3">
-<h3 id="org8700ee0">Getting Help</h3>
-<div class="outline-text-3" id="text-org8700ee0">
+<div id="outline-container-orgb5832e1" class="outline-3">
+<h3 id="orgb5832e1">Getting Help</h3>
+<div class="outline-text-3" id="text-orgb5832e1">
 <blockquote>
 <p>
 The Erlang shell has a number of built-in commands. You can see them all
@@ -329,13 +155,13 @@ with the shell command <code>help()</code>. (<a href="#citeproc_bib_item_1">Arms
 </div>
 </div>
 </div>
-<div id="outline-container-org99cef9b" class="outline-2">
-<h2 id="org99cef9b">Compiling and running Erlang programs</h2>
-<div class="outline-text-2" id="text-org99cef9b">
+<div id="outline-container-org947814f" class="outline-2">
+<h2 id="org947814f">Compiling and running Erlang programs</h2>
+<div class="outline-text-2" id="text-org947814f">
 </div>
-<div id="outline-container-org1a70cd6" class="outline-3">
-<h3 id="org1a70cd6">Modifying the Environment</h3>
-<div class="outline-text-3" id="text-org1a70cd6">
+<div id="outline-container-org3646c22" class="outline-3">
+<h3 id="org3646c22">Modifying the Environment</h3>
+<div class="outline-text-3" id="text-org3646c22">
 <p>
 You can find the value of the current load path by starting an Erlang shell
 and giving the command <code>code:get_path()</code>. The two most common functions that we
@@ -359,24 +185,24 @@ Alternatively, you can start Erlang with a command like this:
 </div>
 </div>
 </div>
-<div id="outline-container-org5cc2439" class="outline-3">
-<h3 id="org5cc2439">Scripting</h3>
-<div class="outline-text-3" id="text-org5cc2439">
+<div id="outline-container-org6f214c2" class="outline-3">
+<h3 id="org6f214c2">Scripting</h3>
+<div class="outline-text-3" id="text-org6f214c2">
 <p>
 Often we want to be able to execute an arbitrary Erlang function from the OS command
 line. The <code>-eval</code> argument is very handy for quick scripting.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  erl \
-      -eval 'io:format("Memory: ~p~n", [erlang:memory(total)]).' \
+<pre class="src src-shell">  erl <span style="font-style: italic;">\</span>
+      -eval <span style="font-style: italic;">'io:format("Memory: ~p~n", [erlang:memory(total)]).'</span> <span style="font-style: italic;">\</span>
       -noshell -s init stop
 </pre>
 </div>
 </div>
-<div id="outline-container-org82d80d6" class="outline-4">
-<h4 id="org82d80d6">Run As an Escript</h4>
-<div class="outline-text-4" id="text-org82d80d6">
+<div id="outline-container-org28df621" class="outline-4">
+<h4 id="org28df621">Run As an Escript</h4>
+<div class="outline-text-4" id="text-org28df621">
 <div class="org-src-container">
 <pre class="src src-erlang">  #!/usr/bin/env escript
 
@@ -395,13 +221,13 @@ line. The <code>-eval</code> argument is very handy for quick scripting.
 </div>
 </div>
 </div>
-<div id="outline-container-org5a3ae4d" class="outline-2">
-<h2 id="org5a3ae4d">Debugging</h2>
-<div class="outline-text-2" id="text-org5a3ae4d">
+<div id="outline-container-orgca736d4" class="outline-2">
+<h2 id="orgca736d4">Debugging</h2>
+<div class="outline-text-2" id="text-orgca736d4">
 </div>
-<div id="outline-container-org8b91482" class="outline-3">
-<h3 id="org8b91482">Reading Crash Dumps</h3>
-<div class="outline-text-3" id="text-org8b91482">
+<div id="outline-container-org3e84498" class="outline-3">
+<h3 id="org3e84498">Reading Crash Dumps</h3>
+<div class="outline-text-3" id="text-org3e84498">
 <p>
 If Erlang crashes, it leaves behind a file called <code>erl_crash.dump</code>. To start the
 analyzer, give the following command:
