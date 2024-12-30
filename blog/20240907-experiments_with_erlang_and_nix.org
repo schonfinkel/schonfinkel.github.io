@@ -28,10 +28,6 @@ convince a few souls dealing with more normal tools (~brew~, ~asdf~, ~<insert ra
 linux package manager>~, ...) to at least give Nix a try.
 
 * Devenv
-:PROPERTIES:
-:ID:       9b64d859-2398-4795-a356-42ba3f8236e6
-:PUBDATE:  2024-12-30 Mon 13:34
-:END:
 
 We use [[https://devenv.sh/][devenv]] to setup our development shell, think of it as your favorite
 programming language's envinroment and dependency manager (~pip~, ~poetry~, ~nvm~,
@@ -39,9 +35,6 @@ programming language's envinroment and dependency manager (~pip~, ~poetry~, ~nvm
 much more.
 
 ** A unified development shell for Erlang and Zig
-:PROPERTIES:
-:ID:       949e4e55-aa81-40f0-8d2e-59b14e6aa61b
-:END:
 
 No one is expected to have ~Erlang~, ~Zig~ and ~Postgres~ installed, nor are they
 expected to have any of the environment variables needed for this project to
@@ -146,9 +139,6 @@ Let's try building the ~Zig~ client:
 [[file:../static/img/some_experiments_with_nix_and_erlang/00_lyceum_client.png]]
 
 *** Running Postgres
-:PROPERTIES:
-:ID:       47f0a301-c2f0-44d2-985e-f59b87d14e6b
-:END:
 
 As you may have noticed, not only are we installing ~Erlang~ and ~Zig~, some
 madlad even put ~dbeaver~ there for God knows what reason, but hey, that's the dev
@@ -169,9 +159,6 @@ check them [[https://devenv.sh/services/#supported-services][here]].
 [[file:../static/img/some_experiments_with_nix_and_erlang/01_postgres.png]]
 
 *** Direnv
-:PROPERTIES:
-:ID:       4f613350-0814-460d-b434-a5e162ef35d3
-:END:
 
 As if thigs weren't awesome enough, I need to talk about [[https://direnv.net/][direnv]], a simple tool
 that can make wonders (and it comes with nix integrations for free), with a
@@ -204,9 +191,6 @@ it really simplifies my life, as I don't need to remember to activate/deactivate
 an environment.
 
 ** The CI environment
-:PROPERTIES:
-:ID:       956c3795-f076-4f82-9e26-66ffad2329e3
-:END:
 
 Since we are already went to the trouble of setting up a whole dev environment
 for Erlang and Zig, we should just make another one for when we need to run
@@ -232,17 +216,10 @@ If you use Github Actions, now you can leverage both the [[https://github.com/ca
 Nix Cache]] actions.
 
 ** The full devshell
-:PROPERTIES:
-:ID:       a9bcc86b-c8af-4a59-ae32-72eaf09e90ac
-:END:
 
 You can check what the full devshell looks like [[https://github.com/Dr-Nekoma/lyceum/blob/master/flake.nix][here]].
 
 * Nix Build
-:PROPERTIES:
-:ID:       de8d15e4-dd1e-47a1-8ca8-b89c3e96d32f
-:PUBDATE:  2024-12-30 Mon 13:34
-:END:
 
 In the previous section I've showed you our impure environment, there's no way
 (as of now) to make things 100% pure while developing, specially because we need
@@ -251,9 +228,6 @@ change when we talk about releases, we need to find a way to properly build the
 server.
 
 ** A pure build of the Erlang server
-:PROPERTIES:
-:ID:       dfd9543f-52d8-4e4e-a729-64463e6d51b0
-:END:
 
 This is the original reason I've decided to write this, it took me some time to
 go through the [[https://nixos.org/manual/nixpkgs/stable/#sec-beam][NixOS BEAM manual]] and I've yet to know how to properly build this
@@ -319,10 +293,6 @@ now let's see if this really works:
 #+END_SRC
 
 * Containers
-:PROPERTIES:
-:ID:       f9081041-60cf-40fb-883f-456efc4e4e85
-:PUBDATE:  2024-12-30 Mon 13:34
-:END:
 
 There is a treasure trove of examples in [[https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/docker/examples.nix#L218][Nixpkgs]], I've decided to go with the
 **simplest** one. This what a container for the backend looks like in Nix:
@@ -394,10 +364,6 @@ build the image:
 #+END_SRC
 
 * Conclusion
-:PROPERTIES:
-:ID:       6e54d713-7e46-4203-9897-b44aea1d0350
-:PUBDATE:  2024-12-30 Mon 13:34
-:END:
 
 As I wanted to show here, we've used Nix all the way from defining a common
 development environment for the developers, reused some of the stuff in CI, to
@@ -414,9 +380,6 @@ doing so, its a tool worth learning (and there's still so much to learn about
 it), it makes my life dealing with Unix systems less painfull.
 
 ** TODO
-:PROPERTIES:
-:ID:       8d18feda-416f-4339-b223-2b2d2a4d850f
-:END:
 
 There is still much to do, and it can be left for a part II later.
 
