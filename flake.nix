@@ -85,6 +85,7 @@
               [
                 citeproc
                 htmlize
+                ox-rss
               ]
               ++ (with epkgs.elpaPackages; [
                 org

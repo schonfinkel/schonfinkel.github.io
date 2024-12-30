@@ -1,0 +1,395 @@
+#+TITLE: The road to Emacs maximalism
+#+SUBTITLE: Building an Emacs Utopia with hot glue, duct tape and Nix
+#+AUTHOR: Marcos Benevides
+#+DATE: <2024-12-30 Mon>
+
+#+begin_quote
+I’ve stumbled across a method of composing programs that excites me very
+much. In fact, my enthusiasm is so great that I must warn the reader to discount
+much of what I shall say as the ravings of a fanatic who thinks he has just seen
+a great light. [cite:@knuth1984literate p.1]
+#+end_quote
+
+* Introduction
+
+A couple years ago I've started watching [[https://github.com/sponsors/daviwil][David Wilson's]] channel (also know as
+[[https://www.youtube.com/c/SystemCrafters][SystemCrafters]]), originally his channel focused heavilly on[[https://fsharp.org/][ F#]] (and that's how
+I've found him), but eventually he started posting more and "GNU slash Emacs"
+content. I lost interest on the channel at the time, while he did indeed
+showcase a level of productivity that was way above what I had, I felt like it
+could be easily emulated with a combination of Neovim and some other Linux
+tools.
+
+Everything changed once I saw his [[https://www.youtube.com/watch?v=AyhPmypHDEw][presentation]] about of [[https://www.orgroam.com/][org-roam]], my brain got
+hijacked by the idea of testing Emacs. I had already heard about [[https://orgmode.org/][orgmode]] before,
+but it was never on my radar since it always felt like some [[https://xkcd.com/378/]["Emacs weirdo"]]
+cool-aid. What got me impressed was that I always had the need for some tool to
+help me organize my notes (specially during college where most of my annotations
+got lost). To fill this gap, such a tool would need to have the following
+properties:
+
+1. Document everything that I've done.
+2. Register and link everything that I've read, preferably by integrating:
+   + Text
+   + Math
+   + Code
+   + Citations
+3. Manage and track figures, while maintaing referential integrity.
+4. Be free (as in freedom) or open source.
+
+Obsidian tickles most of these (if you consider its plugins), but the [[https://obsidian.md/license][license]] is
+a little bit worrying and you can bet they will pull an [[https://github.com/Kong/insomnia/issues/6577][insomnia]] in the
+future. [[https://github.com/logseq/logseq][Logseq]] is a much better alternative in this regard, plus you have the
+option of using something much better than ~markdown~ or ~reStructuredText~ and that
+is ~org~.
+
+  #+begin_quote
+  (...) trivial usage of *Org-mode* is nothing more than text editing, from which
+  point the user can start to add special plain text *Org-mode* elements to the
+  document. *Org-mode* is therefore easy to adopt and aims to be a general solution
+  for authoring projects with mixed computational and natural languages. It
+  supports multiple programming languages, export targets, and work flows.
+  [cite:@schulte2012multi p.2]
+  #+end_quote
+
+Org is a major[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Modes.html][ mode]] in Emacs, it is also a markup language but much more
+powerful (and I would argue a better tool) than any of the current
+alternatives. If properly configured, ~orgmode~ can combine writing, planning,
+scheduling, linking and programming into a cohesive workflow.
+
+#+begin_quote
+*Org-mode* extends *Emacs* with a simple and powerful markup language that turns it
+into a language for creating, parsing, and interacting with
+hierarchically-organized text documents. Its rich feature set includes text
+structuring, project management, and a publishing system that can export to a
+variety of formats. Source code and data are located in active blocks, distinct
+from text sections, where "active" here means that code and data blocks can be
+evaluated to return their contents or their computational results. The results
+of code block evaluation can be written to a named data block in the document,
+where it can be referred to by other code blocks, any one of which can be
+written in a different computing language. In this way, an *Org-mode* buffer
+becomes a place where different computer languages communicate with one
+another. Like *Emacs*, *Org-mode* is extensible: support for new languages can be
+added by the user in a modular fashion through the definition of a small number
+of *Emacs Lisp* functions.
+[cite:@schulte2012multi p.7]
+#+end_quote
+
+** Literate Programming
+
+#+begin_quote
+I believe that the time is ripe for significantly better documentation of
+programs, and that we can best achieve this by considering programs to be works
+of literature. Hence, my title: "Literate Programming."
+[cite:@knuth1984literate p.1]
+#+end_quote
+
+I must admit that, even though the idea itself seems interesting, time has
+proven that "literate programming" the way Knuth is suggesting is impractical,
+but lets forgive him, it was 1984. When it comes to documentation, I would
+rather deal with a good type system (like the ones inpired by the ML-family of
+languages) and/or have proper documentation tooling ([[https://hexdocs.pm/elixir/docs-tests-and-with.html#doctests][hexdocs]] is the gold
+standard as far as I could experience).
+
+I'm emphasizing this because [[https://orgmode.org/worg/org-contrib/babel/intro.html][org-babel]] (which is part of ~org-mode~) is a
+practical tool to make ~Emacs~ a literate programming environment.
+
+#+begin_quote
+Borrowing terms from the literate programming literature, ~Org-mode~ supports both
+*weaving* - the exportation of a mixed code/prose document to a format suitable
+for reading by a human - and *tangling* - the exportation of a mixed code/prose
+document to a pure code file suitable for execution by a
+computer. [cite:@schulte2012multi p.12]
+#+end_quote
+
+* Orgmode
+
+
+** Arbitrary Code Execution and Generation
+
+Here's what my ~blog.org~ file looks like:
+
+#+begin_src org
+    Here you'll find my latest content, projects, tutorials and ramblings.
+
+    ,#+header: :exports results
+    ,#+header: :results html
+    ,#+NAME: export-posts
+    ,#+BEGIN_SRC shell
+    dotnet fsi posts.fsx
+    ,#+END_SRC
+#+end_src
+
+it's a single line that also calls a shell command, ~dotnet fsi posts.fsx~,
+~posts.fsx~ in an ~F#~ file that generates html content as a huge string:
+
+#+begin_src shell
+  $ dotnet fsi posts.fsx 
+
+      <div class="stub">
+        <h2>
+          <a href="./blog/20241231-the_road_to_emacs_maximalism.html"> The road to Emacs maximalism </a>
+        </h2>
+        <small>2024-12-31</small>
+      </div>
+      
+
+      <div class="stub">
+        <h2>
+          <a href="./blog/20240916-you_have_10_seconds_to_nixify_your_dotnet_project.html"> You have 10 seconds to nixify your dotnet project </a>
+        </h2>
+        <small>2024-09-16</small>
+      </div>
+
+      # And so on...
+#+end_src
+
+This could have been done in any language really, but I felt more confortable
+quickly pulling this in ~F#~, the ~#+header: :results html~ makes sure this will be
+correctly exported to ~html~ once we run the ~publish.el~ file (either locally on in
+CI). 
+
+** Roam
+
+Similar to the previous section, my [[https://schonfinkel.github.io/notes.html][notes]] are also generated via some hacky ~F#~
+script:
+
+#+begin_src org
+  This is the place where I dump my [[https://www.orgroam.com/][Org ROAM]] notes.
+
+  ,#+INCLUDE: ./static/html/graph.html export html
+
+  ,#+header: :exports results
+  ,#+header: :results html
+  ,#+NAME: export-posts
+  ,#+BEGIN_SRC shell
+    dotnet fsi notes.fsx
+  ,#+END_SRC
+#+end_src
+
+The difference being that there is an extra ~#+INCLUDE:~ directive importing
+actual html code. That's where the ~d3.js~ graph setup is.
+
+*** Stealing the Graph
+
+#+CAPTION: My crappy graph
+#+NAME:   fig:the-graph
+#+ATTR_HTML: :width 70% :height 70% :align center
+[[file:../static/img/the_road_to_emacs_maximalism/notes.png]]
+
+I've blatantly copied from Hugo Cisnero's [[https://hugocisneros.com/blog/my-org-roam-notes-workflow/][awesome blogpost]] a couple years ago
+and I really like how he generated a graph out of the ~sqlite~ db already used by
+~org-roam~. Some minimal changes were required to render my graph, it is sparser
+than his, so forcing a minimum number of communites doesn't look that good (a
+quick hack is taking the number of [[https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.components.weakly_connected_components.html#networkx.algorithms.components.weakly_connected_components][weakly connected components]]).
+
+Note that this used to be an [[https://github.com/org-roam/org-roam-ui/discussions/109#discussioncomment-8272050][feature request]] on Github, until someone actually
+created a [[https://github.com/marketplace/actions/publish-org-roam-ui][publish-org-roam-ui]] github action. Maybe that's what most people need,
+but it won't work for me, at least in the iteration of this blog.
+
+** Diagrams as Code
+
+For my current needs ~graphviz~ is enough, but I can keep adding similar
+tools later:
+
+#+header: :exports both
+#+NAME: graphviz-example
+#+BEGIN_SRC dot :file ../static/img/the_road_to_emacs_maximalism/graphviz_example.png :cmdline -Kdot -Tpng
+  digraph {
+    a -> b;
+    b -> c;
+    c -> a;
+  }
+#+END_SRC
+
+#+RESULTS: graphviz-example
+[[file:../static/img/the_road_to_emacs_maximalism/graphviz_example.png]]
+
+** Exports
+
+You take an org file and [[https://orgmode.org/manual/Publishing-options.html][export it]] to different formats like: ~html~ (that's how
+this blog is made), ~LaTeX~, ~markdown~, etc. Currently I only care about the ~html~
+export and you can find the ~publish.el~ file [[https://github.com/schonfinkel/schonfinkel.github.io/blob/master/publish.el][here.]]
+
+* The Infrastructure
+
+Knuth has a point about some of the portability issues on his "Literate
+Programming" paper, even though the markup language (~WEB~) was portable to
+different systems, the same could not be said of the ~PASCAL~ compilers that were
+generating the code:
+
+#+begin_quote
+Furthermore, many of the world's PASCAL compilers are incredibly
+bizarre. Therefore it is quite naive to believe that a single program TANGLE.PAS
+could actually work on very many different machines, or even that one single
+source file TANGLE.WEB could be adequate; some system-dependent changes are
+inevitable. [cite:@knuth1984literate p.10]
+#+end_quote
+
+Technically, any modern literate programming environment (heck any programming
+environment in general) is going to suffer from similar issues (instead of
+multiple compilers we have multiple package managers and DLL hell). If you use a
+~python~ notebook and never bothered to pin your dependencies, or worse, if no one
+knows which version of the interpreter was used initially, then give it a couple
+months and there's a pretty good chance it will never run.
+
+** Nix
+
+To make this less likelly to happen, my development environment heavilly relies
+on [[https://nixos.org/][Nix]] and [[https://devenv.sh/][devenv]]. Everything is set in a single [[https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix][flake.nix]] file, a ~LaTeX~
+environment with a couple dependencis, some ~.NET~ and ~Python~ libs, ~sqlite~, [[https://github.com/casey/just][just]]
+and even a custom ~Emacs~ to be used in CI, this might seem cursed but it's really
+easy to pull this off on Nix:
+
+#+begin_src nix
+  # (...)
+  customEmacs = (pkgs.emacsPackagesFor pkgs.emacs-nox).emacsWithPackages (
+    epkgs:
+    with epkgs.melpaPackages;
+    [
+      citeproc
+      htmlize
+      ox-rss
+    ]
+    ++ (with epkgs.elpaPackages; [
+      org
+      org-roam
+      org-roam-ui
+    ])
+  );
+  # (...)
+#+end_src
+
+this is only used the CI shell, where we require ~Emacs~ with a minimum set of
+plugins to publish the website, the default (impure) development shell is still
+going to pull your local Emacs:
+
+#+begin_src nix
+  {
+    # `nix develop .#ci`
+    # Reduce the number of packages to the bare minimum needed for CI,
+    # by removing LaTeX and not using my own Emacs configuration, but
+    # a custom package with just enough tools for org-publish.
+    ci = pkgs.mkShell {
+      ENVIRONMENT = "prod";
+      OUT_URL = "https://schonfinkel.github.io/";
+      DOTNET_ROOT = "${dotnet}";
+      DOTNET_CLI_TELEMETRY_OPTOUT = "1";
+      LANG = "en_US.UTF-8";
+      buildInputs = [ dotnet customEmacs ] ++ tooling;
+    };
+
+    # `nix develop --impure`
+    # This is the development shell, meant to be used as an impure
+    # shell, so no custom Emacs here, just use your global package
+    # switch back to the CI shell for builds.
+    default = devenv.lib.mkShell {
+      inherit inputs pkgs;
+      modules = [
+        (
+          { pkgs, lib, ... }:
+          {
+            packages = [ dotnet texenv ] ++ tooling;
+
+            env = {
+              ENVIRONMENT = "dev";
+              DOTNET_ROOT = "${dotnet}";
+              DOTNET_CLI_TELEMETRY_OPTOUT = "1";
+              LANG = "en_US.UTF-8";
+            };
+
+            scripts = {
+              build.exec = "just build";
+              graph.exec = "just graph";
+              clean.exec = "just clean";
+            };
+
+            enterShell = ''
+              echo "Starting environment..."
+            '';
+          }
+        )
+      ];
+  };
+#+end_src
+
+the full setup can be found in the main [[https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix][repo]].
+
+** Continous Integration
+
+Again, I benefit from a somewhat easy to setup CI pipeline thanks to
+[[https://github.com/cachix/install-nix-action][install-nix]], it's a copy of what I already do locally. And you can also benefit
+from faster builds with the [[https://github.com/DeterminateSystems/magic-nix-cache][magic-nix-cache]].
+
+#+begin_src yaml
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+
+      - name: Install Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Build website
+        run: |
+          mkdir -p "$HOME/.emacs.d/"
+          touch "$HOME/.emacs.d/.org-id-locations"
+          nix develop .#ci -c just build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+#+end_src
+
+
+** What is Still Missing
+
+- Anki-Like Flashcards: With either [[https://orgmode.org/worg/org-contrib/org-drill.html\\][org-drill]] or [[https://www.leonrische.me/fc/index.html][org-fc]].
+
+- Integration with [[https://github.com/jkitchin/org-ref][org-ref]]: ~org-ref~ offers a suite of tools that would make
+  keeping track of references easier as the number of notes and posts increases.
+
+- Remove some of the Polyglot Templating: Although the polyglot usage of
+  different programming languages here was a good way to show some of orgmode's
+  source block features, I know my usage of ~F#~ is unecessary, I could have done
+  the same in pure ~elisp~, but I still suck at it.
+
+- Not related to the blog itself, but [[https://orgmode.org/manual/Agenda-Views.html][org-agenda]] looks slick.
+
+* Notable Mentions
+
+** Hugo
+
+This blog was originally fully integrated with[[https://gohugo.io/][ hugo]] and [[https://ox-hugo.scripter.co/][ox-hugo]] (first stolen
+from [[https://github.com/ratsclub][my close friend]]), but eventually I've started facing issues since the way I
+organize files (one per post) is not recommended by ox-hugo. The "per-post"
+setup actually worked, but ~hugo~ is also a project that moves very fast and I
+quickly faced a situation where upgrading it broke my workflow, luckily I
+develop in a sandbox environment and was able to ignore this versioning issue
+for a couple months.
+
+** Quartz
+
+Similar to ~hugo~, although [[https://quartz.jzhao.xyz/][Quartz]] is also built to support [[https://obsidian.md/][Obsidian]]-like notes.
+
+** Emanote
+
+Before doing the full refactor and moving it back to a pure [[https://orgmode.org/manual/Publishing.html][org-publish]]
+workflow, I found out about [[https://emanote.srid.ca/][emanote]]. It is similar to Quartz, but it feels
+overall better since the license is ~AGPL v3~. It's also built atop of Markdown,
+but there are [[https://github.com/srid/emanote/blob/master/docs/guide/orgmode.org][steps]] on how to configure this to use ~org~ as well. May be a good
+choice for people already familiar with Haskell and Nix.
+
+* Conclusion
+
+While I haven't moved all my development workflow to ~Emacs~ (it might be a matter
+a time), ~Emacs~ already stole all my note-taking and blogging capabilities and
+I'll probably stick with it for a long time. I still hope ~Neovim~ gets something
+similar, it is already a huge improvement above vanilla ~vim~ offered thanks to
+many new features (and allowing a [[https://neovim.io/doc/user/lua-guide.html][real language]] for configuration instead of
+~VimL~). There is also some work being done in [[https://github.com/nvim-orgmode/orgmode][replicating org]] using ~lua~, but it
+would be interesting to see if the community can pull some similar plugins as
+well.
+
+* References
+#+print_bibliography: 

@@ -17,6 +17,7 @@
 (require 'ox)
 (require 'ox-html)
 (require 'ox-publish)
+(require 'ox-rss)
 
 ;;; org-babel configuration
 
@@ -51,7 +52,7 @@
 ;; Use our own scripts
 (setq org-html-head-include-scripts nil)
 ;; Use our own styles
-(setq org-html-head-include-default-style nil) 
+(setq org-html-head-include-default-style nil)
 
 ;;;; Settings
 (setq-default root-dir (concat (getenv "PWD") "/"))
@@ -76,21 +77,22 @@
 (setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io"))
 (message (format "SETTING URL: %s" url-dir))
 
+(setq-default out-rss-dir (concat out-dir "/" "rss"))
 (setq-default out-static-dir (concat out-dir "/static/"))
 (setq-default out-css-dir (concat out-static-dir "css"))
 (setq-default out-img-dir (concat out-static-dir "img"))
 (setq-default out-html-dir (concat out-static-dir "html"))
 
 ;;;; Fix bibliography
-(setq org-cite-refs-list '("articles.bib" 
-                           "beam.bib" 
+(setq org-cite-refs-list '("articles.bib"
+                           "beam.bib"
                            "databases.bib"
-                           "fp_general.bib" 
-                           "haskell.bib" 
-                           "leadership.bib" 
-                           "math_and_logic.bib" 
-                           "nixos.bib" 
-                           "software_engineering.bib" 
+                           "fp_general.bib"
+                           "haskell.bib"
+                           "leadership.bib"
+                           "math_and_logic.bib"
+                           "nixos.bib"
+                           "software_engineering.bib"
                            "sysadmin.bib"))
 (setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
 (setq org-cite-global-bibliography org-cite-refs-path)
@@ -114,7 +116,7 @@
 (setq-default website-html-head html-head-prefix)
 
 (setq-default html-nav-file (get-string-from-file (concat static-html-dir "/" "nav.html")))
-(setq-default html-nav (patch-string-with-path html-nav-file url-dir 5))
+(setq-default html-nav (patch-string-with-path html-nav-file url-dir 6))
 (message (format "HTML NAV: %s" html-nav))
 (setq-default website-html-preamble html-nav)
 
@@ -141,7 +143,7 @@
          :with-toc nil
          :with-date t
 
-         :export-with-tags nil
+         :export-with-tags t
          :exclude-tags ("todo" "noexport")
          :exclude "level-.*\\|.*\.draft\.org\\|.direnv*"
          :section-numbers nil
@@ -162,6 +164,21 @@
          :html-head ,website-html-head
          :html-preamble ,website-html-preamble
          :html-postamble ,website-html-postamble)
+
+        ("rss"
+         :base-directory ,org-blog-dir
+         :base-extension "org"
+         :publishing-directory ,out-dir
+         :exclude "index.org"
+         :rss-extension "xml"
+         :html-link-home ,(concat url-dir "/" "index.html")
+         :html-link-use-abs-url t
+         :html-link-org-files-as-html t
+         :auto-sitemap t
+         :sitemap-title "Recent activity in Benevides' Blog"
+         :sitemap-filename "rss.org"
+         :sitemap-style list
+         :sitemap-sort-files anti-chronologically)
 
         ("images"
          :base-directory ,static-img-dir
@@ -191,7 +208,7 @@
          :recursive t
          :publishing-function org-publish-attachment)
 
-        ("all" :components ("css" "images" "html" "other" "site"))))
+        ("all" :components ("css" "images" "html" "other" "rss" "site"))))
 
 ;; Generate the site output
 (org-roam-update-org-id-locations)
