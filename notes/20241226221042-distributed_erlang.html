@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-30 Mon 02:48 -->
+<!-- 2024-12-30 Mon 11:16 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Distributed Erlang</title>
@@ -71,17 +71,17 @@ make this possible:
 </blockquote>
 
 
-<figure id="orgfcebce7">
+<figure id="orgf93e6f9">
 <img src="../static/img/notes/distributed_erlang.png" alt="distributed_erlang.png">
 
 </figure>
-<div id="outline-container-org9fab665" class="outline-2">
-<h2 id="org9fab665">Nodes and Clustering</h2>
-<div class="outline-text-2" id="text-org9fab665">
+<div id="outline-container-org07d295d" class="outline-2">
+<h2 id="org07d295d">Nodes and Clustering</h2>
+<div class="outline-text-2" id="text-org07d295d">
 </div>
-<div id="outline-container-org528d012" class="outline-3">
-<h3 id="org528d012">Starting a Node</h3>
-<div class="outline-text-3" id="text-org528d012">
+<div id="outline-container-org23f43bf" class="outline-3">
+<h3 id="org23f43bf">Starting a Node</h3>
+<div class="outline-text-3" id="text-org23f43bf">
 <p>
 To start an Erlang node in distributed mode, you run <code>erl</code> with one of the flags
 <code>-name</code> or <code>-sname</code>:
@@ -103,13 +103,13 @@ mode. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 194</a>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org51b9584" class="outline-3">
-<h3 id="org51b9584">Connecting Nodes</h3>
-<div class="outline-text-3" id="text-org51b9584">
+<div id="outline-container-org75cc1d8" class="outline-3">
+<h3 id="org75cc1d8">Connecting Nodes</h3>
+<div class="outline-text-3" id="text-org75cc1d8">
 </div>
-<div id="outline-container-orga45a6c6" class="outline-4">
-<h4 id="orga45a6c6">Hidden Nodes</h4>
-<div class="outline-text-4" id="text-orga45a6c6">
+<div id="outline-container-org0e0a7c1" class="outline-4">
+<h4 id="org0e0a7c1">Hidden Nodes</h4>
+<div class="outline-text-4" id="text-org0e0a7c1">
 <blockquote>
 <p>
 It's possible to connect clusters via special nodes to form a larger, not fully
@@ -120,9 +120,9 @@ nonintrusive inspection of a cluster. (<a href="#citeproc_bib_item_1">Logan, Mer
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org4b5ab79" class="outline-4">
-<h4 id="org4b5ab79">EPMD</h4>
-<div class="outline-text-4" id="text-org4b5ab79">
+<div id="outline-container-orge21929d" class="outline-4">
+<h4 id="orge21929d">EPMD</h4>
+<div class="outline-text-4" id="text-orge21929d">
 <blockquote>
 <p>
 EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
@@ -140,9 +140,9 @@ another. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 197<
 </div>
 </div>
 </div>
-<div id="outline-container-org1fd71bd" class="outline-3">
-<h3 id="org1fd71bd">The Cookie Protection System</h3>
-<div class="outline-text-3" id="text-org1fd71bd">
+<div id="outline-container-orgd228679" class="outline-3">
+<h3 id="orgd228679">The Cookie Protection System</h3>
+<div class="outline-text-3" id="text-orgd228679">
 <p>
 For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
 </p>
@@ -160,9 +160,9 @@ For two distributed Erlang nodes to communicate, they must have the same magic c
 </div>
 </div>
 </div>
-<div id="outline-container-org76280e7" class="outline-2">
-<h2 id="org76280e7">Socket-Based Distribution</h2>
-<div class="outline-text-2" id="text-org76280e7">
+<div id="outline-container-orge0f0ebe" class="outline-2">
+<h2 id="orge0f0ebe">Socket-Based Distribution</h2>
+<div class="outline-text-2" id="text-orge0f0ebe">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
