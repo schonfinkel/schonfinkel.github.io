@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-30 Mon 11:16 -->
+<!-- 2024-12-30 Mon 12:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The road to Emacs maximalism</title>
@@ -63,9 +63,9 @@ much of what I shall say as the ravings of a fanatic who thinks he has just seen
 a great light. (<a href="#citeproc_bib_item_1">Knuth 1984, 1</a>)
 </p>
 </blockquote>
-<div id="outline-container-org2b0e4c0" class="outline-2">
-<h2 id="org2b0e4c0">Introduction</h2>
-<div class="outline-text-2" id="text-org2b0e4c0">
+<div id="outline-container-orgbfd96a2" class="outline-2">
+<h2 id="orgbfd96a2">Introduction</h2>
+<div class="outline-text-2" id="text-orgbfd96a2">
 <p>
 A couple years ago I've started watching <a href="https://github.com/sponsors/daviwil">David Wilson's</a> channel (also know as
 <a href="https://www.youtube.com/c/SystemCrafters">SystemCrafters</a>), originally his channel focused heavilly on<a href="https://fsharp.org/"> F#</a> (and that's how I
@@ -77,7 +77,7 @@ tools.
 </p>
 
 <p>
-Everything changed once I saw his <a href="https://www.youtube.com/watch?v=AyhPmypHDEw">presentation</a> about of <a href="https://www.orgroam.com/">org-roam</a>, my brain got
+Everything changed once I saw his <a href="https://www.youtube.com/watch?v=AyhPmypHDEw">presentation</a> about <a href="https://www.orgroam.com/">org-roam</a>, my brain got
 hijacked by the idea of testing <code>Emacs</code>. I had previously heard about <a href="https://orgmode.org/">orgmode</a>
 before, but it was never on my radar since it felt like some <a href="https://xkcd.com/378/">"Emacs weirdo"</a>
 cool-aid. What got me impressed was that I always needed some tool to help me
@@ -145,9 +145,9 @@ of <b>Emacs Lisp</b> functions.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgbc30034" class="outline-3">
-<h3 id="orgbc30034">Literate Programming</h3>
-<div class="outline-text-3" id="text-orgbc30034">
+<div id="outline-container-org287c71b" class="outline-3">
+<h3 id="org287c71b">Literate Programming</h3>
+<div class="outline-text-3" id="text-org287c71b">
 <blockquote>
 <p>
 I believe that the time is ripe for significantly better documentation of
@@ -183,13 +183,13 @@ computer. (<a href="#citeproc_bib_item_2">Schulte et al. 2012, 12</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-org5b9bbdc" class="outline-2">
-<h2 id="org5b9bbdc">Orgmode</h2>
-<div class="outline-text-2" id="text-org5b9bbdc">
+<div id="outline-container-orgbe641ad" class="outline-2">
+<h2 id="orgbe641ad">Orgmode</h2>
+<div class="outline-text-2" id="text-orgbe641ad">
 </div>
-<div id="outline-container-orgeb03f41" class="outline-3">
-<h3 id="orgeb03f41">Arbitrary Code Execution and Generation</h3>
-<div class="outline-text-3" id="text-orgeb03f41">
+<div id="outline-container-orge3cd4d4" class="outline-3">
+<h3 id="orge3cd4d4">Arbitrary Code Execution and Generation</h3>
+<div class="outline-text-3" id="text-orge3cd4d4">
 <p>
 Here's what my <code>blog.org</code> file looks like:
 </p>
@@ -207,8 +207,8 @@ Here's what my <code>blog.org</code> file looks like:
 </div>
 
 <p>
-it's a single line that also calls a shell command, <code>dotnet fsi posts.fsx</code>,
-<code>posts.fsx</code> in an <code>F#</code> file that generates html content as a huge string:
+it's a single text line that also calls a shell command, <code>dotnet fsi posts.fsx</code>,
+<code>posts.fsx</code> is an <code>F#</code> file that generates html content as a huge string:
 </p>
 
 <div class="org-src-container">
@@ -241,9 +241,9 @@ CI).
 </p>
 </div>
 </div>
-<div id="outline-container-orgff6865e" class="outline-3">
-<h3 id="orgff6865e">Roam</h3>
-<div class="outline-text-3" id="text-orgff6865e">
+<div id="outline-container-org7d69a8e" class="outline-3">
+<h3 id="org7d69a8e">Roam</h3>
+<div class="outline-text-3" id="text-org7d69a8e">
 <p>
 Similar to the previous section, my <a href="https://schonfinkel.github.io/notes.html">notes</a> are also generated via some hacky <code>F#</code>
 script:
@@ -268,11 +268,11 @@ The difference being that there is an extra <code>#+INCLUDE:</code> directive im
 actual html code. That's where the <code>d3.js</code> graph setup is.
 </p>
 </div>
-<div id="outline-container-org1038996" class="outline-4">
-<h4 id="org1038996">Stealing the Graph</h4>
-<div class="outline-text-4" id="text-org1038996">
+<div id="outline-container-org6535853" class="outline-4">
+<h4 id="org6535853">Stealing the Graph</h4>
+<div class="outline-text-4" id="text-org6535853">
 
-<figure id="org8d30fc4">
+<figure id="org32a821c">
 <img src="../static/img/the_road_to_emacs_maximalism/notes.png" alt="notes.png" width="70%" height="70%" align="center">
 
 <figcaption><span class="figure-number">Figure 1: </span>My crappy graph</figcaption>
@@ -303,16 +303,16 @@ won't work for me, at least in this current iteration of the blog.
 </div>
 </div>
 </div>
-<div id="outline-container-orgd703d7b" class="outline-3">
-<h3 id="orgd703d7b">Diagrams as Code</h3>
-<div class="outline-text-3" id="text-orgd703d7b">
+<div id="outline-container-orge6f97c2" class="outline-3">
+<h3 id="orge6f97c2">Diagrams as Code</h3>
+<div class="outline-text-3" id="text-orge6f97c2">
 <p>
 For my current needs <code>graphviz</code> is enough, but I can keep adding similar
 tools later:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-dot" id="org7614e56">  digraph {
+<pre class="src src-dot" id="org43d8627">  digraph {
     a -&gt; b;
     b -&gt; c;
     c -&gt; a;
@@ -321,15 +321,15 @@ tools later:
 </div>
 
 
-<figure id="orgfda1a9c">
+<figure id="orgaa3cb69">
 <img src="../static/img/the_road_to_emacs_maximalism/graphviz_example.png" alt="graphviz_example.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orgccff2f0" class="outline-3">
-<h3 id="orgccff2f0">Exports</h3>
-<div class="outline-text-3" id="text-orgccff2f0">
+<div id="outline-container-orge29641c" class="outline-3">
+<h3 id="orge29641c">Exports</h3>
+<div class="outline-text-3" id="text-orge29641c">
 <p>
 You take an org file and <a href="https://orgmode.org/manual/Publishing-options.html">export it</a> to different formats like: <code>html</code> (that's how
 this blog is made), <code>LaTeX</code>, <code>markdown</code>, etc. Currently I only care about the <code>html</code>
@@ -338,9 +338,9 @@ export and you can find the <code>publish.el</code> file <a href="https://github
 </div>
 </div>
 </div>
-<div id="outline-container-orgf453b84" class="outline-2">
-<h2 id="orgf453b84">The Infrastructure</h2>
-<div class="outline-text-2" id="text-orgf453b84">
+<div id="outline-container-org23b66ce" class="outline-2">
+<h2 id="org23b66ce">The Infrastructure</h2>
+<div class="outline-text-2" id="text-org23b66ce">
 <p>
 Knuth has a point about some of the portability issues on his "Literate
 Programming" paper, even though the markup language (<code>WEB</code>) was portable to
@@ -367,9 +367,9 @@ knows which version of the interpreter was used initially, then give it a couple
 months and there's a pretty good chance it will never run.
 </p>
 </div>
-<div id="outline-container-org61d3f98" class="outline-3">
-<h3 id="org61d3f98">Nix</h3>
-<div class="outline-text-3" id="text-org61d3f98">
+<div id="outline-container-org5dd6fbe" class="outline-3">
+<h3 id="org5dd6fbe">Nix</h3>
+<div class="outline-text-3" id="text-org5dd6fbe">
 <p>
 To make this less likelly to happen, my development environment heavilly relies
 on <a href="https://nixos.org/">Nix</a> and <a href="https://devenv.sh/">devenv</a>. Everything is set in a single <a href="https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix">flake.nix</a> file, a <code>LaTeX</code>
@@ -459,9 +459,9 @@ the full setup can be found in the main <a href="https://github.com/schonfinkel/
 </p>
 </div>
 </div>
-<div id="outline-container-org0f87572" class="outline-3">
-<h3 id="org0f87572">Continous Integration</h3>
-<div class="outline-text-3" id="text-org0f87572">
+<div id="outline-container-org3e0d32c" class="outline-3">
+<h3 id="org3e0d32c">Continous Integration</h3>
+<div class="outline-text-3" id="text-org3e0d32c">
 <p>
 Again, I benefit from a somewhat easy to setup CI pipeline thanks to
 <a href="https://github.com/cachix/install-nix-action">install-nix</a>, it's a copy of what I already do locally. And you can also benefit
@@ -490,9 +490,9 @@ from faster builds with the <a href="https://github.com/DeterminateSystems/magic
 </div>
 </div>
 </div>
-<div id="outline-container-orgfbe16c9" class="outline-3">
-<h3 id="orgfbe16c9">What is Still Missing</h3>
-<div class="outline-text-3" id="text-orgfbe16c9">
+<div id="outline-container-orgd511041" class="outline-3">
+<h3 id="orgd511041">What is Still Missing</h3>
+<div class="outline-text-3" id="text-orgd511041">
 <ul class="org-ul">
 <li>Anki-Like Flashcards: With either <a href="https://orgmode.org/worg/org-contrib/org-drill.html%5C">org-drill</a> or <a href="https://www.leonrische.me/fc/index.html">org-fc</a>.</li>
 
@@ -509,13 +509,13 @@ the same in pure <code>elisp</code>, but I still suck at it.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org3f419be" class="outline-2">
-<h2 id="org3f419be">Notable Mentions</h2>
-<div class="outline-text-2" id="text-org3f419be">
+<div id="outline-container-org602dc27" class="outline-2">
+<h2 id="org602dc27">Notable Mentions</h2>
+<div class="outline-text-2" id="text-org602dc27">
 </div>
-<div id="outline-container-org8515f73" class="outline-3">
-<h3 id="org8515f73">Hugo</h3>
-<div class="outline-text-3" id="text-org8515f73">
+<div id="outline-container-org1811909" class="outline-3">
+<h3 id="org1811909">Hugo</h3>
+<div class="outline-text-3" id="text-org1811909">
 <p>
 This blog was originally fully integrated with<a href="https://gohugo.io/"> hugo</a> and <a href="https://ox-hugo.scripter.co/">ox-hugo</a> (first stolen
 from <a href="https://github.com/ratsclub">my close friend</a>), but eventually I've started facing issues since the way I
@@ -527,17 +527,17 @@ for a couple months.
 </p>
 </div>
 </div>
-<div id="outline-container-org965b335" class="outline-3">
-<h3 id="org965b335">Quartz</h3>
-<div class="outline-text-3" id="text-org965b335">
+<div id="outline-container-orgc5ddff8" class="outline-3">
+<h3 id="orgc5ddff8">Quartz</h3>
+<div class="outline-text-3" id="text-orgc5ddff8">
 <p>
 Similar to <code>hugo</code>, although <a href="https://quartz.jzhao.xyz/">Quartz</a> is also built to support <a href="https://obsidian.md/">Obsidian</a>-like notes.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb9ee69c" class="outline-3">
-<h3 id="orgb9ee69c">Emanote</h3>
-<div class="outline-text-3" id="text-orgb9ee69c">
+<div id="outline-container-org3996fa5" class="outline-3">
+<h3 id="org3996fa5">Emanote</h3>
+<div class="outline-text-3" id="text-org3996fa5">
 <p>
 Before doing the full refactor and moving it back to a pure <a href="https://orgmode.org/manual/Publishing.html">org-publish</a>
 workflow, I found out about <a href="https://emanote.srid.ca/">emanote</a>. It is similar to Quartz, but it feels
@@ -548,9 +548,9 @@ choice for people already familiar with Haskell and Nix.
 </div>
 </div>
 </div>
-<div id="outline-container-org123f217" class="outline-2">
-<h2 id="org123f217">Conclusion</h2>
-<div class="outline-text-2" id="text-org123f217">
+<div id="outline-container-org0b51c34" class="outline-2">
+<h2 id="org0b51c34">Conclusion</h2>
+<div class="outline-text-2" id="text-org0b51c34">
 <p>
 While I haven't moved all my development workflow to <code>Emacs</code> (it might be a matter
 a time), <code>Emacs</code> already stole all my note-taking and blogging capabilities and
@@ -563,9 +563,9 @@ well.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf844e73" class="outline-2">
-<h2 id="orgf844e73">References</h2>
-<div class="outline-text-2" id="text-orgf844e73">
+<div id="outline-container-orgd8604f0" class="outline-2">
+<h2 id="orgd8604f0">References</h2>
+<div class="outline-text-2" id="text-orgd8604f0">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Knuth, Donald Ervin. 1984. “Literate Programming.” <i>The Computer Journal</i> 27 (2): 97–111.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Schulte, Eric, Dan Davison, Thomas Dye, and Carsten Dominik. 2012. “A Multi-Language Computing Environment for Literate Programming and Reproducible Research.” <i>Journal of Statistical Software</i> 46: 1–24.</div>

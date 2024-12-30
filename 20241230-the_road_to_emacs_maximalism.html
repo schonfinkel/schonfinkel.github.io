@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-30 Mon 11:16 -->
+<!-- 2024-12-30 Mon 12:48 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The road to Emacs maximalism</title>
@@ -24,39 +24,39 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8f3fe68">1. Introduction</a>
+<li><a href="#org7bd52cf">1. Introduction</a>
 <ul>
-<li><a href="#orgdf10fde">1.1. Literate Programming</a></li>
+<li><a href="#orgc520380">1.1. Literate Programming</a></li>
 </ul>
 </li>
-<li><a href="#orgee19a55">2. Orgmode</a>
+<li><a href="#org65d6d24">2. Orgmode</a>
 <ul>
-<li><a href="#org15c8962">2.1. Arbitrary Code Execution and Generation</a></li>
-<li><a href="#orga290905">2.2. Roam</a>
+<li><a href="#org30d445a">2.1. Arbitrary Code Execution and Generation</a></li>
+<li><a href="#org88406df">2.2. Roam</a>
 <ul>
-<li><a href="#org80225cf">2.2.1. Stealing the Graph</a></li>
+<li><a href="#org725cad8">2.2.1. Stealing the Graph</a></li>
 </ul>
 </li>
-<li><a href="#org3ca73d6">2.3. Diagrams as Code</a></li>
-<li><a href="#org5d3f727">2.4. Exports</a></li>
+<li><a href="#orgf7eab20">2.3. Diagrams as Code</a></li>
+<li><a href="#org292b1d2">2.4. Exports</a></li>
 </ul>
 </li>
-<li><a href="#orgb1f86b8">3. The Infrastructure</a>
+<li><a href="#org799fb75">3. The Infrastructure</a>
 <ul>
-<li><a href="#orgfb1d3a2">3.1. Nix</a></li>
-<li><a href="#org77d90f9">3.2. Continous Integration</a></li>
-<li><a href="#orgc376dc7">3.3. What is Still Missing</a></li>
+<li><a href="#org19e4ff5">3.1. Nix</a></li>
+<li><a href="#org5ebc131">3.2. Continous Integration</a></li>
+<li><a href="#org97f6638">3.3. What is Still Missing</a></li>
 </ul>
 </li>
-<li><a href="#org69da1dc">4. Notable Mentions</a>
+<li><a href="#org1578d26">4. Notable Mentions</a>
 <ul>
-<li><a href="#org74957f7">4.1. Hugo</a></li>
-<li><a href="#org7edcf81">4.2. Quartz</a></li>
-<li><a href="#orgc81e1e5">4.3. Emanote</a></li>
+<li><a href="#orgaae5565">4.1. Hugo</a></li>
+<li><a href="#org08cffd2">4.2. Quartz</a></li>
+<li><a href="#orge0ae76b">4.3. Emanote</a></li>
 </ul>
 </li>
-<li><a href="#orgaee9fbb">5. Conclusion</a></li>
-<li><a href="#org6eaf74e">6. References</a></li>
+<li><a href="#org35c59b2">5. Conclusion</a></li>
+<li><a href="#org1b108b8">6. References</a></li>
 </ul>
 </div>
 </div>
@@ -68,8 +68,8 @@ much of what I shall say as the ravings of a fanatic who thinks he has just seen
 a great light. (<a href="#citeproc_bib_item_1">Knuth 1984, 1</a>)
 </p>
 </blockquote>
-<div id="outline-container-org8f3fe68" class="outline-2">
-<h2 id="org8f3fe68"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org7bd52cf" class="outline-2">
+<h2 id="org7bd52cf"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 A couple years ago I've started watching <a href="https://github.com/sponsors/daviwil">David Wilson's</a> channel (also know as
@@ -82,7 +82,7 @@ tools.
 </p>
 
 <p>
-Everything changed once I saw his <a href="https://www.youtube.com/watch?v=AyhPmypHDEw">presentation</a> about of <a href="https://www.orgroam.com/">org-roam</a>, my brain got
+Everything changed once I saw his <a href="https://www.youtube.com/watch?v=AyhPmypHDEw">presentation</a> about <a href="https://www.orgroam.com/">org-roam</a>, my brain got
 hijacked by the idea of testing <code>Emacs</code>. I had previously heard about <a href="https://orgmode.org/">orgmode</a>
 before, but it was never on my radar since it felt like some <a href="https://xkcd.com/378/">"Emacs weirdo"</a>
 cool-aid. What got me impressed was that I always needed some tool to help me
@@ -150,8 +150,8 @@ of <b>Emacs Lisp</b> functions.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgdf10fde" class="outline-3">
-<h3 id="orgdf10fde"><span class="section-number-3">1.1.</span> Literate Programming</h3>
+<div id="outline-container-orgc520380" class="outline-3">
+<h3 id="orgc520380"><span class="section-number-3">1.1.</span> Literate Programming</h3>
 <div class="outline-text-3" id="text-1-1">
 <blockquote>
 <p>
@@ -188,12 +188,12 @@ computer. (<a href="#citeproc_bib_item_2">Schulte et al. 2012, 12</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-orgee19a55" class="outline-2">
-<h2 id="orgee19a55"><span class="section-number-2">2.</span> Orgmode</h2>
+<div id="outline-container-org65d6d24" class="outline-2">
+<h2 id="org65d6d24"><span class="section-number-2">2.</span> Orgmode</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org15c8962" class="outline-3">
-<h3 id="org15c8962"><span class="section-number-3">2.1.</span> Arbitrary Code Execution and Generation</h3>
+<div id="outline-container-org30d445a" class="outline-3">
+<h3 id="org30d445a"><span class="section-number-3">2.1.</span> Arbitrary Code Execution and Generation</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Here's what my <code>blog.org</code> file looks like:
@@ -212,8 +212,8 @@ Here's what my <code>blog.org</code> file looks like:
 </div>
 
 <p>
-it's a single line that also calls a shell command, <code>dotnet fsi posts.fsx</code>,
-<code>posts.fsx</code> in an <code>F#</code> file that generates html content as a huge string:
+it's a single text line that also calls a shell command, <code>dotnet fsi posts.fsx</code>,
+<code>posts.fsx</code> is an <code>F#</code> file that generates html content as a huge string:
 </p>
 
 <div class="org-src-container">
@@ -246,8 +246,8 @@ CI).
 </p>
 </div>
 </div>
-<div id="outline-container-orga290905" class="outline-3">
-<h3 id="orga290905"><span class="section-number-3">2.2.</span> Roam</h3>
+<div id="outline-container-org88406df" class="outline-3">
+<h3 id="org88406df"><span class="section-number-3">2.2.</span> Roam</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Similar to the previous section, my <a href="https://schonfinkel.github.io/notes.html">notes</a> are also generated via some hacky <code>F#</code>
@@ -273,11 +273,11 @@ The difference being that there is an extra <code>#+INCLUDE:</code> directive im
 actual html code. That's where the <code>d3.js</code> graph setup is.
 </p>
 </div>
-<div id="outline-container-org80225cf" class="outline-4">
-<h4 id="org80225cf"><span class="section-number-4">2.2.1.</span> Stealing the Graph</h4>
+<div id="outline-container-org725cad8" class="outline-4">
+<h4 id="org725cad8"><span class="section-number-4">2.2.1.</span> Stealing the Graph</h4>
 <div class="outline-text-4" id="text-2-2-1">
 
-<div id="orga1c0049" class="figure">
+<div id="org4c73363" class="figure">
 <p><img src="https://schonfinkel.github.io/index.html/../static/img/the_road_to_emacs_maximalism/notes.png" alt="notes.png" width="70%" height="70%" align="center" />
 </p>
 <p><span class="figure-number">Figure 1: </span>My crappy graph</p>
@@ -308,8 +308,8 @@ won't work for me, at least in this current iteration of the blog.
 </div>
 </div>
 </div>
-<div id="outline-container-org3ca73d6" class="outline-3">
-<h3 id="org3ca73d6"><span class="section-number-3">2.3.</span> Diagrams as Code</h3>
+<div id="outline-container-orgf7eab20" class="outline-3">
+<h3 id="orgf7eab20"><span class="section-number-3">2.3.</span> Diagrams as Code</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 For my current needs <code>graphviz</code> is enough, but I can keep adding similar
@@ -317,7 +317,7 @@ tools later:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-dot" id="org1921c7f">  digraph {
+<pre class="src src-dot" id="org4db3768">  digraph {
     a -&gt; b;
     b -&gt; c;
     c -&gt; a;
@@ -326,14 +326,14 @@ tools later:
 </div>
 
 
-<div id="org9935da1" class="figure">
+<div id="org3b95237" class="figure">
 <p><img src="https://schonfinkel.github.io/index.html/../static/img/the_road_to_emacs_maximalism/graphviz_example.png" alt="graphviz_example.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org5d3f727" class="outline-3">
-<h3 id="org5d3f727"><span class="section-number-3">2.4.</span> Exports</h3>
+<div id="outline-container-org292b1d2" class="outline-3">
+<h3 id="org292b1d2"><span class="section-number-3">2.4.</span> Exports</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 You take an org file and <a href="https://orgmode.org/manual/Publishing-options.html">export it</a> to different formats like: <code>html</code> (that's how
@@ -343,8 +343,8 @@ export and you can find the <code>publish.el</code> file <a href="https://github
 </div>
 </div>
 </div>
-<div id="outline-container-orgb1f86b8" class="outline-2">
-<h2 id="orgb1f86b8"><span class="section-number-2">3.</span> The Infrastructure</h2>
+<div id="outline-container-org799fb75" class="outline-2">
+<h2 id="org799fb75"><span class="section-number-2">3.</span> The Infrastructure</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Knuth has a point about some of the portability issues on his "Literate
@@ -372,8 +372,8 @@ knows which version of the interpreter was used initially, then give it a couple
 months and there's a pretty good chance it will never run.
 </p>
 </div>
-<div id="outline-container-orgfb1d3a2" class="outline-3">
-<h3 id="orgfb1d3a2"><span class="section-number-3">3.1.</span> Nix</h3>
+<div id="outline-container-org19e4ff5" class="outline-3">
+<h3 id="org19e4ff5"><span class="section-number-3">3.1.</span> Nix</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 To make this less likelly to happen, my development environment heavilly relies
@@ -464,8 +464,8 @@ the full setup can be found in the main <a href="https://github.com/schonfinkel/
 </p>
 </div>
 </div>
-<div id="outline-container-org77d90f9" class="outline-3">
-<h3 id="org77d90f9"><span class="section-number-3">3.2.</span> Continous Integration</h3>
+<div id="outline-container-org5ebc131" class="outline-3">
+<h3 id="org5ebc131"><span class="section-number-3">3.2.</span> Continous Integration</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Again, I benefit from a somewhat easy to setup CI pipeline thanks to
@@ -495,8 +495,8 @@ from faster builds with the <a href="https://github.com/DeterminateSystems/magic
 </div>
 </div>
 </div>
-<div id="outline-container-orgc376dc7" class="outline-3">
-<h3 id="orgc376dc7"><span class="section-number-3">3.3.</span> What is Still Missing</h3>
+<div id="outline-container-org97f6638" class="outline-3">
+<h3 id="org97f6638"><span class="section-number-3">3.3.</span> What is Still Missing</h3>
 <div class="outline-text-3" id="text-3-3">
 <ul class="org-ul">
 <li>Anki-Like Flashcards: With either <a href="https://orgmode.org/worg/org-contrib/org-drill.html%5C">org-drill</a> or <a href="https://www.leonrische.me/fc/index.html">org-fc</a>.</li>
@@ -514,12 +514,12 @@ the same in pure <code>elisp</code>, but I still suck at it.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org69da1dc" class="outline-2">
-<h2 id="org69da1dc"><span class="section-number-2">4.</span> Notable Mentions</h2>
+<div id="outline-container-org1578d26" class="outline-2">
+<h2 id="org1578d26"><span class="section-number-2">4.</span> Notable Mentions</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org74957f7" class="outline-3">
-<h3 id="org74957f7"><span class="section-number-3">4.1.</span> Hugo</h3>
+<div id="outline-container-orgaae5565" class="outline-3">
+<h3 id="orgaae5565"><span class="section-number-3">4.1.</span> Hugo</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 This blog was originally fully integrated with<a href="https://gohugo.io/"> hugo</a> and <a href="https://ox-hugo.scripter.co/">ox-hugo</a> (first stolen
@@ -532,16 +532,16 @@ for a couple months.
 </p>
 </div>
 </div>
-<div id="outline-container-org7edcf81" class="outline-3">
-<h3 id="org7edcf81"><span class="section-number-3">4.2.</span> Quartz</h3>
+<div id="outline-container-org08cffd2" class="outline-3">
+<h3 id="org08cffd2"><span class="section-number-3">4.2.</span> Quartz</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Similar to <code>hugo</code>, although <a href="https://quartz.jzhao.xyz/">Quartz</a> is also built to support <a href="https://obsidian.md/">Obsidian</a>-like notes.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc81e1e5" class="outline-3">
-<h3 id="orgc81e1e5"><span class="section-number-3">4.3.</span> Emanote</h3>
+<div id="outline-container-orge0ae76b" class="outline-3">
+<h3 id="orge0ae76b"><span class="section-number-3">4.3.</span> Emanote</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 Before doing the full refactor and moving it back to a pure <a href="https://orgmode.org/manual/Publishing.html">org-publish</a>
@@ -553,8 +553,8 @@ choice for people already familiar with Haskell and Nix.
 </div>
 </div>
 </div>
-<div id="outline-container-orgaee9fbb" class="outline-2">
-<h2 id="orgaee9fbb"><span class="section-number-2">5.</span> Conclusion</h2>
+<div id="outline-container-org35c59b2" class="outline-2">
+<h2 id="org35c59b2"><span class="section-number-2">5.</span> Conclusion</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 While I haven't moved all my development workflow to <code>Emacs</code> (it might be a matter
@@ -568,8 +568,8 @@ well.
 </p>
 </div>
 </div>
-<div id="outline-container-org6eaf74e" class="outline-2">
-<h2 id="org6eaf74e"><span class="section-number-2">6.</span> References</h2>
+<div id="outline-container-org1b108b8" class="outline-2">
+<h2 id="org1b108b8"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-6">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Knuth, Donald Ervin. 1984. “Literate Programming.” <i>The Computer Journal</i> 27 (2): 97–111.</div>
@@ -581,7 +581,7 @@ well.
 <div id="postamble" class="status">
 <p class="date">Date: 2024-12-30 Mon 00:00</p>
 <p class="author">Author: Marcos Benevides</p>
-<p class="date">Created: 2024-12-30 Mon 11:16</p>
+<p class="date">Created: 2024-12-30 Mon 12:48</p>
 </div>
 </body>
 </html>

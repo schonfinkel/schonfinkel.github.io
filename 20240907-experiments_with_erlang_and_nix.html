@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-30 Mon 11:16 -->
+<!-- 2024-12-30 Mon 12:48 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Some experiments with Erlang and NixOS</title>
@@ -24,27 +24,27 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7a1caf4">1. Devenv</a>
+<li><a href="#org27ec86e">1. Devenv</a>
 <ul>
-<li><a href="#org9315607">1.1. A unified development shell for Erlang and Zig</a>
+<li><a href="#org009d86d">1.1. A unified development shell for Erlang and Zig</a>
 <ul>
-<li><a href="#org4e7918a">1.1.1. Running Postgres</a></li>
-<li><a href="#org2120ca9">1.1.2. Direnv</a></li>
+<li><a href="#orga378531">1.1.1. Running Postgres</a></li>
+<li><a href="#orgea0584b">1.1.2. Direnv</a></li>
 </ul>
 </li>
-<li><a href="#org70ffaf8">1.2. The CI environment</a></li>
-<li><a href="#org4218ccc">1.3. The full devshell</a></li>
+<li><a href="#orgd6ab2ec">1.2. The CI environment</a></li>
+<li><a href="#org74a24c4">1.3. The full devshell</a></li>
 </ul>
 </li>
-<li><a href="#org707bf69">2. Nix Build</a>
+<li><a href="#orgdbcee17">2. Nix Build</a>
 <ul>
-<li><a href="#orgffcf7e4">2.1. A pure build of the Erlang server</a></li>
+<li><a href="#orga71cc98">2.1. A pure build of the Erlang server</a></li>
 </ul>
 </li>
-<li><a href="#org7dba5bd">3. Containers</a></li>
-<li><a href="#org2ee0aa9">4. Conclusion</a>
+<li><a href="#orgd7cd77d">3. Containers</a></li>
+<li><a href="#orge8988c6">4. Conclusion</a>
 <ul>
-<li><a href="#org20121ba">4.1. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#org8d17210">4.1. <span class="todo TODO">TODO</span> </a></li>
 </ul>
 </li>
 </ul>
@@ -83,8 +83,8 @@ goal here is to show people what our development experience looks like and maybe
 convince a few souls dealing with more normal tools (<code>brew</code>, <code>asdf</code>, <code>&lt;insert random
 linux package manager&gt;</code>, &#x2026;) to at least give Nix a try.
 </p>
-<div id="outline-container-org7a1caf4" class="outline-2">
-<h2 id="org7a1caf4"><span class="section-number-2">1.</span> Devenv</h2>
+<div id="outline-container-org27ec86e" class="outline-2">
+<h2 id="org27ec86e"><span class="section-number-2">1.</span> Devenv</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 We use <a href="https://devenv.sh/">devenv</a> to setup our development shell, think of it as your favorite
@@ -93,8 +93,8 @@ programming language's envinroment and dependency manager (<code>pip</code>, <co
 much more.
 </p>
 </div>
-<div id="outline-container-org9315607" class="outline-3">
-<h3 id="org9315607"><span class="section-number-3">1.1.</span> A unified development shell for Erlang and Zig</h3>
+<div id="outline-container-org009d86d" class="outline-3">
+<h3 id="org009d86d"><span class="section-number-3">1.1.</span> A unified development shell for Erlang and Zig</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 No one is expected to have <code>Erlang</code>, <code>Zig</code> and <code>Postgres</code> installed, nor are they
@@ -200,14 +200,14 @@ Let's try building the <code>Zig</code> client:
 
 
 
-<div id="org527f1a6" class="figure">
+<div id="org8cee3e7" class="figure">
 <p><img src="https://schonfinkel.github.io/index.html/../static/img/some_experiments_with_nix_and_erlang/00_lyceum_client.png" alt="00_lyceum_client.png" width="50%" height="50%" align="center" />
 </p>
 <p><span class="figure-number">Figure 1: </span>It just works</p>
 </div>
 </div>
-<div id="outline-container-org4e7918a" class="outline-4">
-<h4 id="org4e7918a"><span class="section-number-4">1.1.1.</span> Running Postgres</h4>
+<div id="outline-container-orga378531" class="outline-4">
+<h4 id="orga378531"><span class="section-number-4">1.1.1.</span> Running Postgres</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 As you may have noticed, not only are we installing <code>Erlang</code> and <code>Zig</code>, some
@@ -228,15 +228,15 @@ check them <a href="https://devenv.sh/services/#supported-services">here</a>.
 </p>
 
 
-<div id="orgfb92af4" class="figure">
+<div id="org2f8aa4e" class="figure">
 <p><img src="https://schonfinkel.github.io/index.html/../static/img/some_experiments_with_nix_and_erlang/01_postgres.png" alt="01_postgres.png" width="50%" height="50%" align="center" />
 </p>
 <p><span class="figure-number">Figure 2: </span>It just works (x2)</p>
 </div>
 </div>
 </div>
-<div id="outline-container-org2120ca9" class="outline-4">
-<h4 id="org2120ca9"><span class="section-number-4">1.1.2.</span> Direnv</h4>
+<div id="outline-container-orgea0584b" class="outline-4">
+<h4 id="orgea0584b"><span class="section-number-4">1.1.2.</span> Direnv</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 As if thigs weren't awesome enough, I need to talk about <a href="https://direnv.net/">direnv</a>, a simple tool
@@ -278,8 +278,8 @@ an environment.
 </div>
 </div>
 </div>
-<div id="outline-container-org70ffaf8" class="outline-3">
-<h3 id="org70ffaf8"><span class="section-number-3">1.2.</span> The CI environment</h3>
+<div id="outline-container-orgd6ab2ec" class="outline-3">
+<h3 id="orgd6ab2ec"><span class="section-number-3">1.2.</span> The CI environment</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 Since we are already went to the trouble of setting up a whole dev environment
@@ -310,8 +310,8 @@ Nix Cache</a> actions.
 </p>
 </div>
 </div>
-<div id="outline-container-org4218ccc" class="outline-3">
-<h3 id="org4218ccc"><span class="section-number-3">1.3.</span> The full devshell</h3>
+<div id="outline-container-org74a24c4" class="outline-3">
+<h3 id="org74a24c4"><span class="section-number-3">1.3.</span> The full devshell</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 You can check what the full devshell looks like <a href="https://github.com/Dr-Nekoma/lyceum/blob/master/flake.nix">here</a>.
@@ -319,8 +319,8 @@ You can check what the full devshell looks like <a href="https://github.com/Dr-N
 </div>
 </div>
 </div>
-<div id="outline-container-org707bf69" class="outline-2">
-<h2 id="org707bf69"><span class="section-number-2">2.</span> Nix Build</h2>
+<div id="outline-container-orgdbcee17" class="outline-2">
+<h2 id="orgdbcee17"><span class="section-number-2">2.</span> Nix Build</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 In the previous section I've showed you our impure environment, there's no way
@@ -330,8 +330,8 @@ change when we talk about releases, we need to find a way to properly build the
 server.
 </p>
 </div>
-<div id="outline-container-orgffcf7e4" class="outline-3">
-<h3 id="orgffcf7e4"><span class="section-number-3">2.1.</span> A pure build of the Erlang server</h3>
+<div id="outline-container-orga71cc98" class="outline-3">
+<h3 id="orga71cc98"><span class="section-number-3">2.1.</span> A pure build of the Erlang server</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 This is the original reason I've decided to write this, it took me some time to
@@ -407,8 +407,8 @@ now let's see if this really works:
 </div>
 </div>
 </div>
-<div id="outline-container-org7dba5bd" class="outline-2">
-<h2 id="org7dba5bd"><span class="section-number-2">3.</span> Containers</h2>
+<div id="outline-container-orgd7cd77d" class="outline-2">
+<h2 id="orgd7cd77d"><span class="section-number-2">3.</span> Containers</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 There is a treasure trove of examples in <a href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/docker/examples.nix#L218">Nixpkgs</a>, I've decided to go with the
@@ -486,8 +486,8 @@ build the image:
 </div>
 </div>
 </div>
-<div id="outline-container-org2ee0aa9" class="outline-2">
-<h2 id="org2ee0aa9"><span class="section-number-2">4.</span> Conclusion</h2>
+<div id="outline-container-orge8988c6" class="outline-2">
+<h2 id="orge8988c6"><span class="section-number-2">4.</span> Conclusion</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 As I wanted to show here, we've used Nix all the way from defining a common
@@ -507,8 +507,8 @@ doing so, its a tool worth learning (and there's still so much to learn about
 it), it makes my life dealing with Unix systems less painfull.
 </p>
 </div>
-<div id="outline-container-org20121ba" class="outline-3">
-<h3 id="org20121ba"><span class="section-number-3">4.1.</span> <span class="todo TODO">TODO</span> </h3>
+<div id="outline-container-org8d17210" class="outline-3">
+<h3 id="org8d17210"><span class="section-number-3">4.1.</span> <span class="todo TODO">TODO</span> </h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 There is still much to do, and it can be left for a part II later.
@@ -531,7 +531,7 @@ zon files</a>, I'm not familiar with Zig toolig and ill take a look at this late
 <div id="postamble" class="status">
 <p class="date">Date: 2024-09-07 Sat 00:00</p>
 <p class="author">Author: Marcos Benevides</p>
-<p class="date">Created: 2024-12-30 Mon 11:16</p>
+<p class="date">Created: 2024-12-30 Mon 12:48</p>
 </div>
 </body>
 </html>
