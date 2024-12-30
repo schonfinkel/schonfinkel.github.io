@@ -2,6 +2,7 @@
 :ID:       72c31da4-aa99-4e25-ae97-615a9e1d6f93
 :END:
 #+title: systemd
+#+category: [[roam:Linux]]
 
 #+begin_quote
 ~systemd~ is a suite of basic building blocks for a [[id:8a427ee7-2ef1-489b-af82-91de7be8a3ba][Linux]] system. It provides a
@@ -17,7 +18,7 @@ system and service manager that runs as PID 1 and starts the rest of the system.
 Instead of using a set of complex Bash shell scripts, the systemd init system
 controls system and service operations with various types of unit files. Each
 unit file has a filename with a filename extension that describes which type of
-unit it is. [cite:@tevault2022systemd, p.18]
+unit it is. [cite:@tevault2022systemd p.18]
 #+end_quote
 
 Unit files are written in three locations:
@@ -70,7 +71,7 @@ them to configure our various services, which we used to call daemons in the old
 days. A service can be pretty much anything that you want to start automatically
 and run in the background. Examples of services include Secure Shell, your web
 server of choice, a mail server, and various services that are required for
-proper system operation. [cite:@tevault2022systemd, p.32]
+proper system operation. [cite:@tevault2022systemd p.32]
 #+end_quote
 
 *** Unit Section
@@ -105,3 +106,6 @@ Some usefull service options include:
 Controls what happens when you enable or disable a ~unit~.
 
 + ~WantedBy~
+
+* References
+#+print_bibliography: 

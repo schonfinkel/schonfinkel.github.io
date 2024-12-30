@@ -9,6 +9,7 @@
 
 (require 'citeproc)
 (require 'find-lisp)
+(require 'htmlize)
 (require 'oc-csl)
 (require 'org)
 (require 'org-roam)
@@ -16,6 +17,7 @@
 (require 'ox)
 (require 'ox-html)
 (require 'ox-publish)
+(require 'ox-rss)
 
 ;;; org-babel configuration
 
@@ -43,6 +45,15 @@
 (setq org-element-use-cache nil)
 (setq org-src-preserve-indentation t)
 
+(setq org-src-fontify-natively t)
+
+;; Don't show validation link
+(setq org-html-validation-link nil)
+;; Use our own scripts
+(setq org-html-head-include-scripts nil)
+;; Use our own styles
+(setq org-html-head-include-default-style nil)
+
 ;;;; Settings
 (setq-default root-dir (concat (getenv "PWD") "/"))
 (setq-default static-dir (concat root-dir "static"))
@@ -66,13 +77,23 @@
 (setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io"))
 (message (format "SETTING URL: %s" url-dir))
 
+(setq-default out-rss-dir (concat out-dir "/" "rss"))
 (setq-default out-static-dir (concat out-dir "/static/"))
 (setq-default out-css-dir (concat out-static-dir "css"))
 (setq-default out-img-dir (concat out-static-dir "img"))
 (setq-default out-html-dir (concat out-static-dir "html"))
 
 ;;;; Fix bibliography
-(setq org-cite-refs-list '("beam.bib" "databases.bib" "distributed_systems.bib" "fp_general.bib" "haskell.bib" "leadership.bib" "math_and_logic.bib" "nixos.bib" "software_engineering.bib" "sysadmin.bib"))
+(setq org-cite-refs-list '("articles.bib"
+                           "beam.bib"
+                           "databases.bib"
+                           "fp_general.bib"
+                           "haskell.bib"
+                           "leadership.bib"
+                           "math_and_logic.bib"
+                           "nixos.bib"
+                           "software_engineering.bib"
+                           "sysadmin.bib"))
 (setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
 (setq org-cite-global-bibliography org-cite-refs-path)
 (setq org-cite-export-processors '((latex biblatex)
@@ -80,13 +101,12 @@
                                    (html csl)
                                    (t csl)))
 
-;; Tell `org-id-locations' and the org-roam DB about the new work directory
-;;;;(setq org-id-locations-file ".orgids")
+;;;; Org-Roam Settings
 (setq org-roam-directory org-roam-dir)
 (setq org-roam-db-location (concat emacs-dir-path "org-roam.db"))
-(setq org-roam-db-extra-links-exclude-keys
-      '((node-property "ROAM_REFS" "BACKLINKS")
-        (keyword "transclude")))
+;;(setq org-roam-db-extra-links-exclude-keys
+;;      '((node-property "ROAM_REFS" "BACKLINKS")
+;;        (keyword "transclude")))
 
 
 ;;;; Customize the HTML output
@@ -96,7 +116,7 @@
 (setq-default website-html-head html-head-prefix)
 
 (setq-default html-nav-file (get-string-from-file (concat static-html-dir "/" "nav.html")))
-(setq-default html-nav (patch-string-with-path html-nav-file url-dir 5))
+(setq-default html-nav (patch-string-with-path html-nav-file url-dir 6))
 (message (format "HTML NAV: %s" html-nav))
 (setq-default website-html-preamble html-nav)
 
@@ -118,11 +138,12 @@
          :recursive t
 
          :with-creator t
+         :with-tags t
          :with-title t
          :with-toc nil
          :with-date t
 
-         :export-with-tags nil
+         :export-with-tags t
          :exclude-tags ("todo" "noexport")
          :exclude "level-.*\\|.*\.draft\.org\\|.direnv*"
          :section-numbers nil
@@ -143,6 +164,21 @@
          :html-head ,website-html-head
          :html-preamble ,website-html-preamble
          :html-postamble ,website-html-postamble)
+
+        ("rss"
+         :base-directory ,org-blog-dir
+         :base-extension "org"
+         :publishing-directory ,out-dir
+         :exclude "index.org"
+         :rss-extension "xml"
+         :html-link-home ,(concat url-dir "/" "index.html")
+         :html-link-use-abs-url t
+         :html-link-org-files-as-html t
+         :auto-sitemap t
+         :sitemap-title "Recent activity in Benevides' Blog"
+         :sitemap-filename "rss.org"
+         :sitemap-style list
+         :sitemap-sort-files anti-chronologically)
 
         ("images"
          :base-directory ,static-img-dir
@@ -172,7 +208,7 @@
          :recursive t
          :publishing-function org-publish-attachment)
 
-        ("all" :components ("css" "images" "html" "other" "site"))))
+        ("all" :components ("css" "images" "html" "other" "rss" "site"))))
 
 ;; Generate the site output
 (org-roam-update-org-id-locations)
