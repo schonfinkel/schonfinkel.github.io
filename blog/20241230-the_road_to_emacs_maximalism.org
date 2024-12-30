@@ -13,19 +13,19 @@ a great light. [cite:@knuth1984literate p.1]
 * Introduction
 
 A couple years ago I've started watching [[https://github.com/sponsors/daviwil][David Wilson's]] channel (also know as
-[[https://www.youtube.com/c/SystemCrafters][SystemCrafters]]), originally his channel focused heavilly on[[https://fsharp.org/][ F#]] (and that's how
-I've found him), but eventually he started posting more and "GNU slash Emacs"
+[[https://www.youtube.com/c/SystemCrafters][SystemCrafters]]), originally his channel focused heavilly on[[https://fsharp.org/][ F#]] (and that's how I
+found him), but eventually he started posting more and "GNU slash Emacs"
 content. I lost interest on the channel at the time, while he did indeed
 showcase a level of productivity that was way above what I had, I felt like it
-could be easily emulated with a combination of Neovim and some other Linux
+could be easily emulated with a combination of ~Neovim~ and some other Linux
 tools.
 
 Everything changed once I saw his [[https://www.youtube.com/watch?v=AyhPmypHDEw][presentation]] about of [[https://www.orgroam.com/][org-roam]], my brain got
-hijacked by the idea of testing Emacs. I had already heard about [[https://orgmode.org/][orgmode]] before,
-but it was never on my radar since it always felt like some [[https://xkcd.com/378/]["Emacs weirdo"]]
-cool-aid. What got me impressed was that I always had the need for some tool to
-help me organize my notes (specially during college where most of my annotations
-got lost). To fill this gap, such a tool would need to have the following
+hijacked by the idea of testing ~Emacs~. I had previously heard about [[https://orgmode.org/][orgmode]]
+before, but it was never on my radar since it felt like some [[https://xkcd.com/378/]["Emacs weirdo"]]
+cool-aid. What got me impressed was that I always needed some tool to help me
+organize my notes (specially during college where most of my annotations got
+lost). To fill this gap, such a tool would need to have the following
 properties:
 
 1. Document everything that I've done.
@@ -40,7 +40,7 @@ properties:
 Obsidian tickles most of these (if you consider its plugins), but the [[https://obsidian.md/license][license]] is
 a little bit worrying and you can bet they will pull an [[https://github.com/Kong/insomnia/issues/6577][insomnia]] in the
 future. [[https://github.com/logseq/logseq][Logseq]] is a much better alternative in this regard, plus you have the
-option of using something much better than ~markdown~ or ~reStructuredText~ and that
+option of using something much better than ~markdown~ or ~reStructuredText~, and that
 is ~org~.
 
   #+begin_quote
@@ -52,10 +52,10 @@ is ~org~.
   [cite:@schulte2012multi p.2]
   #+end_quote
 
-Org is a major[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Modes.html][ mode]] in Emacs, it is also a markup language but much more
-powerful (and I would argue a better tool) than any of the current
-alternatives. If properly configured, ~orgmode~ can combine writing, planning,
-scheduling, linking and programming into a cohesive workflow.
+Org is a major[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Modes.html][ mode]] in Emacs, it is also a powerful markup language and I would
+argue a better tool than any of the current alternatives. If properly
+configured, ~orgmode~ can combine writing, planning, scheduling, linking and
+programming into a cohesive workflow.
 
 #+begin_quote
 *Org-mode* extends *Emacs* with a simple and powerful markup language that turns it
@@ -144,7 +144,7 @@ it's a single line that also calls a shell command, ~dotnet fsi posts.fsx~,
       # And so on...
 #+end_src
 
-This could have been done in any language really, but I felt more confortable
+This could have been done in any language really, but I felt more comfortable
 quickly pulling this in ~F#~, the ~#+header: :results html~ makes sure this will be
 correctly exported to ~html~ once we run the ~publish.el~ file (either locally on in
 CI). 
@@ -181,11 +181,19 @@ I've blatantly copied from Hugo Cisnero's [[https://hugocisneros.com/blog/my-org
 and I really like how he generated a graph out of the ~sqlite~ db already used by
 ~org-roam~. Some minimal changes were required to render my graph, it is sparser
 than his, so forcing a minimum number of communites doesn't look that good (a
-quick hack is taking the number of [[https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.components.weakly_connected_components.html#networkx.algorithms.components.weakly_connected_components][weakly connected components]]).
+quick hack is taking the number of [[https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.components.weakly_connected_components.html#networkx.algorithms.components.weakly_connected_components][weakly connected components]]). To build the
+graph one just needs to run:
 
-Note that this used to be an [[https://github.com/org-roam/org-roam-ui/discussions/109#discussioncomment-8272050][feature request]] on Github, until someone actually
-created a [[https://github.com/marketplace/actions/publish-org-roam-ui][publish-org-roam-ui]] github action. Maybe that's what most people need,
-but it won't work for me, at least in the iteration of this blog.
+#+BEGIN_SRC shell
+  just graph
+  # or
+  graph
+  # inside the Nix shell
+#+END_SRC
+
+Note that this used to be an [[https://github.com/org-roam/org-roam-ui/discussions/109#discussioncomment-8272050][feature request]] on Github, until someone created a
+[[https://github.com/marketplace/actions/publish-org-roam-ui][publish-org-roam-ui]] github action. Maybe that's what most people need, but it
+won't work for me, at least in this current iteration of the blog.
 
 ** Diagrams as Code
 
