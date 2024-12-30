@@ -77,7 +77,7 @@
 (setq-default url-dir (if (string= (getenv "ENVIRONMENT") "dev") out-dir "https://schonfinkel.github.io"))
 (message (format "SETTING URL: %s" url-dir))
 
-(setq-default out-rss-dir (concat out-dir "/" "rss"))
+(setq-default out-rss-dir (concat out-dir "/" "blog"))
 (setq-default out-static-dir (concat out-dir "/static/"))
 (setq-default out-css-dir (concat out-static-dir "css"))
 (setq-default out-img-dir (concat out-static-dir "img"))
@@ -169,16 +169,12 @@
          :base-directory ,org-blog-dir
          :base-extension "org"
          :publishing-directory ,out-dir
-         :exclude "index.org"
-         :rss-extension "xml"
-         :html-link-home ,(concat url-dir "/" "index.html")
+         :html-link-home ,(concat url-dir "/blog")
          :html-link-use-abs-url t
-         :html-link-org-files-as-html t
-         :auto-sitemap t
-         :sitemap-title "Recent activity in Benevides' Blog"
-         :sitemap-filename "rss.org"
-         :sitemap-style list
-         :sitemap-sort-files anti-chronologically)
+         :rss-extension "xml"
+         :publishing-function (org-rss-publish-to-rss)
+         :section-numbers nil
+         :table-of-contents nil)
 
         ("images"
          :base-directory ,static-img-dir

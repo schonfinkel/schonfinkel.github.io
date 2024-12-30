@@ -11,6 +11,10 @@ a great light. [cite:@knuth1984literate p.1]
 #+end_quote
 
 * Introduction
+:PROPERTIES:
+:ID:       57e1f23a-b1d9-4da7-8e0b-94f4624e53bb
+:PUBDATE:  2024-12-30 Mon 13:34
+:END:
 
 A couple years ago I've started watching [[https://github.com/sponsors/daviwil][David Wilson's]] channel (also know as
 [[https://www.youtube.com/c/SystemCrafters][SystemCrafters]]), originally his channel focused heavilly on[[https://fsharp.org/][ F#]] (and that's how I
@@ -76,6 +80,9 @@ of *Emacs Lisp* functions.
 #+end_quote
 
 ** Literate Programming
+:PROPERTIES:
+:ID:       072b727d-c380-43f0-acac-737c97401965
+:END:
 
 #+begin_quote
 I believe that the time is ripe for significantly better documentation of
@@ -103,9 +110,16 @@ computer. [cite:@schulte2012multi p.12]
 #+end_quote
 
 * Orgmode
+:PROPERTIES:
+:ID:       16e905b8-0dd2-446c-9eea-ff849b9595af
+:PUBDATE:  2024-12-30 Mon 13:34
+:END:
 
 
 ** Arbitrary Code Execution and Generation
+:PROPERTIES:
+:ID:       46dcc726-3480-4aa2-97eb-d186e1a8aa1e
+:END:
 
 Here's what my ~blog.org~ file looks like:
 
@@ -150,6 +164,9 @@ correctly exported to ~html~ once we run the ~publish.el~ file (either locally o
 CI). 
 
 ** Roam
+:PROPERTIES:
+:ID:       6f6f3a50-1729-40d7-9310-557109f09bf2
+:END:
 
 Similar to the previous section, my [[https://schonfinkel.github.io/notes.html][notes]] are also generated via some hacky ~F#~
 script:
@@ -171,6 +188,9 @@ The difference being that there is an extra ~#+INCLUDE:~ directive importing
 actual html code. That's where the ~d3.js~ graph setup is.
 
 *** Stealing the Graph
+:PROPERTIES:
+:ID:       82353a73-0e60-40bf-b328-1a3d65f3cb3b
+:END:
 
 #+CAPTION: My crappy graph
 #+NAME:   fig:the-graph
@@ -196,6 +216,9 @@ Note that this used to be an [[https://github.com/org-roam/org-roam-ui/discussio
 won't work for me, at least in this current iteration of the blog.
 
 ** Diagrams as Code
+:PROPERTIES:
+:ID:       b7e01a20-12b9-46a8-858f-4ebceb532cbd
+:END:
 
 For my current needs ~graphviz~ is enough, but I can keep adding similar
 tools later:
@@ -214,12 +237,19 @@ tools later:
 [[file:../static/img/the_road_to_emacs_maximalism/graphviz_example.png]]
 
 ** Exports
+:PROPERTIES:
+:ID:       375929fb-3633-42ee-9bde-bb3ae1d5d287
+:END:
 
 You take an org file and [[https://orgmode.org/manual/Publishing-options.html][export it]] to different formats like: ~html~ (that's how
 this blog is made), ~LaTeX~, ~markdown~, etc. Currently I only care about the ~html~
 export and you can find the ~publish.el~ file [[https://github.com/schonfinkel/schonfinkel.github.io/blob/master/publish.el][here.]]
 
 * The Infrastructure
+:PROPERTIES:
+:ID:       2198edef-03f1-4efd-b595-ee8414a57e27
+:PUBDATE:  2024-12-30 Mon 13:34
+:END:
 
 Knuth has a point about some of the portability issues on his "Literate
 Programming" paper, even though the markup language (~WEB~) was portable to
@@ -242,6 +272,9 @@ knows which version of the interpreter was used initially, then give it a couple
 months and there's a pretty good chance it will never run.
 
 ** Nix
+:PROPERTIES:
+:ID:       d4b502f8-6c12-4d37-abbb-e128cfdb5de6
+:END:
 
 To make this less likelly to happen, my development environment heavilly relies
 on [[https://nixos.org/][Nix]] and [[https://devenv.sh/][devenv]]. Everything is set in a single [[https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix][flake.nix]] file, a ~LaTeX~
@@ -324,6 +357,9 @@ going to pull your local Emacs:
 the full setup can be found in the main [[https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix][repo]].
 
 ** Continous Integration
+:PROPERTIES:
+:ID:       38684c52-402a-4c1a-95df-d5c727d7fa88
+:END:
 
 Again, I benefit from a somewhat easy to setup CI pipeline thanks to
 [[https://github.com/cachix/install-nix-action][install-nix]], it's a copy of what I already do locally. And you can also benefit
@@ -351,6 +387,9 @@ from faster builds with the [[https://github.com/DeterminateSystems/magic-nix-ca
 
 
 ** What is Still Missing
+:PROPERTIES:
+:ID:       2be7ec65-e10d-4548-afb7-a125973c0856
+:END:
 
 - Anki-Like Flashcards: With either [[https://orgmode.org/worg/org-contrib/org-drill.html\\][org-drill]] or [[https://www.leonrische.me/fc/index.html][org-fc]].
 
@@ -365,8 +404,15 @@ from faster builds with the [[https://github.com/DeterminateSystems/magic-nix-ca
 - Not related to the blog itself, but [[https://orgmode.org/manual/Agenda-Views.html][org-agenda]] looks slick.
 
 * Notable Mentions
+:PROPERTIES:
+:ID:       2e1910c9-66cd-4306-b7b9-861fa647a93a
+:PUBDATE:  2024-12-30 Mon 13:34
+:END:
 
 ** Hugo
+:PROPERTIES:
+:ID:       bcb624bc-7824-4b90-b580-4e413697c6a6
+:END:
 
 This blog was originally fully integrated with[[https://gohugo.io/][ hugo]] and [[https://ox-hugo.scripter.co/][ox-hugo]] (first stolen
 from [[https://github.com/ratsclub][my close friend]]), but eventually I've started facing issues since the way I
@@ -377,10 +423,16 @@ develop in a sandbox environment and was able to ignore this versioning issue
 for a couple months.
 
 ** Quartz
+:PROPERTIES:
+:ID:       625d280e-1627-4237-959f-c934a60509ab
+:END:
 
 Similar to ~hugo~, although [[https://quartz.jzhao.xyz/][Quartz]] is also built to support [[https://obsidian.md/][Obsidian]]-like notes.
 
 ** Emanote
+:PROPERTIES:
+:ID:       00fd71c3-6a6f-4aa1-9be8-de56139dbe38
+:END:
 
 Before doing the full refactor and moving it back to a pure [[https://orgmode.org/manual/Publishing.html][org-publish]]
 workflow, I found out about [[https://emanote.srid.ca/][emanote]]. It is similar to Quartz, but it feels
@@ -389,6 +441,10 @@ but there are [[https://github.com/srid/emanote/blob/master/docs/guide/orgmode.o
 choice for people already familiar with Haskell and Nix.
 
 * Conclusion
+:PROPERTIES:
+:ID:       fb9efdb9-6cb4-43bc-b3b9-2bf0a722cca6
+:PUBDATE:  2024-12-30 Mon 13:34
+:END:
 
 While I haven't moved all my development workflow to ~Emacs~ (it might be a matter
 a time), ~Emacs~ already stole all my note-taking and blogging capabilities and
@@ -400,4 +456,8 @@ would be interesting to see if the community can pull some similar plugins as
 well.
 
 * References
+:PROPERTIES:
+:ID:       2c9497b1-1920-43f6-b455-ab7be11d5348
+:PUBDATE:  2024-12-30 Mon 13:34
+:END:
 #+print_bibliography: 
