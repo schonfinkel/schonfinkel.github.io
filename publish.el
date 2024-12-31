@@ -47,6 +47,9 @@
 
 (setq org-src-fontify-natively t)
 
+;;;; No need for backup files
+(setq make-backup-files nil)
+
 ;; Don't show validation link
 (setq org-html-validation-link nil)
 ;; Use our own scripts
@@ -108,6 +111,8 @@
 ;;      '((node-property "ROAM_REFS" "BACKLINKS")
 ;;        (keyword "transclude")))
 
+;; RSS
+(setq org-rss-use-entry-url-as-guid nil)
 
 ;;;; Customize the HTML output
 (setq-default html-head-prefix-file (get-string-from-file (concat static-html-dir "/" "header.html")))
@@ -167,7 +172,6 @@
 
         ("rss"
          :base-directory ,org-blog-dir
-         :base-extension "org"
          :publishing-directory ,out-dir
          :html-link-home ,(concat url-dir "/blog")
          :html-link-use-abs-url t
