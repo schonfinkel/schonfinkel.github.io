@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-30 Mon 12:48 -->
+<!-- 2024-12-31 Tue 11:54 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Concurrent Erlang</title>
@@ -47,7 +47,7 @@
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
-    <li><a href="https://schonfinkel.github.io/rss.html"><i class='bx bx-rss'></i></a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
 </nav>
 </header>
@@ -78,9 +78,9 @@ In Erlang:
 (<a href="#citeproc_bib_item_1">Armstrong 2013, 181</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgfaea22d" class="outline-2">
-<h2 id="orgfaea22d">Processes</h2>
-<div class="outline-text-2" id="text-orgfaea22d">
+<div id="outline-container-orge2f8292" class="outline-2">
+<h2 id="orge2f8292">Processes</h2>
+<div class="outline-text-2" id="text-orge2f8292">
 <p>
 In <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a>, creation of a parallel process is achieved by evaluating the <code>spawn</code>
 primitive. This primitive creates a concurrent process and returns a process
@@ -93,7 +93,7 @@ identifier (PID) that can used to interact with the newly created process:
 </div>
 
 
-<figure id="org2ae6510">
+<figure id="orgba1d4bc">
 <img src="../static/img/notes/erlang_spawn.png" alt="erlang_spawn.png">
 
 </figure>
@@ -107,11 +107,11 @@ identifier (PID) that can used to interact with the newly created process:
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org782654c" class="outline-3">
-<h3 id="org782654c">Modeling Concurrency</h3>
-<div class="outline-text-3" id="text-org782654c">
+<div id="outline-container-org9496071" class="outline-3">
+<h3 id="org9496071">Modeling Concurrency</h3>
+<div class="outline-text-3" id="text-org9496071">
 
-<figure id="org0f1f30e">
+<figure id="orgcdbb02a">
 <img src="../static/img/notes/erlang_send.png" alt="erlang_send.png">
 
 </figure>
@@ -163,7 +163,7 @@ We can force an order (emulating a priority queue) by using multiple receives:
 </p>
 
 
-<figure id="org41e7303">
+<figure id="orgc4ecdb0">
 <img src="../static/img/notes/erlang_selective.png" alt="erlang_selective.png">
 
 </figure>
@@ -188,9 +188,9 @@ this way the message <code>{foo, ...}</code> is received before the message <cod
 </ul>
 </div>
 </div>
-<div id="outline-container-org4b4bc13" class="outline-3">
-<h3 id="org4b4bc13">Registered Processes</h3>
-<div class="outline-text-3" id="text-org4b4bc13">
+<div id="outline-container-org893d41e" class="outline-3">
+<h3 id="org893d41e">Registered Processes</h3>
+<div class="outline-text-3" id="text-org893d41e">
 <table>
 
 
@@ -234,9 +234,9 @@ process to terminate with a <code>badarg</code> error.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org64f7a1f" class="outline-3">
-<h3 id="org64f7a1f">Timeouts</h3>
-<div class="outline-text-3" id="text-org64f7a1f">
+<div id="outline-container-org528f167" class="outline-3">
+<h3 id="org528f167">Timeouts</h3>
+<div class="outline-text-3" id="text-org528f167">
 <ul class="org-ul">
 <li>If the message <code>Msg</code> is received within the <code>TimeOut</code>, <code>expr01</code> will be
 executed. Otherwise, <code>expr02</code> will be executed.</li>
@@ -244,7 +244,7 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </ul>
 
 
-<figure id="orga219981">
+<figure id="org2bdb252">
 <img src="../static/img/notes/erlang_timeout.png" alt="erlang_timeout.png">
 
 </figure>
@@ -260,11 +260,11 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcec6447" class="outline-3">
-<h3 id="orgcec6447">Skeleton of an Erlang Process</h3>
-<div class="outline-text-3" id="text-orgcec6447">
+<div id="outline-container-orgc0b0f04" class="outline-3">
+<h3 id="orgc0b0f04">Skeleton of an Erlang Process</h3>
+<div class="outline-text-3" id="text-orgc0b0f04">
 
-<figure id="org46ee71e">
+<figure id="org5a762f1">
 <img src="../static/img/notes/erlang_process_skeleton.png" alt="erlang_process_skeleton.png">
 
 </figure>

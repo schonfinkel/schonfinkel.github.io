@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+     xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+     xmlns:georss="http://www.georss.org/georss"
+     xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+     xmlns:media="http://search.yahoo.com/mrss/"><channel>
+  <title>You have 10 seconds to nixify your dotnet project</title>
+  <atom:link href="https://schonfinkel.github.io/blog/20240916-you_have_10_seconds_to_nixify_your_dotnet_project.xml" rel="self" type="application/rss+xml" />
+  <link>https://schonfinkel.github.io/blog</link>
+  <description><![CDATA[]]></description>
+  <language>en</language>
+  <pubDate>Tue, 31 Dec 2024 11:54:18 +0000</pubDate>
+  <lastBuildDate>Tue, 31 Dec 2024 11:54:18 +0000</lastBuildDate>
+  <generator>Emacs 29.4 Org-mode 9.7.12</generator>
+  <webMaster>runner@fv-az1208-533 (Marcos Benevides)</webMaster>
+  <image>
+    <url>https://orgmode.org/img/org-mode-unicorn-logo.png</url>
+    <title>You have 10 seconds to nixify your dotnet project</title>
+    <link>https://schonfinkel.github.io/blog</link>
+  </image>
+
+
+  <div id="org3f3c043" class="figure">
+    <p><img src="https://schonfinkel.github.io/blog/../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/00_don_gun.png" alt="00_don_gun.png" width="50%" height="50%" align="center" />
+    </p>
+    <p><span class="figure-number">Figure 1: </span>Don "The Gun" Syme, now officially part of the "Nix Gang".</p>
+  </div>
+
+  <p>
+    While this is a click bait title (maybe I've also farmed some zoomer credits out
+    the OC), I'm pretty sure that's how Don Syme feels when looks at a <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/results">Result</a> type
+    like <code>Result&lt;'T,string&gt;</code> in an F# codebase. The reason why I've written this post
+    is that I started doing changes in a <a href="https://github.com/schonfinkel/interval.fs">open source project</a> I develop/maintain,
+    and realized other .Net people could benefit from this somehow (as most of the
+    Nix + .Net guides are from before 2024).
+  </p>
+  <item>
+    <title>An Opinionated Template</title>
+    <link>https://schonfinkel.github.io/blog/20240916-you_have_10_seconds_to_nixify_your_dotnet_project.html#orged0de90</link>
+    <author>runner@fv-az1208-533 (Marcos Benevides)</author>
+    <guid isPermaLink="false">c3097dec-5690-4822-b048-7c92213e3e40</guid>
+    <pubDate>Mon, 16 Sep 2024 21:00:00 +0000</pubDate>
+
+    <description><![CDATA[<p>
+    Turns out that, while writing this, I've decided to put everything in a template
+    that's easy to <del>steal</del> copy, so if you are from the future and have the <a href="https://nixos.org/download/">Nix (the
+    package manager)</a> and the <a href="https://nixos.wiki/wiki/Flakes">Flakes</a> feature enabled you'll be able to reproduce this
+    post. Additionally, someone beat me into writing a flake for F#, here's <a href="https://github.com/NixOS/templates/tree/master/dotnet">a more
+    official take</a> on it, there are a couple changes from my repo and this one,
+    mostly because I tend to favor devenv (since it has shown better adoption when I
+    preached it to non-Nixers).
+  </p>
+  <div id="outline-container-ID-73b53fca-6c55-4e5f-bfc6-741d3c500561" class="outline-3">
+    <h3 id="ID-73b53fca-6c55-4e5f-bfc6-741d3c500561">Devenv</h3>
+    <div class="outline-text-3" id="text-org6cc66a8">
+      <p>
+	I've already tackled this in a <a href="https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html">previous article</a>, but the best developer
+	experience right now is with <a href="https://devenv.sh/">devenv.sh</a>. Unlike the previous article tho, the
+	environment setup is way simpler, just a bunch of .Net tools inside the shell
+	and call it a day.
+      </p>
+
+      <div class="org-src-container">
+	<pre class="src src-nix">  #(...)
+	# `nix develop --impure`
+	default = devenv.lib.mkShell {
+	inherit inputs pkgs;
+	modules = [
+	(
+        { pkgs, lib, ... }:
+        {
+        packages = with pkgs; [
+        bash
+        just
+
+        # for dotnet
+        netcoredbg
+        fsautocomplete
+        fantomas
+        ];
+
+        languages.dotnet = {
+        enable = true;
+        package = dotnet;
+        };
+
+        # looks for the .env by default additionaly, there is .filename
+        # if an arbitrary file is desired
+        dotenv.enable = true;
+        }
+	)
+	];
+	};
+	# (...)
+      </pre>
+    </div>
+
+    <p>
+      and similary to the previous post, we can access the environment by doing:
+    </p>
+
+    <div class="org-src-container">
+      <pre class="src src-shell">  nix develop --impure
+    </pre>
+  </div>
+
+  <p>
+    or, if you have <a href="https://github.com/direnv/direnv">direnv</a>, run <code>direnv allow</code>. Now you can build the project with the
+    usual .Net tooling:
+  </p>
+
+  <div class="org-src-container">
+    <pre class="src src-shell">  dotnet build
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">There is also a justfile configured to you can just</span>
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">type "just" and get all commands</span>
+  </pre>
+</div>
+
+<p>
+  Here's a quick demo:
+</p>
+
+
+<div id="orgf504f94" class="figure">
+  <p><img src="https://schonfinkel.github.io/blog/../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif" alt="01_demo.gif" width="50%" height="50%" align="center" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-ID-bae951a2-6b73-412f-99ed-9087b594ffa7" class="outline-3">
+  <h3 id="ID-bae951a2-6b73-412f-99ed-9087b594ffa7">Build your project with Nix</h3>
+  <div class="outline-text-3" id="text-org63b7a12">
+    <p>
+      This project is just a simple solution with the basic <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line">CLI Console App</a> from the
+      official documentation, the difference being that I've added a dependency to
+      <a href="https://github.com/demystifyfp/FsToolkit.ErrorHandling">FsToolkit.ErrorHandling</a>, just as a way to showcase how to handle nuget
+      dependencies later. To package your .Net App there is already the <a href="https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/dotnet.section.md#packaging-a-dotnet-application-packaging-a-dotnet-application">buildDotNetModule</a>,
+      you can explore all the other options later in the docs, this is what works for
+      the current code:
+    </p>
+
+    <div class="org-src-container">
+      <pre class="src src-nix">  # `nix build`
+      default = pkgs.buildDotnetModule {
+      pname = name;
+      version = version;
+      src = ./.;
+      projectFile = "src/App/App.fsproj";
+      nugetDeps = ./deps.nix;
+
+      dotnet-sdk =
+      with pkgs.dotnetCorePackages;
+      combinePackages [
+      sdk_8_0
+      ];
+      dotnet-runtime = pkgs.dotnetCorePackages.sdk_8_0;
+      };
+</pre>
+</div>
+
+<p>
+  To properly build this with nix, you may have noticed that we also import a
+  <code>deps.nix</code> file in the previous step. This file contains all the nuget
+  dependencies our project uses and their hashes:
+</p>
+
+<div class="org-src-container">
+  <pre class="src src-nix">  { fetchNuGet }: [
+  (fetchNuGet { pname = "FsToolkit.ErrorHandling"; version = "4.16.0"; hash = "sha256-4pRixOtRDgLt4/z71o1XnkuXRa/43LUhl/pDRpofX7s="; })
+  ]
+</pre>
+</div>
+
+<p>
+  You don't have to manually create or edit this, as its already documented
+  <a href="https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/dotnet.section.md#generating-and-updating-nuget-dependencies-generating-and-updating-nuget-dependencies">here</a>. In this project this is already handled by the <code>just gen-deps</code> (or <code>just gd</code>)
+  command:
+</p>
+
+<div class="org-src-container">
+  <pre class="src src-shell">  $ rm deps.nix
+  $ just gd      
+  dotnet restore --packages out
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  nix run nixpkgs#nuget-to-nix -- out &gt; deps.nix
+  $ cat deps.nix               
+  { fetchNuGet }: [
+  (fetchNuGet { pname = <span style="font-style: italic;">"FsToolkit.ErrorHandling"</span>; version = <span style="font-style: italic;">"4.16.0"</span>; <span style="font-weight: bold;">hash</span> = <span style="font-style: italic;">"sha256-4pRixOtRDgLt4/z71o1XnkuXRa/43LUhl/pDRpofX7s="</span>; })
+  ]
+</pre>
+</div>
+
+<p>
+  The previous step is also the usual way to update a .Net package in nixpkgs, most
+  times you'll just need to get the new version hash and update the nuget hashes
+  as well:
+</p>
+
+<div class="org-src-container">
+  <pre class="src src-shell">  $ cd &lt;my-clone-of-nixpkgs&gt;
+  $ nix-build -A &lt;package-name&gt;.passthru.fetch-deps | bash
+  $ nix-build -A &lt;package-name&gt;
+</pre>
+</div>
+
+<p>
+  Then you open a PR to the <a href="https://github.com/NixOS/nixpkgs">official repository</a>, following the <a href="https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md">contribution
+  guidelines</a>, of course. Now, going back to the testing the Nix build:
+</p>
+
+<div class="org-src-container">
+  <pre class="src src-shell">  $ nix build                                                    
+  $ ./result/bin/App 
+  Test
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">It works</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-ID-ecdf166e-2ec7-4daa-9026-1378bc2a3665" class="outline-3">
+<h3 id="ID-ecdf166e-2ec7-4daa-9026-1378bc2a3665">Generating OCI Images</h3>
+<div class="outline-text-3" id="text-org3858417">
+  <p>
+    Similar to the <a href="https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html">previous post</a>, the Container Image looks like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">nix build .#dockerImage</span>
+dockerImage = pkgs.dockerTools.buildLayeredImage {
+name = <span style="font-style: italic;">"sample"</span>;
+tag = <span style="font-style: italic;">"latest"</span>;
+created = <span style="font-style: italic;">"now"</span>;
+contents = [ default ];
+config = {
+Cmd = [
+<span style="font-style: italic;">"${default}/bin/App"</span>
+];
+};
+};
+</pre>
+</div>
+
+<p>
+  And can be tested with:
+</p>
+
+<div class="org-src-container">
+  <pre class="src src-shell">  $ nix build .#dockerImage
+  $ docker load &lt; ./result
+  $ docker container run --rm sample:latest
+  Test
+</pre>
+</div>
+</div>
+</div>
+]]></description>
+</item>
+<item>
+<title>Conclusion</title>
+<link>https://schonfinkel.github.io/blog/20240916-you_have_10_seconds_to_nixify_your_dotnet_project.html#org8034590</link>
+<author>runner@fv-az1208-533 (Marcos Benevides)</author>
+<guid isPermaLink="false">1ed924ec-6e4e-4e59-8691-f77c6939e270</guid>
+<pubDate>Mon, 16 Sep 2024 21:00:00 +0000</pubDate>
+
+<description><![CDATA[<p>
+If this sparkled your interest somehow, here's the <a href="https://github.com/schonfinkel/fsharp-nix/tree/master">source code</a>, I've also made
+sure to configure some <a href="https://github.com/schonfinkel/fsharp-nix/actions">Github Actions</a> Workflows there. 
+</p>
+<div id="outline-container-ID-cf5648aa-f8a4-4210-9c0f-577c7ffd77da" class="outline-3">
+<h3 id="ID-cf5648aa-f8a4-4210-9c0f-577c7ffd77da"><span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-orgf92262e">
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> Optimize the container image, by just shipping the runtime, not the SDK.</li>
+<li class="off"><code>[&#xa0;]</code> Open a PR into the <a href="https://github.com/NixOS/templates/tree/master/dotnet">NixOS Templates</a> repo, maybe adding a <a href="https://safe-stack.github.io/">SAFE</a> stack example
+as well and a container build into the Hello Example.</li>
+</ul>
+</div>
+</div>
+]]></description>
+</item>
+</channel>
+</rss>
