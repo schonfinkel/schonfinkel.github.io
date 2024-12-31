@@ -16,6 +16,10 @@ and realized other .Net people could benefit from this somehow (as most of the
 Nix + .Net guides are from before 2024).
 
 * An Opinionated Template
+:PROPERTIES:
+:ID:       c3097dec-5690-4822-b048-7c92213e3e40
+:PUBDATE:  2024-09-16 Mon 21:00
+:END:
 
 Turns out that, while writing this, I've decided to put everything in a template
 that's easy to +steal+ copy, so if you are from the future and have the [[https://nixos.org/download/][Nix (the
@@ -26,6 +30,9 @@ mostly because I tend to favor devenv (since it has shown better adoption when I
 preached it to non-Nixers).
 
 ** Devenv
+:PROPERTIES:
+:ID:       73b53fca-6c55-4e5f-bfc6-741d3c500561
+:END:
 
 I've already tackled this in a [[https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html][previous article]], but the best developer
 experience right now is with [[https://devenv.sh/][devenv.sh]]. Unlike the previous article tho, the
@@ -88,6 +95,9 @@ Here's a quick demo:
 [[file:../static/img/you_have_10_seconds_to_nixify_your_dotnet_project/01_demo.gif]]
 
 ** Build your project with Nix
+:PROPERTIES:
+:ID:       bae951a2-6b73-412f-99ed-9087b594ffa7
+:END:
 
 This project is just a simple solution with the basic [[https://learn.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-command-line][CLI Console App]] from the
 official documentation, the difference being that I've added a dependency to
@@ -162,6 +172,9 @@ guidelines]], of course. Now, going back to the testing the Nix build:
 #+END_SRC
 
 ** Generating OCI Images
+:PROPERTIES:
+:ID:       ecdf166e-2ec7-4daa-9026-1378bc2a3665
+:END:
 
 Similar to the [[https://schonfinkel.github.io//blog/20240907-experiments_with_erlang_and_nix.html][previous post]], the Container Image looks like this:
 
@@ -190,11 +203,18 @@ And can be tested with:
 #+END_SRC
 
 * Conclusion
+:PROPERTIES:
+:ID:       1ed924ec-6e4e-4e59-8691-f77c6939e270
+:PUBDATE:  2024-09-16 Mon 21:00
+:END:
 
 If this sparkled your interest somehow, here's the [[https://github.com/schonfinkel/fsharp-nix/tree/master][source code]], I've also made
 sure to configure some [[https://github.com/schonfinkel/fsharp-nix/actions][Github Actions]] Workflows there. 
 
 ** TODO
+:PROPERTIES:
+:ID:       cf5648aa-f8a4-4210-9c0f-577c7ffd77da
+:END:
 - [ ] Optimize the container image, by just shipping the runtime, not the SDK.
 - [ ] Open a PR into the [[https://github.com/NixOS/templates/tree/master/dotnet][NixOS Templates]] repo, maybe adding a [[https://safe-stack.github.io/][SAFE]] stack example
   as well and a container build into the Hello Example.
