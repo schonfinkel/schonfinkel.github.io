@@ -24,7 +24,7 @@ conventions for supervision and other things. (...)
 
 Instead, an OTP behaviour takes such a recurring pattern and divides it into two
 halves: the generic part and the application-specific implementation part. These
-communicate via a simple, well-defined interface. [cite:@logan2010erlang]
+communicate via a simple, well-defined interface. [cite:@logan2010erlang p.97]
 #+end_quote
 
 ** Components of a Behaviour
@@ -46,9 +46,10 @@ communicate via a simple, well-defined interface. [cite:@logan2010erlang]
 Applications are the way you package related modules in Erlang. The focus here
 isn’t on packaging for distribution but on being able to treat a bunch of
 modules as a single entity. Although OTP applications can be merely some library
-code for others to call, more often they’re like creatures with a life of their
+code for others to call, more often they're like creatures with a life of their
 own: they start up, do what they’re designed to do, and shut down. Some can have
-multiple running instances, and some are limited to one instance at a time. [cite:@logan2010erlang]
+multiple running instances, and some are limited to one instance at a
+time. [cite:@logan2010erlang p.119]
 #+END_QUOTE
 
 + Active Applications have a life cycle and must be started in order to be
@@ -65,6 +66,18 @@ multiple running instances, and some are limited to one instance at a time. [cit
    {applications, [kernel,stdlib]},
    {mod, {example_app,[]} }]}.
 #+end_src
+
+** Releases and Targets
+
+#+begin_quote
+OTP applications provide convenient units of functionality, but only on the
+Erlang programming level. To build a complete standalone software
+service - something that runs on one or more machines on your network and
+communicates with your other systems and with your users - you must typically
+combine a number of such applications that will run on a single Erlang runtime
+system. In OTP, such a higher-level package is called a release, and the result
+of installing a release on some host machine is called a target system.
+#+end_quote
 
 * References
 
