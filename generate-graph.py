@@ -12,8 +12,13 @@ import networkx.algorithms.community as com
 from networkx.drawing.nx_pydot import read_dot
 from networkx.readwrite import json_graph
 
-N_MISSING = 10  # Number of predicted missing links
-MAX_NODES = 200  # Number of nodes in the final graph 
+# Number of predicted missing links
+N_MISSING = 10  
+# Number of nodes in the final graph 
+MAX_NODES = 500
+
+ROOT_PATH = pathlib.Path(__file__).parent.resolve()
+NOTES_PATH = pathlib.Path(ROOT_PATH / "notes" / "org-roam.db").resolve()
 
 def to_rellink(inp: str) -> str:
     return pathlib.Path(inp).stem
@@ -21,8 +26,7 @@ def to_rellink(inp: str) -> str:
 def build_graph() -> nx.DiGraph:
     """Build a graph from the org-roam database."""
     graph = nx.DiGraph()
-    home = pathlib.Path.home()
-    conn = sqlite3.connect(home / ".emacs.d" / "org-roam.db")
+    conn = sqlite3.connect(NOTES_PATH)
 
     # Query all nodes first
     nodes = conn.execute("SELECT file, id, title FROM nodes WHERE level = 0;")

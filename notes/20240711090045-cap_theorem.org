@@ -2,8 +2,6 @@
 :ID:       74c5509d-73be-4b04-9ca4-039117d588a9
 :END:
 #+title: CAP Theorem
-#+HUGO_CATEGORIES: "Distributed Systems"
-#+HUGO_TAGS: "Classical Papers"
 
 The CAP Theorem is a classic problem in [[id:d7efb05f-fb8f-438c-b09d-ea91dc24ebc3][Distributed Systems]], first postulated by
 Eric Brewer in [cite:@brewer2000], and formally proved in [cite:@gilbert2002].
@@ -88,5 +86,3 @@ properties. Given a network partition between ~a0~ and ~a1~, the followig will h
 
 1. ~a1~ will never receive an update from ~a0~, which will break its avaliability promises (by never delivering the new result)
 2. ~a1~ sends stale data back to the client, breaking the consistency property.
-
-#+print_bibliography:

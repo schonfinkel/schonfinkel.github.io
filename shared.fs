@@ -26,23 +26,25 @@ let private addTitle src (path: String) =
         | Some t -> t
         | None -> "No title"
 
+let filterNames (excluded: Set<String>) (fileName: String) =
+    (fileName.StartsWith(".") || Set.contains fileName excluded) |> not
+
 let posts =
+    let exclude = Set.empty |> Set.add "draft" |> Set.add "rss"
+
     Directory.EnumerateFiles(postsDirectory)
     |> Seq.map System.IO.Path.GetFileName
     |> List.ofSeq
-    |> List.filter (fun s -> s.StartsWith(".") |> not)
+    |> List.filter (filterNames exclude)
     |> List.sortByDescending (postCreatedAt)
     |> List.map (fun p -> (addTitle "blog" p, p))
 
 let notes =
+    let exclude = Set.empty |> Set.add "org-roam.db"
+
     Directory.EnumerateFiles(notesDirectory)
     |> Seq.map System.IO.Path.GetFileName
     |> List.ofSeq
-    |> List.filter (fun s -> s.StartsWith(".") |> not)
+    |> List.filter (filterNames exclude)
     |> List.sortByDescending (noteCreatedAt)
     |> List.map (fun p -> (addTitle "notes" p, p))
-
-let capitalize (s: String) =
-    s.Split([| '_' |])
-    |> Array.map (fun w -> (Char.ToUpper(w.[0]) |> string) + w.[1..])
-    |> String.concat (" ")

@@ -54,6 +54,14 @@
                    (file-name-nondirectory (org-roam-node-file source-node))
                    (org-roam-node-title source-node))))))))
 
+(defun notes/add-extra-sections (backend)
+  "Insert extra sections on a note BACKEND before being published."
+  (when (org-roam-node-at-point)
+    (save-excursion
+      (goto-char (point-max))
+      (insert "\n* References:\n#+print_bibliography:\n")
+      (notes/collect-backlinks-string backend))))
+
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
 (setq org-confirm-babel-evaluate nil)
@@ -126,7 +134,7 @@
 (setq org-roam-db-location (concat org-roam-dir "/org-roam.db"))
 
 ;;;; Adds backlinks to the notes
-(add-hook 'org-export-before-processing-hook 'notes/collect-backlinks-string)
+(add-hook 'org-export-before-processing-hook 'notes/add-extra-sections)
 
 ;; RSS
 (setq org-rss-use-entry-url-as-guid nil)
@@ -145,6 +153,7 @@
 (setq-default html-footer (get-string-from-file (concat static-html-dir "/" "footer.html")))
 (message (format "HTML FOOTER: %s" html-footer))
 (setq-default website-html-postamble html-footer)
+
 
 ;;; Code:
 (setq org-publish-project-alist

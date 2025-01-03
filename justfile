@@ -34,6 +34,5 @@ remove-org:
 
 # Cleans the current environment
 clean: remove-org
-    rm -rf content
     rm -f .#content.org
     rm -rf public

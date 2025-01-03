@@ -2,8 +2,6 @@
 :ID:       42950824-228d-48d6-abec-4e18908dfca0
 :END:
 #+title: Quorum
-#+HUGO_CATEGORIES: "Distributed Systems"
-#+HUGO_TAGS: "Clusters"
 
 #+BEGIN_QUOTE
 Quorum means "majority", and the idea behind quorum is easy to understand: if
@@ -12,10 +10,8 @@ by itself would offer a good solution to avoid the [[id:582a4090-eb66-4dfd-8166-
 
 But to make sure that it can never happen, that multiple nodes activate the same
 resources in the cluster, another mechanism is used as well. This mechanism is
-known as [[id:789326a5-20aa-4492-acb6-1474c3c11a4a][STONITH]]. [cite:@van2014pro, p.6]
+known as [[id:789326a5-20aa-4492-acb6-1474c3c11a4a][STONITH]]. [cite:@van2014pro p.6]
 #+END_QUOTE
 
 This is required to avoid corruption on vital [[id:d8a1a1ff-47e6-44bc-a627-83ca8dc61ecb][Cluster]] resources, such as the
 File System.
-
-#+print_bibliography:
