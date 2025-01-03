@@ -24,7 +24,7 @@ conventions for supervision and other things. (...)
 
 Instead, an OTP behaviour takes such a recurring pattern and divides it into two
 halves: the generic part and the application-specific implementation part. These
-communicate via a simple, well-defined interface. [cite:@logan2010erlang]
+communicate via a simple, well-defined interface. [cite:@logan2010erlang p.97]
 #+end_quote
 
 ** Components of a Behaviour
@@ -32,41 +32,12 @@ communicate via a simple, well-defined interface. [cite:@logan2010erlang]
 + The implementation
 + The container
 
-** OTP Behaviours
+** Kinds
 
++ [[id:04a44951-985d-4b5b-bd52-f1893ea29ae7][OTP Application]]: Implements the ~application~ behaviours, which is a way to
+  package related modules in Erlang.
 + [[id:1cd8fd81-a7c4-44ea-8b7a-d803e9b491af][gen_server]]
 + [[id:2daf1307-afb4-49e4-98cb-66ac7eb27cf0][supervisor]]
 + ~gen_statem~: State Machines
 + ~gen_fsm~: Finite State Machine
 + [[id:0372baa6-420e-483a-9621-7f80f1ad6974][gen_event]]
-
-** Packaging an Application
-
-#+BEGIN_QUOTE
-Applications are the way you package related modules in Erlang. The focus here
-isn’t on packaging for distribution but on being able to treat a bunch of
-modules as a single entity. Although OTP applications can be merely some library
-code for others to call, more often they’re like creatures with a life of their
-own: they start up, do what they’re designed to do, and shut down. Some can have
-multiple running instances, and some are limited to one instance at a time. [cite:@logan2010erlang]
-#+END_QUOTE
-
-+ Active Applications have a life cycle and must be started in order to be
-  useful.
-+ Library Applications are a passive collection of modules to be used by other
-  applications, and they don’t need to be started or stopped.
-
-#+begin_src 
-{application, example,
-  [{description, "Description Example"},
-   {vsn, "0.0.1"},
-   {modules, [example, example_sup,example_app]},
-   {registered,[example, example_sup]},
-   {applications, [kernel,stdlib]},
-   {mod, {example_app,[]} }]}.
-#+end_src
-
-* References
-
-#+print_bibliography: 
-

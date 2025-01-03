@@ -37,6 +37,31 @@
   "Prepend PREFIX to every string in STRINGS."
   (mapcar (lambda (s) (concat prefix s)) strings))
 
+;;;; Taken from:
+;;;; https://commonplace.doubleloop.net/publish.el
+(defun notes/collect-backlinks-string (backend)
+  "Insert backlinks into the end of the org file before parsing it, targeting BACKEND."
+  (when (org-roam-node-at-point)
+    (goto-char (point-max))
+    ;; Add a new header for the links
+    (insert "* Backlinks:\n")
+    (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
+      (dolist (backlink backlinks)
+        (let* ((source-node (org-roam-backlink-source-node backlink))
+               (point (org-roam-backlink-point backlink)))
+          (insert
+           (format "- [[./%s][%s]]\n"
+                   (file-name-nondirectory (org-roam-node-file source-node))
+                   (org-roam-node-title source-node))))))))
+
+(defun notes/add-extra-sections (backend)
+  "Insert extra sections on a note BACKEND before being published."
+  (when (org-roam-node-at-point)
+    (save-excursion
+      (goto-char (point-max))
+      (insert "\n* References:\n#+print_bibliography:\n")
+      (notes/collect-backlinks-string backend))))
+
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
 (setq org-confirm-babel-evaluate nil)
@@ -44,14 +69,13 @@
 (setq org-export-with-broken-links nil)
 (setq org-element-use-cache nil)
 (setq org-src-preserve-indentation t)
-
 (setq org-src-fontify-natively t)
 
 ;;;; No need for backup files
 (setq make-backup-files nil)
 
 ;; Don't show validation link
-(setq org-html-validation-link nil)
+(setq org-html-validation-link t)
 ;; Use our own scripts
 (setq org-html-head-include-scripts nil)
 ;; Use our own styles
@@ -66,7 +90,6 @@
 (setq-default org-blog-dir (concat root-dir "blog"))
 (setq-default org-roam-dir (concat root-dir "notes"))
 (setq-default bibtex-dir (concat root-dir "refs"))
-(setq-default emacs-dir-path (concat (getenv "home") ".emacs.d/"))
 
 (message (format "SETTING ROOT DIR: %s" root-dir))
 (message (format "SETTING STATIC DIR: %s" static-dir))
@@ -85,6 +108,8 @@
 (setq-default out-css-dir (concat out-static-dir "css"))
 (setq-default out-img-dir (concat out-static-dir "img"))
 (setq-default out-html-dir (concat out-static-dir "html"))
+(setq-default out-blog-dir (concat out-dir "/blog"))
+(setq-default out-notes-dir (concat out-dir "/notes"))
 
 ;;;; Fix bibliography
 (setq org-cite-refs-list '("articles.bib"
@@ -106,10 +131,10 @@
 
 ;;;; Org-Roam Settings
 (setq org-roam-directory org-roam-dir)
-(setq org-roam-db-location (concat emacs-dir-path "org-roam.db"))
-;;(setq org-roam-db-extra-links-exclude-keys
-;;      '((node-property "ROAM_REFS" "BACKLINKS")
-;;        (keyword "transclude")))
+(setq org-roam-db-location (concat org-roam-dir "/org-roam.db"))
+
+;;;; Adds backlinks to the notes
+(add-hook 'org-export-before-processing-hook 'notes/add-extra-sections)
 
 ;; RSS
 (setq org-rss-use-entry-url-as-guid nil)
@@ -128,6 +153,7 @@
 (setq-default html-footer (get-string-from-file (concat static-html-dir "/" "footer.html")))
 (message (format "HTML FOOTER: %s" html-footer))
 (setq-default website-html-postamble html-footer)
+
 
 ;;; Code:
 (setq org-publish-project-alist

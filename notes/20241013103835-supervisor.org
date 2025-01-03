@@ -2,16 +2,15 @@
 :ID:       2daf1307-afb4-49e4-98cb-66ac7eb27cf0
 :END:
 #+title: supervisor
-#+HUGO_CATEGORIES: "Functional Programming"
-#+HUGO_TAGS: "OTP"
+#+filetags: OTP Erlang Elixir
 
 #+begin_quote
 Supervisors are one of the most important features of [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]]. They monitor other
 processes and take action if anything goes wrong, restarting the failed process
 or possibly escalating the problem to a higher level. Layering supervisors into
-supervision trees allows you to create highly fault-tolerant systems. [cite:@logan2010erlang]
+supervision trees allows you to create highly fault-tolerant systems.
+[cite:@logan2010erlang]
 #+end_quote
-
 
 A simple-one-for-one supervisor hierarchy. All the child processes are of the
 same type and are added or removed dynamically. There can be any number of them.
