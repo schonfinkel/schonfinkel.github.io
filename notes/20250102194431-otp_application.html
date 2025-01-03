@@ -4,7 +4,7 @@
 <!-- 2025-01-03 Fri 02:08 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>STONITH</title>
+<title>OTP Application</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -53,53 +53,67 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">STONITH</h1>
+<h1 class="title">OTP Application</h1>
 </header><blockquote>
 <p>
-In STONITH, specific hardware is used to terminate a node that is no longer
-responsive to the cluster. The idea behind STONITH is that before migrating
-resources to another node in the cluster, the cluster has to confirm that the
-node in question really is down. To do this, the cluster will send a shutdown
-action to the STONITH device, which will, in turn, terminate the nonresponsive
-node. (<a href="#citeproc_bib_item_1">Van Vugt 2014</a>)
+Applications are the way you package related modules in <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a>. The focus here
+isn’t on packaging for distribution but on being able to treat a bunch of
+modules as a single entity. Although OTP applications can be merely some library
+code for others to call, more often they're like creatures with a life of their
+own: they start up, do what they’re designed to do, and shut down. Some can have
+multiple running instances, and some are limited to one instance at a
+time. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 119</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgd87cadd" class="outline-2">
-<h2 id="orgd87cadd">Mechanisms</h2>
-<div class="outline-text-2" id="text-orgd87cadd">
-</div>
-<div id="outline-container-org0f6ac6e" class="outline-3">
-<h3 id="org0f6ac6e">Power Fencing</h3>
-<div class="outline-text-3" id="text-org0f6ac6e">
+<div id="outline-container-orgfd9808e" class="outline-2">
+<h2 id="orgfd9808e">Packaging an Application</h2>
+<div class="outline-text-2" id="text-orgfd9808e">
 <ul class="org-ul">
-<li>Cuts the node off from power.</li>
+<li>Active Applications have a life cycle and must be started in order to be
+useful.</li>
+<li>Library Applications are a passive collection of modules to be used by other
+applications, and they don’t need to be started or stopped.</li>
 </ul>
-</div>
-</div>
-<div id="outline-container-orgd41041f" class="outline-3">
-<h3 id="orgd41041f">Fabric Fencing :: Disconnects the machine from storage.</h3>
-<div class="outline-text-3" id="text-orgd41041f">
-<ul class="org-ul">
-<li>By closing ports in a Fibre Channel Switch.</li>
-<li>By using <a href="20241001154953-scsi.html#ID-388e1a43-f7f6-4c9e-af19-d7b6116a070e">SCSI</a> reservations.</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-orga8f8c68" class="outline-2">
-<h2 id="orga8f8c68">Fencing Agents</h2>
-</div>
 
-<div id="outline-container-orgcf345bf" class="outline-2">
-<h2 id="orgcf345bf">References:</h2>
-<div class="outline-text-2" id="text-orgcf345bf">
+<div class="org-src-container">
+<pre class="src src-erlang">{application, example,
+  [{description, "Description Example"},
+   {vsn, "0.0.1"},
+   {modules, [example, example_sup,example_app]},
+   {registered,[example, example_sup]},
+   {applications, [kernel,stdlib]},
+   {mod, {example_app,[]} }]}.
+</pre>
+</div>
+</div>
+<div id="outline-container-org969b56c" class="outline-3">
+<h3 id="org969b56c">Releases and Targets</h3>
+<div class="outline-text-3" id="text-org969b56c">
+<blockquote>
+<p>
+OTP applications provide convenient units of functionality, but only on the
+Erlang programming level. To build a complete standalone software
+service - something that runs on one or more machines on your network and
+communicates with your other systems and with your users - you must typically
+combine a number of such applications that will run on a single Erlang runtime
+system. In <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>, such a higher-level package is called a <b>release</b>, and the result
+of installing a release on some host machine is called a <b>target system</b>.
+(<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 242</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org6241cb7" class="outline-2">
+<h2 id="org6241cb7">References:</h2>
+<div class="outline-text-2" id="text-org6241cb7">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Vugt, Sander. 2014. <i>Pro Linux High Availability Clustering</i>. Apress.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org60ecf4e" class="outline-2">
-<h2 id="org60ecf4e">Backlinks:</h2>
+<div id="outline-container-orga74abe2" class="outline-2">
+<h2 id="orga74abe2">Backlinks:</h2>
 </div>
 </main>
 <footer id="postamble" class="status">

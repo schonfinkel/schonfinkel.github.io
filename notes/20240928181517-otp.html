@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-31 Tue 11:54 -->
+<!-- 2025-01-03 Fri 02:08 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OTP</title>
@@ -63,9 +63,9 @@ complexity: things that are difficult because you picked inadequate
 tools. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 20</a>)
 </p>
 </blockquote>
-<div id="outline-container-org0d0306a" class="outline-2">
-<h2 id="org0d0306a">Behaviors</h2>
-<div class="outline-text-2" id="text-org0d0306a">
+<div id="outline-container-org35cc8a8" class="outline-2">
+<h2 id="org35cc8a8">Behaviors</h2>
+<div class="outline-text-2" id="text-org35cc8a8">
 <blockquote>
 <p>
 Behaviours are a way of formalizing common patterns in process-oriented
@@ -78,13 +78,13 @@ conventions for supervision and other things. (&#x2026;)
 <p>
 Instead, an OTP behaviour takes such a recurring pattern and divides it into two
 halves: the generic part and the application-specific implementation part. These
-communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
+communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 97</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org5d241dd" class="outline-3">
-<h3 id="org5d241dd">Components of a Behaviour</h3>
-<div class="outline-text-3" id="text-org5d241dd">
+<div id="outline-container-org9daf5ef" class="outline-3">
+<h3 id="org9daf5ef">Components of a Behaviour</h3>
+<div class="outline-text-3" id="text-org9daf5ef">
 <ul class="org-ul">
 <li>The interface</li>
 <li>The implementation</li>
@@ -92,10 +92,12 @@ communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2
 </ul>
 </div>
 </div>
-<div id="outline-container-org29f5a6c" class="outline-3">
-<h3 id="org29f5a6c">OTP Behaviours</h3>
-<div class="outline-text-3" id="text-org29f5a6c">
+<div id="outline-container-orge9a08c6" class="outline-3">
+<h3 id="orge9a08c6">Kinds</h3>
+<div class="outline-text-3" id="text-orge9a08c6">
 <ul class="org-ul">
+<li><a href="20250102194431-otp_application.html#ID-04a44951-985d-4b5b-bd52-f1893ea29ae7">OTP Application</a>: Implements the <code>application</code> behaviours, which is a way to
+package related modules in Erlang.</li>
 <li><a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44ea-8b7a-d803e9b491af">gen<sub>server</sub></a></li>
 <li><a href="20241013103835-supervisor.html#ID-2daf1307-afb4-49e4-98cb-66ac7eb27cf0">supervisor</a></li>
 <li><code>gen_statem</code>: State Machines</li>
@@ -104,48 +106,18 @@ communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2
 </ul>
 </div>
 </div>
-<div id="outline-container-org22a3b86" class="outline-3">
-<h3 id="org22a3b86">Packaging an Application</h3>
-<div class="outline-text-3" id="text-org22a3b86">
-<blockquote>
-<p>
-Applications are the way you package related modules in Erlang. The focus here
-isn’t on packaging for distribution but on being able to treat a bunch of
-modules as a single entity. Although OTP applications can be merely some library
-code for others to call, more often they’re like creatures with a life of their
-own: they start up, do what they’re designed to do, and shut down. Some can have
-multiple running instances, and some are limited to one instance at a time. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
-</p>
-</blockquote>
-
-<ul class="org-ul">
-<li>Active Applications have a life cycle and must be started in order to be
-useful.</li>
-<li>Library Applications are a passive collection of modules to be used by other
-applications, and they don’t need to be started or stopped.</li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-nil">{application, example,
-  [{description, "Description Example"},
-   {vsn, "0.0.1"},
-   {modules, [example, example_sup,example_app]},
-   {registered,[example, example_sup]},
-   {applications, [kernel,stdlib]},
-   {mod, {example_app,[]} }]}.
-</pre>
 </div>
-</div>
-</div>
-</div>
-<div id="outline-container-org149e5eb" class="outline-2">
-<h2 id="org149e5eb">References</h2>
-<div class="outline-text-2" id="text-org149e5eb">
+<div id="outline-container-org81ca562" class="outline-2">
+<h2 id="org81ca562">References:</h2>
+<div class="outline-text-2" id="text-org81ca562">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
+</div>
+<div id="outline-container-org00ab761" class="outline-2">
+<h2 id="org00ab761">Backlinks:</h2>
 </div>
 </main>
 <footer id="postamble" class="status">

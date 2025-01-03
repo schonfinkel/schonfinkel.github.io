@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-12-31 Tue 11:54 -->
+<!-- 2025-01-03 Fri 02:08 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dializer</title>
@@ -59,9 +59,9 @@ Dialyzer is a static analysis tool that identifies software discrepancies, such
 as definite type errors, code that is unreachable because of programming errors,
 and unnecessary tests in <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> and <a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a> modules or an entire codebases.
 </p>
-<div id="outline-container-org8b1500a" class="outline-2">
-<h2 id="org8b1500a">Erlang Type Notation</h2>
-<div class="outline-text-2" id="text-org8b1500a">
+<div id="outline-container-orgb55d4e3" class="outline-2">
+<h2 id="orgb55d4e3">Erlang Type Notation</h2>
+<div class="outline-text-2" id="text-orgb55d4e3">
 <p>
 We can define a subset of Erlang types as follows:
 </p>
@@ -98,9 +98,9 @@ New types can be defined with the following syntax:
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc927c88" class="outline-3">
-<h3 id="orgc927c88">Specifying the Input and Output Types of a Function</h3>
-<div class="outline-text-3" id="text-orgc927c88">
+<div id="outline-container-orgeedc3f3" class="outline-3">
+<h3 id="orgeedc3f3">Specifying the Input and Output Types of a Function</h3>
+<div class="outline-text-3" id="text-orgeedc3f3">
 <div class="org-src-container">
 <pre class="src src-erlang">-spec file:open(FileName, Modes) -&gt; {ok, Handle} | {error, Why} when
     FileName :: string(),
@@ -112,9 +112,9 @@ New types can be defined with the following syntax:
 </div>
 </div>
 </div>
-<div id="outline-container-orgfcb0d50" class="outline-3">
-<h3 id="orgfcb0d50">Exporting Types</h3>
-<div class="outline-text-3" id="text-orgfcb0d50">
+<div id="outline-container-orgdd471b8" class="outline-3">
+<h3 id="orgdd471b8">Exporting Types</h3>
+<div class="outline-text-3" id="text-orgdd471b8">
 <p>
 A module can export some types to declare that other modules are allowed to
 refer to them as remote types. This declaration has the following form:
@@ -126,9 +126,9 @@ refer to them as remote types. This declaration has the following form:
 </div>
 </div>
 </div>
-<div id="outline-container-org23e10c7" class="outline-3">
-<h3 id="org23e10c7">Opaque Types</h3>
-<div class="outline-text-3" id="text-org23e10c7">
+<div id="outline-container-org603273a" class="outline-3">
+<h3 id="org603273a">Opaque Types</h3>
+<div class="outline-text-3" id="text-org603273a">
 <p>
 The main use case for opacity in Erlang is to hide the implementation of a data
 type, enabling evolving the API while minimizing the risk of breaking consumers.
@@ -136,13 +136,13 @@ type, enabling evolving the API while minimizing the risk of breaking consumers.
 </div>
 </div>
 </div>
-<div id="outline-container-org4b44886" class="outline-2">
-<h2 id="org4b44886">Running Dializer</h2>
-<div class="outline-text-2" id="text-org4b44886">
+<div id="outline-container-org09aa6b9" class="outline-2">
+<h2 id="org09aa6b9">Running Dializer</h2>
+<div class="outline-text-2" id="text-org09aa6b9">
 </div>
-<div id="outline-container-org2560134" class="outline-3">
-<h3 id="org2560134">Things that confuse Dializer</h3>
-<div class="outline-text-3" id="text-org2560134">
+<div id="outline-container-org20cc113" class="outline-3">
+<h3 id="org20cc113">Things that confuse Dializer</h3>
+<div class="outline-text-3" id="text-org20cc113">
 <p>
 The dialyzer can get easily confused. We can help prevent this by following a
 few simple rules. (<a href="#citeproc_bib_item_1">Armstrong 2013, 151</a>).
@@ -163,6 +163,17 @@ as much as possible.</li>
 </div>
 </div>
 </div>
+</div>
+<div id="outline-container-org643e156" class="outline-2">
+<h2 id="org643e156">References:</h2>
+<div class="outline-text-2" id="text-org643e156">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf68b0e1" class="outline-2">
+<h2 id="orgf68b0e1">Backlinks:</h2>
 </div>
 </main>
 <footer id="postamble" class="status">
