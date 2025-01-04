@@ -70,7 +70,7 @@
          ((message "Running ORG-ROAM DB sync")
           (org-roam-db)
           (org-roam-db-sync))
-        (t (message "Not running on CI, ignoring block"))))
+         (t (message "Not running on CI, ignoring block")))))
 
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
