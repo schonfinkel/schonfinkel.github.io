@@ -66,8 +66,11 @@
 (defun notes/generate-sqlite-db ()
   "Bootstraps the ORG-ROAM db."
   (setq is-ci (if (string= (getenv "CI_ENV") "1") t nil))
-  (cond (is-ci t org-roam-db-sync)
-        (t (message "Not running on CI, ignoring block"))))
+  (cond (is-ci
+         ((message "Running ORG-ROAM DB sync")
+          (org-roam-db)
+          (org-roam-db-sync))
+         (t (message "Not running on CI, ignoring block")))))
 
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
