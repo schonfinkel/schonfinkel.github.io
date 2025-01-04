@@ -125,6 +125,7 @@
           ci = pkgs.mkShell {
             ENVIRONMENT = "prod";
             OUT_URL = "https://schonfinkel.github.io/";
+            IS_CI = "1";
             DOTNET_ROOT = "${dotnet}";
             DOTNET_CLI_TELEMETRY_OPTOUT = "1";
             LANG = "en_US.UTF-8";

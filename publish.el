@@ -62,6 +62,13 @@
       (insert "\n* References:\n#+print_bibliography:\n")
       (notes/collect-backlinks-string backend))))
 
+;;;; Only to be used within CI environments, to generate the ORG-ROAM db
+(defun notes/generate-sqlite-db ()
+  "Bootstraps the ORG-ROAM db."
+  (setq is-ci (if (string= (getenv "CI_ENV") "1") t nil))
+  (cond (is-ci t org-roam-db-sync)
+        (t (message "Not running on CI, ignoring block"))))
+
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
 (setq org-confirm-babel-evaluate nil)
@@ -237,6 +244,7 @@
         ("all" :components ("css" "images" "html" "other" "rss" "site"))))
 
 ;; Generate the site output
+(notes/generate-sqlite-db)
 (org-roam-update-org-id-locations)
 (org-publish-all t)
 
