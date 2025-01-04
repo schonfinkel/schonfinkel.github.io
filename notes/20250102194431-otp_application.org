@@ -2,6 +2,7 @@
 :ID:       04a44951-985d-4b5b-bd52-f1893ea29ae7
 :END:
 #+title: OTP Application
+#+filetags: Erlang OTP
 
 #+BEGIN_QUOTE
 Applications are the way you package related modules in [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]]. The focus here
@@ -12,6 +13,19 @@ own: they start up, do what they’re designed to do, and shut down. Some can ha
 multiple running instances, and some are limited to one instance at a
 time. [cite:@logan2010erlang p.119]
 #+END_QUOTE
+
+* Releases and Targets
+
+#+begin_quote
+OTP applications provide convenient units of functionality, but only on the
+Erlang programming level. To build a complete standalone software
+service - something that runs on one or more machines on your network and
+communicates with your other systems and with your users - you must typically
+combine a number of such applications that will run on a single Erlang runtime
+system. In [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]], such a higher-level package is called a *release*, and the result
+of installing a release on some host machine is called a *target system*.
+[cite:@logan2010erlang p.242]
+#+end_quote
 
 * Packaging an Application
 
@@ -30,15 +44,3 @@ time. [cite:@logan2010erlang p.119]
    {mod, {example_app,[]} }]}.
 #+end_src
 
-** Releases and Targets
-
-#+begin_quote
-OTP applications provide convenient units of functionality, but only on the
-Erlang programming level. To build a complete standalone software
-service - something that runs on one or more machines on your network and
-communicates with your other systems and with your users - you must typically
-combine a number of such applications that will run on a single Erlang runtime
-system. In [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]], such a higher-level package is called a *release*, and the result
-of installing a release on some host machine is called a *target system*.
-[cite:@logan2010erlang p.242]
-#+end_quote

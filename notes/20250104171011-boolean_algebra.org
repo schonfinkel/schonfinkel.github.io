@@ -1,0 +1,17 @@
+:PROPERTIES:
+:ID:       7f3001b1-d677-41b0-bcc9-8fdb3950c6d0
+:END:
+#+title: Boolean Algebra
+
+A Boolean Algebra is a sextuple $(A, \land, \lor, \neg, \top, \bot)$ satisfying:
+
+1. $(A, \land, \top)$ is a commutative [[id:d89285be-d7a9-46a1-8a10-e14e73b66935][Monoid]].
+2. $(A, \lor, \bot)$ is a commutative [[id:d89285be-d7a9-46a1-8a10-e14e73b66935][Monoid]].
+3. *(Absorption)* For all $a, b, c \in A$, we have $a \land (a \lor b) = a \lor (a \land b) = a$.
+4. *(Distributivity)* For $a, b, c \in A$, we have:
+    \begin{aligned}
+        a\land(b\lor c) &= (a\land b)\lor(a\land c) \\
+        a\lor(b\land c) &= (a\lor b)\land(a\lor c)
+    \end{aligned}
+5. *(Annihilation)* For all $a \in A$, we have $a \land \bot = \bot$, and $a \lor \top = \top$.
+6. *(Complementation)* For all $a\in A$, we have $a\land\lnot a=\bot$ and $a\lor\lnot a=\top$.
