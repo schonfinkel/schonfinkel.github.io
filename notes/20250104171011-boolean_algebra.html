@@ -4,7 +4,7 @@
 <!-- 2025-01-04 Sat 20:39 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Recent activity in Benevides' Blog</title>
+<title>Boolean Algebra</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -28,6 +28,38 @@
       inlineMath: [['\\(', '\\)']]                  // inline
     }
   };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 </head>
 <body>
@@ -53,14 +85,35 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Recent activity in Benevides' Blog</h1>
-</header><ul class="org-ul">
-<li><a href="20241230-the_road_to_emacs_maximalism.html">The road to Emacs maximalism</a></li>
-<li><a href="20240916-you_have_10_seconds_to_nixify_your_dotnet_project.html">You have 10 seconds to nixify your dotnet project</a></li>
-<li><a href="20240907-experiments_with_erlang_and_nix.html">Some experiments with Erlang and NixOS</a></li>
-<li><a href="20230917-how_to_use_private_neovim_plugins_on_nixos.html">How to use private NeoVim plugins on NixOS</a></li>
-<li><a href="20180807-switching_to_nixos.html">Switching to NixOS</a></li>
-</ul>
+<h1 class="title">Boolean Algebra</h1>
+</header><p>
+A Boolean Algebra is a sextuple \((A, \land, \lor, \neg, \top, \bot)\) satisfying:
+</p>
+
+<ol class="org-ol">
+<li>\((A, \land, \top)\) is a commutative <a href="20231008214945-monoid.html#ID-d89285be-d7a9-46a1-8a10-e14e73b66935">Monoid</a>.</li>
+<li>\((A, \lor, \bot)\) is a commutative <a href="20231008214945-monoid.html#ID-d89285be-d7a9-46a1-8a10-e14e73b66935">Monoid</a>.</li>
+<li><b>(Absorption)</b> For all \(a, b, c \in A\), we have \(a \land (a \lor b) = a \lor (a \land b) = a\).</li>
+<li><p>
+<b>(Distributivity)</b> For \(a, b, c \in A\), we have:
+</p>
+\begin{aligned}
+    a\land(b\lor c) &= (a\land b)\lor(a\land c) \\
+    a\lor(b\land c) &= (a\lor b)\land(a\lor c)
+\end{aligned}</li>
+<li><b>(Annihilation)</b> For all \(a \in A\), we have \(a \land \bot = \bot\), and \(a \lor \top = \top\).</li>
+<li><b>(Complementation)</b> For all \(a\in A\), we have \(a\land\lnot a=\bot\) and \(a\lor\lnot a=\top\).</li>
+</ol>
+<div id="outline-container-org4de755b" class="outline-2">
+<h2 id="org4de755b">References:</h2>
+<div class="outline-text-2" id="text-org4de755b">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+</div>
+</div>
+</div>
+<div id="outline-container-org4b7aa13" class="outline-2">
+<h2 id="org4b7aa13">Backlinks:</h2>
+</div>
 </main>
 <footer id="postamble" class="status">
 <footer>
