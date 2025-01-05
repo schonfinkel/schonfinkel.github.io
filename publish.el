@@ -65,7 +65,7 @@
 ;;;; Only to be used within CI environments, to generate the ORG-ROAM db
 (defun notes/generate-sqlite-db ()
   "Bootstraps the ORG-ROAM db."
-  (setq is-ci (if (string= (getenv "CI_ENV") "1") t nil))
+  (setq is-ci (if (string= (getenv "IS_CI") "1") t nil))
   (cond (is-ci
          ((message "Running ORG-ROAM DB sync")
           (org-roam-db)
