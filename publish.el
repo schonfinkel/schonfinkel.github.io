@@ -68,7 +68,6 @@
   (setq is-ci (if (string= (getenv "IS_CI") "1") t nil))
   (cond (is-ci
          (progn (message "Running ORG-ROAM DB sync")
-                (org-roam-db)
                 (org-roam-db-sync)))
         (t (message "Not running on CI, ignoring block"))))
 
@@ -142,6 +141,7 @@
 ;;;; Org-Roam Settings
 (setq org-roam-directory org-roam-dir)
 (setq org-roam-db-location (concat org-roam-dir "/org-roam.db"))
+(message (format "SETTING OUT ORG-ROAM DB LOCATION: %s" org-roam-db-location))
 
 ;;;; Adds backlinks to the notes
 (add-hook 'org-export-before-processing-hook 'notes/add-extra-sections)
