@@ -3,8 +3,11 @@
 #+AUTHOR: Marcos Benevides
 #+DATE: <2024-09-07 Sat> 
 
-*Updated at <2024-11-02 Sat>: I've changed the way we package our erlang
-project with Nix, mostly for the better*.
+*Updated at <2024-11-02 Sat>: I've changed the way we package our erlang project
+with Nix, mostly for the better*.
+
+*Updated at <2025-01-08 Wed>: I've also changed the way we build the Zig
+client.*
 
 Recently I've been collaborating with friends on [[https://github.com/Dr-Nekoma/lyceum][Lyceum]], an MMO game with an
 [[https://www.erlang.org/][Erlang]] backend and a [[https://ziglang.org/][Zig]] + [[https://www.raylib.com/][Raylib]] client (as if erlang wasn't a weird enough of
@@ -262,24 +265,34 @@ itself than to integrate with Erlang projects). Nevertheless, you can properly
 package this with the abstractions plain Nix already gives you:
 
 #+BEGIN_SRC nix
+  # (...)
   # Leverages nix to build the erlang backend release
   # nix build .#server
   server =
     let
-      deps = import ./server/rebar-deps.nix { 
+      deps = import ./server/rebar-deps.nix {
         inherit (pkgs) fetchHex fetchFromGitHub fetchgit;
         builder = pkgs.beamPackages.buildRebar3;
       };
     in
     pkgs.beamPackages.rebar3Relx {
       pname = erl_app;
-      version = "0.1.0";
+      version = app_version;
       root = ./server;
       src = pkgs.lib.cleanSource ./server;
       releaseType = "release";
       profile = "prod";
+      include = [
+        "rebar.config"
+      ];
       beamDeps = builtins.attrValues deps;
+      buildPhase = ''
+        runHook preBuild
+        HOME=. DEBUG=1 rebar3 as prod release --relname server
+        runHook postBuild
+      '';
     };
+  # (...)
 #+END_SRC
 
 This is a derivation, a meta-package, a recipe containing every step and every
@@ -317,6 +330,47 @@ now let's see if this really works:
   Migrations completed successfully.
   # (...) it works
 #+END_SRC
+
+** A pure build of the Zig client
+:PROPERTIES:
+:ID:       cd24d037-768a-4cea-8dc6-6cd0e2b93db2
+:END:
+
+#+begin_src nix
+  # (...)
+  # nix build .#client
+  client = pkgs.stdenv.mkDerivation {
+    pname = zig_app;
+    version = app_version;
+    src = pkgs.lib.cleanSource ./client;
+
+    zigBuildFlags = [
+      "-fsys=raylib"
+      "--release=fast"
+      "-Dassets=${builtins.toString ./client}/assets"
+    ];
+
+    nativeBuildInputs = [
+      zigLatest.hook
+      pkgs.makeWrapper
+    ];
+
+    buildInputs =
+      with pkgs; [ raylib zigLatest erlangLatest ]
+        ++ lib.optionals stdenv.isLinux (linuxPkgs)
+        ++ lib.optionals stdenv.isDarwin darwinPkgs;
+
+    postPatch = ''
+      ln -s ${pkgs.callPackage ./client/zon-deps.nix { }} $ZIG_GLOBAL_CACHE_DIR/p
+    '';
+
+    postInstall = ''
+      wrapProgram "$out/bin/${zig_app}" --prefix LD_LIBRARY_PATH ":" "${linuxLibs}"
+    '';
+  };
+
+  # (...)
+#+end_src
 
 * Containers
 :PROPERTIES:
@@ -420,9 +474,7 @@ it), it makes my life dealing with Unix systems less painfull.
 
 There is still much to do, and it can be left for a part II later.
 
-- [ ] I have yet to learn how to deploy a production-ready erlang system. Add
-  [cite:@cesarini2016designing] to my readlist.
-- [ ] Properly build the client, it seems that [[https://github.com/nix-community/zon2nix][non2nix]] breaks with the [[https://github.com/nix-community/zon2nix/issues/6][format for
+- [X] Properly build the client, it seems that [[https://github.com/nix-community/zon2nix][non2nix]] breaks with the [[https://github.com/nix-community/zon2nix/issues/6][format for
   zon files]], I'm not familiar with Zig toolig and ill take a look at this later
 
 #+print_bibliography: 
