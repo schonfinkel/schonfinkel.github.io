@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-04 Sat 22:17 -->
+<!-- 2025-01-09 Thu 17:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Elixir</title>
@@ -60,30 +60,82 @@ Elixir describes itself as a functional, meta-programming-aware language built
 on top of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> virtual machine.
 </p>
 </blockquote>
-<div id="outline-container-org36b0d3a" class="outline-2">
-<h2 id="org36b0d3a">Basics</h2>
-<div class="outline-text-2" id="text-org36b0d3a">
+<div id="outline-container-org841b8c9" class="outline-2">
+<h2 id="org841b8c9">Data Types</h2>
 </div>
-<div id="outline-container-orgf7644b6" class="outline-3">
-<h3 id="orgf7644b6">Protocols</h3>
+
+
+<div id="outline-container-orgb039f7d" class="outline-2">
+<h2 id="orgb039f7d">Error Handling</h2>
+<div class="outline-text-2" id="text-orgb039f7d">
+</div>
+<div id="outline-container-orgfcfd85e" class="outline-3">
+<h3 id="orgfcfd85e">Let it Crash</h3>
+</div>
+
+<div id="outline-container-org3327dac" class="outline-3">
+<h3 id="org3327dac">Errors as Data</h3>
+</div>
+
+<div id="outline-container-orgb360c09" class="outline-3">
+<h3 id="orgb360c09">Errors as Exceptions</h3>
+<div class="outline-text-3" id="text-orgb360c09">
+<div class="org-src-container">
+<pre class="src src-elixir">  try do
+    raise "oops, something went wrong"
+  rescue
+    e in RuntimeError -&gt; {:error, e.message}
+  after
+    -- some cleanups
+  end
+</pre>
 </div>
 </div>
-<div id="outline-container-orge880704" class="outline-2">
-<h2 id="orge880704">References:</h2>
-<div class="outline-text-2" id="text-orge880704">
+</div>
+</div>
+<div id="outline-container-orgba2d352" class="outline-2">
+<h2 id="orgba2d352">Basics</h2>
+<div class="outline-text-2" id="text-orgba2d352">
+</div>
+<div id="outline-container-org62c80f7" class="outline-3">
+<h3 id="org62c80f7">Protocols</h3>
+</div>
+</div>
+<div id="outline-container-org5d5641a" class="outline-2">
+<h2 id="org5d5641a">Streams</h2>
+<div class="outline-text-2" id="text-org5d5641a">
+<p>
+Streams are enumerables that are lazy and can be composed.
+</p>
+
+<ul class="org-ul">
+<li><code>Stream.repeatedly()</code></li>
+<li><code>Stream.cycle(enum)</code></li>
+<li><code>Stream.iterate(start, next_fun)</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf67c67c" class="outline-2">
+<h2 id="orgf67c67c">References:</h2>
+<div class="outline-text-2" id="text-orgf67c67c">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>
 </div>
-<div id="outline-container-orgff81f12" class="outline-2">
-<h2 id="orgff81f12">Backlinks:</h2>
+<div id="outline-container-orgd76c978" class="outline-2">
+<h2 id="orgd76c978">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgd76c978">
+<ul class="org-ul">
+<li><a href="./20241009092203-dializer.html">Dializer</a></li>
+</ul>
+</div>
 </div>
 </main>
 <footer id="postamble" class="status">
 <footer>
   </br>
   <p>
-  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/mtrsk/mtrsk.github.io">here</a>.
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
   </p>
 </footer>
 </footer>

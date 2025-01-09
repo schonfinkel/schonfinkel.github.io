@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-04 Sat 22:17 -->
+<!-- 2025-01-09 Thu 17:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OTP Application</title>
@@ -65,9 +65,16 @@ multiple running instances, and some are limited to one instance at a
 time. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 119</a>)
 </p>
 </blockquote>
-<div id="outline-container-org1f086c7" class="outline-2">
-<h2 id="org1f086c7">Releases and Targets</h2>
-<div class="outline-text-2" id="text-org1f086c7">
+
+<ul class="org-ul">
+<li>Active Applications have a life cycle and must be started in order to be
+useful.</li>
+<li>Library Applications are a passive collection of modules to be used by other
+applications, and they don’t need to be started or stopped.</li>
+</ul>
+<div id="outline-container-org1728797" class="outline-2">
+<h2 id="org1728797">Releases and Targets</h2>
+<div class="outline-text-2" id="text-org1728797">
 <blockquote>
 <p>
 OTP applications provide convenient units of functionality, but only on the
@@ -77,21 +84,19 @@ communicates with your other systems and with your users - you must typically
 combine a number of such applications that will run on a single Erlang runtime
 system. In <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>, such a higher-level package is called a <b>release</b>, and the result
 of installing a release on some host machine is called a <b>target system</b>.
-(<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 242</a>)
+</p>
+
+<p>
+(&#x2026;) Minimally, a target system must contain the stdlib and kernel applications
+(apart from your own applications), and often the SASL application is also
+needed to support logging.  (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 242</a>)
 </p>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org70cef3e" class="outline-2">
-<h2 id="org70cef3e">Packaging an Application</h2>
-<div class="outline-text-2" id="text-org70cef3e">
-<ul class="org-ul">
-<li>Active Applications have a life cycle and must be started in order to be
-useful.</li>
-<li>Library Applications are a passive collection of modules to be used by other
-applications, and they don’t need to be started or stopped.</li>
-</ul>
-
+<div id="outline-container-org282a46a" class="outline-2">
+<h2 id="org282a46a">Packaging an Application</h2>
+<div class="outline-text-2" id="text-org282a46a">
 <div class="org-src-container">
 <pre class="src src-erlang">{application, example,
   [{description, "Description Example"},
@@ -104,23 +109,28 @@ applications, and they don’t need to be started or stopped.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org204c0ec" class="outline-2">
-<h2 id="org204c0ec">References:</h2>
-<div class="outline-text-2" id="text-org204c0ec">
+<div id="outline-container-org46e553a" class="outline-2">
+<h2 id="org46e553a">References:</h2>
+<div class="outline-text-2" id="text-org46e553a">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org7cd2c0d" class="outline-2">
-<h2 id="org7cd2c0d">Backlinks:</h2>
+<div id="outline-container-orgffeab1c" class="outline-2">
+<h2 id="orgffeab1c">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgffeab1c">
+<ul class="org-ul">
+<li><a href="./20240928181517-otp.html">OTP</a></li>
+</ul>
+</div>
 </div>
 </main>
 <footer id="postamble" class="status">
 <footer>
   </br>
   <p>
-  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/mtrsk/mtrsk.github.io">here</a>.
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
   </p>
 </footer>
 </footer>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-04 Sat 22:17 -->
+<!-- 2025-01-09 Thu 17:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MNESIA</title>
@@ -59,16 +59,14 @@ Mnesia is a database management system (DBMS) that comes with <a href="202406191
 the <a href="20241010093430-erlang_term_storage.html#ID-37c6ea44-0c80-4c57-a36e-98d37e8a3413">Erlang Term Storage</a> and DETS underneath, but provides many more features
 than those components.
 </p>
-<div id="outline-container-orgd9ae7ea" class="outline-2">
-<h2 id="orgd9ae7ea">Creating the initial Database</h2>
-<div class="outline-text-2" id="text-orgd9ae7ea">
+<div id="outline-container-org40d8ccc" class="outline-2">
+<h2 id="org40d8ccc">Creating the initial Database</h2>
+<div class="outline-text-2" id="text-org40d8ccc">
 <p>
 During the course of creating this database, you’ll do the following:
 </p>
 
 <ol class="org-ol">
-<li>Initialize MNESIA</li>
-<li>Start a Node</li>
 <li><p>
 Create a Schema
 </p>
@@ -77,10 +75,17 @@ Create a Schema
 </pre>
 </div></li>
 <li><p>
+Initialize MNESIA
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">      mnesia:start()
+</pre>
+</div></li>
+<li><p>
 Create the DB Tables
 </p>
 <div class="org-src-container">
-<pre class="src src-erlang">      mnesia:create_table(your_record, [{type, bag}, ...])
+<pre class="src src-erlang">      mnesia:create_table(record_name, [{attributes, record_info(fields, record_name)}])
 </pre>
 </div></li>
 <li>Populate Tables</li>
@@ -94,7 +99,7 @@ specify <code>disc_copies</code> (note the spelling), Mnesia will keep a copy of
 on disk, but still use RAM for speed. You can also specify <code>disc_only_copies</code>,
 which will be slow. (&#x2026;) . By combining these options and (eventually) multiple
 nodes, you should be able to create fast and resilient
-systems. (<a href="#citeproc_bib_item_1">Laurent 2017, 152</a>)
+systems. (<a href="#citeproc_bib_item_2">Laurent 2017, 152</a>)
 </p>
 </blockquote>
 
@@ -103,28 +108,83 @@ systems. (<a href="#citeproc_bib_item_1">Laurent 2017, 152</a>)
 Your interactions with Mnesia should be contained in transactions, especially
 when your database is shared across multiple nodes. The main <code>mnesia:write</code>,
 <code>mnesia:read</code>, and <code>mnesia:delete</code> methods work only within transactions,
-period. (<a href="#citeproc_bib_item_1">Laurent 2017, 155</a>)
+period. (<a href="#citeproc_bib_item_2">Laurent 2017, 155</a>)
 </p>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org9d36b7d" class="outline-2">
-<h2 id="org9d36b7d">References:</h2>
-<div class="outline-text-2" id="text-org9d36b7d">
+<div id="outline-container-org8aef9ca" class="outline-2">
+<h2 id="org8aef9ca">Queries</h2>
+<div class="outline-text-2" id="text-org8aef9ca">
+<ul class="org-ul">
+<li>Selecting All Data in a Table:</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-erlang">  %% sql equivalent
+  %% select * from &lt;table&gt;
+  select_all(from) -&gt; do(qlc:q([x || x &lt;- mnesia:table(from)]));
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Joins</li>
+</ul>
+</div>
+<div id="outline-container-orgfa82c67" class="outline-3">
+<h3 id="orgfa82c67">Transactions</h3>
+<div class="outline-text-3" id="text-orgfa82c67">
+<blockquote>
+<p>
+This is exactly the guarantee that <code>mnesia:transaction/1</code> provides. Either all the
+reads and writes to the tables in the database within a particular transaction
+succeed, or none of them does. If none of them does, the transaction is said to
+fail. If the transaction fails, no changes will be made to the database.
+</p>
+
+<p>
+The strategy that Mnesia uses for this is a form of pessimistic
+locking. Whenever the Mnesia transaction manager accesses a table, it tries to
+lock the record or the entire table depending upon the context. If it detects
+that this might lead to deadlock, it immediately aborts the transaction and
+undoes any changes it has made. (<a href="#citeproc_bib_item_1">Armstrong 2013, 327</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-erlang">something(...) -&gt;
+  F = fun() -&gt;
+    % To add a Row
+    mnesia:write(Row)
+    % or delete it
+    mnesia:delete(Oid)
+    % ... or ...
+    qlc:e(Q)
+    end,
+  mnesia:transaction(F).
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org64233c9" class="outline-2">
+<h2 id="org64233c9">References:</h2>
+<div class="outline-text-2" id="text-org64233c9">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf888c73" class="outline-2">
-<h2 id="orgf888c73">Backlinks:</h2>
+<div id="outline-container-org14466b8" class="outline-2">
+<h2 id="org14466b8">Backlinks:</h2>
 </div>
 </main>
 <footer id="postamble" class="status">
 <footer>
   </br>
   <p>
-  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/mtrsk/mtrsk.github.io">here</a>.
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
   </p>
 </footer>
 </footer>
