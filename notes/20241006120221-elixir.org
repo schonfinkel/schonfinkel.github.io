@@ -1,16 +1,43 @@
 :PROPERTIES:
 :ID:       8d568d81-9c22-4d94-81b2-27a2d730ba98
-:EXPORT_HUGO_CATEGORIES: "FP"
-:EXPORT_HUGO_TAGS: "Elixir"
 :END:
 #+title: Elixir
+#+filetags: "Functional Programming"
 
 #+BEGIN_QUOTE
 Elixir describes itself as a functional, meta-programming-aware language built
 on top of the [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] virtual machine.
 #+END_QUOTE
 
+* Data Types
+
+
+* Error Handling
+** Let it Crash
+
+** Errors as Data
+
+** Errors as Exceptions
+
+#+begin_src elixir
+  try do
+    raise "oops, something went wrong"
+  rescue
+    e in RuntimeError -> {:error, e.message}
+  after
+    -- some cleanups
+  end
+#+end_src
+
 * Basics
 
 ** Protocols
 
+
+* Streams
+
+Streams are enumerables that are lazy and can be composed.
+
++ ~Stream.repeatedly()~
++ ~Stream.cycle(enum)~
++ ~Stream.iterate(start, next_fun)~

@@ -11,17 +11,19 @@ than those components.
 
 During the course of creating this database, you’ll do the following:
 
-   1. Initialize MNESIA
-   2. Start a Node
-   3. Create a Schema
+   1. Create a Schema
     #+begin_src erlang
       mnesia:create_schema([node()])
     #+end_src
-   4. Create the DB Tables
+   2. Initialize MNESIA
     #+begin_src erlang
-      mnesia:create_table(your_record, [{type, bag}, ...])
+      mnesia:start()
     #+end_src
-   5. Populate Tables
+   3. Create the DB Tables
+    #+begin_src erlang
+      mnesia:create_table(record_name, [{attributes, record_info(fields, record_name)}])
+    #+end_src
+   4. Populate Tables
 
 #+begin_quote
 By default, Mnesia will store your table in RAM only (~ram_copies~) on the current
@@ -39,3 +41,42 @@ when your database is shared across multiple nodes. The main ~mnesia:write~,
 ~mnesia:read~, and ~mnesia:delete~ methods work only within transactions,
 period. [cite:@laurent2017 p.155]
 #+end_quote
+
+* Queries
++ Selecting All Data in a Table:
+
+#+begin_src erlang
+  %% sql equivalent
+  %% select * from <table>
+  select_all(from) -> do(qlc:q([x || x <- mnesia:table(from)]));
+#+end_src
+
++ Joins
+
+** Transactions
+
+#+begin_quote
+This is exactly the guarantee that ~mnesia:transaction/1~ provides. Either all the
+reads and writes to the tables in the database within a particular transaction
+succeed, or none of them does. If none of them does, the transaction is said to
+fail. If the transaction fails, no changes will be made to the database.
+
+The strategy that Mnesia uses for this is a form of pessimistic
+locking. Whenever the Mnesia transaction manager accesses a table, it tries to
+lock the record or the entire table depending upon the context. If it detects
+that this might lead to deadlock, it immediately aborts the transaction and
+undoes any changes it has made. [cite:@armstrong2013 p.327]
+#+end_quote
+
+#+begin_src erlang
+something(...) ->
+  F = fun() ->
+    % To add a Row
+    mnesia:write(Row)
+    % or delete it
+    mnesia:delete(Oid)
+    % ... or ...
+    qlc:e(Q)
+    end,
+  mnesia:transaction(F).
+#+end_src

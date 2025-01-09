@@ -65,12 +65,11 @@
 ;;;; Only to be used within CI environments, to generate the ORG-ROAM db
 (defun notes/generate-sqlite-db ()
   "Bootstraps the ORG-ROAM db."
-  (setq is-ci (if (string= (getenv "CI_ENV") "1") t nil))
+  (setq is-ci (if (string= (getenv "IS_CI") "1") t nil))
   (cond (is-ci
-         ((message "Running ORG-ROAM DB sync")
-          (org-roam-db)
-          (org-roam-db-sync))
-         (t (message "Not running on CI, ignoring block")))))
+         (progn (message "Running ORG-ROAM DB sync")
+                (org-roam-db-sync)))
+        (t (message "Not running on CI, ignoring block"))))
 
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
@@ -142,6 +141,7 @@
 ;;;; Org-Roam Settings
 (setq org-roam-directory org-roam-dir)
 (setq org-roam-db-location (concat org-roam-dir "/org-roam.db"))
+(message (format "SETTING OUT ORG-ROAM DB LOCATION: %s" org-roam-db-location))
 
 ;;;; Adds backlinks to the notes
 (add-hook 'org-export-before-processing-hook 'notes/add-extra-sections)

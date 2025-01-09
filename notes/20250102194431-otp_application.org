@@ -14,6 +14,11 @@ multiple running instances, and some are limited to one instance at a
 time. [cite:@logan2010erlang p.119]
 #+END_QUOTE
 
++ Active Applications have a life cycle and must be started in order to be
+  useful.
++ Library Applications are a passive collection of modules to be used by other
+  applications, and they don’t need to be started or stopped.
+
 * Releases and Targets
 
 #+begin_quote
@@ -24,15 +29,14 @@ communicates with your other systems and with your users - you must typically
 combine a number of such applications that will run on a single Erlang runtime
 system. In [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]], such a higher-level package is called a *release*, and the result
 of installing a release on some host machine is called a *target system*.
-[cite:@logan2010erlang p.242]
+
+(...) Minimally, a target system must contain the stdlib and kernel applications
+(apart from your own applications), and often the SASL application is also
+needed to support logging.  [cite:@logan2010erlang p.242]
 #+end_quote
 
 * Packaging an Application
 
-+ Active Applications have a life cycle and must be started in order to be
-  useful.
-+ Library Applications are a passive collection of modules to be used by other
-  applications, and they don’t need to be started or stopped.
 
 #+begin_src erlang
 {application, example,
