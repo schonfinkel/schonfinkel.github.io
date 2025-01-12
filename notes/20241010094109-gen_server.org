@@ -16,6 +16,15 @@ process if this one needs to be upgraded in place. [cite:@laurent2017 p.148]
 interface functions and functionality for tracing and error reporting, it also
 fits an [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]] supervision tree.
 
+#+begin_quote
+Here’s the simple three-point plan for writing a ~gen_server~ callback module:
+1. Decide on a callback module name.
+2. Write the interface functions.
+3. Write the six required callback functions in the callback module.
+
+[cite:@armstrong2013 p.366]
+#+end_quote
+
 The ~gen_server~ behaviour interface contains six functions:
 + ~init/1~
 + ~handle_call/3~: Sends a synchronous message to a ~gen_server~ process and waits for a reply.
