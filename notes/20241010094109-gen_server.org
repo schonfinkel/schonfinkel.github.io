@@ -25,10 +25,112 @@ Here’s the simple three-point plan for writing a ~gen_server~ callback module:
 [cite:@armstrong2013 p.366]
 #+end_quote
 
-The ~gen_server~ behaviour interface contains six functions:
+* Callback Structure
+
+The ~gen_server~ behaviour interface contains six callback functions:
+
 + ~init/1~
-+ ~handle_call/3~: Sends a synchronous message to a ~gen_server~ process and waits for a reply.
-+ ~handle_cast/2~: Sends an asynchronous message to a ~gen_server~ process.
-+ ~handle_info/2~: Handles messages sent to a ~gen_server~ container that were not sent using one of the call or cast functions.
-+ ~terminate/2~: When a ~gen_server~ shuts down, this callback is raised to give you a chance to clean things up.
++ ~handle_call/3~
++ ~handle_cast/2~
++ ~handle_info/2~
++ ~terminate/2~
 + ~code_change/3~
+
+** Starting the Server (~init/1~)
+
+~gen_server:start_link(Name, Mod, InitArgs, Opts)~ starts the server:
+
++ The generic server starts by calling ~Mod:init(InitArgs)~ (where ~Mod~ is the name
+  of the callback module). If ~{ok, State}~ is returned, then the server is
+  successfully started the server with an initial state.
++ If the first argument was atom ~{global, Name}~, it would start a global server
+  that could be accessed on a cluster of Erlang nodes.
+
+#+caption: A template with an example ~init~ callback function
+#+begin_src erlang
+  init([]) ->
+    {ok, #state{}}.
+#+end_src
+
+
+** Calling the Server
+
+*** ~handle_call/3~
+
+To call the server, the client program calls ~gen_server:call(Name,
+Request)~. This results in the ~handle_call/3~ callback module being called.
+
++ ~gen_server:call(?MODULE, Term)~ is used for a remote procedure call to the server.
+
+#+caption: ~handle_call/3~ sends a synchronous message to a ~gen_server~ process and waits for a reply.
+#+begin_src erlang
+  handle_call(_Request, _From, State) ->
+    Reply = ok,
+    {reply, Reply, State}.
+#+end_src
+
+#+begin_quote
+Normally we return ~{reply, Reply, NewState}~. When this happens, ~Reply~ goes back
+to the client, where it becomes the return value of ~gen_server:call~. ~NewState~ is
+the next state of the server.
+
+The other return values, ~{noreply, ...}~ and ~{stop, ...}~ are used relatively
+infrequently. ~noreply~ causes the server to continue, but the client will wait
+for a reply so the server will have to delegate the task of replying to some
+other process. Calling ~stop~ with the appropriate arguments will stop the
+server. [cite:@armstrong2013 p.372]
+#+end_quote
+
+*** ~handle_cast/2~
+
+To send an asynchronous message to a ~gen_server~ process, one must use ~handle_cast/2~: 
+
+#+caption: Example of a ~handle_call/2~ template.
+#+begin_src erlang
+  handle_cast(_Msg, State) ->
+    {noreply, State}.
+#+end_src
+
+The handler usually just returns ~{noreply, NewState}~, which changes the state of
+the server, or ~{stop, ...}~, which stops the server.
+
+** Spontaneous Messages to the Server
+
+#+begin_quote
+The callback function ~handle_info(Info, State)~ is used for handling spontaneous
+messages to the server. Spontaneous messages are any messages that arrive at the
+server that were not sent by explicitly calling ~gen_server:call~ or
+~gen_server:cast~. [cite:@armstrong2013 p.372]
+#+end_quote
+
+#+caption: Example implementation of a ~handle_info/2~ callback. The return values are the same as for ~handle_cast/2~.
+#+begin_src erlang
+  handle_info(_Info, State) ->
+    {noreply, State}.
+#+end_src
+
+** Termination
+
+#+begin_quote 
+The server can terminate for many reasons. One of the ~handle_something~ routines
+might return a ~{stop, Reason, NewState}~, or the server might crash with ~{'EXIT',
+reason}~. In all of these circumstances, no matter how they occurred,
+~terminate(Reason, NewState)~ will be called.
+#+end_quote
+
+#+caption: Example of a ~terminate/2~ implementation, this callback is raised so you have a chance to clean things up, notice that no ~State~ is returned.
+#+begin_src erlang
+  terminate(_Reason, _State) ->
+    ok.
+#+end_src
+
+** Code Change
+
+The callback ~code_change/3~ function is called by the release handling subsystem
+when the system performs a software upgrade.
+
+#+caption: Converts process state when code is changed.
+#+begin_src erlang
+  code_change(_OldVsn, State, _Extra) ->
+    {ok, State}.
+#+end_src
