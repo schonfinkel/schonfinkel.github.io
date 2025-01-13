@@ -12,3 +12,25 @@ function calls that programmers make in their code in order to log an error. The
 data. The *report view* is concerned with the analysis of errors after they have
 occurred. [cite:@armstrong2013 p.382]
 #+end_quote
+
+* Logging an Error
+
+#+begin_src erlang
+  %% Send an error message to the error logger
+  -spec error_logger:error_msg(String) -> ok.
+
+  %% Send en error message with a certain format to the error logger
+  -spec error_logger:error_msg(Format, Data) -> ok when
+      Format :: string(),
+      Data :: list().
+
+  %% Send a standard error report to the error logger.
+  -spec error_logger:error_report(Report) -> ok when
+      Tag :: term(),
+      Data :: term(),
+      Report :: 
+        [ {Tag, Data} | term() ]
+        | string()
+        | term().
+#+end_src
+
