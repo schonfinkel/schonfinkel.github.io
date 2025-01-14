@@ -12,5 +12,86 @@ supervision trees allows you to create highly fault-tolerant systems.
 [cite:@logan2010erlang]
 #+end_quote
 
-A simple-one-for-one supervisor hierarchy. All the child processes are of the
-same type and are added or removed dynamically. There can be any number of them.
+* The Supervision Tree
+
+#+begin_quote
+A supervision tree is a tree of processes. The upper processes (supervisors) in
+the tree monitor the lower processes (workers) in the tree and restart the lower
+processes if they fail. [cite:@armstrong2013 p.398]
+#+end_quote
+
+There are two types of supervision trees:
+
++ ~one_for_one~ :: If one process crashes, it is restarted.
+
+#+NAME: fig:erlang-supervisor-o4o
+#+BEGIN_SRC dot :file ../static/img/notes/erlang_supervisor_o4o.png :cmdline -Kdot -Tpng :exports results
+  graph g {
+  	ratio=fill
+  	splines=spline
+  	overlap=scale
+
+  	node [
+        label="", 
+        xlabel="",
+        shape=circle,
+        fixedsize=true,
+        width=0.3,
+        color="black",
+        fillcolor="#eeeeee",
+        style="filled,solid",
+        fontsize=12
+  	]
+
+  	sup [label="S", pos="1,1"]
+  	w1 [pos="0,0"]
+  	w2 [pos="0,1"]
+  	w3 [label="🔥", pos="0,2"]
+  	w4 [pos="0,3"]
+
+  	sup -- w1
+  	sup -- w2
+  	sup -- w3
+  	sup -- w4
+  }
+#+END_SRC
+
+#+RESULTS: fig:erlang-supervisor-o4o
+[[file:../static/img/notes/erlang_supervisor_o4o.png]]
+
++ ~one_for_all~ :: If one process crashes, all others are terminated and then restarted as well.
+
+#+NAME: fig:erlang-supervisor-o4a
+#+BEGIN_SRC dot :file ../static/img/notes/erlang_supervisor_o4a.png :cmdline -Kdot -Tpng :exports results
+  graph g {
+  	ratio=fill
+  	splines=spline
+  	overlap=scale
+
+  	node [
+        label="⟳", 
+        xlabel="",
+        shape=circle,
+        fixedsize=true,
+        width=0.3,
+        color="black",
+        fillcolor="#eeeeee",
+        style="filled,solid",
+        fontsize=12
+  	]
+
+  	sup [label="S", pos="1,1"]
+  	w1 [pos="0,0"]
+  	w2 [pos="0,1"]
+  	w3 [label="🔥", pos="0,2"]
+  	w4 [pos="0,3"]
+
+  	sup -- w1
+  	sup -- w2
+  	sup -- w3
+  	sup -- w4
+  }
+#+END_SRC
+
+#+RESULTS: fig:erlang-supervisor-o4a
+[[file:../static/img/notes/erlang_supervisor_o4a.png]]
