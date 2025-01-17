@@ -25,6 +25,9 @@ d3-download:
 graph:
     python generate-graph.py
 
+# publish
+publish: graph build
+
 # Removes org backups
 remove-org:
     #!/usr/bin/env bash
