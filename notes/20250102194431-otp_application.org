@@ -5,7 +5,7 @@
 #+filetags: Erlang OTP
 
 #+BEGIN_QUOTE
-Applications are the way you package related modules in [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]]. The focus here
+Applications are the way you package related modules in Erlang. The focus here
 isn’t on packaging for distribution but on being able to treat a bunch of
 modules as a single entity. Although OTP applications can be merely some library
 code for others to call, more often they're like creatures with a life of their
@@ -37,7 +37,6 @@ needed to support logging.  [cite:@logan2010erlang p.242]
 
 * Packaging an Application
 
-
 #+begin_src erlang
 {application, example,
   [{description, "Description Example"},
@@ -48,3 +47,6 @@ needed to support logging.  [cite:@logan2010erlang p.242]
    {mod, {example_app,[]} }]}.
 #+end_src
 
+#+begin_src erlang
+  1> application:loaded_applications().
+#+end_src

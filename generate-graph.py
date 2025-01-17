@@ -13,7 +13,7 @@ from networkx.drawing.nx_pydot import read_dot
 from networkx.readwrite import json_graph
 
 # Number of predicted missing links
-N_MISSING = 10  
+N_MISSING = 10
 # Number of nodes in the final graph 
 MAX_NODES = 500
 
