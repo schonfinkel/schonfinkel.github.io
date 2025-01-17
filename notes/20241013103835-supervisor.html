@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-09 Thu 17:05 -->
+<!-- 2025-01-17 Fri 14:24 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>supervisor</title>
+<title>Supervisor</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -53,32 +53,64 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">supervisor</h1>
+<h1 class="title">Supervisor</h1>
 </header><blockquote>
 <p>
 Supervisors are one of the most important features of <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>. They monitor other
 processes and take action if anything goes wrong, restarting the failed process
 or possibly escalating the problem to a higher level. Layering supervisors into
 supervision trees allows you to create highly fault-tolerant systems.
-(<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010</a>)
+(<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
+</p>
+</blockquote>
+<div id="outline-container-org8e4d59b" class="outline-2">
+<h2 id="org8e4d59b">The Supervision Tree</h2>
+<div class="outline-text-2" id="text-org8e4d59b">
+<blockquote>
+<p>
+A supervision tree is a tree of processes. The upper processes (supervisors) in
+the tree monitor the lower processes (workers) in the tree and restart the lower
+processes if they fail. (<a href="#citeproc_bib_item_1">Armstrong 2013, 398</a>)
 </p>
 </blockquote>
 
 <p>
-A simple-one-for-one supervisor hierarchy. All the child processes are of the
-same type and are added or removed dynamically. There can be any number of them.
+There are two types of supervision trees:
 </p>
-<div id="outline-container-orgeb1213a" class="outline-2">
-<h2 id="orgeb1213a">References:</h2>
-<div class="outline-text-2" id="text-orgeb1213a">
+
+<dl class="org-dl">
+<dt><code>one_for_one</code></dt><dd>If one process crashes, it is restarted.</dd>
+</dl>
+
+
+<figure id="org8263aec">
+<img src="../static/img/notes/erlang_supervisor_o4o.png" alt="erlang_supervisor_o4o.png">
+
+</figure>
+
+<dl class="org-dl">
+<dt><code>one_for_all</code></dt><dd>If one process crashes, all others are terminated and then restarted as well.</dd>
+</dl>
+
+
+<figure id="orgaa71f94">
+<img src="../static/img/notes/erlang_supervisor_o4a.png" alt="erlang_supervisor_o4a.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-org6bd41e5" class="outline-2">
+<h2 id="org6bd41e5">References:</h2>
+<div class="outline-text-2" id="text-org6bd41e5">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org9722370" class="outline-2">
-<h2 id="org9722370">Backlinks:</h2>
-<div class="outline-text-2" id="text-org9722370">
+<div id="outline-container-org78de1de" class="outline-2">
+<h2 id="org78de1de">Backlinks:</h2>
+<div class="outline-text-2" id="text-org78de1de">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>

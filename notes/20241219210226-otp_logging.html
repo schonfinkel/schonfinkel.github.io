@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-09 Thu 17:05 -->
+<!-- 2025-01-17 Fri 14:24 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OTP Logging</title>
@@ -54,18 +54,58 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">OTP Logging</h1>
-</header><div id="outline-container-org0e808af" class="outline-2">
-<h2 id="org0e808af">References:</h2>
-<div class="outline-text-2" id="text-org0e808af">
+</header><blockquote>
+<p>
+The <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a> system comes packaged with a customizable error logger. We can look at
+the error logger from three points of view. The programmer view concerns the
+function calls that programmers make in their code in order to log an error. The
+<b>configuration view</b> is concerned with where and how the error logger stores its
+data. The <b>report view</b> is concerned with the analysis of errors after they have
+occurred. (<a href="#citeproc_bib_item_1">Armstrong 2013, 387</a>)
+</p>
+</blockquote>
+<div id="outline-container-org176ba67" class="outline-2">
+<h2 id="org176ba67">Logging an Error</h2>
+<div class="outline-text-2" id="text-org176ba67">
+<div class="org-src-container">
+<pre class="src src-erlang">  %% Send an error message to the error logger
+  -spec error_logger:error_msg(String) -&gt; ok.
+
+  %% Send en error message with a certain format to the error logger
+  -spec error_logger:error_msg(Format, Data) -&gt; ok when
+      Format :: string(),
+      Data :: list().
+
+  %% Send a standard error report to the error logger.
+  -spec error_logger:error_report(Report) -&gt; ok when
+      Tag :: term(),
+      Data :: term(),
+      Report :: 
+        [ {Tag, Data} | term() ]
+        | string()
+        | term().
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge7ef4f5" class="outline-2">
+<h2 id="orge7ef4f5">Configuring the Error Logger</h2>
+</div>
+
+
+<div id="outline-container-org2995027" class="outline-2">
+<h2 id="org2995027">References:</h2>
+<div class="outline-text-2" id="text-org2995027">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org42bd70d" class="outline-2">
-<h2 id="org42bd70d">Backlinks:</h2>
-<div class="outline-text-2" id="text-org42bd70d">
+<div id="outline-container-orgb73da18" class="outline-2">
+<h2 id="orgb73da18">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgb73da18">
 <ul class="org-ul">
-<li><a href="./20241219134317-gen_event.html">gen<sub>event</sub></a></li>
+<li><a href="./20241219134317-gen_event.html">Gen Event</a></li>
 </ul>
 </div>
 </div>

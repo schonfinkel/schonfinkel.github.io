@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-09 Thu 17:05 -->
+<!-- 2025-01-17 Fri 14:24 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>gen_server</title>
+<title>Gen Server</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -53,14 +53,14 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">gen<sub>server</sub></h1>
+<h1 class="title">Gen Server</h1>
 </header><blockquote>
 <p>
 Much of the work you think of as the core of a program - calculating results,
 storing information, and preparing replies - will fit neatly into the <code>gen_server</code>
 behavior. It provides a core set of methods that let you set up a process,
 respond to requests, end the process gracefully, and even pass state to a new
-process if this one needs to be upgraded in place. (<a href="#citeproc_bib_item_1">Laurent 2017, 148</a>)
+process if this one needs to be upgraded in place. (<a href="#citeproc_bib_item_2">Laurent 2017, 148</a>)
 </p>
 </blockquote>
 
@@ -70,28 +70,184 @@ interface functions and functionality for tracing and error reporting, it also
 fits an <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a> supervision tree.
 </p>
 
+<blockquote>
 <p>
-The <code>gen_server</code> behaviour interface contains six functions:
+Here’s the simple three-point plan for writing a <code>gen_server</code> callback module:
 </p>
+<ol class="org-ol">
+<li>Decide on a callback module name.</li>
+<li>Write the interface functions.</li>
+<li>Write the six required callback functions in the callback module.</li>
+</ol>
+
+<p>
+(<a href="#citeproc_bib_item_1">Armstrong 2013, 366</a>)
+</p>
+</blockquote>
+<div id="outline-container-org42280b3" class="outline-2">
+<h2 id="org42280b3">Callback Structure</h2>
+<div class="outline-text-2" id="text-org42280b3">
+<p>
+The <code>gen_server</code> behaviour interface contains six callback functions:
+</p>
+
 <ul class="org-ul">
 <li><code>init/1</code></li>
-<li><code>handle_call/3</code>: Sends a synchronous message to a <code>gen_server</code> process and waits for a reply.</li>
-<li><code>handle_cast/2</code>: Sends an asynchronous message to a <code>gen_server</code> process.</li>
-<li><code>handle_info/2</code>: Handles messages sent to a <code>gen_server</code> container that were not sent using one of the call or cast functions.</li>
-<li><code>terminate/2</code>: When a <code>gen_server</code> shuts down, this callback is raised to give you a chance to clean things up.</li>
+<li><code>handle_call/3</code></li>
+<li><code>handle_cast/2</code></li>
+<li><code>handle_info/2</code></li>
+<li><code>terminate/2</code></li>
 <li><code>code_change/3</code></li>
 </ul>
-<div id="outline-container-org39df791" class="outline-2">
-<h2 id="org39df791">References:</h2>
-<div class="outline-text-2" id="text-org39df791">
+</div>
+<div id="outline-container-org7af89fa" class="outline-3">
+<h3 id="org7af89fa">Starting the Server (<code>init/1</code>)</h3>
+<div class="outline-text-3" id="text-org7af89fa">
+<p>
+<code>gen_server:start_link(Name, Mod, InitArgs, Opts)</code> starts the server:
+</p>
+
+<ul class="org-ul">
+<li>The generic server starts by calling <code>Mod:init(InitArgs)</code> (where <code>Mod</code> is the name
+of the callback module). If <code>{ok, State}</code> is returned, then the server is
+successfully started the server with an initial state.</li>
+<li>If the first argument was atom <code>{global, Name}</code>, it would start a global server
+that could be accessed on a cluster of Erlang nodes.</li>
+</ul>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>A template with an example <code>init</code> callback function</label><pre class="src src-erlang">  init([]) -&gt;
+    {ok, #state{}}.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb22f7e8" class="outline-3">
+<h3 id="orgb22f7e8">Calling the Server</h3>
+<div class="outline-text-3" id="text-orgb22f7e8">
+</div>
+<div id="outline-container-org973f0c9" class="outline-4">
+<h4 id="org973f0c9"><code>handle_call/3</code></h4>
+<div class="outline-text-4" id="text-org973f0c9">
+<p>
+To call the server, the client program calls <code>gen_server:call(Name,
+Request)</code>. This results in the <code>handle_call/3</code> callback module being called.
+</p>
+
+<ul class="org-ul">
+<li><code>gen_server:call(?MODULE, Term)</code> is used for a remote procedure call to the server.</li>
+</ul>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span><code>handle_call/3</code> sends a synchronous message to a <code>gen_server</code> process and waits for a reply.</label><pre class="src src-erlang">  handle_call(_Request, _From, State) -&gt;
+    Reply = ok,
+    {reply, Reply, State}.
+</pre>
+</div>
+
+<blockquote>
+<p>
+Normally we return <code>{reply, Reply, NewState}</code>. When this happens, <code>Reply</code> goes back
+to the client, where it becomes the return value of <code>gen_server:call</code>. <code>NewState</code> is
+the next state of the server.
+</p>
+
+<p>
+The other return values, <code>{noreply, ...}</code> and <code>{stop, ...}</code> are used relatively
+infrequently. <code>noreply</code> causes the server to continue, but the client will wait
+for a reply so the server will have to delegate the task of replying to some
+other process. Calling <code>stop</code> with the appropriate arguments will stop the
+server. (<a href="#citeproc_bib_item_1">Armstrong 2013, 372</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org5d9852e" class="outline-4">
+<h4 id="org5d9852e"><code>handle_cast/2</code></h4>
+<div class="outline-text-4" id="text-org5d9852e">
+<p>
+To send an asynchronous message to a <code>gen_server</code> process, one must use <code>handle_cast/2</code>: 
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>Example of a <code>handle_call/2</code> template.</label><pre class="src src-erlang">  handle_cast(_Msg, State) -&gt;
+    {noreply, State}.
+</pre>
+</div>
+
+<p>
+The handler usually just returns <code>{noreply, NewState}</code>, which changes the state of
+the server, or <code>{stop, ...}</code>, which stops the server.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org3036554" class="outline-3">
+<h3 id="org3036554">Spontaneous Messages to the Server</h3>
+<div class="outline-text-3" id="text-org3036554">
+<blockquote>
+<p>
+The callback function <code>handle_info(Info, State)</code> is used for handling spontaneous
+messages to the server. Spontaneous messages are any messages that arrive at the
+server that were not sent by explicitly calling <code>gen_server:call</code> or
+<code>gen_server:cast</code>. (<a href="#citeproc_bib_item_1">Armstrong 2013, 372</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 4: </span>Example implementation of a <code>handle_info/2</code> callback. The return values are the same as for <code>handle_cast/2</code>.</label><pre class="src src-erlang">  handle_info(_Info, State) -&gt;
+    {noreply, State}.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0ea99ed" class="outline-3">
+<h3 id="org0ea99ed">Termination</h3>
+<div class="outline-text-3" id="text-org0ea99ed">
+<blockquote>
+<p>
+The server can terminate for many reasons. One of the <code>handle_something</code> routines
+might return a <code>{stop, Reason, NewState}</code>, or the server might crash with <code>{'EXIT',
+reason}</code>. In all of these circumstances, no matter how they occurred,
+<code>terminate(Reason, NewState)</code> will be called.
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 5: </span>Example of a <code>terminate/2</code> implementation, this callback is raised so you have a chance to clean things up, notice that no <code>State</code> is returned.</label><pre class="src src-erlang">  terminate(_Reason, _State) -&gt;
+    ok.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8ffa6bf" class="outline-3">
+<h3 id="org8ffa6bf">Code Change</h3>
+<div class="outline-text-3" id="text-org8ffa6bf">
+<p>
+The callback <code>code_change/3</code> function is called by the release handling subsystem
+when the system performs a software upgrade.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 6: </span>Converts process state when code is changed.</label><pre class="src src-erlang">  code_change(_OldVsn, State, _Extra) -&gt;
+    {ok, State}.
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgda8d910" class="outline-2">
+<h2 id="orgda8d910">References:</h2>
+<div class="outline-text-2" id="text-orgda8d910">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb9f8c8d" class="outline-2">
-<h2 id="orgb9f8c8d">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgb9f8c8d">
+<div id="outline-container-org0637d14" class="outline-2">
+<h2 id="org0637d14">Backlinks:</h2>
+<div class="outline-text-2" id="text-org0637d14">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>
