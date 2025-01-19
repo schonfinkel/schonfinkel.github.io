@@ -134,3 +134,18 @@ when the system performs a software upgrade.
   code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 #+end_src
+
+* Patterns
+
+** Efficient TCP Server
+
+#+begin_quote
+A useful pattern for implementing a server that should handle multiple
+concurrent requests is to have a ~gen_server~ managed by a simple one-for-one
+[[id:2daf1307-afb4-49e4-98cb-66ac7eb27cf0][Supervisor]]. (...) . In this case, a single ~gen_server~ child process — a handler —is
+initially spawned to wait on accept, listening for new connections. When a
+connection is established, this ~gen_server~ tells the ~supervisor~ to spawn a new
+handler process — a clone of the ~gen_server~ — and immediately proceeds with servicing
+the current connection while the clone takes over the job of waiting for the
+next connection. [cite:@logan2010erlang p.262]
+#+end_quote

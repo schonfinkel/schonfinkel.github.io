@@ -24,3 +24,52 @@ part of the GNU Project's effort to produce a complete POSIX system, which
 naturally needed a POSIX shell. [cite:@albing2018bash p.3]
 #+end_quote
 
+* Gotchas
+
+#+begin_src shell
+  cmd 2>&1 | next_command
+  # can be replaced with
+  cmd |& next_command
+#+end_src
+
+
+#+begin_src shell
+  ${name:-default}
+  ${name:=default}
+  ${name:+altvalue}
+  ${name:?errmsg}
+#+end_src
+
+** String Manipulation
+
++ String Length:
+
+#+begin_src shell
+  ${#name}
+#+end_src
+
++ Removing leading text:
+
+#+begin_src shell
+  ${name#pre}
+  # or...
+  ${name##pre}
+#+end_src
+
++ Remove traling text:
+
+#+begin_src shell
+  ${name%post}
+  # or...
+  ${name%%post}
+#+end_src
+
++ Substrings:
+
+#+begin_src shell
+  ${name:offset}
+  ${name:offset:length}
+  ${name: -offset:length}
+  ${name:offset:-length}
+#+end_src
+
