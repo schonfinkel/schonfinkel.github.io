@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-17 Fri 14:24 -->
+<!-- 2025-01-20 Mon 11:52 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Distributed Erlang</title>
@@ -71,17 +71,17 @@ make this possible:
 </blockquote>
 
 
-<figure id="org29aaed8">
+<figure id="org1b75498">
 <img src="../static/img/notes/distributed_erlang.png" alt="distributed_erlang.png">
 
 </figure>
-<div id="outline-container-org0aaf37f" class="outline-2">
-<h2 id="org0aaf37f">Nodes and Clustering</h2>
-<div class="outline-text-2" id="text-org0aaf37f">
+<div id="outline-container-orgb5b26c8" class="outline-2">
+<h2 id="orgb5b26c8">Nodes and Clustering</h2>
+<div class="outline-text-2" id="text-orgb5b26c8">
 </div>
-<div id="outline-container-org6b42264" class="outline-3">
-<h3 id="org6b42264">Starting a Node</h3>
-<div class="outline-text-3" id="text-org6b42264">
+<div id="outline-container-org47ebf0d" class="outline-3">
+<h3 id="org47ebf0d">Starting a Node</h3>
+<div class="outline-text-3" id="text-org47ebf0d">
 <p>
 To start an Erlang node in distributed mode, you run <code>erl</code> with one of the flags
 <code>-name</code> or <code>-sname</code>:
@@ -103,13 +103,13 @@ mode. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 194</a>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org7d73a7b" class="outline-3">
-<h3 id="org7d73a7b">Connecting Nodes</h3>
-<div class="outline-text-3" id="text-org7d73a7b">
+<div id="outline-container-org6208970" class="outline-3">
+<h3 id="org6208970">Connecting Nodes</h3>
+<div class="outline-text-3" id="text-org6208970">
 </div>
-<div id="outline-container-orgc8da889" class="outline-4">
-<h4 id="orgc8da889">Hidden Nodes</h4>
-<div class="outline-text-4" id="text-orgc8da889">
+<div id="outline-container-org635c159" class="outline-4">
+<h4 id="org635c159">Hidden Nodes</h4>
+<div class="outline-text-4" id="text-org635c159">
 <blockquote>
 <p>
 It's possible to connect clusters via special nodes to form a larger, not fully
@@ -120,9 +120,9 @@ nonintrusive inspection of a cluster. (<a href="#citeproc_bib_item_1">Logan, Mer
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgec373ec" class="outline-4">
-<h4 id="orgec373ec">EPMD</h4>
-<div class="outline-text-4" id="text-orgec373ec">
+<div id="outline-container-orgf3098ba" class="outline-4">
+<h4 id="orgf3098ba">EPMD</h4>
+<div class="outline-text-4" id="text-orgf3098ba">
 <blockquote>
 <p>
 EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
@@ -140,9 +140,9 @@ another. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 197<
 </div>
 </div>
 </div>
-<div id="outline-container-org947de3a" class="outline-3">
-<h3 id="org947de3a">The Cookie Protection System</h3>
-<div class="outline-text-3" id="text-org947de3a">
+<div id="outline-container-org5ea3c37" class="outline-3">
+<h3 id="org5ea3c37">The Cookie Protection System</h3>
+<div class="outline-text-3" id="text-org5ea3c37">
 <p>
 For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
 </p>
@@ -160,20 +160,17 @@ For two distributed Erlang nodes to communicate, they must have the same magic c
 </div>
 </div>
 </div>
-<div id="outline-container-org58e98d0" class="outline-2">
-<h2 id="org58e98d0">Socket-Based Distribution</h2>
+<div id="outline-container-orgc7a4204" class="outline-2">
+<h2 id="orgc7a4204">Socket-Based Distribution</h2>
 </div>
 
-<div id="outline-container-org9e1ebf9" class="outline-2">
-<h2 id="org9e1ebf9">References:</h2>
-<div class="outline-text-2" id="text-org9e1ebf9">
+<div id="outline-container-orgd64d2e4" class="outline-2">
+<h2 id="orgd64d2e4">References:</h2>
+<div class="outline-text-2" id="text-orgd64d2e4">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
-</div>
-<div id="outline-container-org8e259f2" class="outline-2">
-<h2 id="org8e259f2">Backlinks:</h2>
 </div>
 </main>
 <footer id="postamble" class="status">

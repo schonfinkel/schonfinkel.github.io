@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-17 Fri 14:24 -->
+<!-- 2025-01-20 Mon 11:52 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OTP Application</title>
@@ -58,51 +58,54 @@
 <p>
 Applications are the way you package related modules in Erlang. The focus here
 isn’t on packaging for distribution but on being able to treat a bunch of
-modules as a single entity. Although OTP applications can be merely some library
+modules as a single entity. Although <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a> applications can be merely some library
 code for others to call, more often they're like creatures with a life of their
 own: they start up, do what they’re designed to do, and shut down. Some can have
 multiple running instances, and some are limited to one instance at a
 time. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 119</a>)
 </p>
 </blockquote>
-
-<ul class="org-ul">
-<li>Active Applications have a life cycle and must be started in order to be
-useful.</li>
-<li>Library Applications are a passive collection of modules to be used by other
-applications, and they don’t need to be started or stopped.</li>
-</ul>
-<div id="outline-container-orgf12e589" class="outline-2">
-<h2 id="orgf12e589">Releases and Targets</h2>
-<div class="outline-text-2" id="text-orgf12e589">
+<div id="outline-container-orgf2eed59" class="outline-2">
+<h2 id="orgf2eed59">Active Applications</h2>
+<div class="outline-text-2" id="text-orgf2eed59">
 <blockquote>
 <p>
-OTP applications provide convenient units of functionality, but only on the
-Erlang programming level. To build a complete standalone software
-service - something that runs on one or more machines on your network and
-communicates with your other systems and with your users - you must typically
-combine a number of such applications that will run on a single Erlang runtime
-system. In <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>, such a higher-level package is called a <b>release</b>, and the result
-of installing a release on some host machine is called a <b>target system</b>.
-</p>
-
-<p>
-(&#x2026;) Minimally, a target system must contain the stdlib and kernel applications
-(apart from your own applications), and often the SASL application is also
-needed to support logging.  (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 242</a>)
+All applications have the same basic structure (&#x2026;). The application behaviour
+encapsulates starting and stopping the application. When started, a running
+application has a root <a href="20241013103835-supervisor.html#ID-2daf1307-afb4-49e4-98cb-66ac7eb27cf0">Supervisor</a>, which directly or indirectly manages all the
+other processes of the application (including any subsystem
+supervisors). (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 243</a>)
 </p>
 </blockquote>
+
+<p>
+Active Applications have a life cycle and must be started in order to be useful.
+</p>
+
+
+<figure id="org3eb70d4">
+<img src="../static/img/notes/erlang_application_structure.png" alt="erlang_application_structure.png">
+
+</figure>
 </div>
-</div>
-<div id="outline-container-orge37ca3e" class="outline-2">
-<h2 id="orge37ca3e">Packaging an Application</h2>
-<div class="outline-text-2" id="text-orge37ca3e">
+<div id="outline-container-org8e2ad44" class="outline-3">
+<h3 id="org8e2ad44">Metadata</h3>
+<div class="outline-text-3" id="text-org8e2ad44">
+<p>
+OTP needs a certain amount of information to make sense of active applications,
+like what to <code>start/stop</code> (provided you implement the <code>application</code> behaviour) in
+your module and which dependencies are require to do so. This sort of
+information is contained within the <code>.app</code> file. All this metadata is needed to
+proper manage the application, the <code>vsn</code> tuple is particularly importante in the
+context of release management.
+</p>
+
 <div class="org-src-container">
 <pre class="src src-erlang">{application, example,
   [{description, "Description Example"},
    {vsn, "0.0.1"},
-   {modules, [example, example_sup,example_app]},
-   {registered,[example, example_sup]},
+   {modules, [example, example_sup, example_module]},
+   {registered, [example, example_sup]},
    {applications, [kernel,stdlib]},
    {mod, {example_app,[]} }]}.
 </pre>
@@ -114,17 +117,118 @@ needed to support logging.  (<a href="#citeproc_bib_item_1">Logan, Merritt, and 
 </div>
 </div>
 </div>
-<div id="outline-container-org5a7c443" class="outline-2">
-<h2 id="org5a7c443">References:</h2>
-<div class="outline-text-2" id="text-org5a7c443">
+<div id="outline-container-org8bdd3b1" class="outline-3">
+<h3 id="org8bdd3b1">The Application Controller</h3>
+<div class="outline-text-3" id="text-org8bdd3b1">
+<blockquote>
+<p>
+There is only one application controller per runtime system, registered under
+the name <code>application_controller</code>. (&#x2026;) The controller is also responsible for
+loading the <code>.app</code> file for the application and checking that all the applications
+it depends on have been started first. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 245</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org59f101c" class="outline-4">
+<h4 id="org59f101c">Start Types</h4>
+<div class="outline-text-4" id="text-org59f101c">
+<ul class="org-ul">
+<li><code>permanent</code></li>
+<li><code>temporary</code></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org22a4319" class="outline-2">
+<h2 id="org22a4319">Library Applications</h2>
+<div class="outline-text-2" id="text-org22a4319">
+<p>
+Library applications are a passive collection of modules to be used by other
+applications, and they don't need to be started or stopped.
+</p>
+</div>
+</div>
+<div id="outline-container-org0ae9072" class="outline-2">
+<h2 id="org0ae9072">Making a Release</h2>
+<div class="outline-text-2" id="text-org0ae9072">
+<blockquote>
+<p>
+Packaging of functionality in Erlang/OTP can be viewed as a hierarchy. At the
+lowest level are modules, which encapsulate code. Modules are grouped into
+applications, which encapsulate dynamic behavior and higher-level
+functionality. Finally, applications are grouped into
+releases. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 245</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org67414da" class="outline-3">
+<h3 id="org67414da">Releases</h3>
+<div class="outline-text-3" id="text-org67414da">
+<blockquote>
+<p>
+A release consists of a set of applications together with some metadata
+specifying how to start and manage those applications as a system. The
+applications in a release execute together in the same Erlang runtime system: a
+<b>target system</b>, stripped down to run only these
+applications.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+To summarize:
+</p>
+<ul class="org-ul">
+<li>A release describes a running Erlang runtime system.</li>
+<li>A release has a version.</li>
+<li>A release aggregates a number of versioned applications along with metadata on
+how to manage the system.</li>
+<li>Installing a release on a host machine produces a <b>target system</b>.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 246</a>)
+</p>
+</blockquote>
+
+
+<figure id="org89188ed">
+<img src="../static/img/notes/erlang_release_structure.png" alt="erlang_release_structure.png">
+
+</figure>
+</div>
+<div id="outline-container-orgda9b2bb" class="outline-4">
+<h4 id="orgda9b2bb">Metadata</h4>
+</div>
+</div>
+<div id="outline-container-orgef6bbb9" class="outline-3">
+<h3 id="orgef6bbb9">System Configuration</h3>
+<div class="outline-text-3" id="text-orgef6bbb9">
+<blockquote>
+<p>
+The standard name for a configuration file is <code>sys.config</code>. The name can be
+anything as long as it ends with the extension <code>.config</code>. Just like the <code>.app</code> file
+and the <code>.rel</code> file, the <code>.config</code> file contains a single Erlang term followed by a
+period. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 250</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org0d27267" class="outline-2">
+<h2 id="org0d27267">References:</h2>
+<div class="outline-text-2" id="text-org0d27267">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org7137cd6" class="outline-2">
-<h2 id="org7137cd6">Backlinks:</h2>
-<div class="outline-text-2" id="text-org7137cd6">
+<div id="outline-container-org2f797bf" class="outline-2">
+<h2 id="org2f797bf">Backlinks:</h2>
+<div class="outline-text-2" id="text-org2f797bf">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>

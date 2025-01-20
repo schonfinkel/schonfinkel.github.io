@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-01-20 Mon 11:52 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bash</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Bash</h1>
+</header><div id="outline-container-org5752669" class="outline-2">
+<h2 id="org5752669">History</h2>
+<div class="outline-text-2" id="text-org5752669">
+<blockquote>
+<p>
+The first shells were fairly good programming tools, but not very convenient for
+users. The C shell added a lot of user conveniences (like the ability to repeat
+a command you’d just typed), but as a programming lan‐ guage it was quirky. The
+Korn shell, which came along next (in the early ’80s), added a lot of user
+conveniences, improved the programming language, and looked like it was on the
+path to widespread adoption. But ksh wasn’t open source software at first; it
+was a proprietary software product, and was therefore difficult to ship with a
+free operating system like <a href="20240924092617-linux.html#ID-8a427ee7-2ef1-489b-af82-91de7be8a3ba">Linux</a>.
+</p>
+
+<p>
+In the late 1980s, the Unix community decided standardization was a good thing,
+and the POSIX working groups (organized by the IEEE) were formed. POSIX
+standardized the Unix libraries and utilities, including the shell. The standard
+shell was primarily based on the 1988 version of the Korn shell, with some C
+shell features and a bit of invention to fill in the gaps. bash was begun as
+part of the GNU Project's effort to produce a complete POSIX system, which
+naturally needed a POSIX shell. (<a href="#citeproc_bib_item_1">Albing, Vossen, and Newham 2018, 3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org2796608" class="outline-2">
+<h2 id="org2796608">Gotchas</h2>
+<div class="outline-text-2" id="text-org2796608">
+<div class="org-src-container">
+<pre class="src src-shell">  cmd 2&gt;&amp;1 | next_command
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">can be replaced with</span>
+  cmd |&amp; next_command
+</pre>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-shell">  ${<span style="font-weight: bold; font-style: italic;">name</span>:-default}
+  ${<span style="font-weight: bold; font-style: italic;">name</span>:=default}
+  ${<span style="font-weight: bold; font-style: italic;">name</span>:+altvalue}
+  ${<span style="font-weight: bold; font-style: italic;">name</span>:?errmsg}
+</pre>
+</div>
+</div>
+<div id="outline-container-org288bde8" class="outline-3">
+<h3 id="org288bde8">String Manipulation</h3>
+<div class="outline-text-3" id="text-org288bde8">
+<ul class="org-ul">
+<li>String Length:</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-shell">  ${#<span style="font-weight: bold; font-style: italic;">name</span>}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Removing leading text:</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-shell">  ${<span style="font-weight: bold; font-style: italic;">name</span>#pre}
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">or...</span>
+  ${<span style="font-weight: bold; font-style: italic;">name</span>##pre}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Remove traling text:</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-shell">  ${<span style="font-weight: bold; font-style: italic;">name</span>%post}
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">or...</span>
+  ${<span style="font-weight: bold; font-style: italic;">name</span>%%post}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Substrings:</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-shell">  ${<span style="font-weight: bold; font-style: italic;">name</span>:offset}
+  ${<span style="font-weight: bold; font-style: italic;">name</span>:offset:length}
+  ${<span style="font-weight: bold; font-style: italic;">name</span>: -offset:length}
+  ${<span style="font-weight: bold; font-style: italic;">name</span>:offset:-length}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc6cf02a" class="outline-2">
+<h2 id="orgc6cf02a">References:</h2>
+<div class="outline-text-2" id="text-orgc6cf02a">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Albing, Carl, JP Vossen, and Cameron Newham. 2018. <i>Bash Cookbook: Solutions and Examples for Bash Users</i>. O’Reilly Media, Inc.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-01-20 Mon 11:52 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lambda Calculus</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Lambda Calculus</h1>
+</header><p>
+The &lambda;-Calculus is a theory of functions as formulas. It is a system for
+manipulating functions as expressions.
+</p>
+
+<blockquote>
+<p>
+What is usually called &lambda;-calculus is a collection of several formal systems,
+based on a notation invented by Alonzo Church in the 1930s. They are designed to
+describe the most basic ways that operators or functions can be combined to form
+other operators.
+</p>
+
+<p>
+In practice, each &lambda;-system has a slightly different grammatical structure,
+depending on its intended use. Some have extra constant-symbols, and most have
+built-in syntactic restrictions, for example
+type-restrictions. (<a href="#citeproc_bib_item_1">Hindley and Seldin 2008, 1</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgf79d66f" class="outline-2">
+<h2 id="orgf79d66f">Untyped &lambda;-Calculus</h2>
+<div class="outline-text-2" id="text-orgf79d66f">
+</div>
+<div id="outline-container-org752233a" class="outline-3">
+<h3 id="org752233a">Definitions</h3>
+<div class="outline-text-3" id="text-org752233a">
+</div>
+<div id="outline-container-orgaee9289" class="outline-4">
+<h4 id="orgaee9289">&lambda;-Term:</h4>
+<div class="outline-text-4" id="text-orgaee9289">
+<p>
+Assume given an infinite set \(V\) of variables, the set of lambda terms is given
+by the following Backus-Naur Form:
+</p>
+
+\begin{align*}
+M, N &::=  x \mid (M N) \mid (\lambda x.M)
+\end{align*}
+</div>
+</div>
+<div id="outline-container-org3f1058a" class="outline-4">
+<h4 id="org3f1058a">Scope</h4>
+<div class="outline-text-4" id="text-org3f1058a">
+<p>
+For a particular occurrence of \(λx.M\) in a term \(P\), the occurrence of \(M\) is
+called the scope of the occurrence of \(λx\) on the left.
+</p>
+</div>
+</div>
+<div id="outline-container-org4d2a511" class="outline-4">
+<h4 id="org4d2a511">Free and Bound Variables</h4>
+<div class="outline-text-4" id="text-org4d2a511">
+<p>
+An occurrence of a variable \(x\) in a term \(P\) is called:
+</p>
+<ul class="org-ul">
+<li><i>bound</i> if it is in the scope of a \(λx\) in \(P\).</li>
+<li><i>bound and binding</i> if and only if it is the \(x\) in \(λx\).</li>
+<li><i>free</i> otherwise.</li>
+</ul>
+
+<p>
+The set of all free variables of \(P\) is denoted as \(FV(P)\) and is computed by
+recursion on \(P\):
+</p>
+
+<ul class="org-ul">
+<li>\(FV(\{x\}) = \{ x \}\)</li>
+<li>\(FV(\lambda x.M) = FV(M) \\ \{x\}\)</li>
+<li>\(FV(M N) = FV(M) \cup FV(N)\)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga783f76" class="outline-4">
+<h4 id="orga783f76">Substitution</h4>
+<div class="outline-text-4" id="text-orga783f76">
+<blockquote>
+<p>
+For any \(M, N, x\), define \([N/x]M\) to be the result of substituting \(N\) for
+every free occurrence of \(x\) in \(M\), and changing bound variables to avoid
+clashes. The precise definition is by induction on \(M\), as follows:
+</p>
+
+<ul class="org-ul">
+<li>\([N/x] x \equiv N\)</li>
+<li>\([N/x] a \equiv a, \forall a \not\equiv x\)</li>
+<li>\([N/x](P Q) ≡ [N/x]P [N/x]Q\)</li>
+<li>\([N/x](λx.P) ≡ λx.P\)</li>
+<li>\([N/x](λy.P) \equiv λy.P, x \not\in FV(P)\)</li>
+<li>\([N/x](λy.P) \equiv λy.[N/x]P, x \in FV(P) \land y \not∈ FV(N)\)</li>
+<li>\([N/x](λy.P) ≡ λz.[N/x][z/y]P, x ∈ FV(P) \land y ∈ FV(N)\)</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Hindley and Seldin 2008, 7</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org9b77eda" class="outline-4">
+<h4 id="org9b77eda">&alpha;-conversion</h4>
+</div>
+<div id="outline-container-orgbcd21b0" class="outline-4">
+<h4 id="orgbcd21b0">&beta;-reduction</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org2e40fff" class="outline-2">
+<h2 id="org2e40fff">Simply-typed &lambda;-Calculus.</h2>
+</div>
+
+<div id="outline-container-org4c7b570" class="outline-2">
+<h2 id="org4c7b570">Polymorphically typed &lambda;-Calculus</h2>
+</div>
+
+<div id="outline-container-orgb9949ac" class="outline-2">
+<h2 id="orgb9949ac">References:</h2>
+<div class="outline-text-2" id="text-orgb9949ac">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Hindley, J Roger, and Jonathan P Seldin. 2008. <i>Lambda-Calculus and Combinators: An Introduction</i>. Cambridge University Press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7be52ba" class="outline-2">
+<h2 id="org7be52ba">Backlinks:</h2>
+<div class="outline-text-2" id="text-org7be52ba">
+<ul class="org-ul">
+<li><a href="./20250120081842-combinatory_logic.html">Combinatory Logic</a></li>
+<li><a href="./20250119195829-curry_howard_isomorphism.html">Curry-Howard Isomorphism</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

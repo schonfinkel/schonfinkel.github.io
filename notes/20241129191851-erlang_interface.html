@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-17 Fri 14:24 -->
+<!-- 2025-01-20 Mon 11:52 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Erlang Interface</title>
@@ -74,16 +74,84 @@ and so on. If you use a socket, it will not behave like a
 process. (<a href="#citeproc_bib_item_1">Armstrong 2013, 232</a>)
 </p>
 </blockquote>
-<div id="outline-container-org10295c3" class="outline-2">
-<h2 id="org10295c3">References:</h2>
-<div class="outline-text-2" id="text-org10295c3">
+<div id="outline-container-org83ff063" class="outline-2">
+<h2 id="org83ff063">Ports</h2>
+<div class="outline-text-2" id="text-org83ff063">
+</div>
+<div id="outline-container-org67a8a7c" class="outline-3">
+<h3 id="org67a8a7c">Plain Ports</h3>
+<div class="outline-text-3" id="text-org67a8a7c">
+<blockquote>
+<p>
+Ports are the simplest and most common way to communicate with foreign code in
+Erlang. They're objects with one foot in each world: one on the Erlang language
+side and one on the operating system side. On the Erlang side, a port is similar
+to a process: it's created, you can communicate with it using normal message
+passing, and it can die. Each created port gets a unique identifier that won't
+be recycled. Because ports don't execute any Erlang code themselves, each port
+also has an owner, which is a normal Erlang process; when a port receives data
+from the outside, it's sent to the port owner, which can decide what to do with
+it. The process that opens a port becomes the owner by default, but it's
+possible to hand over ownership to another process — for example, using the BIF
+<code>erlang:port_connect/2</code>. If the port owner dies, the port is closed
+automatically. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 294</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgbc8c345" class="outline-3">
+<h3 id="orgbc8c345">Linked-in Port Drivers</h3>
+<div class="outline-text-3" id="text-orgbc8c345">
+<ul class="org-ul">
+<li>Superficially they work exactly like plain ports.</li>
+<li>Mechanism in which the messages travel is different, the linke-in driver
+executes in the process space as the Erlang VM. The main purpose behind this
+is performance.</li>
+<li>A huge drawback is that if the driver crashes the whole VM is brogth down as
+well.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org780524c" class="outline-2">
+<h2 id="org780524c">NIFs</h2>
+<div class="outline-text-2" id="text-org780524c">
+<blockquote>
+<p>
+Although ports remain the simplest and safest solution for communicating with
+foreign programs, sometimes you want to make something like a new built-in
+function with minimal overhead. With NIFs, you define a function in C in such a
+way that it becomes available as an Erlang function, just like a BIF
+(<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 296</a>)
+</p>
+</blockquote>
+
+<p>
+Some drawbacks of using NIFs are:
+</p>
+<ul class="org-ul">
+<li>Hard system crashes will give you nothing but a core dump.</li>
+<li>Being suitable only for functions that execute and return quickly, since
+long-running NIFs hold up resources for the Erlang VM scheduler.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0b9f8f6" class="outline-2">
+<h2 id="org0b9f8f6">References:</h2>
+<div class="outline-text-2" id="text-org0b9f8f6">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org964391f" class="outline-2">
-<h2 id="org964391f">Backlinks:</h2>
+<div id="outline-container-orgf91bf8a" class="outline-2">
+<h2 id="orgf91bf8a">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgf91bf8a">
+<ul class="org-ul">
+<li><a href="./20240924122449-sequential_erlang.html">Sequential Erlang</a></li>
+</ul>
+</div>
 </div>
 </main>
 <footer id="postamble" class="status">

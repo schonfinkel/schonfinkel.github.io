@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-17 Fri 14:24 -->
+<!-- 2025-01-20 Mon 11:52 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kubernetes</title>
@@ -61,13 +61,13 @@ deployment, scaling, and management of containerized
 applications. &#x2014;kubernetes.io
 </p>
 </blockquote>
-<div id="outline-container-org567a121" class="outline-2">
-<h2 id="org567a121">Architecture</h2>
-<div class="outline-text-2" id="text-org567a121">
+<div id="outline-container-org01b45d1" class="outline-2">
+<h2 id="org01b45d1">Architecture</h2>
+<div class="outline-text-2" id="text-org01b45d1">
 </div>
-<div id="outline-container-org9b30186" class="outline-3">
-<h3 id="org9b30186">Masters</h3>
-<div class="outline-text-3" id="text-org9b30186">
+<div id="outline-container-orgd33ab95" class="outline-3">
+<h3 id="orgd33ab95">Masters</h3>
+<div class="outline-text-3" id="text-orgd33ab95">
 <p>
 Also know as control plane.
 </p>
@@ -88,13 +88,13 @@ reaching consensus impossible.</li>
 only on managing the cluster.</li>
 </ul>
 </div>
-<div id="outline-container-orga2ab2f2" class="outline-4">
-<h4 id="orga2ab2f2">Components</h4>
-<div class="outline-text-4" id="text-orga2ab2f2">
+<div id="outline-container-org7c48f27" class="outline-4">
+<h4 id="org7c48f27">Components</h4>
+<div class="outline-text-4" id="text-org7c48f27">
 </div>
-<div id="outline-container-org9550885" class="outline-5">
-<h5 id="org9550885">kube-apiserver</h5>
-<div class="outline-text-5" id="text-org9550885">
+<div id="outline-container-org90b4551" class="outline-5">
+<h5 id="org90b4551">kube-apiserver</h5>
+<div class="outline-text-5" id="text-org90b4551">
 <ul class="org-ul">
 <li>Front-end to the control plane, even the other components of the master node
 have to pass through the API server.</li>
@@ -102,9 +102,9 @@ have to pass through the API server.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd3274b4" class="outline-5">
-<h5 id="orgd3274b4">etcd</h5>
-<div class="outline-text-5" id="text-orgd3274b4">
+<div id="outline-container-org4dfe36c" class="outline-5">
+<h5 id="org4dfe36c">etcd</h5>
+<div class="outline-text-5" id="text-org4dfe36c">
 <ul class="org-ul">
 <li>The cluster's store.</li>
 <li>Persists the cluster state and configuration.</li>
@@ -112,9 +112,9 @@ have to pass through the API server.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge7f9361" class="outline-5">
-<h5 id="orge7f9361">controller-manager</h5>
-<div class="outline-text-5" id="text-orge7f9361">
+<div id="outline-container-org9ab9fbd" class="outline-5">
+<h5 id="org9ab9fbd">controller-manager</h5>
+<div class="outline-text-5" id="text-org9ab9fbd">
 <ul class="org-ul">
 <li>Behaves like a controller of controllers:
 <ul class="org-ul">
@@ -127,9 +127,9 @@ is matching the desired state.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org04b8720" class="outline-5">
-<h5 id="org04b8720">scheduler</h5>
-<div class="outline-text-5" id="text-org04b8720">
+<div id="outline-container-orgfaf4288" class="outline-5">
+<h5 id="orgfaf4288">scheduler</h5>
+<div class="outline-text-5" id="text-orgfaf4288">
 <ul class="org-ul">
 <li>Default scheduler for kubernetes, watches the <code>kuber-apiserver</code> for new work tasks.</li>
 <li>Assigns work to cluster nodes:
@@ -144,17 +144,17 @@ is matching the desired state.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb886ce6" class="outline-3">
-<h3 id="orgb886ce6">Nodes</h3>
-<div class="outline-text-3" id="text-orgb886ce6">
+<div id="outline-container-org09c6721" class="outline-3">
+<h3 id="org09c6721">Nodes</h3>
+<div class="outline-text-3" id="text-org09c6721">
 </div>
-<div id="outline-container-org74c5ca2" class="outline-4">
-<h4 id="org74c5ca2">Components</h4>
-<div class="outline-text-4" id="text-org74c5ca2">
+<div id="outline-container-org2afd5db" class="outline-4">
+<h4 id="org2afd5db">Components</h4>
+<div class="outline-text-4" id="text-org2afd5db">
 </div>
-<div id="outline-container-org9bbd255" class="outline-5">
-<h5 id="org9bbd255">kubelet</h5>
-<div class="outline-text-5" id="text-org9bbd255">
+<div id="outline-container-org71ec251" class="outline-5">
+<h5 id="org71ec251">kubelet</h5>
+<div class="outline-text-5" id="text-org71ec251">
 <ul class="org-ul">
 <li>Main <code>kubernetes</code> agent, it runs in every node in the cluster</li>
 <li>Registers node with cluster</li>
@@ -163,9 +163,9 @@ is matching the desired state.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2707a68" class="outline-5">
-<h5 id="org2707a68">Container Runtime</h5>
-<div class="outline-text-5" id="text-org2707a68">
+<div id="outline-container-org1f667ea" class="outline-5">
+<h5 id="org1f667ea">Container Runtime</h5>
+<div class="outline-text-5" id="text-org1f667ea">
 <ul class="org-ul">
 <li>Performs container-related tasks, like:
 <ul class="org-ul">
@@ -182,9 +182,9 @@ is matching the desired state.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org94f9e39" class="outline-5">
-<h5 id="org94f9e39">kube-proxy</h5>
-<div class="outline-text-5" id="text-org94f9e39">
+<div id="outline-container-org7141956" class="outline-5">
+<h5 id="org7141956">kube-proxy</h5>
+<div class="outline-text-5" id="text-org7141956">
 <ul class="org-ul">
 <li>Networking component, ensures every pod gets it's own unique IP</li>
 <li>Basic loag-balacing</li>
@@ -193,9 +193,9 @@ is matching the desired state.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org97dec40" class="outline-3">
-<h3 id="org97dec40">Packaging Apps for Kubernetes</h3>
-<div class="outline-text-3" id="text-org97dec40">
+<div id="outline-container-orgdca6e55" class="outline-3">
+<h3 id="orgdca6e55">Packaging Apps for Kubernetes</h3>
+<div class="outline-text-3" id="text-orgdca6e55">
 <p>
 For an application to run on a Kubernetes cluster it needs to tick a few
 boxes. These include:
@@ -207,9 +207,9 @@ boxes. These include:
 <li>Deployed via a declarative <code>manifest</code> file</li>
 </ol>
 </div>
-<div id="outline-container-orgd9f9aa7" class="outline-4">
-<h4 id="orgd9f9aa7">Pods</h4>
-<div class="outline-text-4" id="text-orgd9f9aa7">
+<div id="outline-container-org7867d8e" class="outline-4">
+<h4 id="org7867d8e">Pods</h4>
+<div class="outline-text-4" id="text-org7867d8e">
 <blockquote>
 <p>
 At the highest-level, a Pod is a ring-fenced environment to run containers. The
@@ -236,18 +236,18 @@ cluster's life easier:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgaf03837" class="outline-4">
-<h4 id="orgaf03837">Deployment</h4>
-<div class="outline-text-4" id="text-orgaf03837">
+<div id="outline-container-org6fe69dd" class="outline-4">
+<h4 id="org6fe69dd">Deployment</h4>
+<div class="outline-text-4" id="text-org6fe69dd">
 <ul class="org-ul">
 <li>A <code>deployment</code> is a higher-level Kubernetes object that wraps around a
 particular Pod and adds features such as scaling, zero-downtime updates, and
 versioned rollbacks.</li>
 </ul>
 </div>
-<div id="outline-container-orgd9ffb1a" class="outline-5">
-<h5 id="orgd9ffb1a">ReplicaSet</h5>
-<div class="outline-text-5" id="text-orgd9ffb1a">
+<div id="outline-container-orgafc5b17" class="outline-5">
+<h5 id="orgafc5b17">ReplicaSet</h5>
+<div class="outline-text-5" id="text-orgafc5b17">
 <p>
 A ReplicaSet's purpose is to maintain a stable set of replica Pods running at
 any given time. As such, it is often used to guarantee the availability of a
@@ -262,9 +262,9 @@ specified number of identical Pod, by implementing the following:
 </ul>
 </div>
 </div>
-<div id="outline-container-org19190ee" class="outline-5">
-<h5 id="org19190ee">YAML Structure</h5>
-<div class="outline-text-5" id="text-org19190ee">
+<div id="outline-container-orge96a047" class="outline-5">
+<h5 id="orge96a047">YAML Structure</h5>
+<div class="outline-text-5" id="text-orge96a047">
 <div class="org-src-container">
 <pre class="src src-yaml">apiVersion: apps/v1
 kind: Deployment
@@ -301,9 +301,9 @@ spec:
 </div>
 </div>
 </div>
-<div id="outline-container-org31ec6ea" class="outline-3">
-<h3 id="org31ec6ea">Service</h3>
-<div class="outline-text-3" id="text-org31ec6ea">
+<div id="outline-container-org5724f07" class="outline-3">
+<h3 id="org5724f07">Service</h3>
+<div class="outline-text-3" id="text-org5724f07">
 <ul class="org-ul">
 <li>An abstract way to expose an application running on a set of Pods as a network
 service</li>
@@ -333,9 +333,9 @@ Service.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org157fe12" class="outline-5">
-<h5 id="org157fe12">Types</h5>
-<div class="outline-text-5" id="text-org157fe12">
+<div id="outline-container-org64f91d4" class="outline-5">
+<h5 id="org64f91d4">Types</h5>
+<div class="outline-text-5" id="text-org64f91d4">
 <ul class="org-ul">
 <li><code>Loadbalancer</code>: External access via cloud load-balancer</li>
 <li><code>NotePort</code>: External access via nodes</li>
@@ -376,13 +376,13 @@ spec:
 </div>
 </div>
 </div>
-<div id="outline-container-orgc599293" class="outline-3">
-<h3 id="orgc599293">Pods</h3>
-<div class="outline-text-3" id="text-orgc599293">
+<div id="outline-container-org574ac12" class="outline-3">
+<h3 id="org574ac12">Pods</h3>
+<div class="outline-text-3" id="text-org574ac12">
 </div>
-<div id="outline-container-orgf43c2df" class="outline-5">
-<h5 id="orgf43c2df">YAML structure</h5>
-<div class="outline-text-5" id="text-orgf43c2df">
+<div id="outline-container-org115f468" class="outline-5">
+<h5 id="org115f468">YAML structure</h5>
+<div class="outline-text-5" id="text-org115f468">
 <div class="org-src-container">
 <pre class="src src-yaml">apiVersion: v1
 kind: Pod
@@ -402,16 +402,16 @@ spec:
 </div>
 </div>
 </div>
-<div id="outline-container-orgef5be70" class="outline-2">
-<h2 id="orgef5be70">References:</h2>
-<div class="outline-text-2" id="text-orgef5be70">
+<div id="outline-container-orgecf878e" class="outline-2">
+<h2 id="orgecf878e">References:</h2>
+<div class="outline-text-2" id="text-orgecf878e">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>
 </div>
-<div id="outline-container-orgcd68fbc" class="outline-2">
-<h2 id="orgcd68fbc">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgcd68fbc">
+<div id="outline-container-org98d0c3d" class="outline-2">
+<h2 id="org98d0c3d">Backlinks:</h2>
+<div class="outline-text-2" id="text-org98d0c3d">
 <ul class="org-ul">
 <li><a href="./20211103202637-kubernetes_configmaps.html">Kubernetes-ConfigMaps</a></li>
 <li><a href="./20211108165331-kubernetes_secrets.html">Kubernetes-Secrets</a></li>
