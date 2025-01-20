@@ -1,0 +1,78 @@
+:PROPERTIES:
+:ID:       fb55d5cf-ce1b-46d0-909b-35f8184ad926
+:END:
+#+title: Lambda Calculus
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+
+The \lambda-Calculus is a theory of functions as formulas. It is a system for
+manipulating functions as expressions.
+
+#+begin_quote
+What is usually called \lambda-calculus is a collection of several formal systems,
+based on a notation invented by Alonzo Church in the 1930s. They are designed to
+describe the most basic ways that operators or functions can be combined to form
+other operators.
+
+In practice, each \lambda-system has a slightly different grammatical structure,
+depending on its intended use. Some have extra constant-symbols, and most have
+built-in syntactic restrictions, for example
+type-restrictions. [cite:@hindley2008lambda p.1]
+#+end_quote
+
+* Untyped \lambda-Calculus
+
+** Definitions
+
+*** \lambda-Term:
+
+Assume given an infinite set $V$ of variables, the set of lambda terms is given
+by the following Backus-Naur Form:
+
+\begin{align*}
+M, N &::=  x \mid (M N) \mid (\lambda x.M)
+\end{align*}
+
+*** Scope
+
+For a particular occurrence of $λx.M$ in a term $P$, the occurrence of $M$ is
+called the scope of the occurrence of $λx$ on the left.
+
+*** Free and Bound Variables
+
+An occurrence of a variable $x$ in a term $P$ is called:
++ /bound/ if it is in the scope of a $λx$ in $P$.
++ /bound and binding/ if and only if it is the $x$ in $λx$.
++ /free/ otherwise.
+
+The set of all free variables of $P$ is denoted as $FV(P)$ and is computed by
+recursion on $P$:
+
++ $FV(\{x\}) = \{ x \}$
++ $FV(\lambda x.M) = FV(M) \\ \{x\}$
++ $FV(M N) = FV(M) \cup FV(N)$
+
+*** Substitution
+
+#+begin_quote
+For any $M, N, x$, define $[N/x]M$ to be the result of substituting $N$ for
+every free occurrence of $x$ in $M$, and changing bound variables to avoid
+clashes. The precise definition is by induction on $M$, as follows:
+
++ $[N/x] x \equiv N$
++ $[N/x] a \equiv a, \forall a \not\equiv x$
++ $[N/x](P Q) ≡ [N/x]P [N/x]Q$
++ $[N/x](λx.P) ≡ λx.P$
++ $[N/x](λy.P) \equiv λy.P, x \not\in FV(P)$
++ $[N/x](λy.P) \equiv λy.[N/x]P, x \in FV(P) \land y \not∈ FV(N)$
++ $[N/x](λy.P) ≡ λz.[N/x][z/y]P, x ∈ FV(P) \land y ∈ FV(N)$
+
+[cite:@hindley2008lambda p.7]
+#+end_quote
+
+*** \alpha-conversion
+*** \beta-reduction
+
+* Simply-typed \lambda-Calculus. 
+
+* Polymorphically typed \lambda-Calculus

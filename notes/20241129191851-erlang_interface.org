@@ -17,3 +17,48 @@ you can link to it, send messages to it from a remote distributed Erlang node,
 and so on. If you use a socket, it will not behave like a
 process. [cite:@armstrong2013 p.232]
 #+end_quote
+
+
+* Ports
+
+** Plain Ports
+
+#+begin_quote
+Ports are the simplest and most common way to communicate with foreign code in
+Erlang. They're objects with one foot in each world: one on the Erlang language
+side and one on the operating system side. On the Erlang side, a port is similar
+to a process: it's created, you can communicate with it using normal message
+passing, and it can die. Each created port gets a unique identifier that won't
+be recycled. Because ports don't execute any Erlang code themselves, each port
+also has an owner, which is a normal Erlang process; when a port receives data
+from the outside, it's sent to the port owner, which can decide what to do with
+it. The process that opens a port becomes the owner by default, but it's
+possible to hand over ownership to another process — for example, using the BIF
+~erlang:port_connect/2~. If the port owner dies, the port is closed
+automatically. [cite:@logan2010erlang p.294]
+#+end_quote
+
+** Linked-in Port Drivers
+
++ Superficially they work exactly like plain ports.
++ Mechanism in which the messages travel is different, the linke-in driver
+  executes in the process space as the Erlang VM. The main purpose behind this
+  is performance.
++ A huge drawback is that if the driver crashes the whole VM is brogth down as
+  well.
+
+* NIFs
+
+#+begin_quote
+Although ports remain the simplest and safest solution for communicating with
+foreign programs, sometimes you want to make something like a new built-in
+function with minimal overhead. With NIFs, you define a function in C in such a
+way that it becomes available as an Erlang function, just like a BIF
+[cite:@logan2010erlang p.296]
+#+end_quote
+
+Some drawbacks of using NIFs are:
++ Hard system crashes will give you nothing but a core dump.
++ Being suitable only for functions that execute and return quickly, since
+  long-running NIFs hold up resources for the Erlang VM scheduler.
+

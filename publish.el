@@ -39,20 +39,28 @@
 
 ;;;; Taken from:
 ;;;; https://commonplace.doubleloop.net/publish.el
-(defun notes/collect-backlinks-string (backend)
-  "Insert backlinks into the end of the org file before parsing it, targeting BACKEND."
+(defun notes/generate-backlinks (backend backlinks)
+  "Insert BACKLINKS into org file before parsing it, targets BACKEND."
   (when (org-roam-node-at-point)
     (goto-char (point-max))
     ;; Add a new header for the links
     (insert "* Backlinks:\n")
+    (dolist (backlink backlinks)
+      (let* ((source-node (org-roam-backlink-source-node backlink))
+             (point (org-roam-backlink-point backlink)))
+        (insert
+         (format "- [[./%s][%s]]\n"
+                 (file-name-nondirectory (org-roam-node-file source-node))
+                 (org-roam-node-title source-node)))))))
+
+(defun notes/collect-backlinks (backend)
+  "Generate backlinks if they exist at all, targets BACKEND."
+  (when (org-roam-node-at-point)
+    (goto-char (point-max))
     (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
-      (dolist (backlink backlinks)
-        (let* ((source-node (org-roam-backlink-source-node backlink))
-               (point (org-roam-backlink-point backlink)))
-          (insert
-           (format "- [[./%s][%s]]\n"
-                   (file-name-nondirectory (org-roam-node-file source-node))
-                   (org-roam-node-title source-node))))))))
+      (cond ((if (eq nil backlinks) t nil)
+             (message "Ignoring backlink generation..."))
+            (t (notes/generate-backlinks backend backlinks))))))
 
 (defun notes/add-extra-sections (backend)
   "Insert extra sections on a note BACKEND before being published."
@@ -60,13 +68,12 @@
     (save-excursion
       (goto-char (point-max))
       (insert "\n* References:\n#+print_bibliography:\n")
-      (notes/collect-backlinks-string backend))))
+      (notes/collect-backlinks backend))))
 
 ;;;; Only to be used within CI environments, to generate the ORG-ROAM db
 (defun notes/generate-sqlite-db ()
   "Bootstraps the ORG-ROAM db."
-  (setq is-ci (if (string= (getenv "IS_CI") "1") t nil))
-  (cond (is-ci
+  (cond ((if (string= (getenv "IS_CI") "1") t nil)
          (progn (message "Running ORG-ROAM DB sync")
                 (org-roam-db-sync)))
         (t (message "Not running on CI, ignoring block"))))
@@ -123,6 +130,7 @@
 ;;;; Fix bibliography
 (setq org-cite-refs-list '("articles.bib"
                            "beam.bib"
+                           "classic_studies.bib"
                            "databases.bib"
                            "fp_general.bib"
                            "haskell.bib"

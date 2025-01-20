@@ -161,6 +161,7 @@
                     build.exec = "just build";
                     graph.exec = "just graph";
                     clean.exec = "just clean";
+                    publish.exec = "just publish";
                   };
 
                   enterShell = ''

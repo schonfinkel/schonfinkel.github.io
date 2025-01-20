@@ -118,6 +118,13 @@ line. The ~-eval~ argument is very handy for quick scripting.
 #+end_src
 
 * Debugging
+
+To start the debugger, you can call ~debugger:start()~ from the shell:
+
+#+begin_src shell
+  1> debugger:start().
+#+end_src
+
 ** Reading Crash Dumps
 If Erlang crashes, it leaves behind a file called ~erl_crash.dump~. To start the
 analyzer, give the following command:
@@ -126,4 +133,3 @@ analyzer, give the following command:
   crashdump_viewer:start()
 #+end_src
 
-#+print_bibliography:

@@ -1,0 +1,75 @@
+:PROPERTIES:
+:ID:       b73c628e-5ec3-4793-80c5-d96fcc75e10b
+:END:
+#+title: Bash
+
+* History
+
+#+begin_quote
+The first shells were fairly good programming tools, but not very convenient for
+users. The C shell added a lot of user conveniences (like the ability to repeat
+a command you’d just typed), but as a programming lan‐ guage it was quirky. The
+Korn shell, which came along next (in the early ’80s), added a lot of user
+conveniences, improved the programming language, and looked like it was on the
+path to widespread adoption. But ksh wasn’t open source software at first; it
+was a proprietary software product, and was therefore difficult to ship with a
+free operating system like [[id:8a427ee7-2ef1-489b-af82-91de7be8a3ba][Linux]].
+
+In the late 1980s, the Unix community decided standardization was a good thing,
+and the POSIX working groups (organized by the IEEE) were formed. POSIX
+standardized the Unix libraries and utilities, including the shell. The standard
+shell was primarily based on the 1988 version of the Korn shell, with some C
+shell features and a bit of invention to fill in the gaps. bash was begun as
+part of the GNU Project's effort to produce a complete POSIX system, which
+naturally needed a POSIX shell. [cite:@albing2018bash p.3]
+#+end_quote
+
+* Gotchas
+
+#+begin_src shell
+  cmd 2>&1 | next_command
+  # can be replaced with
+  cmd |& next_command
+#+end_src
+
+
+#+begin_src shell
+  ${name:-default}
+  ${name:=default}
+  ${name:+altvalue}
+  ${name:?errmsg}
+#+end_src
+
+** String Manipulation
+
++ String Length:
+
+#+begin_src shell
+  ${#name}
+#+end_src
+
++ Removing leading text:
+
+#+begin_src shell
+  ${name#pre}
+  # or...
+  ${name##pre}
+#+end_src
+
++ Remove traling text:
+
+#+begin_src shell
+  ${name%post}
+  # or...
+  ${name%%post}
+#+end_src
+
++ Substrings:
+
+#+begin_src shell
+  ${name:offset}
+  ${name:offset:length}
+  ${name: -offset:length}
+  ${name:offset:-length}
+#+end_src
+
