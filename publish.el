@@ -130,6 +130,7 @@
 ;;;; Fix bibliography
 (setq org-cite-refs-list '("articles.bib"
                            "beam.bib"
+                           "classic_studies.bib"
                            "databases.bib"
                            "fp_general.bib"
                            "haskell.bib"

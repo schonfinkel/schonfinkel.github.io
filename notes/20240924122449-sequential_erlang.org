@@ -70,7 +70,8 @@ You can also pattern match tuples by using free variables:
   [1,2,3,4,5,6,7]
   2> [ 2*X || X <- L ].
   [2,4,6,8,10,12,14]
-  3> 
+  3> [ math:pow(X,2) || X <- L, X > 0, X rem 2 == 0 ]
+
 #+END_SRC
 
 #+BEGIN_QUOTE
@@ -142,13 +143,57 @@ Maps are associative collections of key-value pairs.
   #{status => done,description => 'feed cats'}
 #+END_SRC
 
-** Binaries
-A sequence of bits that can be pattern matched.
+** Binaries and Bitstrings)
+
+#+begin_quote
+A binary is a sequence of unsigned 8-bit bytes, used for storing and processing
+chunks of data (often data that comes from a file or has been received over a
+network protocol). [cite:@logan2010erlang p.30]
+#+end_quote
+
+#+begin_quote
+A bitstring is written as ~<< Segment1, ..., SegmentN >>~, with zero or more
+segment specifiers between the double less-than/greater-than delimiters. The
+total length of the bitstring, in bits, is exactly the sum of the lengths of the
+segments.
+
+A segment specifier can be on one of the following forms:
++ ~Data~
++ ~Data:Size~
++ ~Data/TypeSpecifiers~
++ ~Data:Size/TypeSpecifiers~
+
+[cite:@logan2010erlang p.67]
+#+end_quote
+
+A possible set of ~TypeSpecifiers~ is the following:
+
++ ~integer~, ~float~, ~binary~, ~bytes~, ~bitstring~, ~bits~, ~utf8~, ~utf16~, ~utf32~ as base types.
++ Extra qualifiers like ~signed~, ~unsigned~ or ~big~, ~little~, ~native~ can also be used
+  and need to be separated by hyphens (i.e. ~integer-unsigned-big~).
+
+*** Bitstring comprehensions
 
 ** Identifiers
+
 *** Pids
+
+#+begin_quote
+Every process has a unique identifier, usually referred to as a /pid/. Pids are a
+special data type in Erlang and should be thought of as opaque
+objects. [cite:@logan2010erlang p.35]
+#+end_quote
+
 *** Ports
-A file descriptor that can be used to communicate with external programs.
+
+#+begin_quote
+A port is much like a process, except that it can also communicate with the
+world outside Erlang (...). Hence, port identifiers are closely related to pids,
+and the shell prints them on the form ~#Port<0.472>~. [cite:@logan2010erlang p.36]
+#+end_quote
+
+For more details about Ports, check the [[id:6422d659-d57d-4672-a90a-0649b5cbe905][Erlang Interface]] notes.
+
 *** References
 A unique reference created by the ~make_ref~ BIF.
 
@@ -167,6 +212,7 @@ atoms. [cite:@armstrong2013]
   operation (~=~).
 
 * Pattern Matching
+
 Pattern matching is used for:
 + Assigning values to variables
 + Redirecting execution flows
