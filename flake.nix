@@ -76,6 +76,9 @@
             pdfx
             ragged2e
             scheme-medium
+
+            # For CV builds
+            moderncv
             ;
         };
 
