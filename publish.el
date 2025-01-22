@@ -78,6 +78,18 @@
                 (org-roam-db-sync)))
         (t (message "Not running on CI, ignoring block"))))
 
+;;;; CV-related
+(defun cv/org-cv-publish-resume (file dest)
+  "Publish FILE using org-cv moderncv to DEST."
+  (setq-default outfile "cv.tex")
+  (message (format "%s exists: %s" file (file-exists-p file)))
+  (with-current-buffer
+      (find-file-noselect file)
+    (org-mode)
+    (message "out %S" outfile)
+    (org-export-to-file 'moderncv outfile)
+    (org-latex-compile "cv.tex")))
+
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
 (setq org-confirm-babel-evaluate nil)
@@ -172,7 +184,6 @@
 (message (format "HTML FOOTER: %s" html-footer))
 (setq-default website-html-postamble html-footer)
 
-
 ;;; Code:
 (setq org-publish-project-alist
       `(("site"
@@ -194,7 +205,7 @@
 
          :export-with-tags t
          :exclude-tags ("todo" "noexport")
-         :exclude "level-.*\\|.*\.draft\.org\\|.direnv*"
+         :exclude "cv.org\\|level-.*\\|.*\.draft\.org\\|.direnv*"
          :section-numbers nil
          :headline-levels 5
 
@@ -259,6 +270,20 @@
 (org-roam-update-org-id-locations)
 (org-publish-all t)
 
-(message "Build complete!")
+(message "Website build complete!")
+
+;; Generate CV output
+;;; We need to keep a local copy of org-cv
+;;; and use only "moderncv".
+(setq-default org-cv-path (concat root-dir "org-cv/"))
+(setq-default cv-path (concat root-dir "cv.org"))
+
+(use-package ox-moderncv
+  :load-path org-cv-path
+  :init (require 'ox-moderncv))
+
+(cv/org-cv-publish-resume cv-path root-dir)
+
+(message "CV build complete!")
 
 ;;; publish.el ends here
