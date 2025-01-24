@@ -134,6 +134,7 @@
             buildInputs = [
               dotnet
               customEmacs
+              texenv
             ] ++ tooling;
           };
 
