@@ -65,17 +65,19 @@
             collection-fontsextra
             collection-fontsrecommended
             collection-langenglish
-            collection-langportuguese
             collection-latexextra
             collection-mathscience
             extsizes
             etoolbox
-            hyphen-portuguese
+            geometry
             latexmk
             paracol
             pdfx
             ragged2e
             scheme-medium
+
+            # For CV builds
+            moderncv
             ;
         };
 
@@ -132,6 +134,7 @@
             buildInputs = [
               dotnet
               customEmacs
+              texenv
             ] ++ tooling;
           };
 
