@@ -82,13 +82,15 @@
 (defun cv/org-cv-publish-resume (file dest)
   "Publish FILE using org-cv moderncv to DEST."
   (setq-default outfile "cv.tex")
-  (message (format "%s exists: %s" file (file-exists-p file)))
+  (setq-default outpdf "cv.pdf")
+  (message (format "CHECK IF CV %s EXISTS: %s" file (file-exists-p file)))
   (with-current-buffer
       (find-file-noselect file)
     (org-mode)
-    (message "out %S" outfile)
+    (message "CV OUTFILE: %S" outfile)
     (org-export-to-file 'moderncv outfile)
-    (org-latex-compile "cv.tex")))
+    (org-latex-compile "cv.tex"))
+  (copy-file outpdf dest t))
 
 ;;; Project variables:
 ;;;; don't ask for confirmation before evaluating a code block
@@ -176,7 +178,7 @@
 (setq-default website-html-head html-head-prefix)
 
 (setq-default html-nav-file (get-string-from-file (concat static-html-dir "/" "nav.html")))
-(setq-default html-nav (patch-string-with-path html-nav-file url-dir 6))
+(setq-default html-nav (patch-string-with-path html-nav-file url-dir 7))
 (message (format "HTML NAV: %s" html-nav))
 (setq-default website-html-preamble html-nav)
 
@@ -258,12 +260,31 @@
 
         ("other"
          :base-directory ,static-dir
-         :base-extension "json\\|xml"
+         :base-extension "json\\|xml\\|pdf"
          :publishing-directory ,out-static-dir
          :recursive t
          :publishing-function org-publish-attachment)
 
         ("all" :components ("css" "images" "html" "other" "rss" "site"))))
+
+;; Generate CV output
+;;; We need to keep a local copy of org-cv
+;;; and use only "moderncv".
+(setq-default org-cv-path (concat root-dir "org-cv/"))
+(setq-default cv-path (concat root-dir "cv.org"))
+(setq-default cv-out (concat static-dir "/" "cv.pdf"))
+
+(message (format "ORG-CV LIB PATH: %s" org-cv-path))
+(message (format "ORG CV PATH: %s" cv-path))
+(message (format "PDF CV PATH: %s" cv-out))
+
+(use-package ox-moderncv
+  :load-path org-cv-path
+  :init (require 'ox-moderncv))
+
+(cv/org-cv-publish-resume cv-path cv-out)
+
+(message "CV build complete!")
 
 ;; Generate the site output
 (notes/generate-sqlite-db)
@@ -271,19 +292,5 @@
 (org-publish-all t)
 
 (message "Website build complete!")
-
-;; Generate CV output
-;;; We need to keep a local copy of org-cv
-;;; and use only "moderncv".
-(setq-default org-cv-path (concat root-dir "org-cv/"))
-(setq-default cv-path (concat root-dir "cv.org"))
-
-(use-package ox-moderncv
-  :load-path org-cv-path
-  :init (require 'ox-moderncv))
-
-(cv/org-cv-publish-resume cv-path root-dir)
-
-(message "CV build complete!")
 
 ;;; publish.el ends here

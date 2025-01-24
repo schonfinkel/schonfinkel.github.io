@@ -11,19 +11,31 @@ jobs:
   pr-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
         with:
           lfs: true
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v27
+        uses: cachix/install-nix-action@v30
 
-      - name: Install Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Cache Submodules
+        id: cache-submodule
+        uses: actions/cache@v4
+        with:
+          path: |
+            org-cv
+          key: ${{ runner.os }}-submodules
+
+      - name: Checkout git submodules
+        if: steps.cache-submodule.outputs.cache-hit != 'true'
+        uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Build website
         run: |
           mkdir -p "$HOME/.emacs.d/"
           touch "$HOME/.emacs.d/.org-id-locations"
           nix develop .#ci -c just build
+
