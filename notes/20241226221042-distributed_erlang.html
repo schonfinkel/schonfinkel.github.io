@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-20 Mon 11:52 -->
+<!-- 2025-01-24 Fri 12:51 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Distributed Erlang</title>
@@ -46,6 +46,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -71,17 +72,17 @@ make this possible:
 </blockquote>
 
 
-<figure id="org1b75498">
+<figure id="orgc3f3ddc">
 <img src="../static/img/notes/distributed_erlang.png" alt="distributed_erlang.png">
 
 </figure>
-<div id="outline-container-orgb5b26c8" class="outline-2">
-<h2 id="orgb5b26c8">Nodes and Clustering</h2>
-<div class="outline-text-2" id="text-orgb5b26c8">
+<div id="outline-container-orga1ab5bd" class="outline-2">
+<h2 id="orga1ab5bd">Nodes and Clustering</h2>
+<div class="outline-text-2" id="text-orga1ab5bd">
 </div>
-<div id="outline-container-org47ebf0d" class="outline-3">
-<h3 id="org47ebf0d">Starting a Node</h3>
-<div class="outline-text-3" id="text-org47ebf0d">
+<div id="outline-container-org57ebf7a" class="outline-3">
+<h3 id="org57ebf7a">Starting a Node</h3>
+<div class="outline-text-3" id="text-org57ebf7a">
 <p>
 To start an Erlang node in distributed mode, you run <code>erl</code> with one of the flags
 <code>-name</code> or <code>-sname</code>:
@@ -103,13 +104,13 @@ mode. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 194</a>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org6208970" class="outline-3">
-<h3 id="org6208970">Connecting Nodes</h3>
-<div class="outline-text-3" id="text-org6208970">
+<div id="outline-container-orgb9e9c99" class="outline-3">
+<h3 id="orgb9e9c99">Connecting Nodes</h3>
+<div class="outline-text-3" id="text-orgb9e9c99">
 </div>
-<div id="outline-container-org635c159" class="outline-4">
-<h4 id="org635c159">Hidden Nodes</h4>
-<div class="outline-text-4" id="text-org635c159">
+<div id="outline-container-org596563b" class="outline-4">
+<h4 id="org596563b">Hidden Nodes</h4>
+<div class="outline-text-4" id="text-org596563b">
 <blockquote>
 <p>
 It's possible to connect clusters via special nodes to form a larger, not fully
@@ -120,9 +121,9 @@ nonintrusive inspection of a cluster. (<a href="#citeproc_bib_item_1">Logan, Mer
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgf3098ba" class="outline-4">
-<h4 id="orgf3098ba">EPMD</h4>
-<div class="outline-text-4" id="text-orgf3098ba">
+<div id="outline-container-org4d2c92c" class="outline-4">
+<h4 id="org4d2c92c">EPMD</h4>
+<div class="outline-text-4" id="text-org4d2c92c">
 <blockquote>
 <p>
 EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
@@ -140,9 +141,9 @@ another. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 197<
 </div>
 </div>
 </div>
-<div id="outline-container-org5ea3c37" class="outline-3">
-<h3 id="org5ea3c37">The Cookie Protection System</h3>
-<div class="outline-text-3" id="text-org5ea3c37">
+<div id="outline-container-orgaa77b43" class="outline-3">
+<h3 id="orgaa77b43">The Cookie Protection System</h3>
+<div class="outline-text-3" id="text-orgaa77b43">
 <p>
 For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
 </p>
@@ -160,13 +161,13 @@ For two distributed Erlang nodes to communicate, they must have the same magic c
 </div>
 </div>
 </div>
-<div id="outline-container-orgc7a4204" class="outline-2">
-<h2 id="orgc7a4204">Socket-Based Distribution</h2>
+<div id="outline-container-org33e08e6" class="outline-2">
+<h2 id="org33e08e6">Socket-Based Distribution</h2>
 </div>
 
-<div id="outline-container-orgd64d2e4" class="outline-2">
-<h2 id="orgd64d2e4">References:</h2>
-<div class="outline-text-2" id="text-orgd64d2e4">
+<div id="outline-container-orge7cce40" class="outline-2">
+<h2 id="orge7cce40">References:</h2>
+<div class="outline-text-2" id="text-orge7cce40">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>

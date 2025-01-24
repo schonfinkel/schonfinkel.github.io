@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-20 Mon 11:52 -->
+<!-- 2025-01-24 Fri 12:51 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OTP</title>
@@ -46,6 +46,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -58,14 +59,44 @@
 <p>
 OTP is a domain-independent set of frameworks, principles, and patterns that
 guide and support the structure, design, implementation, and deployment of
-<a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> systems. Using OTP in your projects will help you avoid accidental
-complexity: things that are difficult because you picked inadequate
-tools. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 20</a>)
+Erlang systems. Using OTP in your projects will help you avoid accidental
+complexity: things that are difficult because you picked inadequate tools.
+</p>
+
+<p>
+OTP is said to consist of three building blocks that, when used together,
+provide a solid approach to designing and developing systems in the problem
+domain we’ve just described. They are <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> itself, tools and libraries, and a
+set of design principles. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 20</a>)
 </p>
 </blockquote>
-<div id="outline-container-org23e6a62" class="outline-2">
-<h2 id="org23e6a62">Behaviors</h2>
-<div class="outline-text-2" id="text-org23e6a62">
+<div id="outline-container-org0718610" class="outline-2">
+<h2 id="org0718610">The Tripartite Structure of OTP</h2>
+<div class="outline-text-2" id="text-org0718610">
+</div>
+<div id="outline-container-orgbf739fd" class="outline-3">
+<h3 id="orgbf739fd">Erlang</h3>
+<div class="outline-text-3" id="text-orgbf739fd">
+<blockquote>
+<p>
+Erlang lets you run all your code on top of a virtual machine highly optimized
+for concurrency, with a per-process garbage collector, yielding predictable and
+simple system behavior. Other programming environments do not have this luxury
+because they need an extra layer to emulate Erlang’s concurrency model and error
+semantics. To quote Joe Armstrong, coinventor of Erlang, "You can emulate the
+logic of Erlang, but if it is not running on the Erlang virtual machine, you
+cannot emulate the semantics."
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org2f47f92" class="outline-3">
+<h3 id="org2f47f92"></h3>
+</div>
+</div>
+<div id="outline-container-org57d9538" class="outline-2">
+<h2 id="org57d9538">Behaviors</h2>
+<div class="outline-text-2" id="text-org57d9538">
 <blockquote>
 <p>
 Behaviours are a way of formalizing common patterns in process-oriented
@@ -82,9 +113,9 @@ communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgf2c52f9" class="outline-3">
-<h3 id="orgf2c52f9">Components of a Behaviour</h3>
-<div class="outline-text-3" id="text-orgf2c52f9">
+<div id="outline-container-org2c4235e" class="outline-3">
+<h3 id="org2c4235e">Components of a Behaviour</h3>
+<div class="outline-text-3" id="text-org2c4235e">
 <ul class="org-ul">
 <li>The interface</li>
 <li>The implementation</li>
@@ -92,9 +123,9 @@ communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2
 </ul>
 </div>
 </div>
-<div id="outline-container-org81c3606" class="outline-3">
-<h3 id="org81c3606">Kinds</h3>
-<div class="outline-text-3" id="text-org81c3606">
+<div id="outline-container-orgc24b949" class="outline-3">
+<h3 id="orgc24b949">Kinds</h3>
+<div class="outline-text-3" id="text-orgc24b949">
 <ul class="org-ul">
 <li><a href="20250102194431-otp_application.html#ID-04a44951-985d-4b5b-bd52-f1893ea29ae7">OTP Application</a>: Implements the <code>application</code> behaviours, which is a way to
 package related modules in Erlang.</li>
@@ -107,25 +138,24 @@ package related modules in Erlang.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd8322d4" class="outline-2">
-<h2 id="orgd8322d4">References:</h2>
-<div class="outline-text-2" id="text-orgd8322d4">
+<div id="outline-container-orga13fb25" class="outline-2">
+<h2 id="orga13fb25">References:</h2>
+<div class="outline-text-2" id="text-orga13fb25">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org9cf2d60" class="outline-2">
-<h2 id="org9cf2d60">Backlinks:</h2>
-<div class="outline-text-2" id="text-org9cf2d60">
+<div id="outline-container-org8c31318" class="outline-2">
+<h2 id="org8c31318">Backlinks:</h2>
+<div class="outline-text-2" id="text-org8c31318">
 <ul class="org-ul">
-<li><a href="./20241013103835-supervisor.html">Supervisor</a></li>
 <li><a href="./20241010093430-erlang_term_storage.html">Erlang Term Storage</a></li>
-<li><a href="./20240709110323-designing_for_scalability_with_erlang.html">Designing for Scalability With Erlang/OTP</a></li>
-<li><a href="./20250102194431-otp_application.html">OTP Application</a></li>
 <li><a href="./20241010094109-gen_server.html">Gen Server</a></li>
 <li><a href="./20241219210226-otp_logging.html">OTP Logging</a></li>
+<li><a href="./20241013103835-supervisor.html">Supervisor</a></li>
+<li><a href="./20250102194431-otp_application.html">OTP Application</a></li>
 <li><a href="./20241219134317-gen_event.html">Gen Event</a></li>
 </ul>
 </div>
