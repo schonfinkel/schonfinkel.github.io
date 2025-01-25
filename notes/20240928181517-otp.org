@@ -14,26 +14,60 @@ complexity: things that are difficult because you picked inadequate tools.
 OTP is said to consist of three building blocks that, when used together,
 provide a solid approach to designing and developing systems in the problem
 domain we’ve just described. They are [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] itself, tools and libraries, and a
-set of design principles. [cite:@cesarini2016designing p.20]
+set of design principles. [cite:@cesarini2016designing p.4]
 #+END_QUOTE
 
 * The Tripartite Structure of OTP
 
 ** Erlang
 
+** Tools and Libraries
+
+*** Basic Applications
+
 #+begin_quote
-Erlang lets you run all your code on top of a virtual machine highly optimized
-for concurrency, with a per-process garbage collector, yielding predictable and
-simple system behavior. Other programming environments do not have this luxury
-because they need an extra layer to emulate Erlang’s concurrency model and error
-semantics. To quote Joe Armstrong, coinventor of Erlang, "You can emulate the
-logic of Erlang, but if it is not running on the Erlang virtual machine, you
-cannot emulate the semantics."
+Together with the compiler, these are the minimal subset of applications
+necessary in any system written in Erlang/OTP to do anything
+meaningful. [cite:@cesarini2016designing p.8]
 #+end_quote
 
-** 
++ [[id:d47afd83-8f59-44ea-a237-b6eafaa3662e][ERTS]]
++ The /kernel/
++ The Standard Libraries (/stdlib/)
++ The System Architecture and Support Libraries (/sasl/)
 
-* Behaviors
+*** Database Applications
++ [[id:568e0595-4bf0-40b5-981f-fd0aa9312785][MNESIA]]
++ ~odbc~
+
+*** Operations and Maintenance Applications
++ ~os_mon~
++ ~snmp~
++ ~otp_mibs~
+
+*** Interface and Communication Applications
++ ~ei~
++ ~erl_interface~
+
+** System Design Principles
+
+#+begin_quote
+The third building block of OTP consists of a set of abstract principles, design
+rules, and generic behaviors. The abstract principles describe the software
+architecture of an Erlang system, using processes in the form of generic
+behaviors as basic ingredients. Design rules keep the tools you use compatible
+with the system you are developing. Using this approach provides a standard way
+of solving problems, making code easier to understand and maintain, as well as
+providing a common language and vocabulary among the teams.
+
+OTP generic behaviors can be seen as formalizations of concurrent design
+patterns. Behaviors are packaged into library modules containing generic code
+that solves a common problem. They have built-in support for debugging, software
+upgrade, generic error handling, and built-in functionality for
+upgrades. [cite:@cesarini2016designing p.10]
+#+end_quote
+
+*** Behaviors
 
 #+begin_quote
 Behaviours are a way of formalizing common patterns in process-oriented
@@ -47,17 +81,18 @@ halves: the generic part and the application-specific implementation part. These
 communicate via a simple, well-defined interface. [cite:@logan2010erlang p.97]
 #+end_quote
 
-** Components of a Behaviour
+**** Components of a Behaviour
 + The interface
 + The implementation
 + The container
 
-** Kinds
+**** Behavior Types
 
 + [[id:04a44951-985d-4b5b-bd52-f1893ea29ae7][OTP Application]]: Implements the ~application~ behaviours, which is a way to
   package related modules in Erlang.
 + [[id:1cd8fd81-a7c4-44ea-8b7a-d803e9b491af][Gen Server]]: An OTP generalization of the client/server model.
 + [[id:2daf1307-afb4-49e4-98cb-66ac7eb27cf0][Supervisor]]: Used to implement supervision trees.
-+ ~gen_statem~: State Machines
-+ ~gen_fsm~: Used to implement Finite State Machines.
++ [[id:2a24a73a-0ad2-4276-be47-03cf33d52bc0][Gen StateM]]: State Machines
 + [[id:0372baa6-420e-483a-9621-7f80f1ad6974][Gen Event]]: Used for building event handlers (like error loggers).
+
+* Distribution, Infrastructure, and Multicore
