@@ -1,5 +1,39 @@
 Here you'll find my latest content, projects, tutorials and ramblings.
 
+#+name: list-blog-posts
+#+header: :exports results
+#+header: :results pp
+#+begin_src emacs-lisp
+  (defun utils/list-org-files-in-dir (directory)
+    "List all Org files in a given DIRECTORY."
+    (directory-files directory t "\\.org\\'" t))
+
+  (defun utils/extract-org-title-and-date (file)
+    "Extract the TITLE and DATE properties from an Org file."
+    (with-temp-buffer
+      (insert-file-contents file)
+      (goto-char (point-min))
+      (let ((title nil)
+            (date nil))
+        (when (re-search-forward "^#\\+TITLE: \\(.*\\)$" nil t)
+          (setq title (match-string 1)))
+        (when (re-search-forward "^#\\+DATE: <\\(.*\\)\s+...>.*$" nil t)
+          (setq date (match-string 1)))
+        (list :title title :date date :filename (file-name-nondirectory file)))))
+
+  (setq-default posts (utils/list-org-files-in-dir "./blog/"))
+  (setq-default elements (mapcar 'utils/extract-org-title-and-date posts))
+  elements
+#+end_src
+
+#+RESULTS: list-blog-posts
+: ((:title "Switching to NixOS" :date "2018-08-17" :filename "20180807-switching_to_nixos.org")
+:  (:title "Recent activity in Benevides' Blog" :date nil :filename "rss.org")
+:  (:title "Some experiments with Erlang and NixOS" :date "2024-09-07" :filename "20240907-experiments_with_erlang_and_nix.org")
+:  (:title "How to use private NeoVim plugins on NixOS" :date "2023-09-17" :filename "20230917-how_to_use_private_neovim_plugins_on_nixos.org")
+:  (:title "The road to Emacs maximalism" :date "2024-12-30" :filename "20241230-the_road_to_emacs_maximalism.org")
+:  (:title "You have 10 seconds to nixify your dotnet project" :date "2024-09-16" :filename "20240916-you_have_10_seconds_to_nixify_your_dotnet_project.org"))
+
 #+header: :exports results
 #+header: :results html
 #+NAME: export-posts
