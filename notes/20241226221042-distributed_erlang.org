@@ -78,8 +78,19 @@ can't be part of the same Erlang cluster. All connected nodes must use the same
 mode. [cite:@logan2010erlang p.194]
 #+end_quote
 
+** Naming and Communication
+
+#+begin_quote
+You can ~spawn~ and ~link~ to processes on any node in the system, not just locally,
+using ~link(Pid)~, ~spawn(Node, Mod, Fun, Args)~, and ~spawn_link~. If the call is
+successful, ~link~ will return the atom true, while ~spawn~ returns the pid of the
+process on the remote host. [cite:@cesarini2016designing p.49]
+#+end_quote
+
 ** Connecting Nodes
+
 *** Hidden Nodes
+
 #+begin_quote
 It's possible to connect clusters via special nodes to form a larger, not fully
 connected cluster. Such nodes are configured not to propagate information about

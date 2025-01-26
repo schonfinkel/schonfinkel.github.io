@@ -194,7 +194,26 @@ and the shell prints them on the form ~#Port<0.472>~. [cite:@logan2010erlang p.3
 For more details about Ports, check the [[id:6422d659-d57d-4672-a90a-0649b5cbe905][Erlang Interface]] notes.
 
 *** References
-A unique reference created by the ~make_ref~ BIF.
+#+begin_quote
+References in Erlang are used to guarantee the identity of messages, monitors,
+and other data types or requests. A reference can be generated indirectly by
+setting up a monitor, but also directly by calling the BIF
+~make_ref/0~. References are, for all intents and purposes, unique across a
+multinode Erlang system. [cite:@cesarini2016designing p.38]
+#+end_quote
+
+** Macros
+
+Erlang has a macro facility, implemented by the Erlang preprocessor (~epp~), which is invoked prior to compilation of source code into BEAM code.
+
+#+begin_src erlang
+  %% Constants
+  -define(ANSWER,42).
+  -define(DOUBLE,2*).
+
+  %% Or more complex patterns
+  -define(TWICE(F,X),F(F(X))).
+#+end_src
 
 * Variables
 
@@ -285,6 +304,19 @@ shell. [cite:@cesarini2016designing p.22]
     mps_to_kph(Mps) -> 3.6 * Mps.
 #+END_SRC
 
+** Upgrading Modules
+
+#+begin_quote
+One of the advantages of dynamic typing is the ability to upgrade your code
+during runtime, without the need to take down the system. One second, you are
+running a buggy version of a module, but you can load a fix without terminating
+the process and it starts running the fixed version, retaining its state and
+variables. (...) At any one time, two versions of a module may exist in the
+virtual machine: the old and current versions.
+
+[cite:@cesarini2016designing p.43]
+#+end_quote
+
 * Error Handling in Sequential Programs
 
 #+BEGIN_SRC erlang
@@ -305,7 +337,7 @@ shell. [cite:@cesarini2016designing p.22]
 + ~throw~ :: Used as a documentation to the caller, to show that a function might throw this exception. 
 + error :: Crashing errors.
 
-*** Fail Fast and Noisily, Fail Politely
+** Fail Fast and Noisily, Fail Politely
 
 #+BEGIN_QUOTE
 In Erlang, when an error is detected internally by the system or is detected by

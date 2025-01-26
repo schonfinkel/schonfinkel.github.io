@@ -53,20 +53,6 @@
                  (file-name-nondirectory (org-roam-node-file source-node))
                  (org-roam-node-title source-node)))))))
 
-(defun notes/generate-links (backend backlinks)
-  "Insert BACKLINKS into org file before parsing it, targets BACKEND."
-  (when (org-roam-node-at-point)
-    (goto-char (point-max))
-    ;; Add a new header for the links
-    (insert "* Backlinks:\n")
-    (dolist (backlink backlinks)
-      (let* ((source-node (org-roam-backlink-source-node backlink))
-             (point (org-roam-backlink-point backlink)))
-        (insert
-         (format "- [[./%s][%s]]\n"
-                 (file-name-nondirectory (org-roam-node-file source-node))
-                 (org-roam-node-title source-node)))))))
-
 (defun notes/collect-backlinks (backend)
   "Generate backlinks if they exist at all, targets BACKEND."
   (when (org-roam-node-at-point)
