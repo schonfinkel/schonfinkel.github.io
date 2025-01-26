@@ -1,0 +1,43 @@
+:PROPERTIES:
+:ID:       15b5129e-a228-43df-a472-365f03bacb56
+:END:
+#+title: Category Theory
+#+filetags: "Category Theory" 
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+
+* Basic Concepts
+
+#+begin_quote
+A category *C* consists of
+
++ a collection C_0, whose elements are called the /objects/ of *C* and are usually
+  denoted by uppercase letters, *X*, *Y*, *Z*, ...;
++ a collection C_1, whose elements are called the /morphisms/, or /arrows/, of *C* and
+are usually denoted by lowercase letters, *f*, *g*, *h*, ...;
+
+such that
+
++ each morphism is assigned two objects, called *source* and *target*, or *domain* and
+  *codomain*. We denote the *source* and *target* of the *morphism* /f/ by /s(f)/ and /t(f)/,
+  respectively. If the *morphism* /f/ has *source* *S* and *target* *T*, we also write $f :
+  X \rightarrow Y$, or, more graphically $X \rightarrow^{f} Y$,
+
++ each object *X* has a distinguished morphism $id_X: X \rightarrow X$, called identity
+  morphism.
+
++ for each pair of morphisms /f/, /g/, with t(f) = s(g), there exists a specified
+  morphism $g \circ f$, called the *composite morphism*, such that $s(g \circ f) = s(f)$ and
+  $t(g \circ f) = t(g)$. 
+
+These structures need to satisfy the following axioms:
+
++ *Unitality:* For every morphism $f: X → Y$, the compositions $f \circ id_X$ and $id_Y \circ f$
+  are both equal to /f/.
+
++ *Associativity*: For $f: X \rightarrow Y$, $g: Y \rightarrow Z$ and $h: Z \rightarrow W$, the compositions $h \circ (g \circ
+  f) = (h \circ g) \circ f$.
+
+[cite:@perrone2024starting p.3]
+#+end_quote
+
