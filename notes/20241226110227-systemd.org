@@ -106,3 +106,29 @@ Some usefull service options include:
 Controls what happens when you enable or disable a ~unit~.
 
 + ~WantedBy~
+
+  
+* Options
+
+** Security
+
+*** Analyze
+
+#+begin_src shell
+  systemd-analyze security my.service
+#+end_src
+
+
+** Mounts & Automounts
+
+#+begin_src shell
+  systemctl list-unit-files -t mount
+#+end_src
+
+** Timers
+
+Similar to the usual UNIX ~cron~ jobs, but can also react to external events.
+
+** Sockets
+
+** Containers

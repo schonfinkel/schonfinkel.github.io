@@ -185,12 +185,18 @@ end
 
 ** Skeleton of an Erlang Process
 
+Most processes in Erlang share a common lifecycle:
+
++ Be spawned and initialized
++ Repeatedly receive messages, handle them, and send replies
++ Be terminated (normally or abnormally)
+
 #+NAME: erlang-process-skeleton
 #+BEGIN_SRC dot :file ../static/img/notes/erlang_process_skeleton.png :cmdline -Kdot -Tpng :exports results
   digraph Process {
     node [fontsize="10pt", style=filled];
     
-    start [label="Start", fillcolor=red, shape=circle];
+    start [label="Start", fillcolor=gray, shape=circle];
     stop [label="Stop", fillcolor=red, shape=circle];
     init [label="Initialize", xlabel="Mod:Func(Args)", fillcolor=yellow, shape=rectangle];
     loop [label="Receive/Eval Loop", fillcolor=green, shape=rectangle]
