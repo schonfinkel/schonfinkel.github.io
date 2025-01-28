@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-24 Fri 12:51 -->
+<!-- 2025-01-28 Tue 14:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Error Handling in Erlang</title>
@@ -73,23 +73,93 @@ The part that corrects errors is often generic, so the same error-correcting
 code can be used for many different applications. (<a href="#citeproc_bib_item_1">Armstrong 2013, 201</a>)
 </p>
 </blockquote>
-<div id="outline-container-org18b708a" class="outline-2">
-<h2 id="org18b708a">Error Handling Semantics</h2>
-<div class="outline-text-2" id="text-org18b708a">
-</div>
-<div id="outline-container-orgf89e783" class="outline-3">
-<h3 id="orgf89e783">Processes</h3>
-<div class="outline-text-3" id="text-orgf89e783">
+<div id="outline-container-org55995ba" class="outline-2">
+<h2 id="org55995ba">Process Types</h2>
+<div class="outline-text-2" id="text-org55995ba">
 <p>
 There are two types of processes: <b>normal processes</b> and <b>system processes</b>. <code>spawn</code>
 (see <a href="20240930224229-concurrent_erlang.html#ID-63607e63-4428-4578-bf2a-12a49649b49c">Concurrent Erlang</a>) creates a normal process. A normal process can become a
 system process by evaluating the BIF <code>process_flag(trap_exit, true)</code>.
 </p>
+
+<blockquote>
+<p>
+If your process is set to trap exits, through a call to <code>process_flag(trap_exit,
+true)</code>, these error reports arrive as messages, rather than just killing your
+process. (<a href="#citeproc_bib_item_3">Laurent 2017, 100</a>)
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+Exit signals can be trapped by calling the <code>process_flag(trap_exit, true)</code>
+function. This converts exit signals into messages of the form <code>{'EXIT', Pid,
+Reason}</code>, where <code>Pid</code> is the process identifier of the process that has died and
+Reason is the reason it has terminated. (<a href="#citeproc_bib_item_2">Cesarini and Vinoski 2016, 36</a>)
+</p>
+</blockquote>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Reason</th>
+<th scope="col" class="org-left">Trapping Exits</th>
+<th scope="col" class="org-left">Not Trapping Exits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>normal</code></td>
+<td class="org-left"><code>{'EXIT', Pid, normal}</code></td>
+<td class="org-left">Nothing happens</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>kill</code></td>
+<td class="org-left">Terminates with reason <code>killed</code></td>
+<td class="org-left">Terminates with reason <code>killed</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Other</code></td>
+<td class="org-left"><code>{'EXIT', Pid, Other}</code></td>
+<td class="org-left">Terminates with reason <code>Other</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="outline-container-org05d8f2e" class="outline-3">
+<h3 id="org05d8f2e">Propagation Semantics</h3>
+<div class="outline-text-3" id="text-org05d8f2e">
+<ul class="org-ul">
+<li>Processes can trap <code>exit</code> signals by calling the BIF <code>process_flag(trap_exit, true)</code>.</li>
+<li>Once trapped, the errors are saved in the mailbox.</li>
+</ul>
+
+
+<figure id="orge8a065b">
+<img src="../static/img/notes/erlang_error_trapping.png" alt="erlang_error_trapping.png">
+
+</figure>
+
+<p>
+<code>Pid2</code> functions as a firewall, stopping errors from propagating to other processes in the system.
+</p>
 </div>
 </div>
-<div id="outline-container-orgb370887" class="outline-3">
-<h3 id="orgb370887">Link</h3>
-<div class="outline-text-3" id="text-orgb370887">
+</div>
+<div id="outline-container-orgbe74a39" class="outline-2">
+<h2 id="orgbe74a39">Link</h2>
+<div class="outline-text-2" id="text-orgbe74a39">
 <p>
 Linking processes can be thought as an extension of the error handling presented
 when dealing with <a href="20240924122449-sequential_erlang.html#ID-f0da3356-3797-4ddc-8306-cd333f159754">Sequential Erlang</a>. We can, if necessary, catch exceptions
@@ -132,28 +202,28 @@ will do so atomically.</li>
 </ul>
 
 
-<figure id="orgc947f6b">
+<figure id="org98c1b48">
 <img src="../static/img/notes/erlang_process_link.png" alt="erlang_process_link.png">
 
 </figure>
 </div>
-<div id="outline-container-org764c864" class="outline-4">
-<h4 id="org764c864">Link Set</h4>
-<div class="outline-text-4" id="text-org764c864">
+<div id="outline-container-orga6e7f92" class="outline-3">
+<h3 id="orga6e7f92">Link Set</h3>
+<div class="outline-text-3" id="text-orga6e7f92">
 <p>
 The link set of a process <code>P</code> is the set of processes that are linked to <code>P</code>.
 </p>
 
 
-<figure id="org8bd0a88">
+<figure id="org904aa02">
 <img src="../static/img/notes/erlang_link_set.png" alt="erlang_link_set.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orgf768a14" class="outline-4">
-<h4 id="orgf768a14">Groups of Processes That All Die Together</h4>
-<div class="outline-text-4" id="text-orgf768a14">
+<div id="outline-container-orgb7e25ad" class="outline-3">
+<h3 id="orgb7e25ad">Groups of Processes That All Die Together</h3>
+<div class="outline-text-3" id="text-orgb7e25ad">
 <p>
 In the previous example, if a single process from the Link Set fails, all the
 processes from the Set also fail in cascate. Ultimately, the error signals
@@ -162,7 +232,7 @@ dies.
 </p>
 
 
-<figure id="org085e4dc">
+<figure id="org192905c">
 <img src="../static/img/notes/erlang_link_set_cascade.png" alt="erlang_link_set_cascade.png">
 
 </figure>
@@ -171,20 +241,20 @@ dies.
 <p>
 When an Erlang process fails, it sends an explanation to other processes that
 are linked to it in the form of a tuple. The tuple contains the atom <code>EXIT</code>, the
-<code>Pid</code> of the failed process, and the error as a complex tuple. (<a href="#citeproc_bib_item_2">Laurent 2017, 100</a>)
+<code>Pid</code> of the failed process, and the error as a complex tuple. (<a href="#citeproc_bib_item_3">Laurent 2017, 100</a>)
 </p>
 </blockquote>
 </div>
 </div>
-</div>
-<div id="outline-container-orgdbb2ed5" class="outline-3">
-<h3 id="orgdbb2ed5">Exit Signals</h3>
-<div class="outline-text-3" id="text-orgdbb2ed5">
+<div id="outline-container-org0609666" class="outline-3">
+<h3 id="org0609666">Exit Signals</h3>
+<div class="outline-text-3" id="text-org0609666">
 <ul class="org-ul">
-<li>A process can termination can be <b>normal</b> or <b>abnormal</b>.
+<li>A process termination can be <b>normal</b> or <b>abnormal</b>.
 <ul class="org-ul">
 <li><b>Normal</b>: When there is no more code to execute.</li>
-<li><b>Abnormal</b>: When runtime errors occur.</li>
+<li><b>Abnormal</b>: Initiated in case of a runtime error, receiving an exit signal
+when not trapping exits, or by calling the <code>exit</code> BIFs.</li>
 </ul></li>
 <li><p>
 When a process terminates, it sends a signal to all process its linked to. The
@@ -230,61 +300,28 @@ exit signal will contain the following information:
 </ul>
 
 
-<figure id="org3381f26">
+<figure id="org447deae">
 <img src="../static/img/notes/erlang_error_exit_signals.png" alt="erlang_error_exit_signals.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orgfb79691" class="outline-3">
-<h3 id="orgfb79691">Error Trapping</h3>
-<div class="outline-text-3" id="text-orgfb79691">
-<blockquote>
-<p>
-If your process is set to trap exits, through a call to <code>process_flag(trap_exit,
-true)</code>, these error reports arrive as messages, rather than just killing your
-process. (<a href="#citeproc_bib_item_2">Laurent 2017, 100</a>)
-</p>
-</blockquote>
 </div>
-<div id="outline-container-org88802c2" class="outline-4">
-<h4 id="org88802c2">Propagation Semantics</h4>
-<div class="outline-text-4" id="text-org88802c2">
-<ul class="org-ul">
-<li>Processes can trap <code>exit</code> signals by calling the BIF <code>process_flag(trap_exit, true)</code>.</li>
-<li>Once trapped, the errors are saved in the mailbox.</li>
-</ul>
-
-
-<figure id="org0735da0">
-<img src="../static/img/notes/erlang_error_trapping.png" alt="erlang_error_trapping.png">
-
-</figure>
-
-<p>
-<code>Pid2</code> functions as a firewall, stopping errors from propagating to other processes in the system.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-orgbafbbf8" class="outline-3">
-<h3 id="orgbafbbf8">Monitors</h3>
-<div class="outline-text-3" id="text-orgbafbbf8">
+<div id="outline-container-orgc6f8ad0" class="outline-2">
+<h2 id="orgc6f8ad0">Monitors</h2>
+<div class="outline-text-2" id="text-orgc6f8ad0">
 <p>
 Monitors are similar to links but with several significant differences.
 </p>
 
 <ul class="org-ul">
 <li>Monitors are unidirectional.</li>
+<li>Monitors have an identity given by an Erlang reference, which is a unique value returned by the call to <code>erlang:monitor/2</code>.</li>
+<li>A process <code>Pid2</code> can monitor another process <code>Pid1</code> by calling the BIF <code>erlang:monitor(process, Pid2)</code>.</li>
 </ul>
 
-<p>
-A process <code>Pid2</code> can create a monitor for <code>Pid1</code> by calling the BIF
-<code>erlang:monitor(process, Pid2)</code>. The function returns a reference <code>Ref</code>.
-</p>
 
-
-<figure id="org85a0636">
+<figure id="org10260e9">
 <img src="../static/img/notes/erlang_monitor.png" alt="erlang_monitor.png">
 
 </figure>
@@ -292,22 +329,24 @@ A process <code>Pid2</code> can create a monitor for <code>Pid1</code> by callin
 <ul class="org-ul">
 <li>When a monitored process dies, a "down" message (not an <code>exit</code> signal) is sent
 to the monitoring process.</li>
+<li>Attempting to monitor a nonexistent process results in a <code>{'DOWN', Reference,
+  process, Pid, Reason}</code> message with reason <code>noproc</code>.</li>
 </ul>
 
 
-<figure id="org9ff0641">
+<figure id="org6da6533">
 <img src="../static/img/notes/erlang_monitor_error.png" alt="erlang_monitor_error.png">
 
 </figure>
 </div>
 </div>
-</div>
-<div id="outline-container-orgd78e7d2" class="outline-2">
-<h2 id="orgd78e7d2">References:</h2>
-<div class="outline-text-2" id="text-orgd78e7d2">
+<div id="outline-container-orgf4d7374" class="outline-2">
+<h2 id="orgf4d7374">References:</h2>
+<div class="outline-text-2" id="text-orgf4d7374">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_3"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>

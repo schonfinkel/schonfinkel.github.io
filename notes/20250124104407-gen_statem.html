@@ -4,7 +4,7 @@
 <!-- 2025-01-28 Tue 14:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Supervisor</title>
+<title>Gen StateM</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -54,68 +54,28 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Supervisor</h1>
+<h1 class="title">Gen StateM</h1>
 </header><blockquote>
 <p>
-Supervisors are one of the most important features of <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>. They monitor other
-processes and take action if anything goes wrong, restarting the failed process
-or possibly escalating the problem to a higher level. Layering supervisors into
-supervision trees allows you to create highly fault-tolerant systems.
-(<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
+Beware of the common beginner error where instead of using a generic FSM, you
+use a <a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44ea-8b7a-d803e9b491af">Gen Server</a> and unknowingly store the FSM state in the loop data. Ask
+yourself when designing the system whether you need an FSM or a client-server
+behavior. The answer is usually obvious if you consider the question in the
+design phase of the project.
 </p>
 </blockquote>
-<div id="outline-container-org5bb9e83" class="outline-2">
-<h2 id="org5bb9e83">The Supervision Tree</h2>
-<div class="outline-text-2" id="text-org5bb9e83">
-<blockquote>
-<p>
-A supervision tree is a tree of processes. The upper processes (supervisors) in
-the tree monitor the lower processes (workers) in the tree and restart the lower
-processes if they fail. (<a href="#citeproc_bib_item_1">Armstrong 2013, 398</a>)
-</p>
-</blockquote>
-
-<p>
-There are two types of supervision trees:
-</p>
-
-<dl class="org-dl">
-<dt><code>one_for_one</code></dt><dd>If one process crashes, it is restarted.</dd>
-</dl>
-
-
-<figure id="org9d33908">
-<img src="../static/img/notes/erlang_supervisor_o4o.png" alt="erlang_supervisor_o4o.png">
-
-</figure>
-
-<dl class="org-dl">
-<dt><code>one_for_all</code></dt><dd>If one process crashes, all others are terminated and then restarted as well.</dd>
-</dl>
-
-
-<figure id="org1e0fcb4">
-<img src="../static/img/notes/erlang_supervisor_o4a.png" alt="erlang_supervisor_o4a.png">
-
-</figure>
-</div>
-</div>
-<div id="outline-container-org654964f" class="outline-2">
-<h2 id="org654964f">References:</h2>
-<div class="outline-text-2" id="text-org654964f">
+<div id="outline-container-orgf0b52a8" class="outline-2">
+<h2 id="orgf0b52a8">References:</h2>
+<div class="outline-text-2" id="text-orgf0b52a8">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orga2304db" class="outline-2">
-<h2 id="orga2304db">Backlinks:</h2>
-<div class="outline-text-2" id="text-orga2304db">
+<div id="outline-container-orgf6f25f9" class="outline-2">
+<h2 id="orgf6f25f9">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgf6f25f9">
 <ul class="org-ul">
-<li><a href="./20241010094109-gen_server.html">Gen Server</a></li>
 <li><a href="./20240928181517-otp.html">OTP</a></li>
-<li><a href="./20250102194431-otp_application.html">OTP Application</a></li>
 </ul>
 </div>
 </div>

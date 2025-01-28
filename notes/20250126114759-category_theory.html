@@ -4,7 +4,7 @@
 <!-- 2025-01-28 Tue 14:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Supervisor</title>
+<title>Category Theory</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -28,6 +28,38 @@
       inlineMath: [['\\(', '\\)']]                  // inline
     }
   };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 </head>
 <body>
@@ -54,69 +86,66 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Supervisor</h1>
-</header><blockquote>
-<p>
-Supervisors are one of the most important features of <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>. They monitor other
-processes and take action if anything goes wrong, restarting the failed process
-or possibly escalating the problem to a higher level. Layering supervisors into
-supervision trees allows you to create highly fault-tolerant systems.
-(<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
-</p>
-</blockquote>
-<div id="outline-container-org5bb9e83" class="outline-2">
-<h2 id="org5bb9e83">The Supervision Tree</h2>
-<div class="outline-text-2" id="text-org5bb9e83">
+<h1 class="title">Category Theory</h1>
+</header><div id="outline-container-orgdee08cf" class="outline-2">
+<h2 id="orgdee08cf">Basic Concepts</h2>
+<div class="outline-text-2" id="text-orgdee08cf">
 <blockquote>
 <p>
-A supervision tree is a tree of processes. The upper processes (supervisors) in
-the tree monitor the lower processes (workers) in the tree and restart the lower
-processes if they fail. (<a href="#citeproc_bib_item_1">Armstrong 2013, 398</a>)
+A category <b>C</b> consists of
 </p>
-</blockquote>
+
+<ul class="org-ul">
+<li>a collection C<sub>0</sub>, whose elements are called the <i>objects</i> of <b>C</b> and are usually
+denoted by uppercase letters, <b>X</b>, <b>Y</b>, <b>Z</b>, &#x2026;;</li>
+<li>a collection C<sub>1</sub>, whose elements are called the <i>morphisms</i>, or <i>arrows</i>, of <b>C</b> and</li>
+</ul>
+<p>
+are usually denoted by lowercase letters, <b>f</b>, <b>g</b>, <b>h</b>, &#x2026;;
+</p>
 
 <p>
-There are two types of supervision trees:
+such that
 </p>
 
-<dl class="org-dl">
-<dt><code>one_for_one</code></dt><dd>If one process crashes, it is restarted.</dd>
-</dl>
-
-
-<figure id="org9d33908">
-<img src="../static/img/notes/erlang_supervisor_o4o.png" alt="erlang_supervisor_o4o.png">
-
-</figure>
-
-<dl class="org-dl">
-<dt><code>one_for_all</code></dt><dd>If one process crashes, all others are terminated and then restarted as well.</dd>
-</dl>
-
-
-<figure id="org1e0fcb4">
-<img src="../static/img/notes/erlang_supervisor_o4a.png" alt="erlang_supervisor_o4a.png">
-
-</figure>
-</div>
-</div>
-<div id="outline-container-org654964f" class="outline-2">
-<h2 id="org654964f">References:</h2>
-<div class="outline-text-2" id="text-org654964f">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
-</div>
-</div>
-</div>
-<div id="outline-container-orga2304db" class="outline-2">
-<h2 id="orga2304db">Backlinks:</h2>
-<div class="outline-text-2" id="text-orga2304db">
 <ul class="org-ul">
-<li><a href="./20241010094109-gen_server.html">Gen Server</a></li>
-<li><a href="./20240928181517-otp.html">OTP</a></li>
-<li><a href="./20250102194431-otp_application.html">OTP Application</a></li>
+<li>each morphism is assigned two objects, called <b>source</b> and <b>target</b>, or <b>domain</b> and
+<b>codomain</b>. We denote the <b>source</b> and <b>target</b> of the <b>morphism</b> <i>f</i> by <i>s(f)</i> and <i>t(f)</i>,
+respectively. If the <b>morphism</b> <i>f</i> has <b>source</b> <b>S</b> and <b>target</b> <b>T</b>, we also write \(f :
+  X \rightarrow Y\), or, more graphically \(X \xrightarrow{f} Y\),</li>
+
+<li>each object <b>X</b> has a distinguished morphism \(id_X: X \rightarrow X\), called identity
+morphism.</li>
+
+<li>for each pair of morphisms <i>f</i>, <i>g</i>, with t(f) = s(g), there exists a specified
+morphism \(g \circ f\), called the <b>composite morphism</b>, such that \(s(g \circ f) = s(f)\) and
+\(t(g \circ f) = t(g)\).</li>
 </ul>
+
+<p>
+These structures need to satisfy the following axioms:
+</p>
+
+<ul class="org-ul">
+<li><b>Unitality:</b> For every morphism \(f: X → Y\), the compositions \(f \circ id_X\) and \(id_Y \circ f\)
+are both equal to <i>f</i>.</li>
+
+<li><b>Associativity</b>: For \(f: X \rightarrow Y\), \(g: Y \rightarrow Z\) and \(h: Z \rightarrow W\), the compositions \(h \circ (g \circ
+  f) = (h \circ g) \circ f\).</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Perrone 2024, 3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org5ef30f1" class="outline-2">
+<h2 id="org5ef30f1">References:</h2>
+<div class="outline-text-2" id="text-org5ef30f1">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Perrone, Paolo. 2024. <i>Starting Category Theory</i>. World Scientific.</div>
+</div>
 </div>
 </div>
 </main>

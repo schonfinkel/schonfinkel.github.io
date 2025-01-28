@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-24 Fri 12:51 -->
+<!-- 2025-01-28 Tue 14:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>systemd</title>
@@ -66,9 +66,9 @@ system and service manager that runs as PID 1 and starts the rest of the system.
 <li>It replaces upstart/init</li>
 <li>It is event-driven</li>
 </ul>
-<div id="outline-container-orgbb068db" class="outline-2">
-<h2 id="orgbb068db">Units</h2>
-<div class="outline-text-2" id="text-orgbb068db">
+<div id="outline-container-orgd6d4392" class="outline-2">
+<h2 id="orgd6d4392">Units</h2>
+<div class="outline-text-2" id="text-orgd6d4392">
 <blockquote>
 <p>
 Instead of using a set of complex Bash shell scripts, the systemd init system
@@ -87,9 +87,9 @@ Unit files are written in three locations:
 <li><code>/usr/lib/systemd/system</code></li>
 </ul>
 </div>
-<div id="outline-container-org1e5d718" class="outline-3">
-<h3 id="org1e5d718">Types of Unit Files</h3>
-<div class="outline-text-3" id="text-org1e5d718">
+<div id="outline-container-org2de6467" class="outline-3">
+<h3 id="org2de6467">Types of Unit Files</h3>
+<div class="outline-text-3" id="text-org2de6467">
 <p>
 Here's a list of the more common types:
 </p>
@@ -117,9 +117,9 @@ activation.</li>
 <li><code>swap</code>: Swap units contain information about your swap partitions.</li>
 </ul>
 </div>
-<div id="outline-container-org8f5eed5" class="outline-4">
-<h4 id="org8f5eed5">Commands</h4>
-<div class="outline-text-4" id="text-org8f5eed5">
+<div id="outline-container-org608f2de" class="outline-4">
+<h4 id="org608f2de">Commands</h4>
+<div class="outline-text-4" id="text-org608f2de">
 <div class="org-src-container">
 <pre class="src src-shell">  systemctl list-units
   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">You can also view specific types of units with the -t option.</span>
@@ -136,9 +136,9 @@ activation.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org4042e3d" class="outline-3">
-<h3 id="org4042e3d">Service</h3>
-<div class="outline-text-3" id="text-org4042e3d">
+<div id="outline-container-org7fa1b2c" class="outline-3">
+<h3 id="org7fa1b2c">Service</h3>
+<div class="outline-text-3" id="text-org7fa1b2c">
 <blockquote>
 <p>
 Service units are the equivalent of init scripts on old SysV systems. We'll use
@@ -150,9 +150,9 @@ proper system operation. (<a href="#citeproc_bib_item_1">Tevault 2022, 32</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org4d01d85" class="outline-4">
-<h4 id="org4d01d85">Unit Section</h4>
-<div class="outline-text-4" id="text-org4d01d85">
+<div id="outline-container-org3f7c1b5" class="outline-4">
+<h4 id="org3f7c1b5">Unit Section</h4>
+<div class="outline-text-4" id="text-org3f7c1b5">
 <p>
 The top section of a service file is the <code>[Unit]</code> section, which contains the
 following parameters:
@@ -174,9 +174,9 @@ man systemd.unit
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgfadd70a" class="outline-4">
-<h4 id="orgfadd70a">Service Section</h4>
-<div class="outline-text-4" id="text-orgfadd70a">
+<div id="outline-container-orga4d0229" class="outline-4">
+<h4 id="orga4d0229">Service Section</h4>
+<div class="outline-text-4" id="text-orga4d0229">
 <p>
 Some usefull service options include:
 </p>
@@ -194,9 +194,9 @@ temporary files to a private <code>/tmp/</code> directory that nobody else can a
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc205d62" class="outline-4">
-<h4 id="orgc205d62">Install Section</h4>
-<div class="outline-text-4" id="text-orgc205d62">
+<div id="outline-container-org42e9936" class="outline-4">
+<h4 id="org42e9936">Install Section</h4>
+<div class="outline-text-4" id="text-org42e9936">
 <p>
 Controls what happens when you enable or disable a <code>unit</code>.
 </p>
@@ -208,9 +208,52 @@ Controls what happens when you enable or disable a <code>unit</code>.
 </div>
 </div>
 </div>
-<div id="outline-container-orgec93071" class="outline-2">
-<h2 id="orgec93071">References:</h2>
-<div class="outline-text-2" id="text-orgec93071">
+<div id="outline-container-orgd944ba8" class="outline-2">
+<h2 id="orgd944ba8">Options</h2>
+<div class="outline-text-2" id="text-orgd944ba8">
+</div>
+<div id="outline-container-orgd0027f3" class="outline-3">
+<h3 id="orgd0027f3">Security</h3>
+<div class="outline-text-3" id="text-orgd0027f3">
+</div>
+<div id="outline-container-org768e730" class="outline-4">
+<h4 id="org768e730">Analyze</h4>
+<div class="outline-text-4" id="text-org768e730">
+<div class="org-src-container">
+<pre class="src src-shell">  systemd-analyze security my.service
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org64c54b7" class="outline-3">
+<h3 id="org64c54b7">Mounts &amp; Automounts</h3>
+<div class="outline-text-3" id="text-org64c54b7">
+<div class="org-src-container">
+<pre class="src src-shell">  systemctl list-unit-files -t mount
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbca6cf0" class="outline-3">
+<h3 id="orgbca6cf0">Timers</h3>
+<div class="outline-text-3" id="text-orgbca6cf0">
+<p>
+Similar to the usual UNIX <code>cron</code> jobs, but can also react to external events.
+</p>
+</div>
+</div>
+<div id="outline-container-org708ce4e" class="outline-3">
+<h3 id="org708ce4e">Sockets</h3>
+</div>
+
+<div id="outline-container-org2287ddd" class="outline-3">
+<h3 id="org2287ddd">Containers</h3>
+</div>
+</div>
+<div id="outline-container-orgb0d28b6" class="outline-2">
+<h2 id="orgb0d28b6">References:</h2>
+<div class="outline-text-2" id="text-orgb0d28b6">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Tevault, Donald A. 2022. <i>Linux Service Management Made Easy with Systemd</i>. 1st ed. Packt Publishing.</div>
 </div>

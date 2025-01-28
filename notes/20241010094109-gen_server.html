@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-24 Fri 12:51 -->
+<!-- 2025-01-28 Tue 14:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gen Server</title>
@@ -85,9 +85,9 @@ Here’s the simple three-point plan for writing a <code>gen_server</code> callb
 (<a href="#citeproc_bib_item_1">Armstrong 2013, 366</a>)
 </p>
 </blockquote>
-<div id="outline-container-orge137422" class="outline-2">
-<h2 id="orge137422">Callback Structure</h2>
-<div class="outline-text-2" id="text-orge137422">
+<div id="outline-container-orgaff310a" class="outline-2">
+<h2 id="orgaff310a">Callback Structure</h2>
+<div class="outline-text-2" id="text-orgaff310a">
 <p>
 The <code>gen_server</code> behaviour interface contains six callback functions:
 </p>
@@ -101,9 +101,9 @@ The <code>gen_server</code> behaviour interface contains six callback functions:
 <li><code>code_change/3</code></li>
 </ul>
 </div>
-<div id="outline-container-orga30e441" class="outline-3">
-<h3 id="orga30e441">Starting the Server (<code>init/1</code>)</h3>
-<div class="outline-text-3" id="text-orga30e441">
+<div id="outline-container-org6bc5e1b" class="outline-3">
+<h3 id="org6bc5e1b">Starting the Server (<code>init/1</code>)</h3>
+<div class="outline-text-3" id="text-org6bc5e1b">
 <p>
 <code>gen_server:start_link(Name, Mod, InitArgs, Opts)</code> starts the server:
 </p>
@@ -123,13 +123,13 @@ that could be accessed on a cluster of Erlang nodes.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org5b983a9" class="outline-3">
-<h3 id="org5b983a9">Calling the Server</h3>
-<div class="outline-text-3" id="text-org5b983a9">
+<div id="outline-container-org3a42811" class="outline-3">
+<h3 id="org3a42811">Calling the Server</h3>
+<div class="outline-text-3" id="text-org3a42811">
 </div>
-<div id="outline-container-org1e33acb" class="outline-4">
-<h4 id="org1e33acb"><code>handle_call/3</code></h4>
-<div class="outline-text-4" id="text-org1e33acb">
+<div id="outline-container-org690dc57" class="outline-4">
+<h4 id="org690dc57"><code>handle_call/3</code></h4>
+<div class="outline-text-4" id="text-org690dc57">
 <p>
 To call the server, the client program calls <code>gen_server:call(Name,
 Request)</code>. This results in the <code>handle_call/3</code> callback module being called.
@@ -163,9 +163,9 @@ server. (<a href="#citeproc_bib_item_1">Armstrong 2013, 372</a>)
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org637b167" class="outline-4">
-<h4 id="org637b167"><code>handle_cast/2</code></h4>
-<div class="outline-text-4" id="text-org637b167">
+<div id="outline-container-org46adfb2" class="outline-4">
+<h4 id="org46adfb2"><code>handle_cast/2</code></h4>
+<div class="outline-text-4" id="text-org46adfb2">
 <p>
 To send an asynchronous message to a <code>gen_server</code> process, one must use <code>handle_cast/2</code>: 
 </p>
@@ -183,9 +183,9 @@ the server, or <code>{stop, ...}</code>, which stops the server.
 </div>
 </div>
 </div>
-<div id="outline-container-org1195e42" class="outline-3">
-<h3 id="org1195e42">Spontaneous Messages to the Server</h3>
-<div class="outline-text-3" id="text-org1195e42">
+<div id="outline-container-org1c9ec76" class="outline-3">
+<h3 id="org1c9ec76">Spontaneous Messages to the Server</h3>
+<div class="outline-text-3" id="text-org1c9ec76">
 <blockquote>
 <p>
 The callback function <code>handle_info(Info, State)</code> is used for handling spontaneous
@@ -202,9 +202,9 @@ server that were not sent by explicitly calling <code>gen_server:call</code> or
 </div>
 </div>
 </div>
-<div id="outline-container-org1ba3c61" class="outline-3">
-<h3 id="org1ba3c61">Termination</h3>
-<div class="outline-text-3" id="text-org1ba3c61">
+<div id="outline-container-org3a5ccc4" class="outline-3">
+<h3 id="org3a5ccc4">Termination</h3>
+<div class="outline-text-3" id="text-org3a5ccc4">
 <blockquote>
 <p>
 The server can terminate for many reasons. One of the <code>handle_something</code> routines
@@ -221,9 +221,9 @@ reason}</code>. In all of these circumstances, no matter how they occurred,
 </div>
 </div>
 </div>
-<div id="outline-container-orgb06ff2d" class="outline-3">
-<h3 id="orgb06ff2d">Code Change</h3>
-<div class="outline-text-3" id="text-orgb06ff2d">
+<div id="outline-container-org5bbb46d" class="outline-3">
+<h3 id="org5bbb46d">Code Change</h3>
+<div class="outline-text-3" id="text-org5bbb46d">
 <p>
 The callback <code>code_change/3</code> function is called by the release handling subsystem
 when the system performs a software upgrade.
@@ -237,13 +237,13 @@ when the system performs a software upgrade.
 </div>
 </div>
 </div>
-<div id="outline-container-org07b5576" class="outline-2">
-<h2 id="org07b5576">Patterns</h2>
-<div class="outline-text-2" id="text-org07b5576">
+<div id="outline-container-org0c1d851" class="outline-2">
+<h2 id="org0c1d851">Patterns</h2>
+<div class="outline-text-2" id="text-org0c1d851">
 </div>
-<div id="outline-container-org1fa9627" class="outline-3">
-<h3 id="org1fa9627">Efficient TCP Server</h3>
-<div class="outline-text-3" id="text-org1fa9627">
+<div id="outline-container-org81ede32" class="outline-3">
+<h3 id="org81ede32">Efficient TCP Server</h3>
+<div class="outline-text-3" id="text-org81ede32">
 <blockquote>
 <p>
 A useful pattern for implementing a server that should handle multiple
@@ -259,9 +259,9 @@ next connection. (<a href="#citeproc_bib_item_3">Logan, Merritt, and Carlsson 20
 </div>
 </div>
 </div>
-<div id="outline-container-orgfa52f02" class="outline-2">
-<h2 id="orgfa52f02">References:</h2>
-<div class="outline-text-2" id="text-orgfa52f02">
+<div id="outline-container-orge01e48b" class="outline-2">
+<h2 id="orge01e48b">References:</h2>
+<div class="outline-text-2" id="text-orge01e48b">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
@@ -269,10 +269,11 @@ next connection. (<a href="#citeproc_bib_item_3">Logan, Merritt, and Carlsson 20
 </div>
 </div>
 </div>
-<div id="outline-container-org0d20537" class="outline-2">
-<h2 id="org0d20537">Backlinks:</h2>
-<div class="outline-text-2" id="text-org0d20537">
+<div id="outline-container-org45a308e" class="outline-2">
+<h2 id="org45a308e">Backlinks:</h2>
+<div class="outline-text-2" id="text-org45a308e">
 <ul class="org-ul">
+<li><a href="./20250124104407-gen_statem.html">Gen StateM</a></li>
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>
 </div>

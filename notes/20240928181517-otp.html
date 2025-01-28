@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-24 Fri 12:51 -->
+<!-- 2025-01-28 Tue 14:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OTP</title>
@@ -67,36 +67,95 @@ complexity: things that are difficult because you picked inadequate tools.
 OTP is said to consist of three building blocks that, when used together,
 provide a solid approach to designing and developing systems in the problem
 domain we’ve just described. They are <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> itself, tools and libraries, and a
-set of design principles. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 20</a>)
+set of design principles. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 4</a>)
 </p>
 </blockquote>
-<div id="outline-container-org0718610" class="outline-2">
-<h2 id="org0718610">The Tripartite Structure of OTP</h2>
-<div class="outline-text-2" id="text-org0718610">
+<div id="outline-container-org2ea738d" class="outline-2">
+<h2 id="org2ea738d">The Tripartite Structure of OTP</h2>
+<div class="outline-text-2" id="text-org2ea738d">
 </div>
-<div id="outline-container-orgbf739fd" class="outline-3">
-<h3 id="orgbf739fd">Erlang</h3>
-<div class="outline-text-3" id="text-orgbf739fd">
+<div id="outline-container-orgb811108" class="outline-3">
+<h3 id="orgb811108">Erlang</h3>
+</div>
+
+<div id="outline-container-org5cdcd13" class="outline-3">
+<h3 id="org5cdcd13">Tools and Libraries</h3>
+<div class="outline-text-3" id="text-org5cdcd13">
+</div>
+<div id="outline-container-orgefab6a4" class="outline-4">
+<h4 id="orgefab6a4">Basic Applications</h4>
+<div class="outline-text-4" id="text-orgefab6a4">
 <blockquote>
 <p>
-Erlang lets you run all your code on top of a virtual machine highly optimized
-for concurrency, with a per-process garbage collector, yielding predictable and
-simple system behavior. Other programming environments do not have this luxury
-because they need an extra layer to emulate Erlang’s concurrency model and error
-semantics. To quote Joe Armstrong, coinventor of Erlang, "You can emulate the
-logic of Erlang, but if it is not running on the Erlang virtual machine, you
-cannot emulate the semantics."
+Together with the compiler, these are the minimal subset of applications
+necessary in any system written in Erlang/OTP to do anything
+meaningful. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 8</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li><a href="20250114091629-erts.html#ID-d47afd83-8f59-44ea-a237-b6eafaa3662e">ERTS</a></li>
+<li>The <i>kernel</i></li>
+<li>The Standard Libraries (<i>stdlib</i>)</li>
+<li>The System Architecture and Support Libraries (<i>sasl</i>)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8d13c7f" class="outline-4">
+<h4 id="org8d13c7f">Database Applications</h4>
+<div class="outline-text-4" id="text-org8d13c7f">
+<ul class="org-ul">
+<li><a href="20241217132913-mnesia.html#ID-568e0595-4bf0-40b5-981f-fd0aa9312785">MNESIA</a></li>
+<li><code>odbc</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0564c39" class="outline-4">
+<h4 id="org0564c39">Operations and Maintenance Applications</h4>
+<div class="outline-text-4" id="text-org0564c39">
+<ul class="org-ul">
+<li><code>os_mon</code></li>
+<li><code>snmp</code></li>
+<li><code>otp_mibs</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org96311bf" class="outline-4">
+<h4 id="org96311bf">Interface and Communication Applications</h4>
+<div class="outline-text-4" id="text-org96311bf">
+<ul class="org-ul">
+<li><code>ei</code></li>
+<li><code>erl_interface</code></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc677b64" class="outline-3">
+<h3 id="orgc677b64">System Design Principles</h3>
+<div class="outline-text-3" id="text-orgc677b64">
+<blockquote>
+<p>
+The third building block of OTP consists of a set of abstract principles, design
+rules, and generic behaviors. The abstract principles describe the software
+architecture of an Erlang system, using processes in the form of generic
+behaviors as basic ingredients. Design rules keep the tools you use compatible
+with the system you are developing. Using this approach provides a standard way
+of solving problems, making code easier to understand and maintain, as well as
+providing a common language and vocabulary among the teams.
+</p>
+
+<p>
+OTP generic behaviors can be seen as formalizations of concurrent design
+patterns. Behaviors are packaged into library modules containing generic code
+that solves a common problem. They have built-in support for debugging, software
+upgrade, generic error handling, and built-in functionality for
+upgrades. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 10</a>)
 </p>
 </blockquote>
 </div>
-</div>
-<div id="outline-container-org2f47f92" class="outline-3">
-<h3 id="org2f47f92"></h3>
-</div>
-</div>
-<div id="outline-container-org57d9538" class="outline-2">
-<h2 id="org57d9538">Behaviors</h2>
-<div class="outline-text-2" id="text-org57d9538">
+<div id="outline-container-org53fc45f" class="outline-4">
+<h4 id="org53fc45f">Behaviors</h4>
+<div class="outline-text-4" id="text-org53fc45f">
 <blockquote>
 <p>
 Behaviours are a way of formalizing common patterns in process-oriented
@@ -113,9 +172,26 @@ communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org2c4235e" class="outline-3">
-<h3 id="org2c4235e">Components of a Behaviour</h3>
-<div class="outline-text-3" id="text-org2c4235e">
+<div id="outline-container-orgd2f4ee6" class="outline-5">
+<h5 id="orgd2f4ee6">Components of a Behaviour</h5>
+<div class="outline-text-5" id="text-orgd2f4ee6">
+<blockquote>
+<p>
+The idea behind OTP behaviors is to split up the code into two modules: one for
+the generic pattern, referred to as the behavior module, and one for specifics,
+referred to as the callback module. The generic behavior module can be seen as
+the driver. While it doesn’t know anything about what the callback module does,
+it is aware of a set of exported callback functions it has to invoke and the
+format of their return values. The callback module isn’t aware of what the
+generic module does either; it only complies with the format of the data it has
+to return when its callback functions are invoked.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 81</a>)
+</p>
+</blockquote>
+
 <ul class="org-ul">
 <li>The interface</li>
 <li>The implementation</li>
@@ -123,33 +199,38 @@ communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc24b949" class="outline-3">
-<h3 id="orgc24b949">Kinds</h3>
-<div class="outline-text-3" id="text-orgc24b949">
+<div id="outline-container-orgbeedcd2" class="outline-5">
+<h5 id="orgbeedcd2">Behavior Types</h5>
+<div class="outline-text-5" id="text-orgbeedcd2">
 <ul class="org-ul">
 <li><a href="20250102194431-otp_application.html#ID-04a44951-985d-4b5b-bd52-f1893ea29ae7">OTP Application</a>: Implements the <code>application</code> behaviours, which is a way to
 package related modules in Erlang.</li>
 <li><a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44ea-8b7a-d803e9b491af">Gen Server</a>: An OTP generalization of the client/server model.</li>
 <li><a href="20241013103835-supervisor.html#ID-2daf1307-afb4-49e4-98cb-66ac7eb27cf0">Supervisor</a>: Used to implement supervision trees.</li>
-<li><code>gen_statem</code>: State Machines</li>
-<li><code>gen_fsm</code>: Used to implement Finite State Machines.</li>
+<li><a href="20250124104407-gen_statem.html#ID-2a24a73a-0ad2-4276-be47-03cf33d52bc0">Gen StateM</a>: State Machines</li>
 <li><a href="20241219134317-gen_event.html#ID-0372baa6-420e-483a-9621-7f80f1ad6974">Gen Event</a>: Used for building event handlers (like error loggers).</li>
 </ul>
 </div>
 </div>
 </div>
-<div id="outline-container-orga13fb25" class="outline-2">
-<h2 id="orga13fb25">References:</h2>
-<div class="outline-text-2" id="text-orga13fb25">
+</div>
+</div>
+<div id="outline-container-org4eae443" class="outline-2">
+<h2 id="org4eae443">Distribution, Infrastructure, and Multicore</h2>
+</div>
+
+<div id="outline-container-org987a035" class="outline-2">
+<h2 id="org987a035">References:</h2>
+<div class="outline-text-2" id="text-org987a035">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org8c31318" class="outline-2">
-<h2 id="org8c31318">Backlinks:</h2>
-<div class="outline-text-2" id="text-org8c31318">
+<div id="outline-container-org6b66c8c" class="outline-2">
+<h2 id="org6b66c8c">Backlinks:</h2>
+<div class="outline-text-2" id="text-org6b66c8c">
 <ul class="org-ul">
 <li><a href="./20241010093430-erlang_term_storage.html">Erlang Term Storage</a></li>
 <li><a href="./20241010094109-gen_server.html">Gen Server</a></li>
