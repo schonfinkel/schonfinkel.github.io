@@ -82,6 +82,20 @@ communicate via a simple, well-defined interface. [cite:@logan2010erlang p.97]
 #+end_quote
 
 **** Components of a Behaviour
+
+#+begin_quote
+The idea behind OTP behaviors is to split up the code into two modules: one for
+the generic pattern, referred to as the behavior module, and one for specifics,
+referred to as the callback module. The generic behavior module can be seen as
+the driver. While it doesn’t know anything about what the callback module does,
+it is aware of a set of exported callback functions it has to invoke and the
+format of their return values. The callback module isn’t aware of what the
+generic module does either; it only complies with the format of the data it has
+to return when its callback functions are invoked.
+
+[cite:@cesarini2016designing p.81]
+#+end_quote
+
 + The interface
 + The implementation
 + The container
