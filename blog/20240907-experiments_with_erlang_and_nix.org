@@ -3,11 +3,19 @@
 #+AUTHOR: Marcos Benevides
 #+DATE: <2024-09-07 Sat> 
 
-*Updated at <2024-11-02 Sat>: I've changed the way we package our erlang project
-with Nix, mostly for the better*.
++ *Updated at <2024-11-02 Sat>*: I've changed the way we package our erlang project
+with Nix, mostly for the better.
++ *Updated at <2025-01-08 Wed>*: I've also changed the way we build the Zig
+client.
++ *Updated at <2025-01-24 Fri>*: My friend Lemos actually did a presentation of
+  some of our internal tooling ~zerl~ on [[https://www.youtube.com/@FuncProgSweden/videos][Func Prog Sweden]], you can watch the demo
+  of version ~v0.1.0~ [[https://www.youtube.com/watch?v=ejYcWRERetM&t=2760s][here]].
 
-*Updated at <2025-01-08 Wed>: I've also changed the way we build the Zig
-client.*
+* Introduction
+:PROPERTIES:
+:ID:       7e602f39-1f10-4ac7-9e0f-5b56e3f3ff3c
+:PUBDATE:  2025-01-24 Fri 21:25
+:END:
 
 Recently I've been collaborating with friends on [[https://github.com/Dr-Nekoma/lyceum][Lyceum]], an MMO game with an
 [[https://www.erlang.org/][Erlang]] backend and a [[https://ziglang.org/][Zig]] + [[https://www.raylib.com/][Raylib]] client (as if erlang wasn't a weird enough of
@@ -466,15 +474,3 @@ Nix is [[https://www.youtube.com/watch?v=FJVFXsNzYZQ][gaining some traction]] an
 I've been using it for the past 6 years in my workstations and don't regret
 doing so, its a tool worth learning (and there's still so much to learn about
 it), it makes my life dealing with Unix systems less painfull.
-
-** TODO
-:PROPERTIES:
-:ID:       65c9eb99-bf94-4a9f-8807-6838886ceacd
-:END:
-
-There is still much to do, and it can be left for a part II later.
-
-- [X] Properly build the client, it seems that [[https://github.com/nix-community/zon2nix][non2nix]] breaks with the [[https://github.com/nix-community/zon2nix/issues/6][format for
-  zon files]], I'm not familiar with Zig toolig and ill take a look at this later
-
-#+print_bibliography: 

@@ -48,9 +48,11 @@ An occurrence of a variable $x$ in a term $P$ is called:
 The set of all free variables of $P$ is denoted as $FV(P)$ and is computed by
 recursion on $P$:
 
-+ $FV(\{x\}) = \{ x \}$
-+ $FV(\lambda x.M) = FV(M) \\ \{x\}$
-+ $FV(M N) = FV(M) \cup FV(N)$
+\begin{align*}
+FV(\{x\}) &= \{ x \} \\
+FV(\lambda x.M) &= FV(M) / \{x\} \\
+FV(M N) &= FV(M) \cup FV(N)
+\end{align*}
 
 *** Substitution
 
@@ -59,18 +61,32 @@ For any $M, N, x$, define $[N/x]M$ to be the result of substituting $N$ for
 every free occurrence of $x$ in $M$, and changing bound variables to avoid
 clashes. The precise definition is by induction on $M$, as follows:
 
-+ $[N/x] x \equiv N$
-+ $[N/x] a \equiv a, \forall a \not\equiv x$
-+ $[N/x](P Q) ≡ [N/x]P [N/x]Q$
-+ $[N/x](λx.P) ≡ λx.P$
-+ $[N/x](λy.P) \equiv λy.P, x \not\in FV(P)$
-+ $[N/x](λy.P) \equiv λy.[N/x]P, x \in FV(P) \land y \not∈ FV(N)$
-+ $[N/x](λy.P) ≡ λz.[N/x][z/y]P, x ∈ FV(P) \land y ∈ FV(N)$
+\begin{align*}
+[N/x] x &\equiv N \tag{1} \\
+[N/x] a &\equiv a, \forall a \not\equiv x \tag{2}\\
+[N/x](P Q) &≡ [N/x]P [N/x]Q \tag{3}\\
+[N/x](λx.P) &≡ λx.P \tag{4}\\
+[N/x](λy.P) &\equiv λy.P, x \not\in FV(P) \tag{5}\\
+[N/x](λy.P) &\equiv λy.[N/x]P, x \in FV(P) \land y \not∈ FV(N) \tag{6}\\
+[N/x](λy.P) &≡ λz.[N/x][z/y]P, x ∈ FV(P) \land y ∈ FV(N) \tag{7}
+\end{align*}
 
 [cite:@hindley2008lambda p.7]
 #+end_quote
 
 *** \alpha-conversion
+
+#+begin_quote
+Let a term $P$ contain an occurrence of $\lambda x. M$, and let $y \not\in FV(M)$. The act
+of replacing this $λx.M$ by
+
+$$λy.[y/x]M$$
+
+is called a *change of bound variable* or an *α-conversion in P*. Iff P can be
+changed to Q by a finite (perhaps empty) series of changes of bound variables,
+we shall say *P is congruent to Q*, or *P α-converts to Q*, or $P \equiv_{\alpha} Q$.
+#+end_quote
+
 *** \beta-reduction
 
 * Simply-typed \lambda-Calculus. 
