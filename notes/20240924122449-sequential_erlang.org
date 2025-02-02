@@ -8,7 +8,9 @@ The basic constructs of the [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] 
 
 * Datatypes
 
-** Integers
+** Numerical Types
+
+*** Integers
 + Large Integers are converted to ~bignums~
 
 #+BEGIN_QUOTE
@@ -16,10 +18,22 @@ The basic constructs of the [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] 
     Base#Value notation. [cite:@laurent2017 p.7]
 #+END_QUOTE
 
-** Floats
+*** Floats
 
 + When you divide two integers with ~/~, the result is automatically converted to a floating-point number.
-+ Integer division is handled by ~div~ and ~rem~.
+
+*** Mathematical Operations
+
+| Operation | Description                   | Types            |
+|-----------+-------------------------------+------------------|
+| ~+~         | Unary ~+~                       | ~Integer~ or ~Float~ |
+| ~-~         | Unary ~-~                       | ~Integer~ or ~Float~ |
+| ~+~         | Addition                      | ~Integer~ or ~Float~ |
+| ~-~         | Subtraction                   | ~Integer~ or ~Float~ |
+| ~*~         | Multiplication                | ~Integer~ or ~Float~ |
+| ~/~         | Floating Point Division       | ~Integer~ or ~Float~ |
+| ~div~       | Integer Division              | ~Integer~          |
+| ~rem~       | Modulus Operation (Remainder) | ~Integer~          |
 
 ** Atoms
 + In Erlang, atoms are used to represent constant values.
@@ -215,6 +229,25 @@ Erlang has a macro facility, implemented by the Erlang preprocessor (~epp~), whi
   -define(TWICE(F,X),F(F(X))).
 #+end_src
 
+* Term Comparisson
+
+#+begin_quote
+Using the exactly equal and not exactly equal operators will provide the
+compiler and type tools with more information and result in more efficient
+code. [cite:@cesarini2009erlang p.28]
+#+end_quote
+
+| Operator | Description              |
+|----------+--------------------------|
+| ~==~       | Equal to                 |
+| ~/=~       | Not equal to             |
+| ~=:=~      | Exactly equal to         |
+| ~=/=~      | Exactly not equal to     |
+| ~=<~       | Less than or equal to    |
+| ~>=~       | Greater than or equal to |
+| ~<~        | Less than                |
+| ~>~        | Greater than             |
+
 * Variables
 
 #+BEGIN_QUOTE
@@ -257,16 +290,31 @@ Pattern matching is used for:
 + Conventionally, these are part of the ~erlang~ module.
 + Mostly written in C for fast execution.
 
-*** List of BiFs
+*** Useful BIFs
 
-+ ~date()~
-+ ~time()~
++ ~date/0~
++ ~now/0~ and ~now/1~
++ ~time/0~
+
+*** List BIFs
+
++ ~hd/1~
++ ~tl/1~
 + ~length(List)~
-+ ~size(Tuple)~
-+ ~atom_to_list(Atom)~
-+ ~list_to_tuple(List)~
-+ ~integer_to_list(1000)~
-+ ~tuple_to_list(Tuple)~
+
+*** Tuple BIFs
+
++ ~setelement/3~
++ ~size/1~
++ ~erlang:append_element/2~
+
+*** Type conversion BIFs
+
++ ~atom_to_list/1~ and ~list_to_atom/1~
++ ~list_to_tuple/1~ and ~tuple_to_list/1~
++ ~float/1~ and ~list_to_float/1~
++ ~float_to_list/1~ and ~integer_to_list/1~
++ ~round/1~, ~trunc/1~ and ~list_to_integer/1~
 
 ** Funs: The Basic Unit of Abstraction
 
@@ -284,11 +332,25 @@ If we want additional control structures, we can make our own. Erlang has no for
 
 * Guards
 
+#+begin_quote
+A guard consists of a when keyword followed by a guard expression. The clause
+will be selected only if the pattern matches and the guard expression evaluate
+to the atom true. [cite:@cesarini2009erlang p.50]
+#+end_quote
+
+#+begin_src 
+  %% G1, G2 can be parsed as G1 v G2 and the ';' can be read as an '^', so
+  %% it is possible to write very complex guards such as:
+  %%    (G1 v G2) ^ (G3 v ... v GK)
+  f(Arg1, Arg2, ..., ArgN) when G1(...), G2(...); G3(...), ..., GK(...) ->
+    Expr.
+#+end_src
+
 * Modules
 
 #+begin_quote
 Erlang definitions are contained in modules, which are stored in files of the
-same name, but with a ~.erl~ extension. (...) . Erlang programs can be evaluated
+same name, but with a ~.erl~ extension. (...). Erlang programs can be evaluated
 in the [[id:bcd04f60-0a4c-4213-90f7-139c0ddf5bef][Erlang Shell]], invoked by the command ~erl~ in your Unix
 shell. [cite:@cesarini2016designing p.22]
 #+end_quote
@@ -333,9 +395,11 @@ virtual machine: the old and current versions.
   end
 #+END_SRC
 
-+ ~exit/1~ :: Used to terminate the current process.
-+ ~throw~ :: Used as a documentation to the caller, to show that a function might throw this exception. 
-+ error :: Crashing errors.
++ ~exit~ :: Used to terminate the current process.
++ ~throw~ :: Its usage is discouraged as it makes understanding program flow
+  harder to debug.
++ ~error~ :: The most common class of errors, can be raised by calling the
+  ~erlang:error(Term)~ BIF.
 
 ** Fail Fast and Noisily, Fail Politely
 

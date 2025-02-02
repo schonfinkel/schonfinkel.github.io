@@ -92,8 +92,18 @@ end
   processing and the process waits for the next message. It is possible to
   update a process with a new version of the code that retrieves those messages.
 
+  #+begin_quote
+  What happens when a message doesn’t match any of the clauses in a receive
+  statement? It remains in the process mailbox indefinitely, causing a memory
+  leakage that over time could also cause the runtime system to run out of
+  memory and crash. Not handling unknown messages should therefore be treated as
+  a bug. Either these messages should not have been sent to this process in the
+  first place, or they should be handled, possibly just by being retrieved from
+  the mailbox and ignored. [cite:@cesarini2009erlang p.109]
+  #+end_quote
+
   The erlang shell (~erl~) is itself a process, you can test its message-passing
-  functionalities by using the ~self~ keyword:
+  functionalities by using the ~self~ function:
 
   #+BEGIN_SRC shell
     1> self() ! hello.
@@ -148,6 +158,24 @@ end
 
 + Sending messages to a non-existing registered process causes the calling
   process to terminate with a ~badarg~ error.
+
+  #+begin_quote
+  It is a feature of Erlang memory management that atoms are not garbage
+  collected. Once you’ve created an atom, it remains in the atom table regardless
+  of whether it is referenced in the code. This can be a potential problem if you
+  decide to register transient processes with an alias derived from converting a
+  string to an atom with the ~list_to_atom/1~ BIF. If you have millions of users
+  logging on to your system every day and you create a registered process for the
+  duration of their sessions, don’t be surprised if you end up running out of
+  memory.
+
+  You would be much better off storing the mapping of users to pids in a session
+  table. It is best to register only processes with a long life span, and if you
+  really must convert a string to use as an alias, use ~list_to_existing_atom/1~ to
+  ensure that your system does not suffer memory leakages.
+
+  [cite:@cesarini2009erlang p.104]
+  #+end_quote
 
 ** Timeouts
 
@@ -213,3 +241,16 @@ Most processes in Erlang share a common lifecycle:
 #+RESULTS: erlang-process-skeleton
 [[file:../static/img/notes/erlang_process_skeleton.png]]
 
+* Concurrency-Related Bottlenecks
+
+#+begin_quote
+Processes are said to act as /bottlenecks/ when, over time, they are sent messages at a
+faster rate than they can handle them, resulting in large mailbox queues.
+
+(...)
+
+The only way to discover whether there are any bottlenecks is to observe the throughput
+and message queue buildup when stress-testing the system. Simple remedies to message
+queue problems can be achieved by optimizing the code and fine-tuning the operating
+system and VM settings. [cite:@cesarini2009erlang p.109]
+#+end_quote

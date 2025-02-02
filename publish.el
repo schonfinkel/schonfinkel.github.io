@@ -144,8 +144,10 @@
 ;;;; Fix bibliography
 (setq org-cite-refs-list '("articles.bib"
                            "beam.bib"
+                           "blockchain.bib"
                            "classic_studies.bib"
                            "databases.bib"
+                           "distributed_systems.bib"
                            "fp_general.bib"
                            "haskell.bib"
                            "leadership.bib"
