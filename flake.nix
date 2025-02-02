@@ -108,6 +108,7 @@
             buildInputs = [
               dotnet
               customEmacs
+              texenv
             ] ++ tooling;
             buildPhase = ''
               just build

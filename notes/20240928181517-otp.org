@@ -81,6 +81,24 @@ halves: the generic part and the application-specific implementation part. These
 communicate via a simple, well-defined interface. [cite:@logan2010erlang p.97]
 #+end_quote
 
+#+NAME: erlang-behaviour
+#+BEGIN_SRC dot :file ../static/img/notes/erlang_behaviour.png :cmdline -Kdot -Tpng :exports results
+digraph {
+  node [fontsize="10pt", shape=circle, style=filled, fillcolor=grey, fixedsize=true];
+  edge [style=dashed]
+
+  P[xlabel="Process", label=""];
+  Gen[xlabel="Generic Functions", label="behaviour", shape=rectangle];
+  Callbacks[label="callbacks", shape=rectangle];
+
+  P -> Gen;
+  P -> Callbacks;
+}
+#+end_src
+
+#+RESULTS: erlang-behaviour
+[[file:../static/img/notes/erlang_behaviour.png]]
+
 **** Components of a Behaviour
 
 #+begin_quote
@@ -102,11 +120,19 @@ to return when its callback functions are invoked.
 
 **** Behavior Types
 
+OTP provides six behaviors that cover the majority of all cases:
+
 + [[id:04a44951-985d-4b5b-bd52-f1893ea29ae7][OTP Application]]: Implements the ~application~ behaviours, which is a way to
   package related modules in Erlang.
 + [[id:1cd8fd81-a7c4-44ea-8b7a-d803e9b491af][Gen Server]]: An OTP generalization of the client/server model.
 + [[id:2daf1307-afb4-49e4-98cb-66ac7eb27cf0][Supervisor]]: Used to implement supervision trees.
-+ [[id:2a24a73a-0ad2-4276-be47-03cf33d52bc0][Gen StateM]]: State Machines
++ [[id:2a24a73a-0ad2-4276-be47-03cf33d52bc0][Gen StateM]] and ~Gen FSM~: Both are implementations for State Machines, the
+  latter being deprecated in favor of the former.
 + [[id:0372baa6-420e-483a-9621-7f80f1ad6974][Gen Event]]: Used for building event handlers (like error loggers).
+
+Among those, ~gen_servers~, FSMs, and ~gen_event~ handlers are examples of workers
+processes, i.e. they perform the bulk of the computations. Worker processes are
+held together and monitored by ~supervisors~, which themselves are part of
+~applications~.
 
 * Distribution, Infrastructure, and Multicore
