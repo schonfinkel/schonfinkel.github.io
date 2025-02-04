@@ -1,0 +1,33 @@
+:PROPERTIES:
+:ID:       db9db6fb-88b6-4baf-b7fb-e83321a38765
+:END:
+#+title: Distributed Computing Through Combinatorial Topology
+
+* Definitions
+
+#+begin_quote
+For us, a distributed system is a collection of sequential computing entities,
+called *processes*, that cooperate to solve a problem, called a *task*. The
+processes may communicate by *message passing*, *shared memory*, or any other
+mechanism. Each process runs a program that defines how and when it communicates
+with other processes. Collectively these programs define a *distributed algorithm*
+or *protocol*. [cite:@rajsbaum2014distributed p.4]
+#+end_quote
+
+The essential properties of [[id:d7efb05f-fb8f-438c-b09d-ea91dc24ebc3][Distributed Systems]]:
+
+#+begin_quote
++ *Local views*. First, each process has only a local view of the current state of
+  the world. That is, a process is uncertain about the views of the other
+  processes.
+
++ *Evolution of local views*. Second, processes communicate with one
+  another. Each communication modifies local views. If they communicate
+  everything they know and the communication is flawless and instantaneous, they
+  end up with identical local views, eliminating uncertainty. The systems we
+  study are interesting precisely because this is usually not the case, either
+  because processes communicate only part of what they know (for efficiency) or
+  communication is imperfect (due to delays or failures).
+
+[cite:@rajsbaum2014distributed p.6]
+#+end_quote

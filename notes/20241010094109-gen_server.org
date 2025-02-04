@@ -38,7 +38,7 @@ The ~gen_server~ behaviour interface contains six callback functions:
 
 ** Starting the Server (~init/1~)
 
-~gen_server:start_link(Name, Mod, InitArgs, Opts)~ starts the server:
+~gen_server:start_link(Name, Mod, InitArgs, Opts)~ starts the server created by the ~gen_server:start_link/4~ call:
 
 + The generic server starts by calling ~Mod:init(InitArgs)~ (where ~Mod~ is the name
   of the callback module). If ~{ok, State}~ is returned, then the server is
@@ -57,8 +57,7 @@ The ~gen_server~ behaviour interface contains six callback functions:
 
 *** ~handle_call/3~
 
-To call the server, the client program calls ~gen_server:call(Name,
-Request)~. This results in the ~handle_call/3~ callback module being called.
+Handles synchronous requests sent to the server by ~gen_server:call/2~.
 
 + ~gen_server:call(?MODULE, Term)~ is used for a remote procedure call to the server.
 
@@ -83,7 +82,9 @@ server. [cite:@armstrong2013 p.372]
 
 *** ~handle_cast/2~
 
-To send an asynchronous message to a ~gen_server~ process, one must use ~handle_cast/2~: 
+To send an asynchronous message to a ~gen_server~ process, the requests originate
+in the ~gen_server:cast/2~ call, which sends a message to a server process and
+immediately returns.
 
 #+caption: Example of a ~handle_call/2~ template.
 #+begin_src erlang
