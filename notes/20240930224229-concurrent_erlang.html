@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-01-28 Tue 14:53 -->
+<!-- 2025-02-04 Tue 01:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Concurrent Erlang</title>
@@ -79,9 +79,9 @@ In Erlang:
 (<a href="#citeproc_bib_item_1">Armstrong 2013, 181</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgb3ac382" class="outline-2">
-<h2 id="orgb3ac382">Processes</h2>
-<div class="outline-text-2" id="text-orgb3ac382">
+<div id="outline-container-orge9e5d75" class="outline-2">
+<h2 id="orge9e5d75">Processes</h2>
+<div class="outline-text-2" id="text-orge9e5d75">
 <p>
 In <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a>, creation of a parallel process is achieved by evaluating the <code>spawn</code>
 primitive. This primitive creates a concurrent process and returns a process
@@ -94,7 +94,7 @@ identifier (PID) that can used to interact with the newly created process:
 </div>
 
 
-<figure id="org379a87f">
+<figure id="org0af8c8a">
 <img src="../static/img/notes/erlang_spawn.png" alt="erlang_spawn.png">
 
 </figure>
@@ -108,11 +108,11 @@ identifier (PID) that can used to interact with the newly created process:
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org630492c" class="outline-3">
-<h3 id="org630492c">Modeling Concurrency</h3>
-<div class="outline-text-3" id="text-org630492c">
+<div id="outline-container-org6d5fab5" class="outline-3">
+<h3 id="org6d5fab5">Modeling Concurrency</h3>
+<div class="outline-text-3" id="text-org6d5fab5">
 
-<figure id="orgf0127ac">
+<figure id="orgcea74f7">
 <img src="../static/img/notes/erlang_send.png" alt="erlang_send.png">
 
 </figure>
@@ -144,9 +144,21 @@ processing and the process waits for the next message. It is possible to
 update a process with a new version of the code that retrieves those messages.
 </p>
 
+<blockquote>
+<p>
+What happens when a message doesn’t match any of the clauses in a receive
+statement? It remains in the process mailbox indefinitely, causing a memory
+leakage that over time could also cause the runtime system to run out of
+memory and crash. Not handling unknown messages should therefore be treated as
+a bug. Either these messages should not have been sent to this process in the
+first place, or they should be handled, possibly just by being retrieved from
+the mailbox and ignored. (<a href="#citeproc_bib_item_2">Cesarini and Thompson 2009, 109</a>)
+</p>
+</blockquote>
+
 <p>
 The erlang shell (<code>erl</code>) is itself a process, you can test its message-passing
-functionalities by using the <code>self</code> keyword:
+functionalities by using the <code>self</code> function:
 </p>
 
 <div class="org-src-container">
@@ -164,7 +176,7 @@ We can force an order (emulating a priority queue) by using multiple receives:
 </p>
 
 
-<figure id="org85a2c07">
+<figure id="org89ce456">
 <img src="../static/img/notes/erlang_selective.png" alt="erlang_selective.png">
 
 </figure>
@@ -189,9 +201,9 @@ this way the message <code>{foo, ...}</code> is received before the message <cod
 </ul>
 </div>
 </div>
-<div id="outline-container-org76d574b" class="outline-3">
-<h3 id="org76d574b">Registered Processes</h3>
-<div class="outline-text-3" id="text-org76d574b">
+<div id="outline-container-org5e90683" class="outline-3">
+<h3 id="org5e90683">Registered Processes</h3>
+<div class="outline-text-3" id="text-org5e90683">
 <table>
 
 
@@ -230,14 +242,40 @@ this way the message <code>{foo, ...}</code> is received before the message <cod
 </table>
 
 <ul class="org-ul">
-<li>Sending messages to a non-existing registered process causes the calling
-process to terminate with a <code>badarg</code> error.</li>
+<li><p>
+Sending messages to a non-existing registered process causes the calling
+process to terminate with a <code>badarg</code> error.
+</p>
+
+<blockquote>
+<p>
+It is a feature of Erlang memory management that atoms are not garbage
+collected. Once you’ve created an atom, it remains in the atom table regardless
+of whether it is referenced in the code. This can be a potential problem if you
+decide to register transient processes with an alias derived from converting a
+string to an atom with the <code>list_to_atom/1</code> BIF. If you have millions of users
+logging on to your system every day and you create a registered process for the
+duration of their sessions, don’t be surprised if you end up running out of
+memory.
+</p>
+
+<p>
+You would be much better off storing the mapping of users to pids in a session
+table. It is best to register only processes with a long life span, and if you
+really must convert a string to use as an alias, use <code>list_to_existing_atom/1</code> to
+ensure that your system does not suffer memory leakages.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_2">Cesarini and Thompson 2009, 104</a>)
+</p>
+</blockquote></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org9cab3ea" class="outline-3">
-<h3 id="org9cab3ea">Timeouts</h3>
-<div class="outline-text-3" id="text-org9cab3ea">
+<div id="outline-container-orgc85969b" class="outline-3">
+<h3 id="orgc85969b">Timeouts</h3>
+<div class="outline-text-3" id="text-orgc85969b">
 <ul class="org-ul">
 <li>If the message <code>Msg</code> is received within the <code>TimeOut</code>, <code>expr01</code> will be
 executed. Otherwise, <code>expr02</code> will be executed.</li>
@@ -245,7 +283,7 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </ul>
 
 
-<figure id="org3ea4633">
+<figure id="org6417464">
 <img src="../static/img/notes/erlang_timeout.png" alt="erlang_timeout.png">
 
 </figure>
@@ -261,9 +299,9 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orga590291" class="outline-3">
-<h3 id="orga590291">Skeleton of an Erlang Process</h3>
-<div class="outline-text-3" id="text-orga590291">
+<div id="outline-container-orgf6a21d0" class="outline-3">
+<h3 id="orgf6a21d0">Skeleton of an Erlang Process</h3>
+<div class="outline-text-3" id="text-orgf6a21d0">
 <p>
 Most processes in Erlang share a common lifecycle:
 </p>
@@ -275,24 +313,47 @@ Most processes in Erlang share a common lifecycle:
 </ul>
 
 
-<figure id="org3553805">
+<figure id="org4b98c68">
 <img src="../static/img/notes/erlang_process_skeleton.png" alt="erlang_process_skeleton.png">
 
 </figure>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd8daf5a" class="outline-2">
-<h2 id="orgd8daf5a">References:</h2>
-<div class="outline-text-2" id="text-orgd8daf5a">
+<div id="outline-container-org0e84d4b" class="outline-2">
+<h2 id="org0e84d4b">Concurrency-Related Bottlenecks</h2>
+<div class="outline-text-2" id="text-org0e84d4b">
+<blockquote>
+<p>
+Processes are said to act as <i>bottlenecks</i> when, over time, they are sent messages at a
+faster rate than they can handle them, resulting in large mailbox queues.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+The only way to discover whether there are any bottlenecks is to observe the throughput
+and message queue buildup when stress-testing the system. Simple remedies to message
+queue problems can be achieved by optimizing the code and fine-tuning the operating
+system and VM settings. (<a href="#citeproc_bib_item_2">Cesarini and Thompson 2009, 109</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org33c89bc" class="outline-2">
+<h2 id="org33c89bc">References:</h2>
+<div class="outline-text-2" id="text-org33c89bc">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Simon Thompson. 2009. <i>Erlang Programming: A Concurrent Approach to Software Development</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org9cca4a8" class="outline-2">
-<h2 id="org9cca4a8">Backlinks:</h2>
-<div class="outline-text-2" id="text-org9cca4a8">
+<div id="outline-container-org4748d2f" class="outline-2">
+<h2 id="org4748d2f">Backlinks:</h2>
+<div class="outline-text-2" id="text-org4748d2f">
 <ul class="org-ul">
 <li><a href="./20241001192402-error_handling_in_erlang.html">Error Handling in Erlang</a></li>
 </ul>
