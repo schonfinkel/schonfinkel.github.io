@@ -1,0 +1,25 @@
+:PROPERTIES:
+:ID:       c2a1ab6c-9fce-4085-9863-e48ec6c85a9c
+:ROAM_ALIASES: psql
+:END:
+#+title: PostgreSQL REPL
+#+filetags: :postgresql:
+
+#+begin_quote
+psql is a terminal-based front-end to [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]].
+#+end_quote
+
+#+begin_src shell
+  # to get some help
+  db=# \?
+  # describe (options)
+  #   S - Show system options
+  #   + - Addtional Details
+  db=# \d
+  # Or describe an specific table
+  db=# \d "<schema>.<table>"
+  # list schemas
+  db=# \dn
+  # Output format
+  db=# \x auto
+#+end_src

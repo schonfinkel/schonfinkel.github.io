@@ -145,6 +145,10 @@ to load a record from the the shell, one must use the ~rr~ command:
   #todo{status = done,who = joe,text = "Fix errata in book"}
 #+END_SRC
 
+*** Record BIFs
++ ~record_info/2~
++ ~is_record/1~
+
 ** Maps
 
 Maps are associative collections of key-value pairs.
@@ -187,6 +191,19 @@ A possible set of ~TypeSpecifiers~ is the following:
 
 *** Bitstring comprehensions
 
+Similar to Lists Comprehensions, we can do bitstring comprehension:
+
+*** Bitwise operations
+
+| Operator | Description      |
+|----------+------------------|
+| ~band/1~   | Bitwise and      |
+| ~bor/1~    | Bitwise or       |
+| ~bxor/1~   | Bitwise xor      |
+| ~bnot/1~   | Bitwise negation |
+| ~bsl/2~    | Bitshift Left    |
+| ~bsr/2~    | Bitshoft right   |
+
 ** Identifiers
 
 *** Pids
@@ -228,6 +245,16 @@ Erlang has a macro facility, implemented by the Erlang preprocessor (~epp~), whi
   %% Or more complex patterns
   -define(TWICE(F,X),F(F(X))).
 #+end_src
+
+*** Conditional Macros
+
++ ~-undef(Flag)~
++ ~-ifdef(Flag)~
++ ~-ifndef(Flag)~
++ ~-else(Flag)~
++ ~-endif~
+
+** Include Files
 
 * Term Comparisson
 

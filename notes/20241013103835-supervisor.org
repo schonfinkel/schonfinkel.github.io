@@ -95,3 +95,25 @@ There are two types of supervision trees:
 
 #+RESULTS: fig:erlang-supervisor-o4a
 [[file:../static/img/notes/erlang_supervisor_o4a.png]]
+
+Independent of what the monited application does, a ~supervisor~ works is always
+the same can be divided into two categories:
+
++ A generic part that deals with starting, monitoring and restarting child processes.
++ A specific part that consists of the specification of how the children are
+  supposed to be started and restarted.
+
+* Robust Systems
+
+#+begin_quote
+In Erlang, you build robust systems by layering. Using processes, you create a
+tree in which the leaves consist of the application layer that handles the
+operational tasks while the interior nodes monitor the leaves and other nodes
+below them, (...). Processes at any level will trap errors occurring at a level
+immediately below them. A process whose only task is to supervise children—in
+our case the nodes of the tree—is called a supervisor. A leaf process performing
+operational tasks is called a worker. When we refer to child processes, we mean
+both supervisors and workers belonging to a particular supervisor.
+
+[cite:@cesarini2009erlang p.148]
+#+end_quote

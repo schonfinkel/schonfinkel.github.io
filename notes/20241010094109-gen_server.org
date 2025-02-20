@@ -80,6 +80,12 @@ other process. Calling ~stop~ with the appropriate arguments will stop the
 server. [cite:@armstrong2013 p.372]
 #+end_quote
 
+**** Call Timeouts
+
+#+begin_src erlang
+  gen_server:call(Server, Message, TimeOut) -> Reply
+#+end_src
+
 *** ~handle_cast/2~
 
 To send an asynchronous message to a ~gen_server~ process, the requests originate
@@ -113,10 +119,19 @@ server that were not sent by explicitly calling ~gen_server:call~ or
 ** Termination
 
 #+begin_quote 
-The server can terminate for many reasons. One of the ~handle_something~ routines
-might return a ~{stop, Reason, NewState}~, or the server might crash with ~{'EXIT',
-reason}~. In all of these circumstances, no matter how they occurred,
-~terminate(Reason, NewState)~ will be called.
+Stopping the server requires the callbacks to return different tuples:
+
+    + ~init/1~ can return ~{stop, Reason}~
+    + ~handle_call/3~ can return ~{stop, Reason, Reply, LoopData}~
+    + ~handle_cast/2~ can return ~{stop, Reason, LoopData}~
+    + ~handle_info/2~ can return ~{stop, Reason, LoopData}~
+
+These return values terminate with the same behavior as if ~exit(Reason)~ were
+called. In the case of calls and casts, before exiting, the callback function
+~terminate(Reason, LoopData)~ is called. It allows the server to clean up after
+itself before being shut down. Any value returned by ~terminate/2~ is ignored.
+
+[cite:@cesarini2016designing p.89]
 #+end_quote
 
 #+caption: Example of a ~terminate/2~ implementation, this callback is raised so you have a chance to clean things up, notice that no ~State~ is returned.
@@ -149,4 +164,19 @@ connection is established, this ~gen_server~ tells the ~supervisor~ to spawn a n
 handler process — a clone of the ~gen_server~ — and immediately proceeds with servicing
 the current connection while the clone takes over the job of waiting for the
 next connection. [cite:@logan2010erlang p.262]
+#+end_quote
+
+
+** Generic Server Timeouts
+
+
+** Hibernate Behaviour
+
+#+begin_quote
+If instead of a timeout value or the atom infinity we return the atom hibernate,
+the server will reduce its memory footprint and enter a wait state. You will
+want to use hibernate when servers that receive intermittent, memory-intensive
+requests are causing the system to run low on memory.
+
+[cite:@cesarini2016designing p.97]
 #+end_quote
