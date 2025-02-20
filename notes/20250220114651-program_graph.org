@@ -1,0 +1,34 @@
+:PROPERTIES:
+:ID:       808559c1-3472-46c7-8f5c-aac840e6f038
+:END:
+#+title: Program Graph
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:
+
+* Definition
+
+A program graph $PG = (Q, \{q_{\vartriangleright}, q_{\blacktriangleleft} \},
+\texttt{Act}, \texttt{E})$ is a formalism that abstracts the graphical
+representation of a program, the edge labels of represent the computational
+"actions" that take place once the program reaches a certain state, there is no
+semantics behind the edges in this defiition (which is why they are generically
+defined as "just a Set").
+
+#+begin_quote
+A program graph *PG* consists of the following:
+  + $Q$ a finite set of Nodes.
+  + $q_{\vartriangleright}, q_{\blacktriangleleft} \in Q$ two nodes called the /initial
+    node/ and the /final node/, respectively respectivelly.
+  + $\texttt{Act}$: a set of /actions/.
+  + $\texttt{E} \subseteq Q \times \texttt{Act} \times Q$, a finite set of edges.
+
+An edge $(q_\circ, \alpha, q_\bullet)$ has source node $q_\circ$ and target node $q_\bullet$, and
+it is labelled with the *action 𝛼*.
+
+We shall require that the initial and final nodes are distinct and that there
+are no edges with source $q_\bullet.
+
+[cite:@nielson2019formal p.2]
+#+end_quote
+
