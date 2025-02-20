@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-02-20 Thu 16:34 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sequential Elixir</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Sequential Elixir</h1>
+</header><div id="outline-container-orgdfbb56c" class="outline-2">
+<h2 id="orgdfbb56c">Modules</h2>
+<div class="outline-text-2" id="text-orgdfbb56c">
+<blockquote>
+<p>
+A module is a collection of functions, somewhat like a namespace. Every
+<a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a> function must be defined inside a module.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Juric 2024, 23</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-elixir">  defmodule A do
+    defmodule B do
+      ...
+    end
+    ...
+  end
+</pre>
+</div>
+</div>
+<div id="outline-container-org6e5eb38" class="outline-3">
+<h3 id="org6e5eb38">Module Attributes</h3>
+<div class="outline-text-3" id="text-org6e5eb38">
+<blockquote>
+<p>
+defmodule Circle do
+  @pi 3.14159
+</p>
+
+<p>
+  def area(r), do: r*r*@pi
+  def circumference(r), do: 2*r*@pi
+end
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org4dfb58f" class="outline-3">
+<h3 id="org4dfb58f">Type Specs</h3>
+<div class="outline-text-3" id="text-org4dfb58f">
+<blockquote>
+<p>
+Typespecs provide a way to compensate for the lack of a static type system. This
+can be useful in conjunction with the <a href="20241009092203-dializer.html#ID-54473599-719d-460b-92ba-3796dd951872">Dializer</a> tool to perform static analysis
+of your programs. (<a href="#citeproc_bib_item_1">Juric 2024, 34</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd1ecfdd" class="outline-2">
+<h2 id="orgd1ecfdd">Functions</h2>
+<div class="outline-text-2" id="text-orgd1ecfdd">
+<blockquote>
+<p>
+A function must always be a part of a module. Function names follow the same
+conventions as variables: they start with a lowercase letter or underscore
+character and are followed by a combination of alphanumerics and underscores.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Juric 2024, 25</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-elixir">  defmodule Mod do
+    def func(a, b) do
+      ...
+      a + b
+    end
+
+    # If your function's body consists of a single expression, you can use the "do" notation
+    def func2(a, b), do: a + b
+
+    # You can also use defp to make the function private
+    defp func3(a, b), do: a + b
+  end
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc73c1a0" class="outline-3">
+<h3 id="orgc73c1a0">Arity</h3>
+<div class="outline-text-3" id="text-orgc73c1a0">
+<blockquote>
+<p>
+Arity describes the number of arguments a function receives. A function is
+uniquely identified by its containing module, name, and arity.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Juric 2024, 29</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb2ac830" class="outline-2">
+<h2 id="orgb2ac830">Numbers</h2>
+</div>
+
+<div id="outline-container-orgf0b7177" class="outline-2">
+<h2 id="orgf0b7177">Atoms</h2>
+</div>
+
+<div id="outline-container-org8121077" class="outline-2">
+<h2 id="org8121077">Tuples</h2>
+</div>
+
+<div id="outline-container-org44f9921" class="outline-2">
+<h2 id="org44f9921">Lists</h2>
+</div>
+
+<div id="outline-container-org50956ae" class="outline-2">
+<h2 id="org50956ae">Maps</h2>
+<div class="outline-text-2" id="text-org50956ae">
+<blockquote>
+<p>
+A map is a key-value store, where keys and values can be any term. Maps have
+dual usage in Elixir. They’re used to power dynamically sized key-value
+structures, but they’re also used to manage simple records—a couple of
+well-defined named fields bundled together.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Juric 2024, 46</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgc9e7e21" class="outline-2">
+<h2 id="orgc9e7e21">Binaries and Bitstrings</h2>
+</div>
+
+<div id="outline-container-org75de3fb" class="outline-2">
+<h2 id="org75de3fb">Strings</h2>
+</div>
+
+<div id="outline-container-orgf212967" class="outline-2">
+<h2 id="orgf212967">Higher-Level Types</h2>
+<div class="outline-text-2" id="text-orgf212967">
+<blockquote>
+<p>
+The aforementioned built-in types are inherited from the Erlang world. After
+all, Elixir code runs on BEAM, so its type system is heavily influenced by the
+Erlang foundations. But on top of these basic types, Elixir provides some
+higher-level abstractions. The ones most frequently used are <code>Range</code>, <code>Keyword</code>,
+<code>MapSet</code>, <code>Date</code>, <code>Time</code>, <code>NaiveDateTime</code>, and <code>DateTime</code>.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org0fb7428" class="outline-2">
+<h2 id="org0fb7428">IO Lists</h2>
+</div>
+
+<div id="outline-container-org84c3348" class="outline-2">
+<h2 id="org84c3348">Macros</h2>
+<div class="outline-text-2" id="text-org84c3348">
+<blockquote>
+<p>
+Macros are one of the most important features Elixir brings to the table that
+are unavailable in plain Erlang. They make it possible to perform powerful code
+transformations at compile time, thus reducing boilerplate and providing
+elegant, mini-DSL expressions.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+A macro consists of Elixir code that can change the semantics of the input
+code. A macro is always called at compile time; it receives the parsed
+representation of the input Elixir code, and it has the opportunity to return an
+alternative version of that code.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Juric 2024, 62</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org67dc19a" class="outline-2">
+<h2 id="org67dc19a">References:</h2>
+<div class="outline-text-2" id="text-org67dc19a">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Juric, Saša. 2024. <i>Elixir in Action</i>. Simon and Schuster.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

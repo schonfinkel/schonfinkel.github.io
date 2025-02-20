@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-04 Tue 01:53 -->
+<!-- 2025-02-20 Thu 16:34 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Supervisor</title>
@@ -61,12 +61,12 @@ Supervisors are one of the most important features of <a href="20240928181517-ot
 processes and take action if anything goes wrong, restarting the failed process
 or possibly escalating the problem to a higher level. Layering supervisors into
 supervision trees allows you to create highly fault-tolerant systems.
-(<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010</a>)
+(<a href="#citeproc_bib_item_3">Logan, Merritt, and Carlsson 2010</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgcf54680" class="outline-2">
-<h2 id="orgcf54680">The Supervision Tree</h2>
-<div class="outline-text-2" id="text-orgcf54680">
+<div id="outline-container-org416b072" class="outline-2">
+<h2 id="org416b072">The Supervision Tree</h2>
+<div class="outline-text-2" id="text-org416b072">
 <blockquote>
 <p>
 A supervision tree is a tree of processes. The upper processes (supervisors) in
@@ -84,7 +84,7 @@ There are two types of supervision trees:
 </dl>
 
 
-<figure id="orgc5d4244">
+<figure id="org9c4b7f9">
 <img src="../static/img/notes/erlang_supervisor_o4o.png" alt="erlang_supervisor_o4o.png">
 
 </figure>
@@ -94,28 +94,61 @@ There are two types of supervision trees:
 </dl>
 
 
-<figure id="orgf120acb">
+<figure id="orgb6a2989">
 <img src="../static/img/notes/erlang_supervisor_o4a.png" alt="erlang_supervisor_o4a.png">
 
 </figure>
+
+<p>
+Independent of what the monited application does, a <code>supervisor</code> works is always
+the same can be divided into two categories:
+</p>
+
+<ul class="org-ul">
+<li>A generic part that deals with starting, monitoring and restarting child processes.</li>
+<li>A specific part that consists of the specification of how the children are
+supposed to be started and restarted.</li>
+</ul>
 </div>
 </div>
-<div id="outline-container-org5767011" class="outline-2">
-<h2 id="org5767011">References:</h2>
-<div class="outline-text-2" id="text-org5767011">
+<div id="outline-container-org28e2b85" class="outline-2">
+<h2 id="org28e2b85">Robust Systems</h2>
+<div class="outline-text-2" id="text-org28e2b85">
+<blockquote>
+<p>
+In Erlang, you build robust systems by layering. Using processes, you create a
+tree in which the leaves consist of the application layer that handles the
+operational tasks while the interior nodes monitor the leaves and other nodes
+below them, (&#x2026;). Processes at any level will trap errors occurring at a level
+immediately below them. A process whose only task is to supervise children—in
+our case the nodes of the tree—is called a supervisor. A leaf process performing
+operational tasks is called a worker. When we refer to child processes, we mean
+both supervisors and workers belonging to a particular supervisor.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_2">Cesarini and Thompson 2009, 148</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org404d1db" class="outline-2">
+<h2 id="org404d1db">References:</h2>
+<div class="outline-text-2" id="text-org404d1db">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Simon Thompson. 2009. <i>Erlang Programming: A Concurrent Approach to Software Development</i>. O’Reilly Media, Inc.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_3"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb2638c5" class="outline-2">
-<h2 id="orgb2638c5">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgb2638c5">
+<div id="outline-container-orgcf5ee84" class="outline-2">
+<h2 id="orgcf5ee84">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgcf5ee84">
 <ul class="org-ul">
 <li><a href="./20241010094109-gen_server.html">Gen Server</a></li>
+<li><a href="./20250102194431-application_otp.html">Application (OTP)</a></li>
 <li><a href="./20240928181517-otp.html">OTP</a></li>
-<li><a href="./20250102194431-otp_application.html">OTP Application</a></li>
 </ul>
 </div>
 </div>

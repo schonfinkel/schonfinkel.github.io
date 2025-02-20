@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-04 Tue 01:53 -->
+<!-- 2025-02-20 Thu 16:34 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Postgres Window Functions</title>
+<title>Subqueries (PostgreSQL)</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -54,61 +54,56 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Postgres Window Functions</h1>
-</header><div id="outline-container-org3521c98" class="outline-2">
-<h2 id="org3521c98">Aggregates</h2>
-<div class="outline-text-2" id="text-org3521c98">
+<h1 class="title">Subqueries (PostgreSQL)</h1>
+</header><ul class="org-ul">
+<li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
+</ul>
+<div id="outline-container-org8c39849" class="outline-2">
+<h2 id="org8c39849">Subqueries as Expressions</h2>
+<div class="outline-text-2" id="text-org8c39849">
 </div>
-<div id="outline-container-orged65eba" class="outline-3">
-<h3 id="orged65eba"><code>ROW_NUMBER</code></h3>
-</div>
-
-<div id="outline-container-org8ad5bf4" class="outline-3">
-<h3 id="org8ad5bf4"><code>LEAD</code></h3>
-<div class="outline-text-3" id="text-org8ad5bf4">
+<div id="outline-container-org3ddcfae" class="outline-3">
+<h3 id="org3ddcfae">Scalar Subquery</h3>
+<div class="outline-text-3" id="text-org3ddcfae">
 <p>
-The <code>LEAD()</code> function is used to retrieve data from the next row.
+Results in a single row
 </p>
 </div>
 </div>
-<div id="outline-container-org0c9425a" class="outline-3">
-<h3 id="org0c9425a"><code>LAG</code></h3>
-<div class="outline-text-3" id="text-org0c9425a">
+<div id="outline-container-org1762b33" class="outline-3">
+<h3 id="org1762b33">Multi-Row Subquery</h3>
+<div class="outline-text-3" id="text-org1762b33">
 <p>
-The <code>LAG()</code> function is used to retrieve data from the previous row.
+Results in multiple rows, tipically used in the where clause with operators such as <code>IN</code>, <code>NOT</code>, <code>EXISTS</code>, <code>ANY</code> and <code>ALL</code>.
+</p>
+</div>
+<div id="outline-container-orgbb9e8ac" class="outline-4">
+<h4 id="orgbb9e8ac">Correlated Subquery</h4>
+<div class="outline-text-4" id="text-orgbb9e8ac">
+<p>
+A uncorrelated sub-query is a type of sub-query where the inner query doesn’t depend upon the outer query for its execution.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc1e3049" class="outline-4">
+<h4 id="orgc1e3049">Uncorrelated Subquery</h4>
+<div class="outline-text-4" id="text-orgc1e3049">
+<p>
+A correlated sub-query is a type of query where the inner query depends upon the outcome of the outer query in order to perform its execution.
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org84b8521" class="outline-2">
-<h2 id="org84b8521">Rankings</h2>
-<div class="outline-text-2" id="text-org84b8521">
 </div>
-<div id="outline-container-orgfe6ad0e" class="outline-3">
-<h3 id="orgfe6ad0e">Rank</h3>
+<div id="outline-container-org8d95aee" class="outline-2">
+<h2 id="org8d95aee">Subqueries as Tables</h2>
 </div>
 
-<div id="outline-container-orgeff9e31" class="outline-3">
-<h3 id="orgeff9e31">Dense Rank</h3>
-</div>
-</div>
-<div id="outline-container-org3f8d26f" class="outline-2">
-<h2 id="org3f8d26f">Value Functions</h2>
-</div>
-
-<div id="outline-container-orgb20c322" class="outline-2">
-<h2 id="orgb20c322">References:</h2>
-<div class="outline-text-2" id="text-orgb20c322">
+<div id="outline-container-org0ee6a77" class="outline-2">
+<h2 id="org0ee6a77">References:</h2>
+<div class="outline-text-2" id="text-org0ee6a77">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
-</div>
-</div>
-<div id="outline-container-org555c040" class="outline-2">
-<h2 id="org555c040">Backlinks:</h2>
-<div class="outline-text-2" id="text-org555c040">
-<ul class="org-ul">
-<li><a href="./20240820100534-postgres.html">Postgres</a></li>
-</ul>
 </div>
 </div>
 </main>

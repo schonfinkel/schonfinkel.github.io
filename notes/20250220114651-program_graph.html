@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-02-20 Thu 16:34 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Program Graph</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Program Graph</h1>
+</header><div id="outline-container-org7bf6380" class="outline-2">
+<h2 id="org7bf6380">Definition</h2>
+<div class="outline-text-2" id="text-org7bf6380">
+<p>
+A program graph \(PG = (Q, \{q_{\vartriangleright}, q_{\blacktriangleleft} \},
+\texttt{Act}, \texttt{E})\) is a formalism that abstracts the graphical
+representation of a program, the edge labels of represent the computational
+"actions" that take place once the program reaches a certain state, there is no
+semantics behind the edges in this defiition (which is why they are generically
+defined as "just a Set").
+</p>
+
+<blockquote>
+<p>
+A program graph <b>PG</b> consists of the following:
+</p>
+<ul class="org-ul">
+<li>\(Q\) a finite set of Nodes.</li>
+<li>\(q_{\vartriangleright}, q_{\blacktriangleleft} \in Q\) two nodes called the <i>initial
+node</i> and the <i>final node</i>, respectively respectivelly.</li>
+<li>\(\texttt{Act}\): a set of <i>actions</i>.</li>
+<li>\(\texttt{E} \subseteq Q \times \texttt{Act} \times Q\), a finite set of edges.</li>
+</ul>
+
+<p>
+An edge \((q_\circ, \alpha, q_\bullet)\) has source node \(q_\circ\) and target node \(q_\bullet\), and
+it is labelled with the <b>action 𝛼</b>.
+</p>
+
+<p>
+We shall require that the initial and final nodes are distinct and that there
+are no edges with source \(q_\bullet\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Nielson and Nielson 2019, 2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgf301938" class="outline-2">
+<h2 id="orgf301938">References:</h2>
+<div class="outline-text-2" id="text-orgf301938">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Nielson, Flemming, and Hanne Riis Nielson. 2019. <i>Formal Methods: An Appetizer</i>. Springer.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org97d20cb" class="outline-2">
+<h2 id="org97d20cb">Backlinks:</h2>
+<div class="outline-text-2" id="text-org97d20cb">
+<ul class="org-ul">
+<li><a href="./20250217202807-formal_methods.html">Formal Methods</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

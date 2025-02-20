@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-04 Tue 01:53 -->
+<!-- 2025-02-20 Thu 16:34 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>OTP Application</title>
+<title>Application (OTP)</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">OTP Application</h1>
+<h1 class="title">Application (OTP)</h1>
 </header><blockquote>
 <p>
 Applications are the way you package related modules in Erlang. The focus here
@@ -66,9 +66,9 @@ multiple running instances, and some are limited to one instance at a
 time. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 119</a>)
 </p>
 </blockquote>
-<div id="outline-container-org2edab13" class="outline-2">
-<h2 id="org2edab13">Active Applications</h2>
-<div class="outline-text-2" id="text-org2edab13">
+<div id="outline-container-orgc010dbd" class="outline-2">
+<h2 id="orgc010dbd">Active Applications</h2>
+<div class="outline-text-2" id="text-orgc010dbd">
 <blockquote>
 <p>
 All applications have the same basic structure (&#x2026;). The application behaviour
@@ -84,14 +84,14 @@ Active Applications have a life cycle and must be started in order to be useful.
 </p>
 
 
-<figure id="org6a076b4">
+<figure id="org7e903ad">
 <img src="../static/img/notes/erlang_application_structure.png" alt="erlang_application_structure.png">
 
 </figure>
 </div>
-<div id="outline-container-orgc4498f8" class="outline-3">
-<h3 id="orgc4498f8">Metadata</h3>
-<div class="outline-text-3" id="text-orgc4498f8">
+<div id="outline-container-org99c3564" class="outline-3">
+<h3 id="org99c3564">Metadata</h3>
+<div class="outline-text-3" id="text-org99c3564">
 <p>
 OTP needs a certain amount of information to make sense of active applications,
 like what to <code>start/stop</code> (provided you implement the <code>application</code> behaviour) in
@@ -118,9 +118,9 @@ context of release management.
 </div>
 </div>
 </div>
-<div id="outline-container-orga685273" class="outline-3">
-<h3 id="orga685273">The Application Controller</h3>
-<div class="outline-text-3" id="text-orga685273">
+<div id="outline-container-org4df1496" class="outline-3">
+<h3 id="org4df1496">The Application Controller</h3>
+<div class="outline-text-3" id="text-org4df1496">
 <blockquote>
 <p>
 There is only one application controller per runtime system, registered under
@@ -130,9 +130,9 @@ it depends on have been started first. (<a href="#citeproc_bib_item_1">Logan, Me
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgdab266f" class="outline-4">
-<h4 id="orgdab266f">Start Types</h4>
-<div class="outline-text-4" id="text-orgdab266f">
+<div id="outline-container-org4f7dcac" class="outline-4">
+<h4 id="org4f7dcac">Start Types</h4>
+<div class="outline-text-4" id="text-org4f7dcac">
 <ul class="org-ul">
 <li><code>permanent</code></li>
 <li><code>temporary</code></li>
@@ -141,18 +141,18 @@ it depends on have been started first. (<a href="#citeproc_bib_item_1">Logan, Me
 </div>
 </div>
 </div>
-<div id="outline-container-org12a8f85" class="outline-2">
-<h2 id="org12a8f85">Library Applications</h2>
-<div class="outline-text-2" id="text-org12a8f85">
+<div id="outline-container-org962e9f4" class="outline-2">
+<h2 id="org962e9f4">Library Applications</h2>
+<div class="outline-text-2" id="text-org962e9f4">
 <p>
 Library applications are a passive collection of modules to be used by other
 applications, and they don't need to be started or stopped.
 </p>
 </div>
 </div>
-<div id="outline-container-orgfda961e" class="outline-2">
-<h2 id="orgfda961e">Making a Release</h2>
-<div class="outline-text-2" id="text-orgfda961e">
+<div id="outline-container-org08f25f1" class="outline-2">
+<h2 id="org08f25f1">Making a Release</h2>
+<div class="outline-text-2" id="text-org08f25f1">
 <blockquote>
 <p>
 Packaging of functionality in Erlang/OTP can be viewed as a hierarchy. At the
@@ -163,9 +163,9 @@ releases. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 245
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgdfc2833" class="outline-3">
-<h3 id="orgdfc2833">Releases</h3>
-<div class="outline-text-3" id="text-orgdfc2833">
+<div id="outline-container-orgc31facf" class="outline-3">
+<h3 id="orgc31facf">Releases</h3>
+<div class="outline-text-3" id="text-orgc31facf">
 <blockquote>
 <p>
 A release consists of a set of applications together with some metadata
@@ -196,18 +196,18 @@ how to manage the system.</li>
 </blockquote>
 
 
-<figure id="orgb816755">
+<figure id="org492166e">
 <img src="../static/img/notes/erlang_release_structure.png" alt="erlang_release_structure.png">
 
 </figure>
 </div>
-<div id="outline-container-orgdcac21f" class="outline-4">
-<h4 id="orgdcac21f">Metadata</h4>
+<div id="outline-container-org5f992b3" class="outline-4">
+<h4 id="org5f992b3">Metadata</h4>
 </div>
 </div>
-<div id="outline-container-org03355e5" class="outline-3">
-<h3 id="org03355e5">System Configuration</h3>
-<div class="outline-text-3" id="text-org03355e5">
+<div id="outline-container-org4d923d8" class="outline-3">
+<h3 id="org4d923d8">System Configuration</h3>
+<div class="outline-text-3" id="text-org4d923d8">
 <blockquote>
 <p>
 The standard name for a configuration file is <code>sys.config</code>. The name can be
@@ -219,17 +219,17 @@ period. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 250</
 </div>
 </div>
 </div>
-<div id="outline-container-orgb29562b" class="outline-2">
-<h2 id="orgb29562b">References:</h2>
-<div class="outline-text-2" id="text-orgb29562b">
+<div id="outline-container-org161c8b1" class="outline-2">
+<h2 id="org161c8b1">References:</h2>
+<div class="outline-text-2" id="text-org161c8b1">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org37af4e0" class="outline-2">
-<h2 id="org37af4e0">Backlinks:</h2>
-<div class="outline-text-2" id="text-org37af4e0">
+<div id="outline-container-orge75cb35" class="outline-2">
+<h2 id="orge75cb35">Backlinks:</h2>
+<div class="outline-text-2" id="text-orge75cb35">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>
