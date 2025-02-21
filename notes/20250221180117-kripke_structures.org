@@ -1,0 +1,28 @@
+:PROPERTIES:
+:ID:       d2462178-d921-4d12-ae3c-0f3b22a147ad
+:END:
+#+title: Kripke Structures
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :logic: :computer-science: :formal-methods:
+
+#+begin_quote
+A Kripke structure over a set of atomic propositions $\texttt{AP}$ is a 4-tuple
+
+$$ \texttt{K} = (S, I, \rightarrow, \lambda) $$
+
+where:
+
++ $S$ is a finite set of states.
++ $I \subseteq S$ is the non-empty set of initial states.
++ $\rightarrow \subseteq S \times S$ is a transition relation, such that $\rightarrow$ is /left-total/,
+  i.e.
+
+  $$\forall s \in S. \exists s^\prime \in S. (s, s^\prime) \in \rightarrow $$
+
++ $\lambda: S \rightarrow 2^{AP}$ is an interpretation (or labelling) function that maps each state
+  to its set of valid atomic propositions.
+
+[cite:@huisman2023concise p.45]
+#+end_quote
+
