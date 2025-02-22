@@ -88,6 +88,11 @@ important topic in the construction of compilers for typed programming
 languages. [cite:@huth2004logic p.12]
 #+end_quote
 
+Logical formulas $\phi$ with valid sequent $\vdash \phi$ are theorems. More generally
+a proof of $ \phi_1, \phi_2, \phi_3, \ldots, \phi_n \vdash \psi $ can be rewritten as:
+
+$$ \vdash (\phi_1 \rightarrow (\phi_2 \rightarrow (\phi_3 \rightarrow (\ldots (\phi_n \rightarrow \psi))) $$
+
 ** Disjunction
 
 \begin{prooftree}
@@ -174,3 +179,5 @@ To dissasemble a disjunction, we need to show that either $\phi \vdash \chi$ or 
 \alwaysSingleLine
 \UnaryInfC{$\phi$}
 \end{prooftree}
+
+** Provable Equivalence

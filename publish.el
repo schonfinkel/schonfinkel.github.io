@@ -146,6 +146,7 @@
                            "beam.bib"
                            "blockchain.bib"
                            "classic_studies.bib"
+                           "computer_science.bib"
                            "databases.bib"
                            "distributed_systems.bib"
                            "fp_general.bib"
