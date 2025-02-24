@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-20 Thu 16:34 -->
+<!-- 2025-02-24 Mon 13:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Data Types (PostgreSQL)</title>
@@ -58,17 +58,17 @@
 </header><ul class="org-ul">
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-orgac63710" class="outline-2">
-<h2 id="orgac63710">Schemas</h2>
+<div id="outline-container-org30aafd5" class="outline-2">
+<h2 id="org30aafd5">Schemas</h2>
 </div>
 
-<div id="outline-container-orgdc6bca0" class="outline-2">
-<h2 id="orgdc6bca0">Numbers</h2>
-<div class="outline-text-2" id="text-orgdc6bca0">
+<div id="outline-container-org6f69fc1" class="outline-2">
+<h2 id="org6f69fc1">Numbers</h2>
+<div class="outline-text-2" id="text-org6f69fc1">
 </div>
-<div id="outline-container-orge3d32d9" class="outline-3">
-<h3 id="orge3d32d9">Integers</h3>
-<div class="outline-text-3" id="text-orge3d32d9">
+<div id="outline-container-org12e9bf9" class="outline-3">
+<h3 id="org12e9bf9">Integers</h3>
+<div class="outline-text-3" id="text-org12e9bf9">
 <ul class="org-ul">
 <li><code>SMALLINT</code> (also aliased to <code>INT2</code>)</li>
 <li><code>INTEGER</code> (aliased as <code>INT4</code>)+</li>
@@ -76,9 +76,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org6f21e98" class="outline-3">
-<h3 id="org6f21e98">Numeric</h3>
-<div class="outline-text-3" id="text-org6f21e98">
+<div id="outline-container-org91d1300" class="outline-3">
+<h3 id="org91d1300">Numeric</h3>
+<div class="outline-text-3" id="text-org91d1300">
 <blockquote>
 <p>
 NUMERIC(precision, scale)
@@ -90,13 +90,225 @@ NUMERIC(precision, scale)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf80405a" class="outline-3">
-<h3 id="orgf80405a">Floating Point</h3>
+<div id="outline-container-org8af8d4f" class="outline-3">
+<h3 id="org8af8d4f">Floating Point</h3>
+<div class="outline-text-3" id="text-org8af8d4f">
+<ul class="org-ul">
+<li><code>REAL</code></li>
+<li><code>DOUBLE PRECISION</code></li>
+</ul>
 </div>
 </div>
-<div id="outline-container-orgb99c296" class="outline-2">
-<h2 id="orgb99c296">References:</h2>
-<div class="outline-text-2" id="text-orgb99c296">
+<div id="outline-container-org5a26e2c" class="outline-3">
+<h3 id="org5a26e2c">NaN</h3>
+</div>
+
+<div id="outline-container-orga003836" class="outline-3">
+<h3 id="orga003836">Infinity</h3>
+</div>
+</div>
+<div id="outline-container-orgbce82ed" class="outline-2">
+<h2 id="orgbce82ed">Constraints</h2>
+<div class="outline-text-2" id="text-orgbce82ed">
+</div>
+<div id="outline-container-orgfd13d8e" class="outline-3">
+<h3 id="orgfd13d8e">Check Constraint</h3>
+<div class="outline-text-3" id="text-orgfd13d8e">
+<blockquote>
+<p>
+A check constraint is the most generic constraint type. It allows you to specify
+that the value in a certain column must satisfy a Boolean (truth-value)
+expression.
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">purchase_item</span> (
+    price <span style="font-weight: bold; text-decoration: underline;">INTEGER</span> <span style="font-weight: bold;">CONSTRAINT</span> positive_price <span style="font-weight: bold;">CHECK</span> (price &gt; 0),
+    discount <span style="font-weight: bold; text-decoration: underline;">INTEGER</span> <span style="font-weight: bold;">CONSTRAINT</span> non_negative_discount <span style="font-weight: bold;">CHECK</span> (discount &gt;= 0),
+    description TEXT (<span style="font-weight: bold;">LENGTH</span>(description) &lt; 2048)
+  );
+</pre>
+</div>
+
+<p>
+You can also apply a <code>CHECK</code> constraint to the entire table and can involve multiple columns.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">purchase_item</span> (
+    price <span style="font-weight: bold; text-decoration: underline;">INTEGER</span> <span style="font-weight: bold;">CONSTRAINT</span> positive_price <span style="font-weight: bold;">CHECK</span> (price &gt; 0),
+    discount <span style="font-weight: bold; text-decoration: underline;">INTEGER</span> <span style="font-weight: bold;">CONSTRAINT</span> non_negative_discount <span style="font-weight: bold;">CHECK</span> (discount &gt;= 0),
+    description TEXT (<span style="font-weight: bold;">LENGTH</span>(description) &lt; 2048),
+    <span style="font-weight: bold;">CHECK</span> (price &gt; discount)
+  );
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc0e3ef9" class="outline-2">
+<h2 id="orgc0e3ef9">Domain Types</h2>
+<div class="outline-text-2" id="text-orgc0e3ef9">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">DOMAIN</span> us_postal_code <span style="font-weight: bold;">AS</span> TEXT
+    <span style="font-weight: bold;">CHECK</span>(<span style="font-weight: bold;">VALUE</span> ~ <span style="font-style: italic;">'^\d{5}$'</span> <span style="font-weight: bold;">OR</span> <span style="font-weight: bold;">VALUE</span> ~ <span style="font-style: italic;">'^\d{5}-\d{4}$'</span>
+  );
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org08f66c3" class="outline-2">
+<h2 id="org08f66c3">Binary Data</h2>
+</div>
+
+<div id="outline-container-org71ec68a" class="outline-2">
+<h2 id="org71ec68a">UUIDs</h2>
+</div>
+
+<div id="outline-container-org2c50400" class="outline-2">
+<h2 id="org2c50400">Booleans</h2>
+</div>
+
+<div id="outline-container-org952a81d" class="outline-2">
+<h2 id="org952a81d">Enums</h2>
+<div class="outline-text-2" id="text-org952a81d">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TYPE</span> <span style="font-weight: bold;">mood</span> <span style="font-weight: bold;">AS</span> ENUM (<span style="font-style: italic;">'sad'</span>, <span style="font-style: italic;">'neutral'</span>, <span style="font-style: italic;">'happy'</span>);
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">You can also add another value later, and set its position</span>
+  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">TYPE</span> <span style="font-weight: bold;">mood</span> <span style="font-weight: bold;">ADD</span> <span style="font-weight: bold;">VALUE</span> <span style="font-style: italic;">'afraid'</span> <span style="font-weight: bold;">AFTER</span> <span style="font-style: italic;">'sad'</span>;
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Removing a value from an enum is tricky tho, you need to drop</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">recreate the new type.</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Start a transaction</span>
+  <span style="font-weight: bold;">BEGIN</span>;
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Rename old type</span>
+  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">TYPE</span> <span style="font-weight: bold;">mood</span> RENAME <span style="font-weight: bold;">TO</span> mood_old;
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Create a new type</span>
+  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TYPE</span> <span style="font-weight: bold;">mood</span> <span style="font-weight: bold;">AS</span> ENUM (<span style="font-style: italic;">'sad'</span>, <span style="font-style: italic;">'neutral'</span>, <span style="font-style: italic;">'happy'</span>);
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Update any tables that use this type, default old</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">removed value to something else.</span>
+  <span style="font-weight: bold;">UPDATE</span>
+    &lt;table_with_enum&gt;
+  <span style="font-weight: bold;">SET</span>
+    current_mood = <span style="font-style: italic;">'neutral'</span>
+  <span style="font-weight: bold;">WHERE</span>
+    current_mood <span style="font-weight: bold;">NOT</span> <span style="font-weight: bold;">IN</span> (<span style="font-style: italic;">'sad'</span>, <span style="font-style: italic;">'neutral'</span>, <span style="font-style: italic;">'happy'</span>);
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Switch to the new type</span>
+  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">TABLE</span> &lt;table_with_enum&gt;
+  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">COLUMN</span> current_mood
+    <span style="font-weight: bold;">TYPE</span> mood <span style="font-weight: bold;">USING</span> mood_old::text::status_enum;
+
+  <span style="font-weight: bold;">COMMIT</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org50dd719" class="outline-2">
+<h2 id="org50dd719">Timestamps</h2>
+<div class="outline-text-2" id="text-org50dd719">
+</div>
+<div id="outline-container-org9633a63" class="outline-3">
+<h3 id="org9633a63">Built-In Functions</h3>
+<div class="outline-text-3" id="text-org9633a63">
+<ul class="org-ul">
+<li><code>to_timestap</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org250f175" class="outline-3">
+<h3 id="org250f175">Setting a DB Timezone</h3>
+<div class="outline-text-3" id="text-org250f175">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SET</span> <span style="font-weight: bold; text-decoration: underline;">TIME</span> <span style="font-weight: bold; text-decoration: underline;">ZONE</span> <span style="font-style: italic;">'UTC'</span>;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org73482af" class="outline-2">
+<h2 id="org73482af">Dates &amp; Time</h2>
+<div class="outline-text-2" id="text-org73482af">
+</div>
+<div id="outline-container-org40ae99c" class="outline-3">
+<h3 id="org40ae99c">Magic Constants</h3>
+<div class="outline-text-3" id="text-org40ae99c">
+<ul class="org-ul">
+<li><code>CURRENT_DATE</code></li>
+<li><code>CURRENT_TIME</code></li>
+<li><code>CURRRENT_TIMESTAMP</code></li>
+<li><code>LOCALTIME</code></li>
+<li><code>LOCALTIMESTAMP</code></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaf28cfc" class="outline-2">
+<h2 id="orgaf28cfc">Intervals</h2>
+</div>
+
+<div id="outline-container-orgf8a55ac" class="outline-2">
+<h2 id="orgf8a55ac">Serial</h2>
+</div>
+
+<div id="outline-container-org0872e2a" class="outline-2">
+<h2 id="org0872e2a">Sequences</h2>
+<div class="outline-text-2" id="text-org0872e2a">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">SEQUENCE</span> IF <span style="font-weight: bold;">NOT</span> <span style="font-weight: bold;">EXISTS</span> <span style="font-weight: bold;">some_seq</span>
+    <span style="font-weight: bold;">AS</span> BIGINT
+    <span style="font-weight: bold;">START</span> <span style="font-weight: bold;">WITH</span> 1
+    INCREMENT <span style="font-weight: bold;">BY</span> 1
+    MINVALUE 1;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>SELECT NEXTVAL('some_seq');</code></li>
+<li><p>
+<code>SELECT CURRVAL('some_seq');</code>
+</p>
+
+<p>
+Outputs the current value of the session, not the global sequence value.
+</p></li>
+
+<li><code>SELECT SETVAL('some_seq', 1000);</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge9804d9" class="outline-2">
+<h2 id="orge9804d9">Identity</h2>
+<div class="outline-text-2" id="text-orge9804d9">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">user</span> (
+    id BIGINT <span style="font-weight: bold;">GENERATED</span> ALWAYS <span style="font-weight: bold;">AS</span> <span style="font-weight: bold;">IDENTITY</span> <span style="font-weight: bold;">PRIMARY</span> <span style="font-weight: bold;">KEY</span>,
+    ...,
+  );
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">To find out the internal name of the sequence</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">being used.</span>
+  <span style="font-weight: bold;">SELECT</span> pg_get_serial_sequence(<span style="font-style: italic;">'user'</span>, <span style="font-style: italic;">'id'</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org011d77f" class="outline-2">
+<h2 id="org011d77f">Network Types</h2>
+</div>
+
+<div id="outline-container-org5e70533" class="outline-2">
+<h2 id="org5e70533">JSON</h2>
+</div>
+
+<div id="outline-container-orgcf20275" class="outline-2">
+<h2 id="orgcf20275">References:</h2>
+<div class="outline-text-2" id="text-orgcf20275">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>

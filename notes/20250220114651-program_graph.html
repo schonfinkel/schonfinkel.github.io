@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-20 Thu 16:34 -->
+<!-- 2025-02-24 Mon 13:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Program Graph</title>
@@ -87,26 +87,18 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Program Graph</h1>
-</header><div id="outline-container-org7bf6380" class="outline-2">
-<h2 id="org7bf6380">Definition</h2>
-<div class="outline-text-2" id="text-org7bf6380">
-<p>
-A program graph \(PG = (Q, \{q_{\vartriangleright}, q_{\blacktriangleleft} \},
-\texttt{Act}, \texttt{E})\) is a formalism that abstracts the graphical
-representation of a program, the edge labels of represent the computational
-"actions" that take place once the program reaches a certain state, there is no
-semantics behind the edges in this defiition (which is why they are generically
-defined as "just a Set").
-</p>
-
+</header><div id="outline-container-org26447cf" class="outline-2">
+<h2 id="org26447cf">Definition</h2>
+<div class="outline-text-2" id="text-org26447cf">
 <blockquote>
 <p>
-A program graph <b>PG</b> consists of the following:
+A program graph \(\texttt{PG} = (Q, \{ q_{\vartriangleright}, q_{\blacktriangleleft}
+\}, \texttt{Act}, \texttt{E})\) consists of the following:
 </p>
 <ul class="org-ul">
 <li>\(Q\) a finite set of Nodes.</li>
 <li>\(q_{\vartriangleright}, q_{\blacktriangleleft} \in Q\) two nodes called the <i>initial
-node</i> and the <i>final node</i>, respectively respectivelly.</li>
+node</i> and the <i>final node</i>, respectively.</li>
 <li>\(\texttt{Act}\): a set of <i>actions</i>.</li>
 <li>\(\texttt{E} \subseteq Q \times \texttt{Act} \times Q\), a finite set of edges.</li>
 </ul>
@@ -118,26 +110,29 @@ it is labelled with the <b>action 𝛼</b>.
 
 <p>
 We shall require that the initial and final nodes are distinct and that there
-are no edges with source \(q_\bullet\).
-</p>
-
-<p>
-(<a href="#citeproc_bib_item_1">Nielson and Nielson 2019, 2</a>)
+are no edges with source \(q_\bullet\). (<a href="#citeproc_bib_item_1">Nielson and Nielson 2019, 2</a>)
 </p>
 </blockquote>
+
+<p>
+The edge labels of represent the computational "actions" that take place once
+the program reaches a certain state, there is no semantics behind the edges in
+this defiition (which is why the \(\texttt{Act}\) has a generic definition). For a
+semantic-based formalism look at <a href="20250221180117-kripke_structures.html#ID-d2462178-d921-4d12-ae3c-0f3b22a147ad">Kripke Structures</a>.
+</p>
 </div>
 </div>
-<div id="outline-container-orgf301938" class="outline-2">
-<h2 id="orgf301938">References:</h2>
-<div class="outline-text-2" id="text-orgf301938">
+<div id="outline-container-orgd08c9ca" class="outline-2">
+<h2 id="orgd08c9ca">References:</h2>
+<div class="outline-text-2" id="text-orgd08c9ca">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Nielson, Flemming, and Hanne Riis Nielson. 2019. <i>Formal Methods: An Appetizer</i>. Springer.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org97d20cb" class="outline-2">
-<h2 id="org97d20cb">Backlinks:</h2>
-<div class="outline-text-2" id="text-org97d20cb">
+<div id="outline-container-orgf22faf9" class="outline-2">
+<h2 id="orgf22faf9">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgf22faf9">
 <ul class="org-ul">
 <li><a href="./20250217202807-formal_methods.html">Formal Methods</a></li>
 </ul>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-20 Thu 16:34 -->
+<!-- 2025-02-24 Mon 13:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Natural Deduction</title>
@@ -115,13 +115,13 @@ found.
 (<a href="#citeproc_bib_item_1">Huth and Ryan 2004, 5</a>)
 </p>
 </blockquote>
-<div id="outline-container-org3418f40" class="outline-2">
-<h2 id="org3418f40">Rules for Natural Deduction</h2>
-<div class="outline-text-2" id="text-org3418f40">
+<div id="outline-container-orge8b3463" class="outline-2">
+<h2 id="orge8b3463">Rules for Natural Deduction</h2>
+<div class="outline-text-2" id="text-orge8b3463">
 </div>
-<div id="outline-container-org72ee7b8" class="outline-3">
-<h3 id="org72ee7b8">Conjunction</h3>
-<div class="outline-text-3" id="text-org72ee7b8">
+<div id="outline-container-orgdef6c7f" class="outline-3">
+<h3 id="orgdef6c7f">Conjunction</h3>
+<div class="outline-text-3" id="text-orgdef6c7f">
 \begin{prooftree}
 \AxiomC{$\phi$}
 \AxiomC{$\psi$}
@@ -142,9 +142,9 @@ found.
 \end{prooftree}
 </div>
 </div>
-<div id="outline-container-orgb37835d" class="outline-3">
-<h3 id="orgb37835d">Double Negation</h3>
-<div class="outline-text-3" id="text-orgb37835d">
+<div id="outline-container-org7c4e768" class="outline-3">
+<h3 id="org7c4e768">Double Negation</h3>
+<div class="outline-text-3" id="text-org7c4e768">
 \begin{prooftree}
 \AxiomC{$\phi$}
 \RightLabel{$\lnot \lnot i$}
@@ -158,9 +158,9 @@ found.
 \end{prooftree}
 </div>
 </div>
-<div id="outline-container-orgb2607f8" class="outline-3">
-<h3 id="orgb2607f8">Implication</h3>
-<div class="outline-text-3" id="text-orgb2607f8">
+<div id="outline-container-org486619b" class="outline-3">
+<h3 id="org486619b">Implication</h3>
+<div class="outline-text-3" id="text-org486619b">
 \begin{prooftree}
 \AxiomC{$\phi$}
 \AxiomC{$\phi \to \psi$}
@@ -189,11 +189,20 @@ important topic in the construction of compilers for typed programming
 languages. (<a href="#citeproc_bib_item_1">Huth and Ryan 2004, 12</a>)
 </p>
 </blockquote>
+
+<p>
+Logical formulas \(\phi\) with valid sequent \(\vdash \phi\) are theorems. More generally
+a proof of $ &phi;<sub>1</sub>, &phi;<sub>2</sub>, &phi;<sub>3</sub>, \ldots, &phi;<sub>n</sub> \vdash &psi; $ can be rewritten as:
+</p>
+
+<p>
+\[ \vdash (\phi_1 \rightarrow (\phi_2 \rightarrow (\phi_3 \rightarrow (\ldots (\phi_n \rightarrow \psi))) \]
+</p>
 </div>
 </div>
-<div id="outline-container-orgc0ca456" class="outline-3">
-<h3 id="orgc0ca456">Disjunction</h3>
-<div class="outline-text-3" id="text-orgc0ca456">
+<div id="outline-container-org1f495c0" class="outline-3">
+<h3 id="org1f495c0">Disjunction</h3>
+<div class="outline-text-3" id="text-org1f495c0">
 \begin{prooftree}
 \AxiomC{$\phi$}
 \RightLabel{$\lor i_1$}
@@ -226,9 +235,9 @@ To dissasemble a disjunction, we need to show that either \(\phi \vdash \chi\) o
 \end{prooftree}
 </div>
 </div>
-<div id="outline-container-orge7cf4a1" class="outline-3">
-<h3 id="orge7cf4a1">Negation</h3>
-<div class="outline-text-3" id="text-orge7cf4a1">
+<div id="outline-container-orgeaba550" class="outline-3">
+<h3 id="orgeaba550">Negation</h3>
+<div class="outline-text-3" id="text-orgeaba550">
 \begin{prooftree}
 \AxiomC{$\bot$}
 \RightLabel{$\bot_e$}
@@ -253,13 +262,13 @@ To dissasemble a disjunction, we need to show that either \(\phi \vdash \chi\) o
 \end{prooftree}
 </div>
 </div>
-<div id="outline-container-orgf680783" class="outline-3">
-<h3 id="orgf680783">Useful Derived Rules</h3>
-<div class="outline-text-3" id="text-orgf680783">
+<div id="outline-container-orgdae0d14" class="outline-3">
+<h3 id="orgdae0d14">Useful Derived Rules</h3>
+<div class="outline-text-3" id="text-orgdae0d14">
 </div>
-<div id="outline-container-org107a1de" class="outline-4">
-<h4 id="org107a1de">Modus Tollens</h4>
-<div class="outline-text-4" id="text-org107a1de">
+<div id="outline-container-org27994e6" class="outline-4">
+<h4 id="org27994e6">Modus Tollens</h4>
+<div class="outline-text-4" id="text-org27994e6">
 \begin{prooftree}
 \AxiomC{$\lnot \psi$}
 \AxiomC{$\phi \to \psi$}
@@ -268,9 +277,9 @@ To dissasemble a disjunction, we need to show that either \(\phi \vdash \chi\) o
 \end{prooftree}
 </div>
 </div>
-<div id="outline-container-orga958a01" class="outline-4">
-<h4 id="orga958a01">Law of the Excluded Middle</h4>
-<div class="outline-text-4" id="text-orga958a01">
+<div id="outline-container-org4f5e1e1" class="outline-4">
+<h4 id="org4f5e1e1">Law of the Excluded Middle</h4>
+<div class="outline-text-4" id="text-org4f5e1e1">
 \begin{prooftree}
 \alwaysNoLine
 \AxiomC{}
@@ -280,9 +289,9 @@ To dissasemble a disjunction, we need to show that either \(\phi \vdash \chi\) o
 \end{prooftree}
 </div>
 </div>
-<div id="outline-container-org8bb7fcd" class="outline-4">
-<h4 id="org8bb7fcd">Proof by Contradiction</h4>
-<div class="outline-text-4" id="text-org8bb7fcd">
+<div id="outline-container-org4e2de7e" class="outline-4">
+<h4 id="org4e2de7e">Proof by Contradiction</h4>
+<div class="outline-text-4" id="text-org4e2de7e">
 \begin{prooftree}
 \alwaysNoLine
 \AxiomC{[$\lnot \phi$]}
@@ -295,18 +304,21 @@ To dissasemble a disjunction, we need to show that either \(\phi \vdash \chi\) o
 </div>
 </div>
 </div>
+<div id="outline-container-orgf7f14a2" class="outline-3">
+<h3 id="orgf7f14a2">Provable Equivalence</h3>
 </div>
-<div id="outline-container-org81ca7e5" class="outline-2">
-<h2 id="org81ca7e5">References:</h2>
-<div class="outline-text-2" id="text-org81ca7e5">
+</div>
+<div id="outline-container-orgcad485d" class="outline-2">
+<h2 id="orgcad485d">References:</h2>
+<div class="outline-text-2" id="text-orgcad485d">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Huth, Michael, and Mark Ryan. 2004. <i>Logic in Computer Science: Modelling and Reasoning About Systems</i>. Cambridge university press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgde69325" class="outline-2">
-<h2 id="orgde69325">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgde69325">
+<div id="outline-container-orga108570" class="outline-2">
+<h2 id="orga108570">Backlinks:</h2>
+<div class="outline-text-2" id="text-orga108570">
 <ul class="org-ul">
 <li><a href="./20250119195829-curry_howard_isomorphism.html">Curry-Howard Isomorphism</a></li>
 </ul>

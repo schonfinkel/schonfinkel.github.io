@@ -4,7 +4,7 @@
 <!-- 2025-02-24 Mon 13:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>STONITH</title>
+<title>Pi-Calculus</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -28,6 +28,38 @@
       inlineMath: [['\\(', '\\)']]                  // inline
     }
   };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 </head>
 <body>
@@ -54,58 +86,61 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">STONITH</h1>
+<h1 class="title">Pi-Calculus</h1>
 </header><blockquote>
 <p>
-In STONITH, specific hardware is used to terminate a node that is no longer
-responsive to the cluster. The idea behind STONITH is that before migrating
-resources to another node in the cluster, the cluster has to confirm that the
-node in question really is down. To do this, the cluster will send a shutdown
-action to the STONITH device, which will, in turn, terminate the nonresponsive
-node. (<a href="#citeproc_bib_item_1">Van Vugt 2014</a>)
+The &pi;-calculus differs from other models of communicating behaviour mainly in
+its treatment of mobility. The movement of a piece of data inside a computer
+program is treated exactly the same as the transfer of a message - or indeed an
+entire computer program - across the internet. One can also describe networks
+which reconfigure themselves.
+</p>
+
+<p>
+The calculus is very simple but powerful. Its most prominent notion is that of a
+name, and it has two important ingredients: the concept of behavioural (or
+observational) equivalence, and the use of a new theory of types to classify
+patterns of interactive behaviour.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Milner 1999</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgf90331f" class="outline-2">
-<h2 id="orgf90331f">Mechanisms</h2>
-<div class="outline-text-2" id="text-orgf90331f">
-</div>
-<div id="outline-container-org8235218" class="outline-3">
-<h3 id="org8235218">Power Fencing</h3>
-<div class="outline-text-3" id="text-org8235218">
-<ul class="org-ul">
-<li>Cuts the node off from power.</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgac21572" class="outline-3">
-<h3 id="orgac21572">Fabric Fencing :: Disconnects the machine from storage.</h3>
-<div class="outline-text-3" id="text-orgac21572">
-<ul class="org-ul">
-<li>By closing ports in a Fibre Channel Switch.</li>
-<li>By using <a href="20241001154953-scsi.html#ID-388e1a43-f7f6-4c9e-af19-d7b6116a070e">SCSI</a> reservations.</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-org49e742b" class="outline-2">
-<h2 id="org49e742b">Fencing Agents</h2>
-</div>
+<div id="outline-container-org60d3377" class="outline-2">
+<h2 id="org60d3377">Syntax</h2>
+<div class="outline-text-2" id="text-org60d3377">
+<blockquote>
+<p>
+The simplest entities of the &pi;-calculus are names. They can be thought of as
+names of communication links. Processes use names to interact, and pass names to
+one another by mentioning them in interactions. Names received by a process can
+be used and mentioned by it in further interactions. A countably-infinite set of
+names is presupposed, ranged over by lower-case letters.
+</p>
 
-<div id="outline-container-org087e62c" class="outline-2">
-<h2 id="org087e62c">References:</h2>
-<div class="outline-text-2" id="text-org087e62c">
+<p>
+Processes evolve by performing actions. The capabilities for action are
+expressed via the <i>prefixes</i>, of which there are four kinds:
+</p>
+
+<p>
+\[ \pi ::= \overline{x}y \mid x(z) \mid \tau \mid [x=y]\pi \]
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_2">Sangiorgi and Walker 2003, 10</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgb7ad071" class="outline-2">
+<h2 id="orgb7ad071">References:</h2>
+<div class="outline-text-2" id="text-orgb7ad071">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Vugt, Sander. 2014. <i>Pro Linux High Availability Clustering</i>. Apress.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Milner, Robin. 1999. <i>Communicating and Mobile Systems: The Pi Calculus</i>. Cambridge university press.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Sangiorgi, Davide, and David Walker. 2003. <i>The Pi-Calculus: A Theory of Mobile Processes</i>. Cambridge university press.</div>
 </div>
-</div>
-</div>
-<div id="outline-container-org6c102b3" class="outline-2">
-<h2 id="org6c102b3">Backlinks:</h2>
-<div class="outline-text-2" id="text-org6c102b3">
-<ul class="org-ul">
-<li><a href="./20240925092856-quorum.html">Quorum</a></li>
-<li><a href="./20240926233504-clusters.html">Cluster</a></li>
-</ul>
 </div>
 </div>
 </main>
