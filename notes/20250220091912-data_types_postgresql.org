@@ -24,3 +24,148 @@
 + Can hold values bigger than ~BIGINT~
   
 ** Floating Point
+
++ ~REAL~
++ ~DOUBLE PRECISION~
+
+** NaN
+
+** Infinity
+
+* Constraints
+
+** Check Constraint
+
+#+begin_quote
+A check constraint is the most generic constraint type. It allows you to specify
+that the value in a certain column must satisfy a Boolean (truth-value)
+expression.
+#+end_quote
+
+#+begin_src sql
+  CREATE TABLE purchase_item (
+    price INTEGER CONSTRAINT positive_price CHECK (price > 0),
+    discount INTEGER CONSTRAINT non_negative_discount CHECK (discount >= 0),
+    description TEXT (LENGTH(description) < 2048)
+  );
+#+end_src
+
+You can also apply a ~CHECK~ constraint to the entire table and can involve multiple columns.
+
+#+begin_src sql
+  CREATE TABLE purchase_item (
+    price INTEGER CONSTRAINT positive_price CHECK (price > 0),
+    discount INTEGER CONSTRAINT non_negative_discount CHECK (discount >= 0),
+    description TEXT (LENGTH(description) < 2048),
+    CHECK (price > discount)
+  );
+#+end_src
+
+* Domain Types
+
+#+begin_src sql
+  CREATE DOMAIN us_postal_code AS TEXT
+    CHECK(VALUE ~ '^\d{5}$' OR VALUE ~ '^\d{5}-\d{4}$'
+  );
+#+end_src
+
+* Binary Data
+
+* UUIDs
+
+* Booleans
+
+* Enums
+
+#+begin_src sql
+  CREATE TYPE mood AS ENUM ('sad', 'neutral', 'happy');
+
+  -- You can also add another value later, and set its position
+  ALTER TYPE mood ADD VALUE 'afraid' AFTER 'sad';
+
+  -- Removing a value from an enum is tricky tho, you need to drop
+  -- recreate the new type.
+  -- Start a transaction
+  BEGIN;
+
+  -- Rename old type
+  ALTER TYPE mood RENAME TO mood_old;
+
+  -- Create a new type
+  CREATE TYPE mood AS ENUM ('sad', 'neutral', 'happy');
+
+  -- Update any tables that use this type, default old
+  -- removed value to something else.
+  UPDATE
+    <table_with_enum>
+  SET
+    current_mood = 'neutral'
+  WHERE
+    current_mood NOT IN ('sad', 'neutral', 'happy');
+
+  -- Switch to the new type
+  ALTER TABLE <table_with_enum>
+  ALTER COLUMN current_mood
+    TYPE mood USING mood_old::text::status_enum;
+
+  COMMIT;
+#+end_src
+
+* Timestamps
+
+** Built-In Functions
+
++ ~to_timestap~
+
+** Setting a DB Timezone
+
+#+begin_src sql
+  SET TIME ZONE 'UTC';
+#+end_src
+
+* Dates & Time
+
+** Magic Constants
++ ~CURRENT_DATE~
++ ~CURRENT_TIME~
++ ~CURRRENT_TIMESTAMP~
++ ~LOCALTIME~
++ ~LOCALTIMESTAMP~
+  
+* Intervals
+
+* Serial
+
+* Sequences
+
+#+begin_src sql
+  CREATE SEQUENCE IF NOT EXISTS some_seq
+    AS BIGINT
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 1;
+#+end_src
+
++ ~SELECT NEXTVAL('some_seq');~
++ ~SELECT CURRVAL('some_seq');~
+
+  Outputs the current value of the session, not the global sequence value.
+
++ ~SELECT SETVAL('some_seq', 1000);~
+
+* Identity
+
+#+begin_src sql
+  CREATE TABLE user (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    ...,
+  );
+
+  -- To find out the internal name of the sequence
+  -- being used.
+  SELECT pg_get_serial_sequence('user', 'id');
+#+end_src
+
+* Network Types
+
+* JSON

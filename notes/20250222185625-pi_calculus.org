@@ -1,0 +1,39 @@
+:PROPERTIES:
+:ID:       372da868-829a-4ac5-aa5d-eb27964fe7f5
+:END:
+#+title: Pi-Calculus
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :math:
+
+#+begin_quote
+The \pi-calculus differs from other models of communicating behaviour mainly in
+its treatment of mobility. The movement of a piece of data inside a computer
+program is treated exactly the same as the transfer of a message - or indeed an
+entire computer program - across the internet. One can also describe networks
+which reconfigure themselves.
+
+The calculus is very simple but powerful. Its most prominent notion is that of a
+name, and it has two important ingredients: the concept of behavioural (or
+observational) equivalence, and the use of a new theory of types to classify
+patterns of interactive behaviour.
+
+[cite:@milner1999communicating]
+#+end_quote
+
+* Syntax
+
+#+begin_quote
+The simplest entities of the \pi-calculus are names. They can be thought of as
+names of communication links. Processes use names to interact, and pass names to
+one another by mentioning them in interactions. Names received by a process can
+be used and mentioned by it in further interactions. A countably-infinite set of
+names is presupposed, ranged over by lower-case letters.
+
+Processes evolve by performing actions. The capabilities for action are
+expressed via the /prefixes/, of which there are four kinds:
+
+$$ \pi ::= \overline{x}y \mid x(z) \mid \tau \mid [x=y]\pi $$
+
+[cite:@sangiorgi2003pi p.10]
+#+end_quote
