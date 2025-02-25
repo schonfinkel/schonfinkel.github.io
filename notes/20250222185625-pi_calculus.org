@@ -23,17 +23,26 @@ patterns of interactive behaviour.
 
 * Syntax
 
-#+begin_quote
-The simplest entities of the \pi-calculus are names. They can be thought of as
-names of communication links. Processes use names to interact, and pass names to
-one another by mentioning them in interactions. Names received by a process can
-be used and mentioned by it in further interactions. A countably-infinite set of
-names is presupposed, ranged over by lower-case letters.
+** Prefixes
 
+#+begin_quote
 Processes evolve by performing actions. The capabilities for action are
 expressed via the /prefixes/, of which there are four kinds:
 
 $$ \pi ::= \overline{x}y \mid x(z) \mid \tau \mid [x=y]\pi $$
 
-[cite:@sangiorgi2003pi p.10]
+[cite:@sangiorgi2003pi p.11]
 #+end_quote
+
+** Agents
+
+\begin{align*}
+P ::=\,& 0  \tag{Nil}\\
+     \,& \alpha.P  \tag{Prefix}\\
+     \,& P + P  \tag{Sum}\\
+     \,& P \mid P  \tag{Parallel}\\
+     \,& \texttt{if } x = y \texttt{ then } P \tag{Match}\\
+     \,& \texttt{if } x \neq y \texttt{ then } P \tag{Match}\\
+     \,& (\nu x)P \tag{Restriction}\\
+     \,& A(y_1 , \ldots, y_n) \tag{Identifier}
+\end{align*}
