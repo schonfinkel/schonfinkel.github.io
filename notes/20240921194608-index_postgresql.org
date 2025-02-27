@@ -1,0 +1,173 @@
+:PROPERTIES:
+:ID:       48dd781f-123c-4508-82b5-ac9b05383db4
+:END:
+#+title: Index (PostgreSQL)
+#+filetags: :postgresql:
+
+Indexes are a common way to enhance database performance. An index allows the
+[[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] server to find and retrieve specific rows much faster than it could do
+without an index.
+
+* Selectivity
+
+#+begin_src sql
+  SELECT COUNT(DISTINCT column_name) / COUNT(*)
+  FROM table_name;
+#+end_src
+
++ The closer this number is to 1, the more your index will behave like a primary key.
++ Values closer to 0 *may* indicate that the column is bad index, however one must
+  note the following:
+  * Even at low index selectivity (like 0.00001), you may still be able to
+    derive performance boots when querying for the minority of indexed data. The
+    database is smart enough to take advantage of that and will ignore the index
+    if it realizes its no better than a sequential scan.
+
+* Index Types
+
+** B-Tree
+
+#+begin_quote
+B-trees can handle equality and range queries on data that can be sorted into
+some ordering. In particular, the PostgreSQL query planner will consider using a
+B-tree index whenever an indexed column is involved in a comparison using one of
+these operators: ~<   <=   =   >=   >~
+#+end_quote
+
+#+begin_src sql
+  CREATE INDEX index_name
+  ON table_name USING BTREE(column);
+#+end_src
+
+** Hash Index
+
+#+begin_src sql
+  CREATE INDEX index_name
+  ON table_name USING HASH(column);
+#+end_src
+
++ Only makes sense to prefer this over ~BTREE~ if you are dealing with either
+  equality or pertinence (~IN~ clauses) checks all the time.
+
+** GIST
+#+begin_quote
+<<   &<   &>   >>   <<|   &<|   |&>   |>>   @>   <@   ~=   &&
+#+end_quote
+
+** SP-GIST
+#+begin_quote
+<<   >>   ~=   <@   <<|   |>>
+#+end_quote
+
+** GIN
+
+#+begin_quote
+GIN is a type of index that instead of pointing to a single tuple points to
+multiple values, and to some extent, to an array of values.
+[cite:@ferrari2023postgres p.463]
+#+end_quote
+
++ Most likelly to be used in full text search scenarios, where we may have
+  duplicated keys that point to different places.
+
+** BRIN
+
+#+begin_quote
+Block Range Index (BRIN) is a particular type of index that is based on the
+range of values in data blocks on storage. The idea is that every block has a
+minimal and maximal value, and the index then stores a couple of values for
+every data block on the storage. When a particular value is searched from a
+query, the index knows in which data block the values can be found, but all the
+tuples in the block must be evaluated. [cite:@ferrari2023postgres p.463]
+#+end_quote
+
++ Every block has a minimal and a maximal value.
++ When used effectively, it gives you smaller indexes than a B-Tree.
++ Some recomended usages for this index are:
+  * Time-Series data, since every block can represent ranges of time.
+
+* Composite/Multicolumn Indexes
+
+#+begin_quote
+Currently, only the B-tree, GiST, GIN, and BRIN index types support
+multiple-key-column indexes. Whether there can be multiple key columns is
+independent of whether ~INCLUDE~ columns can be added to the index. Indexes can
+have up to 32 columns, including ~INCLUDE~ columns.
+#+end_quote
+
+#+begin_src sql
+  CREATE INDEX index_name
+  ON table_name USING <index_type>(col1, col2, ..., coln);
+#+end_src
+
++ Be careful when it doing ~SELECT~ queries to respect the *LEFTMOST* order (~col1,
+  col2, ..., coln~) of the index, PostgreSQL will try to use as much of the *LEFT*
+  indexes as provided when performing certain queries.
++ Sometimes composite indexes are faster when performing ~WHERE/AND~ queries,
+  while single-column indexes are more likelly to be chosen in ~WHERE/OR~ queries.
+
+* Covering Indexes (aka Index-Only Scams)
+
++ In an ordinary index scan, data can be fetched both from the index and the
+  heap. This heap-access portion can involve a lot of random accesses and may
+  prove to be slow.
++ When using the ~INCLUDE~ clause in a ~INDEX~, PostgreSQL will include aditional
+  data in it as non-key, as to avoid costly scan to the heap.
+
+#+begin_src sql
+  CREATE [UNIQUE] INDEX index_name
+  ON table_name USING BTREE(col1, col2, ...)
+  INCLUDE(id);
+#+end_src
+
+#+begin_quote
+The index type must support index-only scans. B-tree indexes always do. GiST and
+SP-GiST indexes support index-only scans for some operator classes but not
+others. Other index types have no support.
+#+end_quote
+
+* Partial Indexes
+
++ Only index a subset of the rows.
++ Useful if you plan to have fast scan through a subset of the data anyway.
++ Avoids having to maintain a massive BTREE with mostly data that you usually
+  will never care about.
+
+#+begin_src sql
+  CREATE INDEX my_index
+  ON table_name USING BTREE (column_name)
+  WHERE <predicate>;
+#+end_src
+
+* Indexes and ~ORDER BY~
+
+#+begin_quote
+In addition to simply finding the rows to be returned by a query, an index may
+be able to deliver them in a specific sorted order. This allows a query's ORDER
+BY specification to be honored without a separate sorting step. Of the index
+types currently supported by PostgreSQL, only B-tree can produce sorted output —
+the other index types return matching rows in an unspecified,
+implementation-dependent order.
+#+end_quote
+
+#+begin_src sql
+  CREATE INDEX index_name
+  ON table_name USING BTREE (col1 ASC, col2 DESC, ...);
+#+end_src
+which will be matched with an ~ORDER BY~ clause if the ordering also matches:
+#+begin_src sql
+  SELECT col1, col2, ...
+  FROM table_name
+  (...)
+  ORDER BY col1 ASC, col2 DESC, ...;
+#+end_src
+
+* Functional Indexes
+
++ Its an index defined on the result of applying a [[id:32e8ab3c-2b96-410f-b60d-fde9e35b49f3][Function (PostgreSQL)]] to one
+  or more columns of a single table.
+
+#+begin_src sql
+  CREATE INDEX index_name
+  ON table_name (lower(col1));
+#+end_src

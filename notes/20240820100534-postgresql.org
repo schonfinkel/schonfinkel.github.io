@@ -5,5 +5,67 @@
 #+TITLE: PostgreSQL
 #+filetags: :postgresql:
 
-PostgreSQL (also known as Postgres), is a free and open-source relational database
-management system emphasizing extensibility and [[id:11f7d9cc-51a6-4897-955b-37a756105677][SQL]] compliance.
+#+begin_quote
+PostgreSQL is fully ACID-compliant (see the box below) and has a very strong
+foundation in data integrity and concurrency. It ships with a procedural
+language, named PL/PgSQL, which can be used to write reusable pieces of code,
+such as functions and procedures, and it supports before and after triggers,
+views, materialized views, partitioned tables, foreign data wrappers, multiple
+schemas, generated columns, and so on. [cite:@ferrari2023postgres p.3]
+#+end_quote
+
+* A brief history of PostgreSQL
+
+#+begin_quote
+Ingres was a relational database developed by Professor Michael Stonebraker. In
+1986, Professor Stonebraker started a post-Ingres project to develop new, cool
+features in the database landscape and named this project POSTGRES
+(POST-Ingres). The project aimed to develop an object-relational database, where
+“object” means the user would have the capability to extend the database with
+their own objects, such as data types, functions, and so on.
+
+In 1994, POSTGRES was released with version 4.2 and an MIT license, which opened
+up collaboration with other developers around the world. At that time, POSTGRES
+was using an internal query language named QUEL. Two Berkeley students, Andrew
+Yu and Jolly Chen, replaced the QUEL query language with the hot and cool [[id:11f7d9cc-51a6-4897-955b-37a756105677][SQL]]
+language, and the feature was so innovative that the project changed its name to
+Postgre95 to emphasize the difference compared to other, preceding versions.
+
+[cite:@ferrari2023postgres p.4]
+#+end_quote
+
+* Terminology
+
+| Term             | Description                                                                                                    |
+|------------------+----------------------------------------------------------------------------------------------------------------|
+| ~instance/cluster~ | A running ~PostgreSQL~ daemon is called an instance (or cluster). A single instance can hold multiple databases. |
+| ~database~         | An isolated space where users/applications can store data.                                                     |
+| ~schemas~          | A ~database~ can be organized into flat namespaces called ~schemas~, which can contain ~database objects~            |
+| ~database objects~ | tables, schemas, indexes, triggers, etc.                                                                       |
+| ~postmaster~       | The first process executed by the cluster, spawns a backend process everytime a connections is established.    |
+| ~PGDATA~           | The persistent directory dedicated to PostgreSQL.                                                              |
+| ~WAL~              | Intent log of database changes, used to recover from critical crashes.                                         |
+
+#+begin_quote
+Users are defined at a cluster-wide level, which means they are not tied to a
+particular database in the cluster. A user can connect with and manage any
+database in the cluster they are allowed to.
+[cite:@ferrari2023postgres p.7]
+#+end_quote
+
+In PostgreSQL, users are split into the following:
+
+| User Type | Description                                                                    |
+|-----------+--------------------------------------------------------------------------------|
+| Normal    | Can connect handle database objects, if their permissions allow them to do so. |
+| Superuser | Can do anything on any database objects and control the cluster life-cycle.    |
+
+#+begin_quote
+PostgreSQL internal data, such as users, databases, namespaces, configuration,
+and database runtime status, is provided by means of *catalogs*: special tables
+and views that present information in a SQL-interactive way. Many catalogs are
+trimmed depending on the user who is inspecting them, with the exception that
+superusers usually see the whole set of available information.
+
+[cite:@ferrari2023postgres p.7]
+#+end_quote
