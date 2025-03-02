@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-25 Tue 01:31 -->
+<!-- 2025-03-02 Sun 02:23 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Indexes (PostgreSQL)</title>
+<title>Performance Optimization (PostgreSQL)</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -54,38 +54,85 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Indexes (PostgreSQL)</h1>
+<h1 class="title">Performance Optimization (PostgreSQL)</h1>
 </header><ul class="org-ul">
+<li><a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a></li>
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-org782c44a" class="outline-2">
-<h2 id="org782c44a">Partial Indexes</h2>
-</div>
+<div id="outline-container-orgbf5b6fe" class="outline-2">
+<h2 id="orgbf5b6fe">The <code>EXPLAIN</code> Statement</h2>
+<div class="outline-text-2" id="text-orgbf5b6fe">
+<blockquote>
+<p>
+There are a few important things to know before using <code>EXPLAIN</code>:
+</p>
+<ul class="org-ul">
+<li>It will only show the best plan, which is the one with the lowest cost among
+all the evaluated plans.</li>
+<li>It will not execute the statement you are asking the plan for, at least unless
+you explicitly ask for its execution. Therefore, the <code>EXPLAIN</code> execution is fast
+and pretty much constant each time.</li>
+<li>It will present you with all the execution nodes that the executor will use to
+provide you with the dataset.</li>
+</ul>
 
-<div id="outline-container-org677d74d" class="outline-2">
-<h2 id="org677d74d">Composite Indexes</h2>
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 471</a>)
+</p>
+</blockquote>
 </div>
+<div id="outline-container-org4070abb" class="outline-3">
+<h3 id="org4070abb">Scan Types</h3>
+<div class="outline-text-3" id="text-org4070abb">
+<table>
 
-<div id="outline-container-org7e1cb63" class="outline-2">
-<h2 id="org7e1cb63">Covering Indexes</h2>
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Scan Type</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Sequential</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bitmap Heap Scan</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bitmap Index Scan</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Index Scan</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Index-Only Scan</td>
+<td class="org-left">A covering index (see <a href="20240921194608-index_postgresql.html#ID-48dd781f-123c-4508-82b5-ac9b05383db4">Index (PostgreSQL)</a>)</td>
+</tr>
+</tbody>
+</table>
 </div>
-
-<div id="outline-container-orgc536dec" class="outline-2">
-<h2 id="orgc536dec">Ordering Indexes</h2>
 </div>
-
-<div id="outline-container-orgb616862" class="outline-2">
-<h2 id="orgb616862">Functional Indexes</h2>
 </div>
-
-<div id="outline-container-org6fa4712" class="outline-2">
-<h2 id="org6fa4712">Hash Indexes</h2>
-</div>
-
-<div id="outline-container-org35c9464" class="outline-2">
-<h2 id="org35c9464">References:</h2>
-<div class="outline-text-2" id="text-org35c9464">
+<div id="outline-container-orgd5454bf" class="outline-2">
+<h2 id="orgd5454bf">References:</h2>
+<div class="outline-text-2" id="text-orgd5454bf">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>

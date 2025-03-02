@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-25 Tue 01:31 -->
+<!-- 2025-03-02 Sun 02:23 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PostgreSQL</title>
@@ -55,30 +55,176 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">PostgreSQL</h1>
-</header><p>
-PostgreSQL (also known as Postgres), is a free and open-source relational database
-management system emphasizing extensibility and <a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a> compliance.
+</header><blockquote>
+<p>
+PostgreSQL is fully ACID-compliant (see the box below) and has a very strong
+foundation in data integrity and concurrency. It ships with a procedural
+language, named PL/PgSQL, which can be used to write reusable pieces of code,
+such as functions and procedures, and it supports before and after triggers,
+views, materialized views, partitioned tables, foreign data wrappers, multiple
+schemas, generated columns, and so on. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 3</a>)
 </p>
-<div id="outline-container-org5f0afaf" class="outline-2">
-<h2 id="org5f0afaf">References:</h2>
-<div class="outline-text-2" id="text-org5f0afaf">
+</blockquote>
+<div id="outline-container-orgc560a82" class="outline-2">
+<h2 id="orgc560a82">A brief history of PostgreSQL</h2>
+<div class="outline-text-2" id="text-orgc560a82">
+<blockquote>
+<p>
+Ingres was a relational database developed by Professor Michael Stonebraker. In
+1986, Professor Stonebraker started a post-Ingres project to develop new, cool
+features in the database landscape and named this project POSTGRES
+(POST-Ingres). The project aimed to develop an object-relational database, where
+“object” means the user would have the capability to extend the database with
+their own objects, such as data types, functions, and so on.
+</p>
+
+<p>
+In 1994, POSTGRES was released with version 4.2 and an MIT license, which opened
+up collaboration with other developers around the world. At that time, POSTGRES
+was using an internal query language named QUEL. Two Berkeley students, Andrew
+Yu and Jolly Chen, replaced the QUEL query language with the hot and cool <a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a>
+language, and the feature was so innovative that the project changed its name to
+Postgre95 to emphasize the difference compared to other, preceding versions.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgd34ec71" class="outline-2">
+<h2 id="orgd34ec71">Terminology</h2>
+<div class="outline-text-2" id="text-orgd34ec71">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Term</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>instance/cluster</code></td>
+<td class="org-left">A running <code>PostgreSQL</code> daemon is called an instance (or cluster). A single instance can hold multiple databases.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>database</code></td>
+<td class="org-left">An isolated space where users/applications can store data.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>schemas</code></td>
+<td class="org-left">A <code>database</code> can be organized into flat namespaces called <code>schemas</code>, which can contain <code>database objects</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>database objects</code></td>
+<td class="org-left">tables, schemas, indexes, triggers, etc.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>postmaster</code></td>
+<td class="org-left">The first process executed by the cluster, spawns a backend process everytime a connections is established.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>PGDATA</code></td>
+<td class="org-left">The persistent directory dedicated to PostgreSQL.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>WAL</code></td>
+<td class="org-left">Intent log of database changes, used to recover from critical crashes.</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>
+Users are defined at a cluster-wide level, which means they are not tied to a
+particular database in the cluster. A user can connect with and manage any
+database in the cluster they are allowed to.
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 7</a>)
+</p>
+</blockquote>
+
+<p>
+In PostgreSQL, users are split into the following:
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">User Type</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Normal</td>
+<td class="org-left">Can connect handle database objects, if their permissions allow them to do so.</td>
+</tr>
+
+<tr>
+<td class="org-left">Superuser</td>
+<td class="org-left">Can do anything on any database objects and control the cluster life-cycle.</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>
+PostgreSQL internal data, such as users, databases, namespaces, configuration,
+and database runtime status, is provided by means of <b>catalogs</b>: special tables
+and views that present information in a SQL-interactive way. Many catalogs are
+trimmed depending on the user who is inspecting them, with the exception that
+superusers usually see the whole set of available information.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 7</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org01823ee" class="outline-2">
+<h2 id="org01823ee">References:</h2>
+<div class="outline-text-2" id="text-org01823ee">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org61b8980" class="outline-2">
-<h2 id="org61b8980">Backlinks:</h2>
-<div class="outline-text-2" id="text-org61b8980">
+<div id="outline-container-org41f5061" class="outline-2">
+<h2 id="org41f5061">Backlinks:</h2>
+<div class="outline-text-2" id="text-org41f5061">
 <ul class="org-ul">
-<li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
-<li><a href="./20240923110122-window_functions_postgresql.html">Window Functions (PostgreSQL)</a></li>
-<li><a href="./20241001144549-postgres_server.html">PostgreSQL Server</a></li>
-<li><a href="./20240921194441-functions_postgresql.html">Functions (PostgreSQL)</a></li>
-<li><a href="./20250219153557-psql_repl.html">PostgreSQL REPL</a></li>
-<li><a href="./20240921194608-indexes_postgresql.html">Indexes (PostgreSQL)</a></li>
+<li><a href="./20240921194441-functions_and_operators_postgresql.html">Functions and Operators (PostgreSQL)</a></li>
+<li><a href="./20240921194608-index_postgresql.html">Index (PostgreSQL)</a></li>
+<li><a href="./20250219153557-postgresql_repl.html">PostgreSQL REPL</a></li>
+<li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
 <li><a href="./20240921191551-ctes_postgresql.html">CTE (PostgreSQL)</a></li>
-<li><a href="./20240918131408-subqueries_postgresql.html">Subqueries (PostgreSQL)</a></li>
-<li><a href="./20240918131408-subqueries_postgresql.html">Subqueries (PostgreSQL)</a></li>
+<li><a href="./20240923110122-window_functions_postgresql.html">Window Functions (PostgreSQL)</a></li>
+<li><a href="./20240918131408-statements_postgresql.html">Statements (PostgreSQL)</a></li>
+<li><a href="./20241001144549-postgres_cluster.html">PostgreSQL Cluster</a></li>
+<li><a href="./20250227094208-system_columns_postgresql.html">System Columns (PostgreSQL)</a></li>
+<li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
 </ul>
 </div>
 </div>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-03-02 Sun 02:23 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Index (PostgreSQL)</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Index (PostgreSQL)</h1>
+</header><p>
+Indexes are a common way to enhance database performance. An index allows the
+<a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> server to find and retrieve specific rows much faster than it could do
+without an index.
+</p>
+<div id="outline-container-org6154450" class="outline-2">
+<h2 id="org6154450">Selectivity</h2>
+<div class="outline-text-2" id="text-org6154450">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> <span style="font-weight: bold;">COUNT</span>(<span style="font-weight: bold;">DISTINCT</span> <span style="font-weight: bold;">column_name</span>) / <span style="font-weight: bold;">COUNT</span>(*)
+  <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table_name</span>;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>The closer this number is to 1, the more your index will behave like a primary key.</li>
+<li>Values closer to 0 <b>may</b> indicate that the column is bad index, however one must
+note the following:
+<ul class="org-ul">
+<li>Even at low index selectivity (like 0.00001), you may still be able to
+derive performance boosts when querying for the minority of indexed data. The
+database is smart enough to take advantage of that and will ignore the index
+if it realizes its no better than a sequential scan.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org12d4731" class="outline-2">
+<h2 id="org12d4731">Index Types</h2>
+<div class="outline-text-2" id="text-org12d4731">
+</div>
+<div id="outline-container-org517e4ca" class="outline-3">
+<h3 id="org517e4ca">B-Tree</h3>
+<div class="outline-text-3" id="text-org517e4ca">
+<blockquote>
+<p>
+B-trees can handle equality and range queries on data that can be sorted into
+some ordering. In particular, the PostgreSQL query planner will consider using a
+B-tree index whenever an indexed column is involved in a comparison using one of
+these operators: <code>&lt;   &lt;=   =   &gt;=   &gt;</code>
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name
+  <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> BTREE(<span style="font-weight: bold;">column</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc1111e" class="outline-3">
+<h3 id="orgcc1111e">Hash Index</h3>
+<div class="outline-text-3" id="text-orgcc1111e">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name
+  <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> HASH(<span style="font-weight: bold;">column</span>);
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Only makes sense to prefer this over <code>BTREE</code> if you are dealing with either
+equality or pertinence (<code>IN</code> clauses) checks all the time.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org472ccf7" class="outline-3">
+<h3 id="org472ccf7">GIST</h3>
+<div class="outline-text-3" id="text-org472ccf7">
+<blockquote>
+<p>
+&lt;&lt;   &amp;&lt;   &amp;&gt;   &gt;&gt;   &lt;&lt;|   &amp;&lt;|   |&amp;&gt;   |&gt;&gt;   @&gt;   &lt;@   ~=   &amp;&amp;
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgcfa6460" class="outline-3">
+<h3 id="orgcfa6460">SP-GIST</h3>
+<div class="outline-text-3" id="text-orgcfa6460">
+<blockquote>
+<p>
+&lt;&lt;   &gt;&gt;   ~=   &lt;@   <a id="orgcd6a9a4"></a>
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orge7d65b1" class="outline-3">
+<h3 id="orge7d65b1">GIN</h3>
+<div class="outline-text-3" id="text-orge7d65b1">
+<blockquote>
+<p>
+GIN is a type of index that instead of pointing to a single tuple points to
+multiple values, and to some extent, to an array of values.
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Most likelly to be used in full text search scenarios, where we may have
+duplicated keys that point to different places.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org66ea44b" class="outline-3">
+<h3 id="org66ea44b">BRIN</h3>
+<div class="outline-text-3" id="text-org66ea44b">
+<blockquote>
+<p>
+Block Range Index (BRIN) is a particular type of index that is based on the
+range of values in data blocks on storage. The idea is that every block has a
+minimal and maximal value, and the index then stores a couple of values for
+every data block on the storage. When a particular value is searched from a
+query, the index knows in which data block the values can be found, but all the
+tuples in the block must be evaluated. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Every block has a minimal and a maximal value.</li>
+<li>When used effectively, it gives you smaller indexes than a B-Tree.</li>
+<li>Some recomended usages for this index are:
+<ul class="org-ul">
+<li>Time-Series data, since every block can represent ranges of time.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org94f8da4" class="outline-2">
+<h2 id="org94f8da4">Composite/Multicolumn Indexes</h2>
+<div class="outline-text-2" id="text-org94f8da4">
+<blockquote>
+<p>
+Currently, only the B-tree, GiST, GIN, and BRIN index types support
+multiple-key-column indexes. Whether there can be multiple key columns is
+independent of whether <code>INCLUDE</code> columns can be added to the index. Indexes can
+have up to 32 columns, including <code>INCLUDE</code> columns.
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name
+  <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> &lt;index_type&gt;(col1, col2, ..., coln);
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Be careful when it doing <code>SELECT</code> queries to respect the <b>LEFTMOST</b> order (<code>col1,
+  col2, ..., coln</code>) of the index, PostgreSQL will try to use as much of the <b>LEFT</b>
+indexes as provided when performing certain queries.</li>
+<li>Sometimes composite indexes are faster when performing <code>WHERE/AND</code> queries,
+while single-column indexes are more likelly to be chosen in <code>WHERE/OR</code> queries.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7f7250e" class="outline-2">
+<h2 id="org7f7250e">Covering Indexes (aka Index-Only Scams)</h2>
+<div class="outline-text-2" id="text-org7f7250e">
+<ul class="org-ul">
+<li>In an ordinary index scan, data can be fetched both from the index and the
+heap. This heap-access portion can involve a lot of random accesses and may
+prove to be slow.</li>
+<li>When using the <code>INCLUDE</code> clause in a <code>INDEX</code>, PostgreSQL will include aditional
+data in it as non-key, as to avoid costly scan to the heap.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> [<span style="font-weight: bold;">UNIQUE</span>] INDEX index_name
+  <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> BTREE(col1, col2, ...)
+  INCLUDE(id);
+</pre>
+</div>
+
+<blockquote>
+<p>
+The index type must support index-only scans. B-tree indexes always do. GiST and
+SP-GiST indexes support index-only scans for some operator classes but not
+others. Other index types have no support.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org36eb648" class="outline-2">
+<h2 id="org36eb648">Partial Indexes</h2>
+<div class="outline-text-2" id="text-org36eb648">
+<ul class="org-ul">
+<li>Only index a subset of the rows.</li>
+<li>Useful if you plan to have fast scan through a subset of the data anyway.</li>
+<li>Avoids having to maintain a massive BTREE with mostly data that you usually
+will never care about.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX my_index
+  <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> BTREE (<span style="font-weight: bold;">column_name</span>)
+  <span style="font-weight: bold;">WHERE</span> &lt;predicate&gt;;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd4289b8" class="outline-2">
+<h2 id="orgd4289b8">Indexes and <code>ORDER BY</code></h2>
+<div class="outline-text-2" id="text-orgd4289b8">
+<blockquote>
+<p>
+In addition to simply finding the rows to be returned by a query, an index may
+be able to deliver them in a specific sorted order. This allows a query's ORDER
+BY specification to be honored without a separate sorting step. Of the index
+types currently supported by PostgreSQL, only B-tree can produce sorted output —
+the other index types return matching rows in an unspecified,
+implementation-dependent order.
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name
+  <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> BTREE (col1 <span style="font-weight: bold;">ASC</span>, col2 <span style="font-weight: bold;">DESC</span>, ...);
+</pre>
+</div>
+<p>
+which will be matched with an <code>ORDER BY</code> clause if the ordering also matches:
+</p>
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> col1, col2, ...
+  <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table_name</span>
+  (...)
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> col1 <span style="font-weight: bold;">ASC</span>, col2 <span style="font-weight: bold;">DESC</span>, ...;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org710f944" class="outline-2">
+<h2 id="org710f944">Functional Indexes</h2>
+<div class="outline-text-2" id="text-org710f944">
+<ul class="org-ul">
+<li>An index defined on the result of applying a function<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> to one or more columns
+of a single table.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name
+  <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> (<span style="font-weight: bold;">lower</span>(col1));
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org35e0cad" class="outline-2">
+<h2 id="org35e0cad">References:</h2>
+<div class="outline-text-2" id="text-org35e0cad">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge34d031" class="outline-2">
+<h2 id="orge34d031">Backlinks:</h2>
+<div class="outline-text-2" id="text-orge34d031">
+<ul class="org-ul">
+<li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
+</ul>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">See <a href="20240921194441-functions_and_operators_postgresql.html#ID-32e8ab3c-2b96-410f-b60d-fde9e35b49f3">Functions and Operators (PostgreSQL)</a></p></div></div>
+
+
+</div>
+</div></main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-25 Tue 01:31 -->
+<!-- 2025-03-02 Sun 02:23 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Functions (PostgreSQL)</title>
+<title>SELinux</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -54,33 +54,30 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Functions (PostgreSQL)</h1>
-</header><ul class="org-ul">
-<li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
-</ul>
-<div id="outline-container-orgaccd915" class="outline-2">
-<h2 id="orgaccd915">Functions</h2>
-<div class="outline-text-2" id="text-orgaccd915">
+<h1 class="title">SELinux</h1>
+</header><blockquote>
+<p>
+Security-Enhanced Linux (SELinux) is a security architecture for <a href="20240924092617-linux.html#ID-8a427ee7-2ef1-489b-af82-91de7be8a3ba">Linux</a> systems
+that allows administrators to have more control over who can access the system.
+</p>
+</blockquote>
+<div id="outline-container-org70d05d1" class="outline-2">
+<h2 id="org70d05d1">Mandatory Access Control</h2>
+<div class="outline-text-2" id="text-org70d05d1">
+</div>
+<div id="outline-container-org7863c50" class="outline-3">
+<h3 id="org7863c50">Terminology</h3>
+<div class="outline-text-3" id="text-org7863c50">
 <div class="org-src-container">
-<pre class="src src-plpgsql">CREATE OR REPLACE FUNCTION
-  function_name(arg1 INT, arg2 INT, arg3 INT)
-RETURNS
-  SETOF VARCHAR
-LANGUAGE
-  plpgsql
-AS
-$$
-BEGIN
-  (...)
-END;
-$$;
+<pre class="src src-nil">allow &lt;domain&gt; &lt;type&gt;:&lt;class&gt; { &lt;permissions&gt; };
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge798693" class="outline-2">
-<h2 id="orge798693">References:</h2>
-<div class="outline-text-2" id="text-orge798693">
+</div>
+<div id="outline-container-org953ffd6" class="outline-2">
+<h2 id="org953ffd6">References:</h2>
+<div class="outline-text-2" id="text-org953ffd6">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>

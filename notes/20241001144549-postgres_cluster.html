@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-03-02 Sun 02:23 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PostgreSQL Cluster</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">PostgreSQL Cluster</h1>
+</header><blockquote>
+<p>
+A PostgreSQL cluster is a collection of several databases that all run under the
+very same <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> service or instance.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 22</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgae2b2c6" class="outline-2">
+<h2 id="orgae2b2c6">Locating the database server files</h2>
+<div class="outline-text-2" id="text-orgae2b2c6">
+<p>
+Cluster files are initially stored in a location referred to as data directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-psql">SHOW data_directory;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><p>
+<code>$PGDATA</code> is where the database files live. You can also use <code>initdb</code> to create
+the database directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">    initdb -D &lt;path&gt;
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org379d823" class="outline-2">
+<h2 id="org379d823">Cluster Management with <code>pg_ctl</code></h2>
+<div class="outline-text-2" id="text-org379d823">
+</div>
+<div id="outline-container-orgeee62f6" class="outline-3">
+<h3 id="orgeee62f6">Starting and Stopping the Cluster</h3>
+<div class="outline-text-3" id="text-orgeee62f6">
+<div class="org-src-container">
+<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">wait for all connections...</span>
+  pg_ctl stop -m s[mart]
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">force disconnect</span>
+  pg_ctl stop -m f[ast]
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">SIGQUIT</span>
+  pg_ctl stop -m i[mmediate]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org418d90b" class="outline-3">
+<h3 id="org418d90b">Restarts</h3>
+</div>
+
+<div id="outline-container-org4a42242" class="outline-3">
+<h3 id="org4a42242">Reload</h3>
+</div>
+</div>
+<div id="outline-container-org8a65712" class="outline-2">
+<h2 id="org8a65712">The Console (<code>psql</code>)</h2>
+<div class="outline-text-2" id="text-org8a65712">
+<p>
+Most commonly used options:
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>--host</code> or <code>-h</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--port</code> or <code>-p</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--username</code> or <code>-u</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--dbname</code> or <code>-d</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The command <code>\?</code> shows all <code>\</code> commands available. Some useful commands are:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">lists all databases in the cluster</span>
+  \l
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">adds additional information</span>
+  \l+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">switches to a different database in the cluster</span>
+  \c &lt;dbname&gt;
+</pre>
+</div>
+
+<p>
+to gather information about database objects (in the current database), use
+different variations of <code>\d</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">tables</span>
+  \dt
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">sequences</span>
+  \ds
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">indexes</span>
+  \di
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">schemas</span>
+  \dn
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">functions</span>
+  \df
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">users/roles</span>
+  \du
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">extensions installed</span>
+  \dx
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeacf119" class="outline-2">
+<h2 id="orgeacf119">References:</h2>
+<div class="outline-text-2" id="text-orgeacf119">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

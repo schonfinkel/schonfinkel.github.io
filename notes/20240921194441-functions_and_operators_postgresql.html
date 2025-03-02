@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-03-02 Sun 02:23 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Functions and Operators (PostgreSQL)</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Functions and Operators (PostgreSQL)</h1>
+</header><ul class="org-ul">
+<li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
+</ul>
+<div id="outline-container-org0f8ea1a" class="outline-2">
+<h2 id="org0f8ea1a">Set Returning Functions</h2>
+<div class="outline-text-2" id="text-org0f8ea1a">
+</div>
+<div id="outline-container-orgb7621c9" class="outline-3">
+<h3 id="orgb7621c9"><code>generate_series</code></h3>
+<div class="outline-text-3" id="text-orgb7621c9">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> * <span style="font-weight: bold;">FROM</span> generate_series(2,4);
+  <span style="font-weight: bold;">SELECT</span> generate_series(<span style="font-style: italic;">'2025-01-01'</span>::<span style="font-weight: bold; text-decoration: underline;">date</span>, <span style="font-style: italic;">'2025-01-31'</span>::<span style="font-weight: bold; text-decoration: underline;">date</span>, <span style="font-style: italic;">'2 day'</span>)::<span style="font-weight: bold; text-decoration: underline;">date</span> <span style="font-weight: bold;">as</span> <span style="font-weight: bold; text-decoration: underline;">date</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge26bedf" class="outline-3">
+<h3 id="orge26bedf"><code>jsonb_to_recordset</code></h3>
+<div class="outline-text-3" id="text-orge26bedf">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
+  <span style="font-weight: bold;">FROM</span> jsonb_to_recordset(<span style="font-style: italic;">'[{"a":1,"b":"foo"},{"a":"2","c":"bar"}]'</span>::jsonb)
+  <span style="font-weight: bold;">as</span> x(a <span style="font-weight: bold; text-decoration: underline;">int</span>, b text);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga4618ad" class="outline-3">
+<h3 id="orga4618ad"><code>string_to_table</code></h3>
+<div class="outline-text-3" id="text-orga4618ad">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> string_to_table(<span style="font-style: italic;">'a,b,c,d,e,f'</span>, <span style="font-style: italic;">','</span>) <span style="font-weight: bold;">as</span> letter;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbebc690" class="outline-3">
+<h3 id="orgbebc690"><code>unnest</code></h3>
+<div class="outline-text-3" id="text-orgbebc690">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> <span style="font-weight: bold;">unnest</span>(<span style="font-weight: bold; text-decoration: underline;">ARRAY</span>[1,2,3]) <span style="font-weight: bold;">AS</span> seq;
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">or add ordinality</span>
+  <span style="font-weight: bold;">SELECT</span> *
+  <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">unnest</span>(<span style="font-weight: bold; text-decoration: underline;">ARRAY</span>[<span style="font-style: italic;">'a'</span>, <span style="font-style: italic;">'b'</span>, <span style="font-style: italic;">'c'</span>])
+  <span style="font-weight: bold;">WITH</span> <span style="font-weight: bold;">ORDINALITY</span> <span style="font-weight: bold;">AS</span> t(item, <span style="font-weight: bold;">order</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org20ef379" class="outline-3">
+<h3 id="org20ef379"><code>FROM ROWS</code></h3>
+</div>
+</div>
+<div id="outline-container-org4e19895" class="outline-2">
+<h2 id="org4e19895">Polymorphic SQL functions</h2>
+</div>
+
+<div id="outline-container-org036eff7" class="outline-2">
+<h2 id="org036eff7">PL/pgSQL functions</h2>
+<div class="outline-text-2" id="text-org036eff7">
+<div class="org-src-container">
+<pre class="src src-plpgsql">CREATE OR REPLACE FUNCTION
+  function_name(arg1 INT, arg2 INT, arg3 INT)
+RETURNS
+  SETOF VARCHAR
+LANGUAGE
+  plpgsql
+AS
+$$
+BEGIN
+  (...)
+END;
+$$;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeeaf8ce" class="outline-2">
+<h2 id="orgeeaf8ce">References:</h2>
+<div class="outline-text-2" id="text-orgeeaf8ce">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+</div>
+</div>
+</div>
+<div id="outline-container-orge9233ad" class="outline-2">
+<h2 id="orge9233ad">Backlinks:</h2>
+<div class="outline-text-2" id="text-orge9233ad">
+<ul class="org-ul">
+<li><a href="./20240921194608-index_postgresql.html">Index (PostgreSQL)</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-02-25 Tue 01:31 -->
+<!-- 2025-03-02 Sun 02:23 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>PostgreSQL REPL</title>
+<title>System Columns (PostgreSQL)</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -54,31 +54,29 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">PostgreSQL REPL</h1>
-</header><blockquote>
-<p>
-psql is a terminal-based front-end to <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a>.
+<h1 class="title">System Columns (PostgreSQL)</h1>
+</header><p>
+Every table in <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> has several columns that are implicitly
+defined (and managed) by the system.
 </p>
-</blockquote>
+<div id="outline-container-org3774fcb" class="outline-2">
+<h2 id="org3774fcb">CTID</h2>
+<div class="outline-text-2" id="text-org3774fcb">
+<p>
+<code>ctid</code> is a system column that points to the physical location of a row, by saving
+a tuple representing the <code>(block/page number, offset)</code>.
+</p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">to get some help</span>
-  <span style="font-weight: bold; font-style: italic;">db</span>=# <span style="font-style: italic;">\?</span>
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">describe (options)</span>
-  <span style="font-weight: bold; font-style: italic;">#   </span><span style="font-weight: bold; font-style: italic;">S - Show system options</span>
-  <span style="font-weight: bold; font-style: italic;">#   </span><span style="font-weight: bold; font-style: italic;">+ - Addtional Details</span>
-  <span style="font-weight: bold; font-style: italic;">db</span>=# \d
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Or describe an specific table</span>
-  <span style="font-weight: bold; font-style: italic;">db</span>=# \d <span style="font-style: italic;">"&lt;schema&gt;.&lt;table&gt;"</span>
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">list schemas</span>
-  <span style="font-weight: bold; font-style: italic;">db</span>=# \dn
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Output format</span>
-  <span style="font-weight: bold; font-style: italic;">db</span>=# \x auto
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *, ctid
+  <span style="font-weight: bold;">FROM</span> &lt;<span style="font-weight: bold;">table</span>&gt;
 </pre>
 </div>
-<div id="outline-container-org77e89cb" class="outline-2">
-<h2 id="org77e89cb">References:</h2>
-<div class="outline-text-2" id="text-org77e89cb">
+</div>
+</div>
+<div id="outline-container-org6e653d7" class="outline-2">
+<h2 id="org6e653d7">References:</h2>
+<div class="outline-text-2" id="text-org6e653d7">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>

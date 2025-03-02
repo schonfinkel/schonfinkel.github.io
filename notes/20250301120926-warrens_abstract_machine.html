@@ -4,7 +4,7 @@
 <!-- 2025-03-02 Sun 02:23 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Relation</title>
+<title>Warren's Abstract Machine</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -28,38 +28,6 @@
       inlineMath: [['\\(', '\\)']]                  // inline
     }
   };
-</script>
-<script>
-  window.MathJax = {
-    tex: {
-      ams: {
-        multlineWidth: '85%'
-      },
-      tags: 'ams',
-      tagSide: 'right',
-      tagIndent: '.8em'
-    },
-    chtml: {
-      scale: 1.0,
-      displayAlign: 'center',
-      displayIndent: '0em'
-    },
-    svg: {
-      scale: 1.0,
-      displayAlign: 'center',
-      displayIndent: '0em'
-    },
-    output: {
-      font: 'mathjax-modern',
-      displayOverflow: 'overflow'
-    }
-  };
-</script>
-
-<script
-  id="MathJax-script"
-  async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 </head>
 <body>
@@ -86,35 +54,25 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Relation</h1>
-</header><p>
-A relation is any subset of a Cartesian product. For instance, a relation \(R\)
-over any subset of \(X \times X\) is called a "Relation on \(X\)".
+<h1 class="title">Warren's Abstract Machine</h1>
+</header><blockquote>
+<p>
+The WAM is an abstract machine consisting of a memory architecture and
+instruction set tailored to Prolog. It can be realised efficiently on a wide
+range of hardware, and serves as a target for portable Prolog compilers. It has
+now become accepted as a standard basis for implementing Prolog.
 </p>
 
-<ul class="org-ul">
-<li>A Relation \(R\) is said to be <b>reflexive</b> if \(\forall x \in X: (x,x) \in R\).</li>
-<li>A Relation \(R\) is said to be <b>symmetric</b> if \(\forall x,y \in X: (x,y) \in R \implies (y,x)
-  \in R\).</li>
-<li>A Relation \(R\) is <b>antisymmetric</b> if \(\forall x,y \in X: (x,y) \in R \land (y,x) \in R \implies x
-  = y\).</li>
-<li>A Relation \(R\) is <b>transitive</b> if \(\forall x,y,z \in X: (x,y) \in R \land (y,z) \in R \implies
-  (x,z) \in R\).</li>
-<li>A Relation \(R\) is an <b>equivalence relation</b> if it is <b>reflexive</b>, <b>symmetric</b> and <b>transitive</b>.</li>
-</ul>
-<div id="outline-container-orgccaf1d8" class="outline-2">
-<h2 id="orgccaf1d8">References:</h2>
-<div class="outline-text-2" id="text-orgccaf1d8">
+<p>
+(<a href="#citeproc_bib_item_1">Hassan 1991</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgbc659e9" class="outline-2">
+<h2 id="orgbc659e9">References:</h2>
+<div class="outline-text-2" id="text-orgbc659e9">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Hassan, AT-Kaci. 1991. “Warren’s Abstract Machine: A Tutorial Reconstruction.”</div>
 </div>
-</div>
-</div>
-<div id="outline-container-org6166fd1" class="outline-2">
-<h2 id="org6166fd1">Backlinks:</h2>
-<div class="outline-text-2" id="text-org6166fd1">
-<ul class="org-ul">
-<li><a href="./20241013162211-partial_order.html">Partial Order</a></li>
-</ul>
 </div>
 </div>
 </main>
