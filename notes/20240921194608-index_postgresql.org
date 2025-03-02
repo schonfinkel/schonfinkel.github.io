@@ -2,7 +2,7 @@
 :ID:       48dd781f-123c-4508-82b5-ac9b05383db4
 :END:
 #+title: Index (PostgreSQL)
-#+filetags: :postgresql:
+#+filetags: :postgresql: :sql:
 
 Indexes are a common way to enhance database performance. An index allows the
 [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] server to find and retrieve specific rows much faster than it could do
@@ -19,7 +19,7 @@ without an index.
 + Values closer to 0 *may* indicate that the column is bad index, however one must
   note the following:
   * Even at low index selectivity (like 0.00001), you may still be able to
-    derive performance boots when querying for the minority of indexed data. The
+    derive performance boosts when querying for the minority of indexed data. The
     database is smart enough to take advantage of that and will ignore the index
     if it realizes its no better than a sequential scan.
 
@@ -164,10 +164,14 @@ which will be matched with an ~ORDER BY~ clause if the ordering also matches:
 
 * Functional Indexes
 
-+ Its an index defined on the result of applying a [[id:32e8ab3c-2b96-410f-b60d-fde9e35b49f3][Function (PostgreSQL)]] to one
-  or more columns of a single table.
++ An index defined on the result of applying a function[fn:1] to one or more columns
+  of a single table.
 
 #+begin_src sql
   CREATE INDEX index_name
   ON table_name (lower(col1));
 #+end_src
+
+* Footnotes
+
+[fn:1: See [[id:32e8ab3c-2b96-410f-b60d-fde9e35b49f3][Functions and Operators (PostgreSQL)]]]
