@@ -1,0 +1,85 @@
+:PROPERTIES:
+:ID:       ae205cab-10ea-4cff-9051-fef9021638b6
+:END:
+#+title: PostgreSQL Cluster
+#+filetags: :postgresql: :sql:
+
+#+begin_quote
+A PostgreSQL cluster is a collection of several databases that all run under the
+very same [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] service or instance.
+
+[cite:@ferrari2023postgres p.22]
+#+end_quote
+
+* Locating the database server files
+Cluster files are initially stored in a location referred to as data directory:
+
+#+BEGIN_SRC psql
+SHOW data_directory;
+#+END_SRC
+
++ ~$PGDATA~ is where the database files live. You can also use ~initdb~ to create
+  the database directory:
+
+  #+begin_src shell
+    initdb -D <path>
+  #+end_src
+
+* Cluster Management with ~pg_ctl~
+
+** Starting and Stopping the Cluster
+
+#+begin_src shell
+  # wait for all connections...
+  pg_ctl stop -m s[mart]
+  # force disconnect
+  pg_ctl stop -m f[ast]
+  # SIGQUIT
+  pg_ctl stop -m i[mmediate]
+#+end_src
+
+** Restarts
+
+** Reload
+
+* The Console (~psql~)
+
+Most commonly used options:
+
+| Options          |
+|------------------|
+| ~--host~ or ~-h~     |
+| ~--port~ or ~-p~     |
+| ~--username~ or ~-u~ |
+| ~--dbname~ or ~-d~ |
+
+The command ~\?~ shows all ~\~ commands available. Some useful commands are:
+
+#+begin_src shell
+  # lists all databases in the cluster
+  \l
+  # adds additional information
+  \l+
+  # switches to a different database in the cluster
+  \c <dbname>
+#+end_src
+
+to gather information about database objects (in the current database), use
+different variations of ~\d~:
+
+#+begin_src sql
+  -- tables
+  \dt
+  -- sequences
+  \ds
+  -- indexes
+  \di
+  -- schemas
+  \dn
+  -- functions
+  \df
+  -- users/roles
+  \du
+  -- extensions installed
+  \dx
+#+end_src

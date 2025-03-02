@@ -1,0 +1,62 @@
+:PROPERTIES:
+:ID:       32e8ab3c-2b96-410f-b60d-fde9e35b49f3
+:ROAM_ALIASES: "Functions (PostgreSQL)"
+:END:
+#+title: Functions and Operators (PostgreSQL)
+#+filetags: :postgresql: :sql:
+
+- [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]]
+
+* Set Returning Functions
+
+** ~generate_series~
+
+#+begin_src sql
+  SELECT * FROM generate_series(2,4);
+  SELECT generate_series('2025-01-01'::date, '2025-01-31'::date, '2 day')::date as date;
+#+end_src
+
+** ~jsonb_to_recordset~
+
+#+begin_src sql
+  SELECT *
+  FROM jsonb_to_recordset('[{"a":1,"b":"foo"},{"a":"2","c":"bar"}]'::jsonb)
+  as x(a int, b text);
+#+end_src
+
+** ~string_to_table~
+
+#+begin_src sql
+  SELECT string_to_table('a,b,c,d,e,f', ',') as letter;
+#+end_src
+
+** ~unnest~
+
+#+begin_src sql
+  SELECT unnest(ARRAY[1,2,3]) AS seq;
+  -- or add ordinality
+  SELECT *
+  FROM unnest(ARRAY['a', 'b', 'c'])
+  WITH ORDINALITY AS t(item, order);
+#+end_src
+
+** ~FROM ROWS~
+
+* Polymorphic SQL functions
+
+* PL/pgSQL functions
+
+#+BEGIN_SRC plpgsql
+CREATE OR REPLACE FUNCTION
+  function_name(arg1 INT, arg2 INT, arg3 INT)
+RETURNS
+  SETOF VARCHAR
+LANGUAGE
+  plpgsql
+AS
+$$
+BEGIN
+  (...)
+END;
+$$;
+#+END_SRC

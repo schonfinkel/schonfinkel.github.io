@@ -1,0 +1,33 @@
+:PROPERTIES:
+:ID:       7134e155-e0b2-40ab-a88b-c0781836605a
+:END:
+#+title: Performance Optimization (PostgreSQL)
+#+filetags: :postgresql: :sql:
+
+- [[id:11f7d9cc-51a6-4897-955b-37a756105677][SQL]]
+- [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]]
+
+* The ~EXPLAIN~ Statement
+
+#+begin_quote
+There are a few important things to know before using ~EXPLAIN~:
++ It will only show the best plan, which is the one with the lowest cost among
+  all the evaluated plans.
++ It will not execute the statement you are asking the plan for, at least unless
+  you explicitly ask for its execution. Therefore, the ~EXPLAIN~ execution is fast
+  and pretty much constant each time. 
++ It will present you with all the execution nodes that the executor will use to
+  provide you with the dataset.
+
+[cite:@ferrari2023postgres p.471]
+#+end_quote
+
+** Scan Types
+
+| Scan Type         | Description                               |
+|-------------------+-------------------------------------------|
+| Sequential        |                                           |
+| Bitmap Heap Scan  |                                           |
+| Bitmap Index Scan |                                           |
+| Index Scan        |                                           |
+| Index-Only Scan   | A covering index (see [[id:48dd781f-123c-4508-82b5-ac9b05383db4][Index (PostgreSQL)]]) |

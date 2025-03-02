@@ -61,6 +61,70 @@ You can also apply a ~CHECK~ constraint to the entire table and can involve mult
   );
 #+end_src
 
+** Unique Constraints
+
+Ensures that the data contained in a column (or in a group of columns) is
+unique.
+
+#+begin_src sql
+  CREATE TABLE products (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    brand TEXT UNIQUE NOT NULL,
+    product_no TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+  );
+  -- or
+  CREATE TABLE products (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    brand TEXT NOT NULL,
+    product_no TEXT NOT NULL,
+    name TEXT NOT NULL,
+    UNIQUE (brand, product_no)
+  );
+#+end_src
+
+** Exclude Constraints
+
+#+begin_src sql
+  CREATE EXTENSION IF NOT EXISTS btree_gist;
+  CREATE TABLE bookings (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    -- TODO: use proper enums for this in real life
+    status TEXT NOT NULL;
+    -- The time the resource will be allocated to someone else
+    reservation_period TSRANGE;
+    -- For a given booking, there can be no overlaps, unless
+    -- the current booking status is set to 'cancelled'.
+    EXCLUDE USING gist (id WITH =, reservation_period WITH &&) WHERE (reservation_status != 'cancelled')
+  );
+#+end_src
+
+** Primary Key Constraint
+
+** Foreign Key Constraints
+
+#+begin_quote
+A foreign key constraint specifies that the values in a column (or a group of
+columns) must match the values appearing in some row of another table. We say
+this maintains the referential integrity between two related tables.
+#+end_quote
+
+#+begin_src sql
+  CREATE TABLE products (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    brand TEXT NOT NULL,
+    product_no TEXT NOT NULL,
+    name TEXT NOT NULL,
+    UNIQUE (brand, product_no)
+  );
+
+  CREATE TABLE orders (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    product_id BIGINT REFERENCES products(id),
+    quantity INTEGER order_must_be_positive CHECK (quantity > 0)
+  );
+#+end_src
+
 * Domain Types
 
 #+begin_src sql
@@ -82,10 +146,13 @@ You can also apply a ~CHECK~ constraint to the entire table and can involve mult
 
   -- You can also add another value later, and set its position
   ALTER TYPE mood ADD VALUE 'afraid' AFTER 'sad';
+#+end_src
 
-  -- Removing a value from an enum is tricky tho, you need to drop
-  -- recreate the new type.
-  -- Start a transaction
+Removing a value from an ~ENUM~ is tricky, you need to drop the old type and
+recreate a new one, making sure all tables default the old value to something else.
+
+#+begin_src sql
+  -- Always do it inside a transaction
   BEGIN;
 
   -- Rename old type
@@ -169,3 +236,135 @@ You can also apply a ~CHECK~ constraint to the entire table and can involve mult
 * Network Types
 
 * JSON
+
+| Type  | Description                                                           |
+|-------+-----------------------------------------------------------------------|
+| ~JSON~  | Stored as ~TEXT~ under the hood                                         |
+| ~JSONB~ | Stored as binary, contains extra metadata to make most queries faster |
+
+** Querying JSON
+
+* Arrays
+
+#+begin_quote
+PostgreSQL allows columns of a table to be defined as variable-length
+multidimensional arrays. Arrays of any built-in or user-defined base type, enum
+type, composite type, range type, or domain can be created.
+#+end_quote
+
+** Declaration
+
+#+begin_src sql
+CREATE TABLE tictactoe (
+  squares INTEGER[3][3]
+);
+#+end_src
+
++ Arrays indexes start at 1, not 0.
+
+* Generated Columns
+
+#+begin_quote
+A generated column is a special column that is always computed from other
+columns. Thus, it is for columns what a view is for tables.
+#+end_quote
+
+#+begin_src sql
+  CREATE TABLE people (
+    ...,
+    height_cm numeric,
+    -- The keyword STORED must be specified to choose the
+    -- stored kind of generated column.
+    height_in numeric GENERATED ALWAYS AS (height_cm / 2.54) STORED
+  );
+#+end_src
+
+* Text Search Types
+
++ A ~ts_vector~ value is a sorted list of distinct lexemes.
+
+#+begin_src sql
+  <database>#= SELECT 'a fat cat sat on a mat and ate a fat rat'::tsvector;
+                      tsvector                      
+  ----------------------------------------------------
+  'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'
+  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat');
+                                  to_tsvector                                  
+  -------------------------------------------------------------------------------
+  'a':1,6,10 'and':8 'ate':9 'cat':3 'fat':2,11 'mat':7 'on':5 'rat':12 'sat':4
+  <database>#= SELECT 'The quick brown fox jumps over the lazy dog'::tsvector;
+                           tsvector                            
+  ---------------------------------------------------------------
+  'The' 'brown' 'dog' 'fox' 'jumps' 'lazy' 'over' 'quick' 'the'
+  <database>#= SELECT to_tsvector('The quick brown fox jumps over the lazy dog');
+                                to_tsvector                                
+  ---------------------------------------------------------------------------
+  'brown':3 'dog':9 'fox':4 'jumps':5 'lazy':8 'over':6 'quick':2 'the':1,7
+#+end_src
+
++ A ~ts_query~ can be used to build lexemes and apply then to certain operators.
+
+#+begin_src sql
+  <database>#= SELECT 'fat & rat'::tsquery;
+      tsquery    
+  ---------------
+   'fat' & 'rat'
+  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat') @@ to_tsquery('fat | cat') as result;
+   result 
+  --------
+   t
+  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat') @@ to_tsquery('bat | hat') as result;
+   result 
+  --------
+   f
+#+end_src
+
+you can leverage generated columns when creating tables with searchable content.
+
+#+begin_src sql
+  CREATE TABLE user_comment (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    content TEXT NOT NULL,
+    search_vector_en TSVECTOR GENERATED ALWAYS AS (to_tsvector('english', content)) STORED
+  );
+#+end_src
+
+* Bit String
+
+* Ranges
+
+PostgreSQL comes with the following built-in range types:
+
+| Type      | Data Type               |
+|-----------+-------------------------|
+| ~int4range~ | ~INTEGER~                 |
+| ~int8range~ | ~BIGINT~                  |
+| ~numrange~  | ~NUMERIC~                 |
+| ~tsrange~   | ~TIMESTAMP~               |
+| ~tstzrange~ | ~TIMESTAMP WITH TIMEZONE~ |
+| ~daterange~ | ~DATE~                  |
+
+#+begin_src sql
+  CREATE TABLE reservation (room int, during tsrange);
+  INSERT INTO reservation VALUES
+      (1108, '[2010-01-01 14:30, 2010-01-01 15:30)');
+
+  -- Containment
+  SELECT int4range(10, 20) @> 3;
+
+  -- Overlaps
+  SELECT numrange(11.1, 22.2) && numrange(20.0, 30.0);
+
+  -- Extract the upper bound
+  SELECT upper(int8range(15, 25));
+
+  -- Compute the intersection
+  SELECT int4range(10, 20) * int4range(15, 25);
+
+  -- Is the range empty?
+  SELECT isempty(numrange(1, 5));
+#+end_src
+
+* Composite Types
+
+* Nulls

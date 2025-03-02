@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       70e06cef-cc9e-4183-89fb-0942fb2f4421
+:END:
+#+title: System Columns (PostgreSQL)
+#+filetags: :postgresql:
+
+Every table in [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] has several columns that are implicitly
+defined (and managed) by the system.
+
+* CTID
+
+~ctid~ is a system column that points to the physical location of a row, by saving
+a tuple representing the ~(block/page number, offset)~.
+
+#+begin_src sql
+  SELECT *, ctid
+  FROM <table>
+#+end_src
+
