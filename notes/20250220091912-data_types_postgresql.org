@@ -329,6 +329,14 @@ you can leverage generated columns when creating tables with searchable content.
   );
 #+end_src
 
+The following query picks all the movies whose titles contain "star" immediately followed by either "wars" or "trek".
+
+#+begin_src sql
+  SELECT title
+  FROM movies
+  WHERE to_tsvector(title) @@ to_tsquery('star <-> (wars | trek)');
+#+end_src
+
 * Bit String
 
 * Ranges

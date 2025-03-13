@@ -155,6 +155,41 @@ respected:
 
 ** ~EXCEPT~ / ~INTERSECT~
 
+* Upsert
+
+#+begin_quote
+In PostgreSQL, the ~UPSERT~ statement does not exist as in other DBMSes. An ~UPSERT~
+statement is used when we want to insert a new record on top of the existing
+record or update an existing record. 
+#+end_quote
+
+The optional ~ON CONFLICT~ clause specifies an alternative action to raising a
+unique violation or exclusion constraint violation error:
+
+#+begin_src sql
+  INSERT INTO table_name(c1, c2, ..., cn) VALUES(v1, v2, ..., vn)
+  ON CONFLICT (...);
+#+end_src
+
+and the conflict action can be either:
+
++ ~DO NOTHING~.
++ ~DO UPDATE~ + (~SET~ and/or ~WHERE~)
+
+#+begin_src sql
+  INSERT INTO table_name(c1, c2, ..., cn) VALUES(v1, v2, ..., vn)
+  ON CONFLICT
+  DO UPDATE SET c1 = EXCLUDED.v1;
+#+end_src
+
+where ~EXCLUDED~ references the proposed new insertion row.
+
+* ~RETURNING~
+
+** Inserts
+** Updates
+** Deletes
+
 * Common Table Expressions
 
 #+begin_quote
