@@ -24,6 +24,7 @@ just the current row of the query result. [fn:1]
   FROM posts
   ORDER BY category;
 #+end_src
+
 will output both the count for each category, and the total amount of rows:
 #+begin_src text
    category | category_count | total_count
@@ -38,8 +39,8 @@ you can also define aliases for the window frames.
 #+begin_src sql
   SELECT
     category,
-    count(*) OVER  as category_count,
-    count(*) OVER () as total_count
+    count(*) OVER (w1) as category_count,
+    count(*) OVER (w2) as total_count
   FROM posts
   WINDOW
     w1 as (PARTITION BY category),

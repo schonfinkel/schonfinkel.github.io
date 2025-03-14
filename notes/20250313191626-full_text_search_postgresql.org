@@ -1,0 +1,89 @@
+:PROPERTIES:
+:ID:       488fbacf-bbd1-4b2a-bee1-4f47b4890ad6
+:END:
+#+title: Full Text Search (PostgreSQL)
+
+- [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]]
+
+* ~ts_vector~ and ~ts_query~
+
++ A ~ts_vector~ value is a sorted list of distinct lexemes.
+
+#+begin_src sql
+  <database>#= SELECT 'a fat cat sat on a mat and ate a fat rat'::tsvector;
+                      tsvector                      
+  ----------------------------------------------------
+  'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'
+  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat');
+                                  to_tsvector                                  
+  -------------------------------------------------------------------------------
+  'a':1,6,10 'and':8 'ate':9 'cat':3 'fat':2,11 'mat':7 'on':5 'rat':12 'sat':4
+  <database>#= SELECT 'The quick brown fox jumps over the lazy dog'::tsvector;
+                           tsvector                            
+  ---------------------------------------------------------------
+  'The' 'brown' 'dog' 'fox' 'jumps' 'lazy' 'over' 'quick' 'the'
+  <database>#= SELECT to_tsvector('The quick brown fox jumps over the lazy dog');
+                                to_tsvector                                
+  ---------------------------------------------------------------------------
+  'brown':3 'dog':9 'fox':4 'jumps':5 'lazy':8 'over':6 'quick':2 'the':1,7
+#+end_src
+
++ A ~ts_query~ can be used to build lexemes and apply then to certain operators.
+
+#+begin_src sql
+  <database>#= SELECT 'fat & rat'::tsquery;
+      tsquery    
+  ---------------
+   'fat' & 'rat'
+  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat') @@ to_tsquery('fat | cat') as result;
+   result 
+  --------
+   t
+  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat') @@ to_tsquery('bat | hat') as result;
+   result 
+  --------
+   f
+#+end_src
+
+you can leverage generated columns when creating tables with searchable content.
+
+#+begin_src sql
+  CREATE TABLE user_comment (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    content TEXT NOT NULL,
+    search_vector_en TSVECTOR GENERATED ALWAYS AS (to_tsvector('english', content)) STORED
+  );
+#+end_src
+
+The following query picks all the movies whose titles contain "star" immediately followed by either "wars" or "trek".
+
+#+begin_src sql
+  SELECT title
+  FROM movies
+  WHERE to_tsvector(title) @@ to_tsquery('star <-> (wars | trek)');
+#+end_src
+
+* Websearch
+
+* Ranking
+
+#+begin_src sql
+  SELECT
+    *,
+    ts_rank(
+      -- base
+      to_tsvector(title), 
+      -- query
+      to_tsquery('star & (wars | trek)'),
+      -- weight (optional)
+      -- 0 makes it so the length is not taken into account
+      -- 1 favors shorter matches
+      1 
+    ) AS rank
+  FROM bookmarks
+  ORDER BY rank DESC;
+#+end_src
+
+** Setting weights
+
+~setweight~
