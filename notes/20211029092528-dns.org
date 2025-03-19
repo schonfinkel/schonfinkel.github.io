@@ -81,12 +81,6 @@ to a nameserver. [cite:@liu2006dns p.4]
 #+RESULTS: dns-structure
 [[file:../static/img/notes/dns_structure.png]]
 
-* Structure
-
-+ Distributed Database
-  + Partitioned into /zones/.
-  + Managed in a distributed, decentralized way.
-
 #+begin_src shell
   > dig +noall +answer wikipedia.org
   wikipedia.org.		276	IN	A	195.200.68.224
@@ -95,22 +89,32 @@ to a nameserver. [cite:@liu2006dns p.4]
   wikipedia.org.		185	IN	AAAA	2a02:ec80:700:ed1a::1
 #+end_src
 
-
-* Why do we need DNS?
-
 | Human-Friendly Name | Machine-Friendly Name |
 |---------------------+-----------------------|
-| dns.google.com      |               8.8.8.8 |
+| www.wikipedia.com   |        195.200.68.224 |
 | dns.cloudfare.com   |               1.1.1.1 |
 
 * Terminology
 
-** Domains
+** Domains and Subdomains
 
-** Subdomains
+#+begin_quote
+Each node is also the root of a new subtree of the overall tree. Each of these
+subtrees represents a partition of the overall database—a directory in the Unix
+filesystem, or a *domain* in the *Domain Name System*. Each *domain* or *directory* can
+be further divided into additional partitions, called *subdomains* in DNS, like a
+filesystem’s subdirectories. Subdomains, like subdirectories, are drawn as
+children of their parent domains.
 
-+ Domains contained within another domain.
-+ 
+(...)
+
+In DNS, each domain can be broken into a number of subdomains, and
+responsibility for those subdomains can be doled out to different
+organizations. For example, an organization called EDUCAUSE manages the ~edu~
+(educational) domain but delegates responsibility for the ~berkeley.edu~ subdomain
+to U.C. Berkeley.
+[cite:@liu2006dns p.5]
+#+end_quote
 
 ** Labels
 
