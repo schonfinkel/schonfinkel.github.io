@@ -1,7 +1,100 @@
 :PROPERTIES:
 :ID:       f5f06bf3-d288-47a8-901f-37bec1ba50e7
+:ROAM_ALIASES: "Domain Name System"
 :END:
 #+title: DNS
+#+filetags: :dns:
+
+#+begin_quote
+The Domain Name System is a distributed database. This structure allows local
+control of the segments of the overall database, yet data in each segment is
+available across the entire network through a client/server scheme. Robustness
+and adequate performance are achieved through replication and caching.
+
+Programs called nameservers constitute the server half of DNS's client/server
+mechanism. Nameservers contain information about some segments of the database
+and make that information available to clients, called resolvers. Resolvers are
+often just library routines that create queries and send them across a network
+to a nameserver. [cite:@liu2006dns p.4]
+#+end_quote
+
+#+NAME: dns-structure
+#+BEGIN_SRC dot :file ../static/img/notes/dns_structure.png :cmdline -Kdot -Tpng :exports results
+  graph "DNS" {
+    fontname="Helvetica,Arial,sans-serif"
+    node [shape=circle, fontsize=11, margin=0, fontname="Helvetica,Arial,sans-serif"]
+    edge [fontname="Helvetica,Arial,sans-serif"]
+    label="DNS Database"
+
+    subgraph cluster_network {
+      label="The Hierarchical Structure"
+
+      root [label=""];
+
+      // Top-Level Domains
+      com [label="com"];
+      edu [label="edu"];
+      gov [label="gov"];
+      org [label="org"];
+
+      // Com
+      github [fontsize=8, label="github"];
+      google [fontsize=8, label="google"];
+      youtube [fontsize=8, label="youtube"];
+
+      // Gov
+      br [label="br"];
+      uk [label="uk"];
+
+      // Org
+      wikipedia [fontsize=7, label="wikipedia"];
+      coursera [fontsize=7, label="coursera"];
+      en_wikipedia [label="en"];
+      pt_wikipedia [label="pt"];
+
+      // -----
+      // Links
+      // -----
+      root -- com;
+      root -- gov;
+      root -- edu;
+      root -- org;
+
+      // Com
+      com -- github [label="."];
+      com -- google [label="."];
+      com -- youtube [label="."];
+
+      // Gov
+      gov -- br [label="."];
+      gov -- uk [label="."];
+
+      // Org
+      org -- coursera [label="."];
+      org -- wikipedia [label="."];
+      wikipedia -- en_wikipedia [label="."];
+      wikipedia -- pt_wikipedia [label="."];
+    }
+  }
+#+END_SRC
+
+#+RESULTS: dns-structure
+[[file:../static/img/notes/dns_structure.png]]
+
+* Structure
+
++ Distributed Database
+  + Partitioned into /zones/.
+  + Managed in a distributed, decentralized way.
+
+#+begin_src shell
+  > dig +noall +answer wikipedia.org
+  wikipedia.org.		276	IN	A	195.200.68.224
+  # or 
+  > dig +noall +answer wikipedia.org AAAA
+  wikipedia.org.		185	IN	AAAA	2a02:ec80:700:ed1a::1
+#+end_src
+
 
 * Why do we need DNS?
 
@@ -11,6 +104,13 @@
 | dns.cloudfare.com   |               1.1.1.1 |
 
 * Terminology
+
+** Domains
+
+** Subdomains
+
++ Domains contained within another domain.
++ 
 
 ** Labels
 
@@ -26,3 +126,12 @@ where TLD is an abbreviation for "Top Level Domain".
 
 + Recursive
 + Iterative
+
+* Records
+
+| Record Name | Synonims | Description                                       |
+|-------------+----------+---------------------------------------------------|
+| ~A~           |          | Maps a domain name to an IPV4 address             |
+| ~AAAA~        | Quad A   | Maps a domain name to an IPV6 address             |
+| ~NS~          |          | Maps a domain name to an authoritative DNS server |
+

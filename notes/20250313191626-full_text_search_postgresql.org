@@ -2,12 +2,12 @@
 :ID:       488fbacf-bbd1-4b2a-bee1-4f47b4890ad6
 :END:
 #+title: Full Text Search (PostgreSQL)
+#+filetags: :postgresql: :sql:
 
-- [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]]
+* Parsing Documents
 
-* ~ts_vector~ and ~ts_query~
-
-+ A ~ts_vector~ value is a sorted list of distinct lexemes.
+[[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] provides the function ~to_tsvector~ for converting a document to the
+~tsvector~ data type. A ~ts_vector~ is a sorted list of distinct lexemes:
 
 #+begin_src sql
   <database>#= SELECT 'a fat cat sat on a mat and ate a fat rat'::tsvector;
@@ -28,7 +28,15 @@
   'brown':3 'dog':9 'fox':4 'jumps':5 'lazy':8 'over':6 'quick':2 'the':1,7
 #+end_src
 
-+ A ~ts_query~ can be used to build lexemes and apply then to certain operators.
+A ~ts_query~ can be used to build lexemes and apply then to certain operators.
+
+#+begin_quote
+The match operator ~@@~ returns true if a document satisfies the query and false
+otherwise. It can be used in the ~WHERE~ clause of a ~SELECT~ statement or anywhere
+else where a Boolean expression is expected.
+
+[cite:@dombrovskaya2021postgresql p.324]
+#+end_quote
 
 #+begin_src sql
   <database>#= SELECT 'fat & rat'::tsquery;
@@ -63,7 +71,27 @@ The following query picks all the movies whose titles contain "star" immediately
   WHERE to_tsvector(title) @@ to_tsquery('star <-> (wars | trek)');
 #+end_src
 
+** Highlights
+
+#+begin_quote
+To present search results it is ideal to show a part of each document and how it
+is related to the query. Usually, search engines show fragments of the document
+with marked search terms. PostgreSQL provides a function ~ts_headline~ that
+implements this functionality.
+#+end_quote
+
 * Websearch
+
+#+begin_src sql
+  SELECT
+    plainto_tsquery('star trek') as plain,
+    phraseto_tsquery('star trek') as phrase,
+    websearch_to_tsquery('star trek -khan') as websearch;
+  -- Outputs
+        plain      |      phrase       |    websearch    
+  -----------------+-------------------+-----------------
+   'star' & 'trek' | 'star' <-> 'trek' | 'star' & 'trek' & !'khan'
+#+end_src
 
 * Ranking
 
@@ -87,3 +115,5 @@ The following query picks all the movies whose titles contain "star" immediately
 ** Setting weights
 
 ~setweight~
+
+* Indexing

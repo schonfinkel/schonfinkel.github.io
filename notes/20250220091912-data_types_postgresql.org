@@ -237,12 +237,8 @@ recreate a new one, making sure all tables default the old value to something el
 
 * JSON
 
-| Type  | Description                                                           |
-|-------+-----------------------------------------------------------------------|
-| ~JSON~  | Stored as ~TEXT~ under the hood                                         |
-| ~JSONB~ | Stored as binary, contains extra metadata to make most queries faster |
++ [[id:867344e2-3aa0-4060-be33-c2ead54adfa0][JSON (PostgreSQL)]]
 
-** Querying JSON
 
 * Arrays
 
@@ -296,7 +292,7 @@ PostgreSQL comes with the following built-in range types:
 | ~numrange~  | ~NUMERIC~                 |
 | ~tsrange~   | ~TIMESTAMP~               |
 | ~tstzrange~ | ~TIMESTAMP WITH TIMEZONE~ |
-| ~daterange~ | ~DATE~                  |
+| ~daterange~ | ~DATE~                    |
 
 #+begin_src sql
   CREATE TABLE reservation (room int, during tsrange);
