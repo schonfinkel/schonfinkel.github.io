@@ -3,7 +3,7 @@
 :ROAM_ALIASES: "Domain Name System"
 :END:
 #+title: DNS
-#+filetags: :dns:
+#+filetags: :dns: :protocols:
 
 #+begin_quote
 The Domain Name System is a distributed database. This structure allows local
@@ -17,6 +17,21 @@ and make that information available to clients, called resolvers. Resolvers are
 often just library routines that create queries and send them across a network
 to a nameserver. [cite:@liu2006dns p.4]
 #+end_quote
+
+#+begin_src shell
+  > dig +noall +answer wikipedia.org
+  wikipedia.org.		276	IN	A	195.200.68.224
+  # or 
+  > dig +noall +answer wikipedia.org AAAA
+  wikipedia.org.		185	IN	AAAA	2a02:ec80:700:ed1a::1
+#+end_src
+
+| Human-Friendly Name | Machine-Friendly Name |
+|---------------------+-----------------------|
+| www.wikipedia.com   |        195.200.68.224 |
+| dns.cloudfare.com   |               1.1.1.1 |
+
+* Terminology
 
 #+NAME: dns-structure
 #+BEGIN_SRC dot :file ../static/img/notes/dns_structure.png :cmdline -Kdot -Tpng :exports results
@@ -81,55 +96,99 @@ to a nameserver. [cite:@liu2006dns p.4]
 #+RESULTS: dns-structure
 [[file:../static/img/notes/dns_structure.png]]
 
-#+begin_src shell
-  > dig +noall +answer wikipedia.org
-  wikipedia.org.		276	IN	A	195.200.68.224
-  # or 
-  > dig +noall +answer wikipedia.org AAAA
-  wikipedia.org.		185	IN	AAAA	2a02:ec80:700:ed1a::1
-#+end_src
-
-| Human-Friendly Name | Machine-Friendly Name |
-|---------------------+-----------------------|
-| www.wikipedia.com   |        195.200.68.224 |
-| dns.cloudfare.com   |               1.1.1.1 |
-
-* Terminology
-
 ** Domains and Subdomains
 
 #+begin_quote
-Each node is also the root of a new subtree of the overall tree. Each of these
-subtrees represents a partition of the overall database—a directory in the Unix
+Each /node/ is also the root of a new subtree of the overall tree. Each of these
+subtrees represents a partition of the overall database - a directory in the Unix
 filesystem, or a *domain* in the *Domain Name System*. Each *domain* or *directory* can
 be further divided into additional partitions, called *subdomains* in DNS, like a
-filesystem’s subdirectories. Subdomains, like subdirectories, are drawn as
-children of their parent domains.
+filesystem's subdirectories. Subdomains, like subdirectories, are drawn as
+children of their *parent domains*.
 
-(...)
-
-In DNS, each domain can be broken into a number of subdomains, and
-responsibility for those subdomains can be doled out to different
-organizations. For example, an organization called EDUCAUSE manages the ~edu~
-(educational) domain but delegates responsibility for the ~berkeley.edu~ subdomain
-to U.C. Berkeley.
 [cite:@liu2006dns p.5]
 #+end_quote
 
-** Labels
++ A /domain/ is a set of related /nodes/.
++ Every /node/ in the DNS tree has a /label/.
++ The root label is empty.
++ Labels are separated by a dot (~.~).
++ Items are sorted from most to least specific (i.e. ~en.wikipedia.org~ ->
+  ~wikipedia.org~ -> ~org~).
 
-| Node |   | Subdomain |   | Domain |   | TLD | Root |
-|------+---+-----------+---+--------+---+-----+------|
-| www  | . | abc       | . | xyz    | . | com | .    |
+| Node |   | Subdomain |   | Domain    |   | TLD | Root |
+|------+---+-----------+---+-----------+---+-----+------|
+| www  | . | abc       | . | xyz       | . | com |      |
+| www  | . | en        | . | wikipedia | . | org |      |
 
 where TLD is an abbreviation for "Top Level Domain".
 
-** Zones
+*** Root Servers
 
-** Query Types
+A total of 12 organizations host the DNS root zone, this can be verified on the
+list [[https://www.iana.org/domains/root/servers][published by IANA]].
 
-+ Recursive
-+ Iterative
+** Zone Delegation
+
+#+begin_quote
+In DNS, each *domain* can be broken into a number of *subdomains*, and
+responsibility for those *subdomains* can be doled out to different
+organizations. For example, an organization called EDUCAUSE manages the ~edu~
+(educational) domain but delegates responsibility for the ~berkeley.edu~ subdomain
+to U.C. Berkeley.
+
+[cite:@liu2006dns p.5]
+#+end_quote
+
++ /Delegation/ allows an organization to assign control of a subdomain to another
+  organization.
++ /Zones/ are the administrative unit in DNS.
+  
+** Name Servers and Resolvers
+
+#+NAME: dns-servers-and-resolvers
+#+BEGIN_SRC dot :file ../static/img/notes/dns_servers_and_resolvers.png :cmdline -Kdot -Tpng :exports results
+  digraph {
+  	rankdir=LR;
+    node[shape=square, fontsize=7];
+    edge[fontsize=7, label="query"];
+
+    resolver[label="resolver"];
+    ns1 [label="name server", fontsize=5]
+    ns2 [label="name server", fontsize=5]
+    ns3 [label="name server", fontsize=5]
+
+  	resolver -> ns1
+  	ns1 -> ns2
+    ns1 -> ns3
+  }
+#+END_SRC
+
+#+RESULTS: dns-servers-and-resolvers
+[[file:../static/img/notes/dns_servers_and_resolvers.png]]
+
+| Zone          | Name Server |
+|---------------+-------------|
+| wikipedia.org |             |
+| wikipedia.org |             |
+| wikipedia.org |             |
+| org           |             |
+
+#+begin_src shell
+  dig +noall +answer +trace en.wikipedia.org
+#+end_src
+
++ A name server that loads an entire zone is said to be /authoritative/.
+
+*** Query Types
+
++ Queries can be either /recursive/ or /non-recursive/ (aka iteractive).
++ Accepting a recursive query forces a given name server to follow all the links
+  until a match occurs or no more referrals are found.
+  
+*** Caching
++ TTLs can range from seconds to hours to days.
++ The administrator of a zones are the ones decidings the values for the TTLs.
 
 * Records
 
