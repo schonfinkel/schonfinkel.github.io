@@ -1,0 +1,171 @@
+:PROPERTIES:
+:ID:       867344e2-3aa0-4060-be33-c2ead54adfa0
+:END:
+#+title: JSON (PostgreSQL)
+#+filetags: :postgresql: :sql:
+
+#+begin_quote
+[[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] supports the JSON data type natively. It provides many functions and
+operators used for manipulating json data. PostgreSQL, in addition to the ~JSON~
+data type, also supports the ~JSONB~ data type.
+
+[cite:@ferrari2023postgres p.201]
+#+end_quote
+
+| Type  | Description                                                           |
+|-------+-----------------------------------------------------------------------|
+| ~JSON~  | Stored as ~TEXT~ under the hood                                         |
+| ~JSONB~ | Stored as binary, contains extra metadata to make most queries faster |
+
+* Validation
+
+* Functions & Operators
+
+** Creating JSON data
+
+#+begin_src sql
+  SELECT json_build_object(
+    'id', 1,
+    'username', 'bene',
+    'roles', array['admin']
+  )
+  -- Outputs
+                         json_obj                       
+  ------------------------------------------------------
+   {"id" : 1, "username" : "bene", "roles" : ["admin"]}
+#+end_src
+
+Similar functions like ~to_json~ and ~json_build_array~ also exist. However
+~row_to_json~ is more applicable to real world queries:
+
+#+begin_src sql
+  SELECT
+    row_to_json(v) AS value_json
+  FROM (
+    SELECT col_1, ..., col_n
+    FROM tablename
+    WHERE predicate
+  ) AS v;
+#+end_src
+
+or if you want to aggregate the rows into a single list instead of returning
+every json object in its own row:
+
+#+begin_src sql
+  SELECT
+    json_agg(row_to_json(v)) AS json
+  FROM (
+    SELECT col_1, ..., col_n
+    FROM tablename
+    WHERE predicate
+  ) AS v;
+#+end_src
+
+** Extraction Operators
+
+| Operator | Type   | Example                                          | Output       |
+|----------+--------+--------------------------------------------------+--------------|
+| ~->~       | ~INT~    | ~'[{"a":"foo"},{"b":"bar"},{"c":"baz"}]'::json->2~ | ~{"c":"baz"}~  |
+| ~->~       | ~TEXT~   | ~'{"a": {"b":"foo"}}'::json->'a'~                  | ~{"b":"foo"}~  |
+| ~->>~      | ~INT~    | ~'[1,2,3]'::json->>2~                              | ~3~            |
+| ~->>~      | ~TEXT~   | ~'{"a":1,"b":2}'::json->>'b'~                      | ~2~            |
+| ~#>~       | ~TEXT[]~ | ~'{"a": {"b":{"c": "foo"}}}'::json#>'{a,b}'~       | ~{"c": "foo"}~ |
+| ~#>>~      | ~TEXT[]~ | ~'{"a":[1,2,3],"b":[4,5,6]}'::json#>>'{a,2}'~      | ~3~            |
+
+** Containment Operators
+
+| Operator | Type  | Example                                     | Output |
+|----------+-------+---------------------------------------------+--------|
+| ~@>~       | ~JSONB~ | ~'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb~ | ~t~      |
+| ~<@~       | ~JSONB~ | ~'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb~ | ~t~      |
+
+** Existence Operators
+
+You can also use the following operators to check if one or more values are
+contained inside a ~JSONB~ object:
+
++ ~?~ checks for simple top-level existence, i.e., ~'{"a":1, "b":2}'::jsonb ? 'b'~
+  yields ~t~.
++ ~?|~ checks if at least one of the strings exists as a top level key:
+
+#+begin_src sql
+  SELECT
+    '{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c'] as result;
+  -- Outputs
+   result 
+  --------
+   t
+#+end_src
+
++ ~?&~ yields true if all the strings exist as a top level key.
+
+** JSON Path Operators
+
+| Operator | Type     | Example                                          | Output |
+|----------+----------+--------------------------------------------------+--------|
+| ~@?~       | ~JSONPATH~ | ~'{"a":[1,2,3,4,5]}'::jsonb @? '$.a[*] ? (@ > 2)'~ | ~t~      |
+| ~@@~       | ~JSONPATH~ | ~'{"a":[1,2,3,4,5]}'::jsonb @@ '$.a[*] > 2'~       | ~t~    |
+  
+** Deletion Operators
+
+| Operator | Type   | Example                                         | Output          |
+|----------+--------+-------------------------------------------------+-----------------|
+| ~-~        | ~TEXT~   | ~'{"a": "b"}'::jsonb - 'a'~                       | ~{}~              |
+| ~-~        | ~TEXT[]~ | ~'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]~ | ~{}~              |
+| ~-~        | ~INT~    | ~'["a", "b"]'::jsonb - 1~                         | ~["a"]~           |
+| ~#-~       | ~TEXT[]~ | ~'["a", {"b":1, "c":2}]'::jsonb #- '{1,b}'~       | ~["a", {"c": 2}]~ |
+
+** Update Functions
+
+~jsonb_set~
+
+* JSON Record Sets
+
+#+begin_src sql
+  SELECT *
+  FROM jsonb_each('{"a": 1, "b": "something", "c": {"d": 1}}');
+  -- Outputs
+   key |    value    
+  -----+-------------
+   a   | 1
+   b   | "something"
+   c   | {"d": 1}
+#+end_src
+this function also has a ~TEXT~-only variant, ~jsonb_each_text~. You can also use
+~jsonb_to_recordset~ to build something like a table with proper schemas out of
+raw JSON data:
+
+#+begin_src sql
+  SELECT *
+  FROM jsonb_to_recordset(jsonb_build_array('{"a": 1, "b": "something", "c": {"d": 1}}'::jsonb))
+  AS t(a INT, b TEXT, c JSONB);
+  -- Outputs
+   a |     b     |    c     
+  ---+-----------+----------
+   1 | something | {"d": 1}
+#+end_src
+
+* Indexing
+
+** Functional Indexes and Generated Columns
+
+** GIN Indexes
+
+#+begin_quote
+~GIN~ indexes can be used to efficiently search for keys or key/value pairs
+occurring within a large number of jsonb documents (datums). Two ~GIN~ "operator
+classes" are provided, offering different performance and flexibility
+trade-offs.
+#+end_quote
+
++ Useful for blobs that updated at a reasonable frequency.
+
+#+begin_src sql
+  CREATE INDEX index_name_idx
+  ON tablename USING GIN (jsondata <operator_class>);
+#+end_src
+
+For ~JSONB~, ~GIN~ supports two operator classes:
+
++ ~jsonb_ops~: The default setting, index both the key and the value. Supports ~?~, ~?|~, ~?&~, ~@>~, ~@@~, ~@?~.
++ ~jsonb_path_ops~: Indexes only the values of the ~JSONB~. Supports: ~@>~, ~@@~, ~@?~.

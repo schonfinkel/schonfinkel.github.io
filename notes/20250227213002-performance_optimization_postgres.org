@@ -5,7 +5,6 @@
 #+filetags: :postgresql: :sql:
 
 - [[id:11f7d9cc-51a6-4897-955b-37a756105677][SQL]]
-- [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]]
 
 * The ~EXPLAIN~ Statement
 
@@ -31,3 +30,74 @@ There are a few important things to know before using ~EXPLAIN~:
 | Bitmap Index Scan |                                           |
 | Index Scan        |                                           |
 | Index-Only Scan   | A covering index (see [[id:48dd781f-123c-4508-82b5-ac9b05383db4][Index (PostgreSQL)]]) |
+
+* Advanced statistics with ~pg_stat_statements~
+
+#+begin_quote
+While the [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] statistics collector is rich and mature, having to monitor
+connection activity can be a little tricky since the ~pg_stat_activity~ catalog
+does not provide historical information. (...)
+
+The ~pg_stat_statements~ extension solves this problem by providing a single view
+that gives you a full history of executed statements, timing, and other little
+details that can come in very handy when doing introspection. Moreover,
+~pg_stat_statements~ provides a count of how many times the same statement has
+been executed, resulting in important information that queries might need to pay
+attention to for optimization purposes. [cite:@ferrari2023postgres p.600]
+#+end_quote
+
+Since the extension is already shipped, the only thing an administrator needs to
+do is to enable it in a database cluster. You can do it by editing the
+~postgresql.conf~ file and adding the following line:
+
+#+begin_src text
+  shared_preload_libraries = 'pg_stat_statements'
+#+end_src
+
+or add it like this (it requires a restart of the database cluster).
+
+#+begin_src sql
+  ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements';
+#+end_src
+
+then verify if it works and enable the extension in your database.
+
+#+begin_src sql
+  -- Check if pg_stat_statements shows up
+  SHOW shared_preload_libraries;
+
+  -- Then enable it
+  CREATE extension pg_stat_statements;
+#+end_src
+
+#+begin_src sql
+#+end_src
+
+** Usage
+
+#+begin_src sql
+  SELECT
+    auth.rolname,
+    query,
+    db.datname,
+    calls,
+    min_exec_time,
+    max_exec_time
+  FROM pg_stat_statements
+  JOIN pg_authid auth ON auth.oid = userid
+  JOIN pg_database db ON db.oid = dbid
+  ORDER BY calls DESC;
+#+end_src
+
+| Column Name      | Description                                               |
+|------------------+-----------------------------------------------------------|
+| ~query~            | Text of a representative statement in a parametrized form |
+| ~query_id~         | Hashcode to identity identical queries                    |
+| ~calls~            | Amount of times a statement has been called               |
+| ~total_exec_time~  | Total execution time of all statements, in ms             |
+| ~mean_exec_time~   | Mean execution time in ms                                 |
+| ~total_plan_time~  | Total time spent planning the statement, in milliseconds  |
+| ~mean_plan_time~   | Mean planning time, in ms                                 |
+| ~shared_blks_hit~  |                                                           |
+| ~shared_blks_read~ |                                                           |
+| ~dbid~             | Useful in environments with multiple replicas             |

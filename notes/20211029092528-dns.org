@@ -1,28 +1,241 @@
 :PROPERTIES:
 :ID:       f5f06bf3-d288-47a8-901f-37bec1ba50e7
+:ROAM_ALIASES: "Domain Name System"
 :END:
 #+title: DNS
+#+filetags: :dns: :protocols:
 
-* Why do we need DNS?
+#+begin_quote
+The Domain Name System is a distributed database. This structure allows local
+control of the segments of the overall database, yet data in each segment is
+available across the entire network through a client/server scheme. Robustness
+and adequate performance are achieved through replication and caching.
+
+Programs called nameservers constitute the server half of DNS's client/server
+mechanism. Nameservers contain information about some segments of the database
+and make that information available to clients, called resolvers. Resolvers are
+often just library routines that create queries and send them across a network
+to a nameserver. [cite:@liu2006dns p.4]
+#+end_quote
+
+#+begin_src shell
+  > dig +noall +answer wikipedia.org
+  wikipedia.org.		276	IN	A	195.200.68.224
+  # or 
+  > dig +noall +answer wikipedia.org AAAA
+  wikipedia.org.		185	IN	AAAA	2a02:ec80:700:ed1a::1
+#+end_src
 
 | Human-Friendly Name | Machine-Friendly Name |
 |---------------------+-----------------------|
-| dns.google.com      |               8.8.8.8 |
+| www.wikipedia.com   |        195.200.68.224 |
 | dns.cloudfare.com   |               1.1.1.1 |
 
-* Terminology
+* The Domain Namespace
 
-** Labels
+#+begin_quote
+Each *node* in the tree has a text label (without dots) that can be up to 63
+characters long. A null (zero-length) label is reserved for the *root*. The full
+*domain name* of any node in the tree is the sequence of labels on the path from
+that *node* to the *root*. *Domain names* are always read from the *node* toward the
+*root* (“up” the tree), with dots separating the names in the path.
 
-| Node |   | Subdomain |   | Domain |   | TLD | Root |
-|------+---+-----------+---+--------+---+-----+------|
-| www  | . | abc       | . | xyz    | . | com | .    |
+[cite:@liu2006dns p.12]
+#+end_quote
+
+#+NAME: dns-structure
+#+BEGIN_SRC dot :file ../static/img/notes/dns_structure.png :cmdline -Kdot -Tpng :exports results
+  graph "DNS" {
+    fontname="Helvetica,Arial,sans-serif"
+    node [shape=circle, fontsize=11, margin=0, fontname="Helvetica,Arial,sans-serif"]
+    edge [fontname="Helvetica,Arial,sans-serif"]
+    label="DNS Database"
+
+    subgraph cluster_network {
+      label="The Hierarchical Structure"
+
+      root [label=""];
+
+      // Top-Level Domains
+      com [label="com"];
+      edu [label="edu"];
+      gov [label="gov"];
+      org [label="org"];
+
+      // Com
+      github [fontsize=8, label="github"];
+      google [fontsize=8, label="google"];
+      youtube [fontsize=8, label="youtube"];
+
+      // Gov
+      br [label="br"];
+      uk [label="uk"];
+
+      // Org
+      wikipedia [fontsize=7, label="wikipedia"];
+      coursera [fontsize=7, label="coursera"];
+      en_wikipedia [label="en"];
+      pt_wikipedia [label="pt"];
+
+      // -----
+      // Links
+      // -----
+      root -- com;
+      root -- gov;
+      root -- edu;
+      root -- org;
+
+      // Com
+      com -- github [label="."];
+      com -- google [label="."];
+      com -- youtube [label="."];
+
+      // Gov
+      gov -- br [label="."];
+      gov -- uk [label="."];
+
+      // Org
+      org -- coursera [label="."];
+      org -- wikipedia [label="."];
+      wikipedia -- en_wikipedia [label="."];
+      wikipedia -- pt_wikipedia [label="."];
+    }
+  }
+#+END_SRC
+
+#+RESULTS: dns-structure
+[[file:../static/img/notes/dns_structure.png]]
+
+** Domains and Subdomains
+
+#+begin_quote
+A *domain* may have several subtrees of its own, called *subdomains*.
+
+A simple way of determining if a domain is a subdomain of another domain is to
+compare their domain names. A subdomain's domain name ends with the domain name
+of its parent domain.
+
+[cite:@liu2006dns p.16]
+#+end_quote
+
++ A /domain/ is a set of related /nodes/.
++ Every /node/ in the DNS tree has a /label/.
++ The root label is empty.
++ Labels are separated by a dot (~.~).
++ Items are sorted from most to least specific (i.e. ~en.wikipedia.org~ ->
+  ~wikipedia.org~ -> ~org~).
+
+| Node |   | Subdomain |   | Domain    |   | TLD | Root |
+|------+---+-----------+---+-----------+---+-----+------|
+| www  | . | abc       | . | xyz       | . | com |      |
+| www  | . | en        | . | wikipedia | . | org |      |
 
 where TLD is an abbreviation for "Top Level Domain".
 
-** Zones
+** Resource Records
 
-** Query Types
+#+begin_quote
+The data associated with domain names is contained in resource records, or RRs.
+Records are divided into classes, each of which pertains to a type of network or
+software.
 
-+ Recursive
-+ Iterative
+[cite:@liu2006dns p.16]
+#+end_quote
+
+* Delegation
+
+#+begin_quote
+In DNS, each *domain* can be broken into a number of *subdomains*, and
+responsibility for those *subdomains* can be doled out to different
+organizations. For example, an organization called EDUCAUSE manages the ~edu~
+(educational) domain but delegates responsibility for the ~berkeley.edu~ subdomain
+to U.C. Berkeley.
+
+[cite:@liu2006dns p.5]
+#+end_quote
+
++ /Delegation/ allows an organization to assign control of a subdomain to another
+  organization.
++ /Zones/ are the administrative unit in DNS.
+
+** Root Servers
+
+The root zone is overseen by[[https://www.icann.org/][ ICANN]] (Internet Corporation for Assigned Names and
+Numbers) and its name servers are hosted by a total of 12 organizations, this
+can be verified on the list [[https://www.iana.org/domains/root/servers][published by IANA]] (a subsidiary of ICANN).
+
+#+begin_src shell
+  > dig +short ns . 
+  g.root-servers.net.
+  e.root-servers.net.
+  l.root-servers.net.
+  m.root-servers.net.
+  a.root-servers.net.
+  j.root-servers.net.
+  c.root-servers.net.
+  h.root-servers.net.
+  d.root-servers.net.
+  i.root-servers.net.
+  k.root-servers.net.
+  b.root-servers.net.
+  f.root-servers.net.
+#+end_src
+
+* Name Servers and Resolvers
+
+#+NAME: dns-servers-and-resolvers
+#+BEGIN_SRC dot :file ../static/img/notes/dns_servers_and_resolvers.png :cmdline -Kdot -Tpng :exports results
+  digraph {
+  	rankdir=LR;
+    node[shape=square, fontsize=7];
+    edge[fontsize=7, label="query"];
+
+    resolver[label="resolver"];
+    ns1 [label="name server", fontsize=5]
+    ns2 [label="name server", fontsize=5]
+    ns3 [label="name server", fontsize=5]
+
+  	resolver -> ns1
+  	ns1 -> ns2
+    ns1 -> ns3
+  }
+#+END_SRC
+
+#+RESULTS: dns-servers-and-resolvers
+[[file:../static/img/notes/dns_servers_and_resolvers.png]]
+
+There are two types of DNS servers:
+
+  + Authoritative :: Answer queries for specific zones they have authority over.
+  + Recursive :: Perform DNS lookups for users, retrieving and collecting DNS
+    data from authoritative servers by using recursive queries. Accepting a
+    recursive query forces a given name server to follow all the links until a
+    match occurs or no more referrals are found.
+
+| Zone          | Name Server |
+|---------------+-------------|
+| wikipedia.org |             |
+| wikipedia.org |             |
+| wikipedia.org |             |
+| org           |             |
+
+#+begin_src shell
+  dig +noall +answer +trace en.wikipedia.org
+#+end_src
+
+*** Caching
++ TTLs can range from seconds to hours to days.
++ The administrator of a zones are the ones decidings the values for the TTLs.
+  
+** Zone Transfer
+
+*** The SOA Record
+
+* Records
+
+| Record Name | Synonims | Description                                       |
+|-------------+----------+---------------------------------------------------|
+| ~A~           |          | Maps a domain name to an IPV4 address             |
+| ~AAAA~        | Quad A   | Maps a domain name to an IPV6 address             |
+| ~NS~          |          | Maps a domain name to an authoritative DNS server |
+

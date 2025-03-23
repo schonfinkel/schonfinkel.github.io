@@ -2,7 +2,7 @@
 :ID:       7ec84939-c450-49b1-8214-a49b9d1a07c8
 :END:
 #+title: Data Types (PostgreSQL)
-#+filetags: :postgresql:
+#+filetags: :postgresql: :sql:
 
 - [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]]
 
@@ -237,12 +237,8 @@ recreate a new one, making sure all tables default the old value to something el
 
 * JSON
 
-| Type  | Description                                                           |
-|-------+-----------------------------------------------------------------------|
-| ~JSON~  | Stored as ~TEXT~ under the hood                                         |
-| ~JSONB~ | Stored as binary, contains extra metadata to make most queries faster |
++ [[id:867344e2-3aa0-4060-be33-c2ead54adfa0][JSON (PostgreSQL)]]
 
-** Querying JSON
 
 * Arrays
 
@@ -281,53 +277,7 @@ columns. Thus, it is for columns what a view is for tables.
 
 * Text Search Types
 
-+ A ~ts_vector~ value is a sorted list of distinct lexemes.
-
-#+begin_src sql
-  <database>#= SELECT 'a fat cat sat on a mat and ate a fat rat'::tsvector;
-                      tsvector                      
-  ----------------------------------------------------
-  'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'
-  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat');
-                                  to_tsvector                                  
-  -------------------------------------------------------------------------------
-  'a':1,6,10 'and':8 'ate':9 'cat':3 'fat':2,11 'mat':7 'on':5 'rat':12 'sat':4
-  <database>#= SELECT 'The quick brown fox jumps over the lazy dog'::tsvector;
-                           tsvector                            
-  ---------------------------------------------------------------
-  'The' 'brown' 'dog' 'fox' 'jumps' 'lazy' 'over' 'quick' 'the'
-  <database>#= SELECT to_tsvector('The quick brown fox jumps over the lazy dog');
-                                to_tsvector                                
-  ---------------------------------------------------------------------------
-  'brown':3 'dog':9 'fox':4 'jumps':5 'lazy':8 'over':6 'quick':2 'the':1,7
-#+end_src
-
-+ A ~ts_query~ can be used to build lexemes and apply then to certain operators.
-
-#+begin_src sql
-  <database>#= SELECT 'fat & rat'::tsquery;
-      tsquery    
-  ---------------
-   'fat' & 'rat'
-  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat') @@ to_tsquery('fat | cat') as result;
-   result 
-  --------
-   t
-  <database>#= SELECT to_tsvector('a fat cat sat on a mat and ate a fat rat') @@ to_tsquery('bat | hat') as result;
-   result 
-  --------
-   f
-#+end_src
-
-you can leverage generated columns when creating tables with searchable content.
-
-#+begin_src sql
-  CREATE TABLE user_comment (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    content TEXT NOT NULL,
-    search_vector_en TSVECTOR GENERATED ALWAYS AS (to_tsvector('english', content)) STORED
-  );
-#+end_src
+Check [[id:488fbacf-bbd1-4b2a-bee1-4f47b4890ad6][Full Text Search (PostgreSQL)]].
 
 * Bit String
 
@@ -342,7 +292,7 @@ PostgreSQL comes with the following built-in range types:
 | ~numrange~  | ~NUMERIC~                 |
 | ~tsrange~   | ~TIMESTAMP~               |
 | ~tstzrange~ | ~TIMESTAMP WITH TIMEZONE~ |
-| ~daterange~ | ~DATE~                  |
+| ~daterange~ | ~DATE~                    |
 
 #+begin_src sql
   CREATE TABLE reservation (room int, during tsrange);

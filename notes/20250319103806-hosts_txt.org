@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       102c6e77-0120-4506-8a01-917542369675
+:END:
+#+title: HOSTS.TXT
+#+filetags: :dns:
+
+#+begin_quote
+HOSTS.TXT was maintained by SRI’s Network Information Center (dubbed “the NIC”)
+and distributed from a single host, SRI-NIC.[*] ARPAnet administrators typically
+emailed their changes to the NIC, and periodically FTP’ed to SRI-NIC and grabbed
+the current HOSTS.TXT file. Their changes were compiled into a new HOSTS.TXT
+file once or twice a week. As the ARPAnet grew, however, this scheme became
+unworkable. [cite:@liu2006dns p.3]
+#+end_quote
+
+The size of HOSTS.TXT grew in proportion to the growth in the number
+of ARPAnet hosts, which brought issues like:
+
++ Traffic and load
++ Collisions
++ Searching the file was linear (~O(n)~).
+
+The ARPAnet's governing bodies chartered an investigation to develop a successor
+for HOSTS.TXT, solving all issues of its centralized design.
+
+#+begin_quote
+Paul Mockapetris, then of USC's Information Sciences Institute, was responsible
+for designing the architecture of the new system. In 1984, he released RFCs 882
+and 883, which described the [[id:f5f06bf3-d288-47a8-901f-37bec1ba50e7][Domain Name System]]. [cite:@liu2006dns p.4]
+#+end_quote

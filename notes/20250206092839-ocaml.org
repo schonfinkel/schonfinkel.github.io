@@ -2,3 +2,29 @@
 :ID:       3a8d5cf5-9b6c-4995-b7f0-b2218e52bd01
 :END:
 #+title: OCaml
+#+filetags: :functional-programming: :ocaml:
+
+OCaml is a statically-typed and type-safe [[id:171718cd-10fd-484b-8d77-0ffcffc29163][Functional Programming]] language.
+
+* Top Level
+
+
+
+* Tooling
+
+** Manually Compiling OCaml Programs
+
+#+begin_src shell
+  > ocamlc -o test.out test.ml
+  > ./test.out
+#+end_src
+
+** Dune
+
+#+begin_quote
+In larger projects, we don't want to run the compiler or clean up
+manually. Instead, we want to use a build system to automatically find and link
+in libraries. OCaml has a legacy build system called ocamlbuild, and a newer
+build system called [[id:ec5997ac-fe15-4e3e-ba6e-d50c7675210f][Dune]]. [cite:@clarkson2025ocaml p.30]
+#+end_quote
+
