@@ -3,3 +3,60 @@
 :END:
 #+title: Dune
 #+filetags: :ocaml:
+
+#+begin_quote
+A Dune project is a directory (and its subdirectories) that contain [[id:3a8d5cf5-9b6c-4995-b7f0-b2218e52bd01][OCaml]] code
+you want to compile. The root of a project is the highest directory in its
+hierarchy. A project might rely on external packages providing additional code
+that is already compiled. Usually, packages are installed with [[id:640be2cb-76b5-40d5-ae74-61718086f6c6][OPAM]], the OCaml
+Package Manager.
+
+Each directory in your project can contain a file named dune. That file
+describes to Dune how you want the code in that directory (and subdirectories)
+to be compiled. [cite:@clarkson2025ocaml p.30]
+#+end_quote
+
+* Basics
+
+** Creating a Dune Project Manually
+
+Assuming that you have a ~hello.ml~ file in a certain directory:
+
+1. In this same directory, create a file named ~dune~ with the following content:
+
+#+begin_src
+ (executable
+   (name hello))
+#+end_src
+
+2. Also create a file named ~dune-project~ with the following content:
+
+#+begin_src
+  (lang dune 3.4)
+#+end_src
+
+
+3. To build and run the project:
+
+#+begin_src shell
+  dune build hello.exe
+  # now you can run the executable with either this
+  _build/default/hello.exe
+  # or
+  dune exec ./hello.exe
+#+end_src
+
+
+** Creating a Dune Project Automatically
+
+#+begin_src shell
+  dune init project example
+  cd example
+#+end_src
+
+** Running Dune Continuously
+
+#+begin_src shell
+  dune build --watch
+#+end_src
+
