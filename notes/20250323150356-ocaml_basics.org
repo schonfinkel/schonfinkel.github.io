@@ -1,0 +1,45 @@
+:PROPERTIES:
+:ID:       8cdc9dde-516a-47a4-8da0-3eb2700845c0
+:END:
+#+title: OCaml Basics
+#+filetags: :ocaml:
+
+* Expressions
+
+The [[id:3a8d5cf5-9b6c-4995-b7f0-b2218e52bd01][OCaml]] [[https://ocaml.org/manual/5.3/expr.html][manual]] has a complete definition of all the expressions in the language.
+
+** Primitive Types
+
+*** Integers
+
+#+begin_quote
+OCaml integers range from 2^{62} to 2^{62} − 1 on modern platforms. They are
+implemented with 64-bit machine words, which is the size of a register on 64-bit
+processor. But one of those bits is "stolen" by the OCaml implementation,
+leading to a 63-bit representation. That bit is used at run time to distinguish
+integers from pointers. For applications that need true 64-bit integers, there
+is an [[https://ocaml.org/manual/5.3/api/Int64.html][Int64]] module in the standard library. And for applications that need
+arbitrary-precision integers, there is a separate [[https://github.com/ocaml/Zarith][Zarith]] library. But for most
+purposes, the built-in int type suffices and offers the best performance.
+[cite:@clarkson2025ocaml p.33]
+#+end_quote
+
+*** Float
+
+*** Bool
+
+*** Char
+
+*** String
+
+** More Operators
+
+** Assertions
+
+** If Expressions
+
+** Let Expressions
+
+** Scope
+
+** Type Annotations
