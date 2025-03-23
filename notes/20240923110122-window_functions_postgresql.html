@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-03-02 Sun 02:23 -->
+<!-- 2025-03-23 Sun 01:41 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Window Functions (PostgreSQL)</title>
@@ -55,58 +55,176 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Window Functions (PostgreSQL)</h1>
-</header><ul class="org-ul">
-<li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
-</ul>
-<div id="outline-container-org04b3044" class="outline-2">
-<h2 id="org04b3044">Aggregates</h2>
-<div class="outline-text-2" id="text-org04b3044">
-</div>
-<div id="outline-container-org688179e" class="outline-3">
-<h3 id="org688179e"><code>ROW_NUMBER</code></h3>
+</header><blockquote>
+<p>
+A window function performs a calculation across a set of table rows that are
+somehow related to the current row. This is comparable to the type of
+calculation that can be done with an aggregate function. However, window
+functions do not cause rows to become grouped into a single output row like
+non-window aggregate calls would. Instead, the rows retain their separate
+identities. Behind the scenes, the window function is able to access more than
+just the current row of the query result. <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+</blockquote>
+<div id="outline-container-orga3060d4" class="outline-2">
+<h2 id="orga3060d4"><code>PARTITION BY</code> and <code>WINDOW</code> clauses</h2>
+<div class="outline-text-2" id="text-orga3060d4">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    category,
+    <span style="font-weight: bold;">count</span>(*) OVER (PARTITION <span style="font-weight: bold;">BY</span> category) <span style="font-weight: bold;">as</span> category_count,
+    <span style="font-weight: bold;">count</span>(*) OVER () <span style="font-weight: bold;">as</span> total_count
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> category;
+</pre>
 </div>
 
-<div id="outline-container-org7949a2b" class="outline-3">
-<h3 id="org7949a2b"><code>LEAD</code></h3>
-<div class="outline-text-3" id="text-org7949a2b">
+<p>
+will output both the count for each category, and the total amount of rows:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">   category | category_count | total_count
+  ----------+----------------+------------
+          1 |              2 |          3
+          1 |              2 |          3
+          3 |              1 |          3
+</pre>
+</div>
+
+<p>
+you can also define aliases for the window frames.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    category,
+    <span style="font-weight: bold;">count</span>(*) OVER (w1) <span style="font-weight: bold;">as</span> category_count,
+    <span style="font-weight: bold;">count</span>(*) OVER (w2) <span style="font-weight: bold;">as</span> total_count
+  <span style="font-weight: bold;">FROM</span> posts
+  WINDOW
+    w1 <span style="font-weight: bold;">as</span> (PARTITION <span style="font-weight: bold;">BY</span> category),
+    w2 <span style="font-weight: bold;">as</span> ()
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> category;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org47740b9" class="outline-2">
+<h2 id="org47740b9">Introducing some useful functions</h2>
+<div class="outline-text-2" id="text-org47740b9">
+</div>
+<div id="outline-container-orgef032fc" class="outline-3">
+<h3 id="orgef032fc"><code>ROW_NUMBER</code></h3>
+<div class="outline-text-3" id="text-orgef032fc">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    category,
+    row_number() OVER (PARTITION <span style="font-weight: bold;">BY</span> category) <span style="font-weight: bold;">as</span> category_count,
+    <span style="font-weight: bold;">count</span>(*) OVER () <span style="font-weight: bold;">as</span> total_count
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> category;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd4dc90d" class="outline-3">
+<h3 id="orgd4dc90d"><code>LEAD</code></h3>
+<div class="outline-text-3" id="text-orgd4dc90d">
 <p>
 The <code>LEAD()</code> function is used to retrieve data from the next row.
 </p>
 </div>
 </div>
-<div id="outline-container-org9394896" class="outline-3">
-<h3 id="org9394896"><code>LAG</code></h3>
-<div class="outline-text-3" id="text-org9394896">
+<div id="outline-container-org6b1a509" class="outline-3">
+<h3 id="org6b1a509"><code>LAG</code></h3>
+<div class="outline-text-3" id="text-org6b1a509">
 <p>
 The <code>LAG()</code> function is used to retrieve data from the previous row.
 </p>
 </div>
 </div>
-</div>
-<div id="outline-container-orgae6615f" class="outline-2">
-<h2 id="orgae6615f">Rankings</h2>
-<div class="outline-text-2" id="text-orgae6615f">
-</div>
-<div id="outline-container-org30cd4f5" class="outline-3">
-<h3 id="org30cd4f5">Rank</h3>
+<div id="outline-container-org72cb195" class="outline-3">
+<h3 id="org72cb195"><code>ORDER BY</code></h3>
 </div>
 
-<div id="outline-container-org48083d4" class="outline-3">
-<h3 id="org48083d4">Dense Rank</h3>
-</div>
-</div>
-<div id="outline-container-org6e76469" class="outline-2">
-<h2 id="org6e76469">Value Functions</h2>
+<div id="outline-container-orgff1137b" class="outline-3">
+<h3 id="orgff1137b"><code>FIRST_VALUE()</code> and <code>LAST_VALUE()</code></h3>
 </div>
 
-<div id="outline-container-org6b3deed" class="outline-2">
-<h2 id="org6b3deed">References:</h2>
-<div class="outline-text-2" id="text-org6b3deed">
+<div id="outline-container-org24cf0df" class="outline-3">
+<h3 id="org24cf0df"><code>RANK</code></h3>
+</div>
+
+<div id="outline-container-org54b5332" class="outline-3">
+<h3 id="org54b5332"><code>DENSE_RANK</code></h3>
+</div>
+
+<div id="outline-container-org53e334a" class="outline-3">
+<h3 id="org53e334a"><code>CUME_DIST</code></h3>
+<div class="outline-text-3" id="text-org53e334a">
+<blockquote>
+<p>
+The <code>CUME_DIST</code> function computes the fraction of partition rows that are less
+than or equal to the current row and its peers.
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 165</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    x,
+    CUME_DIST() OVER w 
+  <span style="font-weight: bold;">FROM</span> (<span style="font-weight: bold;">SELECT</span> generate_series(1,10) <span style="font-weight: bold;">AS</span> x)
+  WINDOW w <span style="font-weight: bold;">AS</span> (<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> x);
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:</span>
+   x  | cume_dist 
+  <span style="font-weight: bold; font-style: italic;">----</span><span style="font-weight: bold; font-style: italic;">+-----------</span>
+    1 |       0.1
+    2 |       0.2
+    3 |       0.3
+    4 |       0.4
+    5 |       0.5
+    6 |       0.6
+    7 |       0.7
+    8 |       0.8
+    9 |       0.9
+   10 |         1
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge9b4d7d" class="outline-3">
+<h3 id="orge9b4d7d"><code>NTILE</code></h3>
+</div>
+</div>
+<div id="outline-container-org3509414" class="outline-2">
+<h2 id="org3509414">Using Advanced Statement Window Functions</h2>
+</div>
+
+<div id="outline-container-org5bdbaf2" class="outline-2">
+<h2 id="org5bdbaf2">Value Functions</h2>
+</div>
+
+<div id="outline-container-orge251c60" class="outline-2">
+<h2 id="orge251c60">References:</h2>
+<div class="outline-text-2" id="text-orge251c60">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-</main>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Source: <a href="https://www.postgresql.org/docs/current/tutorial-window.html">PostgreSQL Docs</a>
+</p></div></div>
+
+
+</div>
+</div></main>
 <footer id="postamble" class="status">
 <footer>
   </br>

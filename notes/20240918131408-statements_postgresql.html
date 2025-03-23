@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-03-02 Sun 02:23 -->
+<!-- 2025-03-23 Sun 01:41 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Statements (PostgreSQL)</title>
@@ -58,19 +58,19 @@
 </header><ul class="org-ul">
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-orge3a5029" class="outline-2">
-<h2 id="orge3a5029"><code>SELECT</code></h2>
-<div class="outline-text-2" id="text-orge3a5029">
+<div id="outline-container-orgb92693b" class="outline-2">
+<h2 id="orgb92693b"><code>SELECT</code></h2>
+<div class="outline-text-2" id="text-orgb92693b">
 </div>
-<div id="outline-container-org298576e" class="outline-3">
-<h3 id="org298576e"><code>LIKE</code> and <code>ILIKE</code></h3>
+<div id="outline-container-org9d5b0df" class="outline-3">
+<h3 id="org9d5b0df"><code>LIKE</code> and <code>ILIKE</code></h3>
 </div>
-<div id="outline-container-orgaf185a1" class="outline-3">
-<h3 id="orgaf185a1"><code>DISTINCT</code></h3>
+<div id="outline-container-orga604e7b" class="outline-3">
+<h3 id="orga604e7b"><code>DISTINCT</code></h3>
 </div>
-<div id="outline-container-org4a456d4" class="outline-3">
-<h3 id="org4a456d4"><code>LIMIT</code> and <code>OFFSET</code></h3>
-<div class="outline-text-3" id="text-org4a456d4">
+<div id="outline-container-orgca4feae" class="outline-3">
+<h3 id="orgca4feae"><code>LIMIT</code> and <code>OFFSET</code></h3>
+<div class="outline-text-3" id="text-orgca4feae">
 <blockquote>
 <p>
 <code>LIMIT</code> and <code>OFFSET</code> are used to return a portion of data from a resultset
@@ -86,40 +86,40 @@ the resultset from which to start returning data.
 </div>
 </div>
 </div>
-<div id="outline-container-orga5c2847" class="outline-2">
-<h2 id="orga5c2847">Subqueries</h2>
-<div class="outline-text-2" id="text-orga5c2847">
+<div id="outline-container-orgcffc908" class="outline-2">
+<h2 id="orgcffc908">Subqueries</h2>
+<div class="outline-text-2" id="text-orgcffc908">
 </div>
-<div id="outline-container-org37bd51e" class="outline-3">
-<h3 id="org37bd51e">Subqueries as Expressions</h3>
-<div class="outline-text-3" id="text-org37bd51e">
+<div id="outline-container-org3939204" class="outline-3">
+<h3 id="org3939204">Subqueries as Expressions</h3>
+<div class="outline-text-3" id="text-org3939204">
 </div>
-<div id="outline-container-org2f0818c" class="outline-4">
-<h4 id="org2f0818c">Scalar Subquery</h4>
-<div class="outline-text-4" id="text-org2f0818c">
+<div id="outline-container-orgc13951f" class="outline-4">
+<h4 id="orgc13951f">Scalar Subquery</h4>
+<div class="outline-text-4" id="text-orgc13951f">
 <p>
 Results in a single row
 </p>
 </div>
 </div>
-<div id="outline-container-orgd16b18e" class="outline-4">
-<h4 id="orgd16b18e">Multi-Row Subquery</h4>
-<div class="outline-text-4" id="text-orgd16b18e">
+<div id="outline-container-org3865ce9" class="outline-4">
+<h4 id="org3865ce9">Multi-Row Subquery</h4>
+<div class="outline-text-4" id="text-org3865ce9">
 <p>
 Results in multiple rows, tipically used in the where clause with operators such as <code>IN</code>, <code>NOT</code>, <code>EXISTS</code>, <code>ANY</code> and <code>ALL</code>.
 </p>
 </div>
-<div id="outline-container-orgbf825f9" class="outline-5">
-<h5 id="orgbf825f9">Correlated Subquery</h5>
-<div class="outline-text-5" id="text-orgbf825f9">
+<div id="outline-container-org9fe8f8d" class="outline-5">
+<h5 id="org9fe8f8d">Correlated Subquery</h5>
+<div class="outline-text-5" id="text-org9fe8f8d">
 <p>
 A uncorrelated sub-query is a type of sub-query where the inner query doesn’t depend upon the outer query for its execution.
 </p>
 </div>
 </div>
-<div id="outline-container-orge33f413" class="outline-5">
-<h5 id="orge33f413">Uncorrelated Subquery</h5>
-<div class="outline-text-5" id="text-orge33f413">
+<div id="outline-container-org79dd935" class="outline-5">
+<h5 id="org79dd935">Uncorrelated Subquery</h5>
+<div class="outline-text-5" id="text-org79dd935">
 <p>
 A correlated sub-query is a type of query where the inner query depends upon the outcome of the outer query in order to perform its execution.
 </p>
@@ -127,13 +127,13 @@ A correlated sub-query is a type of query where the inner query depends upon the
 </div>
 </div>
 </div>
-<div id="outline-container-org71e0c33" class="outline-3">
-<h3 id="org71e0c33">Subqueries as Tables</h3>
+<div id="outline-container-org43d5872" class="outline-3">
+<h3 id="org43d5872">Subqueries as Tables</h3>
 </div>
 
-<div id="outline-container-org97c8152" class="outline-3">
-<h3 id="org97c8152">Semi-Joins &amp; Subquery Elimination</h3>
-<div class="outline-text-3" id="text-org97c8152">
+<div id="outline-container-org78fd6d5" class="outline-3">
+<h3 id="org78fd6d5">Semi-Joins &amp; Subquery Elimination</h3>
+<div class="outline-text-3" id="text-org78fd6d5">
 <blockquote>
 <p>
 A semi-join between two tables R and S returns rows from table R for which there
@@ -147,13 +147,13 @@ is at least one row from table S with matching values in the joining columns.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb0c374c" class="outline-2">
-<h2 id="orgb0c374c"><code>JOIN</code></h2>
-<div class="outline-text-2" id="text-orgb0c374c">
+<div id="outline-container-orga8cc6c0" class="outline-2">
+<h2 id="orga8cc6c0"><code>JOIN</code></h2>
+<div class="outline-text-2" id="text-orga8cc6c0">
 </div>
-<div id="outline-container-orgc438057" class="outline-3">
-<h3 id="orgc438057">Cross Join</h3>
-<div class="outline-text-3" id="text-orgc438057">
+<div id="outline-container-orgb3280af" class="outline-3">
+<h3 id="orgb3280af">Cross Join</h3>
+<div class="outline-text-3" id="text-orgb3280af">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
   <span style="font-weight: bold;">FROM</span> table1, table2
@@ -164,13 +164,13 @@ is at least one row from table S with matching values in the joining columns.
 </div>
 </div>
 </div>
-<div id="outline-container-orga7c93bf" class="outline-3">
-<h3 id="orga7c93bf">Inner Join</h3>
+<div id="outline-container-org9b3d649" class="outline-3">
+<h3 id="org9b3d649">Inner Join</h3>
 </div>
 
-<div id="outline-container-org8f9fdf9" class="outline-3">
-<h3 id="org8f9fdf9">Outter Join</h3>
-<div class="outline-text-3" id="text-org8f9fdf9">
+<div id="outline-container-org79e7be7" class="outline-3">
+<h3 id="org79e7be7">Outter Join</h3>
+<div class="outline-text-3" id="text-org79e7be7">
 <ul class="org-ul">
 <li><code>FULL</code></li>
 <li><code>LEFT</code></li>
@@ -178,9 +178,9 @@ is at least one row from table S with matching values in the joining columns.
 </ul>
 </div>
 </div>
-<div id="outline-container-org5f7946b" class="outline-3">
-<h3 id="org5f7946b">Lateral Join</h3>
-<div class="outline-text-3" id="text-org5f7946b">
+<div id="outline-container-org2be6ec5" class="outline-3">
+<h3 id="org2be6ec5">Lateral Join</h3>
+<div class="outline-text-3" id="text-org2be6ec5">
 <blockquote>
 <p>
 A lateral join is a type of join in SQL that allows you to join a table with a
@@ -191,9 +191,21 @@ subquery, where the subquery is run for each row of the main table.
 </div>
 </div>
 </div>
-<div id="outline-container-org8f70724" class="outline-2">
-<h2 id="org8f70724">Aggregate</h2>
-<div class="outline-text-2" id="text-org8f70724">
+<div id="outline-container-orgef25562" class="outline-2">
+<h2 id="orgef25562">Aggregate Functions</h2>
+<div class="outline-text-2" id="text-orgef25562">
+</div>
+<div id="outline-container-org5fc1f57" class="outline-3">
+<h3 id="org5fc1f57"><code>GROUP BY</code></h3>
+<div class="outline-text-3" id="text-org5fc1f57">
+<blockquote>
+<p>
+Aggregate functions are used in conjunction with the group by clause. A group by
+clause splits a resultset into groups of rows and aggregate functions perform
+calculations on them. (<a href="#citeproc_bib_item_2">Ferrari and Pirozzi 2023, 131</a>)
+</p>
+</blockquote>
+
 <table>
 
 
@@ -233,12 +245,90 @@ subquery, where the subquery is run for each row of the main table.
 <td class="org-left"><code>SUM()</code></td>
 <td class="org-left">&#xa0;</td>
 </tr>
+
+<tr>
+<td class="org-left"><code>ARRAY_AGG</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>JSON_AGG</code> or <code>JSONB_AGG</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BOOL_AND(Predicate)</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BOOL_OR(Predicate)</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
 </tbody>
 </table>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category;
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:</span>
+   category | <span style="font-weight: bold;">count</span>
+  <span style="font-weight: bold; font-style: italic;">----------</span><span style="font-weight: bold; font-style: italic;">+-------</span>
+          3 | 1
+          1 | 2
+</pre>
 </div>
-<div id="outline-container-org32f67a0" class="outline-3">
-<h3 id="org32f67a0"><code>UNION</code> / <code>UNION ALL</code></h3>
-<div class="outline-text-3" id="text-org32f67a0">
+
+<p>
+You can also filter the result of a <code>GROUP BY</code> by using <code>HAVING</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category
+  <span style="font-weight: bold;">HAVING</span> <span style="font-weight: bold;">COUNT</span>(*) &gt; 1;
+</pre>
+</div>
+
+<p>
+and also pack multiple aggregations in a single <code>SELECT</code> statement:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    category,
+    <span style="font-weight: bold;">COUNT</span>(*),
+    <span style="font-weight: bold;">COUNT</span>(*) FILTER (<span style="font-weight: bold;">WHERE</span> replies &gt; 2) <span style="font-weight: bold;">as</span> number_of_replies
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category
+  <span style="font-weight: bold;">HAVING</span> <span style="font-weight: bold;">COUNT</span>(*) &gt; 1;
+</pre>
+</div>
+</div>
+<div id="outline-container-orge96e51a" class="outline-4">
+<h4 id="orge96e51a"><code>GROUPING SETS</code>, <code>CUBE</code>, and <code>ROLLUP</code></h4>
+<div class="outline-text-4" id="text-orge96e51a">
+<blockquote>
+<p>
+More complex grouping operations than those described above are possible using
+the concept of grouping sets. The data selected by the <code>FROM</code> and <code>WHERE</code> clauses is
+grouped separately by each specified grouping set, aggregates computed for each
+group just as for simple GROUP BY clauses, and then the results returned.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb8ce5c4" class="outline-2">
+<h2 id="orgb8ce5c4">Combining Queries</h2>
+<div class="outline-text-2" id="text-orgb8ce5c4">
+</div>
+<div id="outline-container-org9fc5d78" class="outline-3">
+<h3 id="org9fc5d78"><code>UNION</code> / <code>UNION ALL</code></h3>
+<div class="outline-text-3" id="text-org9fc5d78">
 <blockquote>
 <p>
 The <code>UNION</code> operator is used to combine the resultset of two or more <code>SELECT</code>
@@ -257,13 +347,73 @@ respected:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org6f3ac5c" class="outline-3">
-<h3 id="org6f3ac5c"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
+<div id="outline-container-orgd55afd0" class="outline-3">
+<h3 id="orgd55afd0"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
 </div>
 </div>
-<div id="outline-container-org56d6b97" class="outline-2">
-<h2 id="org56d6b97">Common Table Expressions</h2>
-<div class="outline-text-2" id="text-org56d6b97">
+<div id="outline-container-orgab7fa17" class="outline-2">
+<h2 id="orgab7fa17">Upsert</h2>
+<div class="outline-text-2" id="text-orgab7fa17">
+<blockquote>
+<p>
+In PostgreSQL, the <code>UPSERT</code> statement does not exist as in other DBMSes. An <code>UPSERT</code>
+statement is used when we want to insert a new record on top of the existing
+record or update an existing record. 
+</p>
+</blockquote>
+
+<p>
+The optional <code>ON CONFLICT</code> clause specifies an alternative action to raising a
+unique violation or exclusion constraint violation error:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">INSERT</span> <span style="font-weight: bold;">INTO</span> <span style="font-weight: bold;">table_name</span>(c1, c2, ..., cn) <span style="font-weight: bold;">VALUES</span>(v1, v2, ..., vn)
+  <span style="font-weight: bold;">ON</span> CONFLICT (...);
+</pre>
+</div>
+
+<p>
+and the conflict action can be either:
+</p>
+
+<ul class="org-ul">
+<li><code>DO NOTHING</code>.</li>
+<li><code>DO UPDATE</code> + (<code>SET</code> and/or <code>WHERE</code>)</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">INSERT</span> <span style="font-weight: bold;">INTO</span> <span style="font-weight: bold;">table_name</span>(c1, c2, ..., cn) <span style="font-weight: bold;">VALUES</span>(v1, v2, ..., vn)
+  <span style="font-weight: bold;">ON</span> CONFLICT
+  DO <span style="font-weight: bold;">UPDATE</span> <span style="font-weight: bold;">SET</span> c1 = EXCLUDED.v1;
+</pre>
+</div>
+
+<p>
+where <code>EXCLUDED</code> references the proposed new insertion row.
+</p>
+</div>
+</div>
+<div id="outline-container-org74f6d3a" class="outline-2">
+<h2 id="org74f6d3a"><code>RETURNING</code></h2>
+<div class="outline-text-2" id="text-org74f6d3a">
+<p>
+Reduces the need for an extra query as it enables you to output columns.
+</p>
+</div>
+<div id="outline-container-org8a2bfe5" class="outline-3">
+<h3 id="org8a2bfe5">Inserts</h3>
+</div>
+<div id="outline-container-org231e172" class="outline-3">
+<h3 id="org231e172">Updates</h3>
+</div>
+<div id="outline-container-org160f0a3" class="outline-3">
+<h3 id="org160f0a3">Deletes</h3>
+</div>
+</div>
+<div id="outline-container-org22b3778" class="outline-2">
+<h2 id="org22b3778">Common Table Expressions</h2>
+<div class="outline-text-2" id="text-org22b3778">
 <blockquote>
 <p>
 A <code>CTE</code>, or a common table expression, is a temporary result taken from a <a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a>
@@ -276,19 +426,58 @@ instructions. The lifetime of a <code>CTE</code> is equal to the lifetime of the
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgd0f36c9" class="outline-3">
-<h3 id="orgd0f36c9">Recursive</h3>
-<div class="outline-text-3" id="text-orgd0f36c9">
+<div id="outline-container-orgc973ec1" class="outline-3">
+<h3 id="orgc973ec1">CTEs in PostgreSQL 12+</h3>
+<div class="outline-text-3" id="text-orgc973ec1">
+<blockquote>
+<p>
+Starting from PostgreSQL version 12, things have changed, and two new options
+have been introduced for the execution of a CTE, namely <code>MATERIALIZED</code> and <code>NOT
+MATERIALIZED</code>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_2">Ferrari and Pirozzi 2023, 146</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org737fd99" class="outline-3">
+<h3 id="org737fd99">Recursive</h3>
+<div class="outline-text-3" id="text-org737fd99">
 <div class="org-src-container">
-<pre class="src src-sql">
+<pre class="src src-sql">  <span style="font-weight: bold;">WITH</span> <span style="font-weight: bold;">RECURSIVE</span> fib <span style="font-weight: bold;">AS</span> (
+    <span style="font-weight: bold;">SELECT</span> 
+      0 <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">level</span>,
+      0 <span style="font-weight: bold;">as</span> n,
+      1 <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">m</span>
+    <span style="font-weight: bold;">UNION</span> <span style="font-weight: bold;">ALL</span>
+    <span style="font-weight: bold;">SELECT</span>
+      <span style="font-weight: bold;">level</span> + 1 <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">level</span>,
+      <span style="font-weight: bold;">m</span> <span style="font-weight: bold;">as</span> n,
+      (n + <span style="font-weight: bold;">m</span>) <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">m</span>
+    <span style="font-weight: bold;">FROM</span> fib <span style="font-weight: bold;">WHERE</span> n &lt; 10
+  )
+  <span style="font-weight: bold;">SELECT</span> * <span style="font-weight: bold;">FROM</span> fib;
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:</span>
+   <span style="font-weight: bold;">level</span> | n  | <span style="font-weight: bold;">m</span>  
+  <span style="font-weight: bold; font-style: italic;">-------</span><span style="font-weight: bold; font-style: italic;">+----+----</span>
+       0 |  0 |  1
+       1 |  1 |  1
+       2 |  1 |  2
+       3 |  2 |  3
+       4 |  3 |  5
+       5 |  5 |  8
+       6 |  8 | 13
+       7 | 13 | 21
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orge48eb7e" class="outline-2">
-<h2 id="orge48eb7e">References:</h2>
-<div class="outline-text-2" id="text-orge48eb7e">
+<div id="outline-container-org887f9f4" class="outline-2">
+<h2 id="org887f9f4">References:</h2>
+<div class="outline-text-2" id="text-org887f9f4">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Dombrovskaya, Henrietta, Boris Novikov, and Anna Bailliekova. 2021. <i>Postgresql Query Optimization</i>. Springer.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>

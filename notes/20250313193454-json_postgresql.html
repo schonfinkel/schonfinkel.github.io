@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-03-23 Sun 01:41 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JSON (PostgreSQL)</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">JSON (PostgreSQL)</h1>
+</header><blockquote>
+<p>
+<a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> supports the JSON data type natively. It provides many functions and
+operators used for manipulating json data. PostgreSQL, in addition to the <code>JSON</code>
+data type, also supports the <code>JSONB</code> data type.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 201</a>)
+</p>
+</blockquote>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>JSON</code></td>
+<td class="org-left">Stored as <code>TEXT</code> under the hood</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>JSONB</code></td>
+<td class="org-left">Stored as binary, contains extra metadata to make most queries faster</td>
+</tr>
+</tbody>
+</table>
+<div id="outline-container-orgf0f0211" class="outline-2">
+<h2 id="orgf0f0211">Validation</h2>
+</div>
+
+<div id="outline-container-org732fab1" class="outline-2">
+<h2 id="org732fab1">Functions &amp; Operators</h2>
+<div class="outline-text-2" id="text-org732fab1">
+</div>
+<div id="outline-container-org0579355" class="outline-3">
+<h3 id="org0579355">Creating JSON data</h3>
+<div class="outline-text-3" id="text-org0579355">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> json_build_object(
+    <span style="font-style: italic;">'id'</span>, 1,
+    <span style="font-style: italic;">'username'</span>, <span style="font-style: italic;">'bene'</span>,
+    <span style="font-style: italic;">'roles'</span>, <span style="font-weight: bold; text-decoration: underline;">array</span>[<span style="font-style: italic;">'admin'</span>]
+  )
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs</span>
+                         json_obj                       
+  <span style="font-weight: bold; font-style: italic;">------------------------------------------------------</span>
+   {"id" : 1, "username" : "bene", "roles" : ["<span style="font-weight: bold;">admin</span>"]}
+</pre>
+</div>
+
+<p>
+Similar functions like <code>to_json</code> and <code>json_build_array</code> also exist. However
+<code>row_to_json</code> is more applicable to real world queries:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    row_to_json(v) <span style="font-weight: bold;">AS</span> value_json
+  <span style="font-weight: bold;">FROM</span> (
+    <span style="font-weight: bold;">SELECT</span> col_1, ..., col_n
+    <span style="font-weight: bold;">FROM</span> tablename
+    <span style="font-weight: bold;">WHERE</span> predicate
+  ) <span style="font-weight: bold;">AS</span> v;
+</pre>
+</div>
+
+<p>
+or if you want to aggregate the rows into a single list instead of returning
+every json object in its own row:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    json_agg(row_to_json(v)) <span style="font-weight: bold;">AS</span> json
+  <span style="font-weight: bold;">FROM</span> (
+    <span style="font-weight: bold;">SELECT</span> col_1, ..., col_n
+    <span style="font-weight: bold;">FROM</span> tablename
+    <span style="font-weight: bold;">WHERE</span> predicate
+  ) <span style="font-weight: bold;">AS</span> v;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5a9b20e" class="outline-3">
+<h3 id="org5a9b20e">Extraction Operators</h3>
+<div class="outline-text-3" id="text-org5a9b20e">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operator</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Example</th>
+<th scope="col" class="org-left">Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>-&gt;</code></td>
+<td class="org-left"><code>INT</code></td>
+<td class="org-left"><code>'[{"a":"foo"},{"b":"bar"},{"c":"baz"}]'::json-&gt;2</code></td>
+<td class="org-left"><code>{"c":"baz"}</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-&gt;</code></td>
+<td class="org-left"><code>TEXT</code></td>
+<td class="org-left"><code>'{"a": {"b":"foo"}}'::json-&gt;'a'</code></td>
+<td class="org-left"><code>{"b":"foo"}</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-&gt;&gt;</code></td>
+<td class="org-left"><code>INT</code></td>
+<td class="org-left"><code>'[1,2,3]'::json-&gt;&gt;2</code></td>
+<td class="org-left"><code>3</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-&gt;&gt;</code></td>
+<td class="org-left"><code>TEXT</code></td>
+<td class="org-left"><code>'{"a":1,"b":2}'::json-&gt;&gt;'b'</code></td>
+<td class="org-left"><code>2</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#&gt;</code></td>
+<td class="org-left"><code>TEXT[]</code></td>
+<td class="org-left"><code>'{"a": {"b":{"c": "foo"}}}'::json#&gt;'{a,b}'</code></td>
+<td class="org-left"><code>{"c": "foo"}</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#&gt;&gt;</code></td>
+<td class="org-left"><code>TEXT[]</code></td>
+<td class="org-left"><code>'{"a":[1,2,3],"b":[4,5,6]}'::json#&gt;&gt;'{a,2}'</code></td>
+<td class="org-left"><code>3</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgd09a4f0" class="outline-3">
+<h3 id="orgd09a4f0">Containment Operators</h3>
+<div class="outline-text-3" id="text-orgd09a4f0">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operator</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Example</th>
+<th scope="col" class="org-left">Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>@&gt;</code></td>
+<td class="org-left"><code>JSONB</code></td>
+<td class="org-left"><code>'{"a":1, "b":2}'::jsonb @&gt; '{"b":2}'::jsonb</code></td>
+<td class="org-left"><code>t</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;@</code></td>
+<td class="org-left"><code>JSONB</code></td>
+<td class="org-left"><code>'{"b":2}'::jsonb &lt;@ '{"a":1, "b":2}'::jsonb</code></td>
+<td class="org-left"><code>t</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org9d17a97" class="outline-3">
+<h3 id="org9d17a97">Existence Operators</h3>
+<div class="outline-text-3" id="text-org9d17a97">
+<p>
+You can also use the following operators to check if one or more values are
+contained inside a <code>JSONB</code> object:
+</p>
+
+<ul class="org-ul">
+<li><code>?</code> checks for simple top-level existence, i.e., <code>'{"a":1, "b":2}'::jsonb ? 'b'</code>
+yields <code>t</code>.</li>
+<li><code>?|</code> checks if at least one of the strings exists as a top level key:</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    <span style="font-style: italic;">'{"a":1, "b":2, "c":3}'</span>::jsonb ?| <span style="font-weight: bold; text-decoration: underline;">array</span>[<span style="font-style: italic;">'b'</span>, <span style="font-style: italic;">'c'</span>] <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">result</span>;
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs</span>
+   <span style="font-weight: bold;">result</span> 
+  <span style="font-weight: bold; font-style: italic;">--------</span>
+   t
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>?&amp;</code> yields true if all the strings exist as a top level key.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbc35db1" class="outline-3">
+<h3 id="orgbc35db1">JSON Path Operators</h3>
+<div class="outline-text-3" id="text-orgbc35db1">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operator</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Example</th>
+<th scope="col" class="org-left">Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>@?</code></td>
+<td class="org-left"><code>JSONPATH</code></td>
+<td class="org-left"><code>'{"a":[1,2,3,4,5]}'::jsonb @? '$.a[*] ? (@ &gt; 2)'</code></td>
+<td class="org-left"><code>t</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>@@</code></td>
+<td class="org-left"><code>JSONPATH</code></td>
+<td class="org-left"><code>'{"a":[1,2,3,4,5]}'::jsonb @@ '$.a[*] &gt; 2'</code></td>
+<td class="org-left"><code>t</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgc787156" class="outline-3">
+<h3 id="orgc787156">Deletion Operators</h3>
+<div class="outline-text-3" id="text-orgc787156">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operator</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Example</th>
+<th scope="col" class="org-left">Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>-</code></td>
+<td class="org-left"><code>TEXT</code></td>
+<td class="org-left"><code>'{"a": "b"}'::jsonb - 'a'</code></td>
+<td class="org-left"><code>{}</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-</code></td>
+<td class="org-left"><code>TEXT[]</code></td>
+<td class="org-left"><code>'{"a": "b", "c": "d"}'::jsonb - '{a,c}'::text[]</code></td>
+<td class="org-left"><code>{}</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-</code></td>
+<td class="org-left"><code>INT</code></td>
+<td class="org-left"><code>'["a", "b"]'::jsonb - 1</code></td>
+<td class="org-left"><code>["a"]</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#-</code></td>
+<td class="org-left"><code>TEXT[]</code></td>
+<td class="org-left"><code>'["a", {"b":1, "c":2}]'::jsonb #- '{1,b}'</code></td>
+<td class="org-left"><code>["a", {"c": 2}]</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org6e081a1" class="outline-3">
+<h3 id="org6e081a1">Update Functions</h3>
+<div class="outline-text-3" id="text-org6e081a1">
+<p>
+<code>jsonb_set</code>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org75ad05b" class="outline-2">
+<h2 id="org75ad05b">JSON Record Sets</h2>
+<div class="outline-text-2" id="text-org75ad05b">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
+  <span style="font-weight: bold;">FROM</span> jsonb_each(<span style="font-style: italic;">'{"a": 1, "b": "something", "c": {"d": 1}}'</span>);
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs</span>
+   <span style="font-weight: bold;">key</span> |    <span style="font-weight: bold;">value</span>    
+  <span style="font-weight: bold; font-style: italic;">-----</span><span style="font-weight: bold; font-style: italic;">+-------------</span>
+   a   | 1
+   b   | "something"
+   c   | {"d": 1}
+</pre>
+</div>
+<p>
+this function also has a <code>TEXT</code>-only variant, <code>jsonb_each_text</code>. You can also use
+<code>jsonb_to_recordset</code> to build something like a table with proper schemas out of
+raw JSON data:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
+  <span style="font-weight: bold;">FROM</span> jsonb_to_recordset(jsonb_build_array(<span style="font-style: italic;">'{"a": 1, "b": "something", "c": {"d": 1}}'</span>::jsonb))
+  <span style="font-weight: bold;">AS</span> t(a <span style="font-weight: bold; text-decoration: underline;">INT</span>, b TEXT, c JSONB);
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs</span>
+   a |     b     |    c     
+  <span style="font-weight: bold; font-style: italic;">---</span><span style="font-weight: bold; font-style: italic;">+-----------+----------</span>
+   1 | something | {"d": 1}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb95e062" class="outline-2">
+<h2 id="orgb95e062">Indexing</h2>
+<div class="outline-text-2" id="text-orgb95e062">
+</div>
+<div id="outline-container-orgb242214" class="outline-3">
+<h3 id="orgb242214">Functional Indexes and Generated Columns</h3>
+</div>
+
+<div id="outline-container-org0f6ef0b" class="outline-3">
+<h3 id="org0f6ef0b">GIN Indexes</h3>
+<div class="outline-text-3" id="text-org0f6ef0b">
+<blockquote>
+<p>
+<code>GIN</code> indexes can be used to efficiently search for keys or key/value pairs
+occurring within a large number of jsonb documents (datums). Two <code>GIN</code> "operator
+classes" are provided, offering different performance and flexibility
+trade-offs.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Useful for blobs that updated at a reasonable frequency.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name_idx
+  <span style="font-weight: bold;">ON</span> tablename <span style="font-weight: bold;">USING</span> GIN (jsondata &lt;operator_class&gt;);
+</pre>
+</div>
+
+<p>
+For <code>JSONB</code>, <code>GIN</code> supports two operator classes:
+</p>
+
+<ul class="org-ul">
+<li><code>jsonb_ops</code>: The default setting, index both the key and the value. Supports <code>?</code>, <code>?|</code>, <code>?&amp;</code>, <code>@&gt;</code>, <code>@@</code>, <code>@?</code>.</li>
+<li><code>jsonb_path_ops</code>: Indexes only the values of the <code>JSONB</code>. Supports: <code>@&gt;</code>, <code>@@</code>, <code>@?</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org56c3615" class="outline-2">
+<h2 id="org56c3615">References:</h2>
+<div class="outline-text-2" id="text-org56c3615">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orga04d050" class="outline-2">
+<h2 id="orga04d050">Backlinks:</h2>
+<div class="outline-text-2" id="text-orga04d050">
+<ul class="org-ul">
+<li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

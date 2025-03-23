@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-03-23 Sun 01:41 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Full Text Search (PostgreSQL)</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Full Text Search (PostgreSQL)</h1>
+</header><div id="outline-container-org1e3d293" class="outline-2">
+<h2 id="org1e3d293">Parsing Documents</h2>
+<div class="outline-text-2" id="text-org1e3d293">
+<p>
+<a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> provides the function <code>to_tsvector</code> for converting a document to the
+<code>tsvector</code> data type. A <code>ts_vector</code> is a sorted list of distinct lexemes:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> <span style="font-style: italic;">'a fat cat sat on a mat and ate a fat rat'</span>::tsvector;
+                      tsvector                      
+  <span style="font-weight: bold; font-style: italic;">----------------------------------------------------</span>
+  <span style="font-style: italic;">'a'</span> <span style="font-style: italic;">'and'</span> <span style="font-style: italic;">'ate'</span> <span style="font-style: italic;">'cat'</span> <span style="font-style: italic;">'fat'</span> <span style="font-style: italic;">'mat'</span> <span style="font-style: italic;">'on'</span> <span style="font-style: italic;">'rat'</span> <span style="font-style: italic;">'sat'</span>
+  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> to_tsvector(<span style="font-style: italic;">'a fat cat sat on a mat and ate a fat rat'</span>);
+                                  to_tsvector                                  
+  <span style="font-weight: bold; font-style: italic;">-------------------------------------------------------------------------------</span>
+  <span style="font-style: italic;">'a'</span>:1,6,10 <span style="font-style: italic;">'and'</span>:8 <span style="font-style: italic;">'ate'</span>:9 <span style="font-style: italic;">'cat'</span>:3 <span style="font-style: italic;">'fat'</span>:2,11 <span style="font-style: italic;">'mat'</span>:7 <span style="font-style: italic;">'on'</span>:5 <span style="font-style: italic;">'rat'</span>:12 <span style="font-style: italic;">'sat'</span>:4
+  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> <span style="font-style: italic;">'The quick brown fox jumps over the lazy dog'</span>::tsvector;
+                           tsvector                            
+  <span style="font-weight: bold; font-style: italic;">---------------------------------------------------------------</span>
+  <span style="font-style: italic;">'The'</span> <span style="font-style: italic;">'brown'</span> <span style="font-style: italic;">'dog'</span> <span style="font-style: italic;">'fox'</span> <span style="font-style: italic;">'jumps'</span> <span style="font-style: italic;">'lazy'</span> <span style="font-style: italic;">'over'</span> <span style="font-style: italic;">'quick'</span> <span style="font-style: italic;">'the'</span>
+  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> to_tsvector(<span style="font-style: italic;">'The quick brown fox jumps over the lazy dog'</span>);
+                                to_tsvector                                
+  <span style="font-weight: bold; font-style: italic;">---------------------------------------------------------------------------</span>
+  <span style="font-style: italic;">'brown'</span>:3 <span style="font-style: italic;">'dog'</span>:9 <span style="font-style: italic;">'fox'</span>:4 <span style="font-style: italic;">'jumps'</span>:5 <span style="font-style: italic;">'lazy'</span>:8 <span style="font-style: italic;">'over'</span>:6 <span style="font-style: italic;">'quick'</span>:2 <span style="font-style: italic;">'the'</span>:1,7
+</pre>
+</div>
+
+<p>
+A <code>ts_query</code> can be used to build lexemes and apply then to certain operators.
+</p>
+
+<blockquote>
+<p>
+The match operator <code>@@</code> returns true if a document satisfies the query and false
+otherwise. It can be used in the <code>WHERE</code> clause of a <code>SELECT</code> statement or anywhere
+else where a Boolean expression is expected.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Dombrovskaya, Novikov, and Bailliekova 2021, 324</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-sql">  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> <span style="font-style: italic;">'fat &amp; rat'</span>::tsquery;
+      tsquery    
+  <span style="font-weight: bold; font-style: italic;">---------------</span>
+   <span style="font-style: italic;">'fat'</span> &amp; <span style="font-style: italic;">'rat'</span>
+  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> to_tsvector(<span style="font-style: italic;">'a fat cat sat on a mat and ate a fat rat'</span>) @@ to_tsquery(<span style="font-style: italic;">'fat | cat'</span>) <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">result</span>;
+   <span style="font-weight: bold;">result</span> 
+  <span style="font-weight: bold; font-style: italic;">--------</span>
+   t
+  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> to_tsvector(<span style="font-style: italic;">'a fat cat sat on a mat and ate a fat rat'</span>) @@ to_tsquery(<span style="font-style: italic;">'bat | hat'</span>) <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">result</span>;
+   <span style="font-weight: bold;">result</span> 
+  <span style="font-weight: bold; font-style: italic;">--------</span>
+   f
+</pre>
+</div>
+
+<p>
+you can leverage generated columns when creating tables with searchable content.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">user_comment</span> (
+    id BIGINT <span style="font-weight: bold;">GENERATED</span> ALWAYS <span style="font-weight: bold;">AS</span> <span style="font-weight: bold;">IDENTITY</span> <span style="font-weight: bold;">PRIMARY</span> <span style="font-weight: bold;">KEY</span>,
+    content TEXT <span style="font-weight: bold;">NOT</span> <span style="font-weight: bold;">NULL</span>,
+    search_vector_en TSVECTOR <span style="font-weight: bold;">GENERATED</span> ALWAYS <span style="font-weight: bold;">AS</span> (to_tsvector(<span style="font-style: italic;">'english'</span>, content)) STORED
+  );
+</pre>
+</div>
+
+<p>
+The following query picks all the movies whose titles contain "star" immediately followed by either "wars" or "trek".
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> title
+  <span style="font-weight: bold;">FROM</span> movies
+  <span style="font-weight: bold;">WHERE</span> to_tsvector(title) @@ to_tsquery(<span style="font-style: italic;">'star &lt;-&gt; (wars | trek)'</span>);
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb7acb7f" class="outline-3">
+<h3 id="orgb7acb7f">Highlights</h3>
+<div class="outline-text-3" id="text-orgb7acb7f">
+<blockquote>
+<p>
+To present search results it is ideal to show a part of each document and how it
+is related to the query. Usually, search engines show fragments of the document
+with marked search terms. PostgreSQL provides a function <code>ts_headline</code> that
+implements this functionality.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org8f1b614" class="outline-2">
+<h2 id="org8f1b614">Websearch</h2>
+<div class="outline-text-2" id="text-org8f1b614">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    plainto_tsquery(<span style="font-style: italic;">'star trek'</span>) <span style="font-weight: bold;">as</span> plain,
+    phraseto_tsquery(<span style="font-style: italic;">'star trek'</span>) <span style="font-weight: bold;">as</span> phrase,
+    websearch_to_tsquery(<span style="font-style: italic;">'star trek -khan'</span>) <span style="font-weight: bold;">as</span> websearch;
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs</span>
+        plain      |      phrase       |    websearch    
+  <span style="font-weight: bold; font-style: italic;">-----------------</span><span style="font-weight: bold; font-style: italic;">+-------------------+-----------------</span>
+   <span style="font-style: italic;">'star'</span> &amp; <span style="font-style: italic;">'trek'</span> | <span style="font-style: italic;">'star'</span> &lt;-&gt; <span style="font-style: italic;">'trek'</span> | <span style="font-style: italic;">'star'</span> &amp; <span style="font-style: italic;">'trek'</span> &amp; !<span style="font-style: italic;">'khan'</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org58e154c" class="outline-2">
+<h2 id="org58e154c">Ranking</h2>
+<div class="outline-text-2" id="text-org58e154c">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    *,
+    ts_rank(
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">base</span>
+      to_tsvector(title), 
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">query</span>
+      to_tsquery(<span style="font-style: italic;">'star &amp; (wars | trek)'</span>),
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">weight (optional)</span>
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">0 makes it so the length is not taken into account</span>
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">1 favors shorter matches</span>
+      1 
+    ) <span style="font-weight: bold;">AS</span> rank
+  <span style="font-weight: bold;">FROM</span> bookmarks
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> rank <span style="font-weight: bold;">DESC</span>;
+</pre>
+</div>
+</div>
+<div id="outline-container-org88918f2" class="outline-3">
+<h3 id="org88918f2">Setting weights</h3>
+<div class="outline-text-3" id="text-org88918f2">
+<p>
+<code>setweight</code>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org336b061" class="outline-2">
+<h2 id="org336b061">Indexing</h2>
+</div>
+
+<div id="outline-container-orgedaf25f" class="outline-2">
+<h2 id="orgedaf25f">References:</h2>
+<div class="outline-text-2" id="text-orgedaf25f">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Dombrovskaya, Henrietta, Boris Novikov, and Anna Bailliekova. 2021. <i>Postgresql Query Optimization</i>. Springer.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org60eb760" class="outline-2">
+<h2 id="org60eb760">Backlinks:</h2>
+<div class="outline-text-2" id="text-org60eb760">
+<ul class="org-ul">
+<li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

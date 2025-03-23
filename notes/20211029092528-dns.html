@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-03-02 Sun 02:23 -->
+<!-- 2025-03-23 Sun 01:41 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>DNS</title>
@@ -55,9 +55,32 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">DNS</h1>
-</header><div id="outline-container-org0a70180" class="outline-2">
-<h2 id="org0a70180">Why do we need DNS?</h2>
-<div class="outline-text-2" id="text-org0a70180">
+</header><blockquote>
+<p>
+The Domain Name System is a distributed database. This structure allows local
+control of the segments of the overall database, yet data in each segment is
+available across the entire network through a client/server scheme. Robustness
+and adequate performance are achieved through replication and caching.
+</p>
+
+<p>
+Programs called nameservers constitute the server half of DNS's client/server
+mechanism. Nameservers contain information about some segments of the database
+and make that information available to clients, called resolvers. Resolvers are
+often just library routines that create queries and send them across a network
+to a nameserver. (<a href="#citeproc_bib_item_1">Liu and Albitz 2006, 4</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-shell">  &gt; dig +noall +answer wikipedia.org
+  wikipedia.org.                276     IN      A       195.200.68.224
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">or </span>
+  &gt; dig +noall +answer wikipedia.org AAAA
+  wikipedia.org.                185     IN      AAAA    2a02:ec80:700:ed1a::1
+</pre>
+</div>
+
 <table>
 
 
@@ -74,8 +97,8 @@
 </thead>
 <tbody>
 <tr>
-<td class="org-left">dns.google.com</td>
-<td class="org-right">8.8.8.8</td>
+<td class="org-left">www.wikipedia.com</td>
+<td class="org-right">195.200.68.224</td>
 </tr>
 
 <tr>
@@ -84,15 +107,57 @@
 </tr>
 </tbody>
 </table>
+<div id="outline-container-org4788ddf" class="outline-2">
+<h2 id="org4788ddf">The Domain Namespace</h2>
+<div class="outline-text-2" id="text-org4788ddf">
+<blockquote>
+<p>
+Each <b>node</b> in the tree has a text label (without dots) that can be up to 63
+characters long. A null (zero-length) label is reserved for the <b>root</b>. The full
+<b>domain name</b> of any node in the tree is the sequence of labels on the path from
+that <b>node</b> to the <b>root</b>. <b>Domain names</b> are always read from the <b>node</b> toward the
+<b>root</b> (“up” the tree), with dots separating the names in the path.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Liu and Albitz 2006, 12</a>)
+</p>
+</blockquote>
+
+
+<figure id="orgc5ecc93">
+<img src="../static/img/notes/dns_structure.png" alt="dns_structure.png">
+
+</figure>
 </div>
-</div>
-<div id="outline-container-org2e0a9a7" class="outline-2">
-<h2 id="org2e0a9a7">Terminology</h2>
-<div class="outline-text-2" id="text-org2e0a9a7">
-</div>
-<div id="outline-container-org2ce1fff" class="outline-3">
-<h3 id="org2ce1fff">Labels</h3>
-<div class="outline-text-3" id="text-org2ce1fff">
+<div id="outline-container-org8319628" class="outline-3">
+<h3 id="org8319628">Domains and Subdomains</h3>
+<div class="outline-text-3" id="text-org8319628">
+<blockquote>
+<p>
+A <b>domain</b> may have several subtrees of its own, called <b>subdomains</b>.
+</p>
+
+<p>
+A simple way of determining if a domain is a subdomain of another domain is to
+compare their domain names. A subdomain's domain name ends with the domain name
+of its parent domain.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Liu and Albitz 2006, 16</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>A <i>domain</i> is a set of related <i>nodes</i>.</li>
+<li>Every <i>node</i> in the DNS tree has a <i>label</i>.</li>
+<li>The root label is empty.</li>
+<li>Labels are separated by a dot (<code>.</code>).</li>
+<li>Items are sorted from most to least specific (i.e. <code>en.wikipedia.org</code> -&gt;
+<code>wikipedia.org</code> -&gt; <code>org</code>).</li>
+</ul>
+
 <table>
 
 
@@ -134,7 +199,18 @@
 <td class="org-left">xyz</td>
 <td class="org-left">.</td>
 <td class="org-left">com</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">www</td>
 <td class="org-left">.</td>
+<td class="org-left">en</td>
+<td class="org-left">.</td>
+<td class="org-left">wikipedia</td>
+<td class="org-left">.</td>
+<td class="org-left">org</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 </tbody>
 </table>
@@ -144,25 +220,212 @@ where TLD is an abbreviation for "Top Level Domain".
 </p>
 </div>
 </div>
-<div id="outline-container-orga5abff2" class="outline-3">
-<h3 id="orga5abff2">Zones</h3>
-</div>
+<div id="outline-container-orga408b58" class="outline-3">
+<h3 id="orga408b58">Resource Records</h3>
+<div class="outline-text-3" id="text-orga408b58">
+<blockquote>
+<p>
+The data associated with domain names is contained in resource records, or RRs.
+Records are divided into classes, each of which pertains to a type of network or
+software.
+</p>
 
-<div id="outline-container-org052eb60" class="outline-3">
-<h3 id="org052eb60">Query Types</h3>
-<div class="outline-text-3" id="text-org052eb60">
+<p>
+(<a href="#citeproc_bib_item_1">Liu and Albitz 2006, 16</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org2a65c6e" class="outline-2">
+<h2 id="org2a65c6e">Delegation</h2>
+<div class="outline-text-2" id="text-org2a65c6e">
+<blockquote>
+<p>
+In DNS, each <b>domain</b> can be broken into a number of <b>subdomains</b>, and
+responsibility for those <b>subdomains</b> can be doled out to different
+organizations. For example, an organization called EDUCAUSE manages the <code>edu</code>
+(educational) domain but delegates responsibility for the <code>berkeley.edu</code> subdomain
+to U.C. Berkeley.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Liu and Albitz 2006, 5</a>)
+</p>
+</blockquote>
+
 <ul class="org-ul">
-<li>Recursive</li>
-<li>Iterative</li>
+<li><i>Delegation</i> allows an organization to assign control of a subdomain to another
+organization.</li>
+<li><i>Zones</i> are the administrative unit in DNS.</li>
+</ul>
+</div>
+<div id="outline-container-org61b9f72" class="outline-3">
+<h3 id="org61b9f72">Root Servers</h3>
+<div class="outline-text-3" id="text-org61b9f72">
+<p>
+The root zone is overseen by<a href="https://www.icann.org/"> ICANN</a> (Internet Corporation for Assigned Names and
+Numbers) and its name servers are hosted by a total of 12 organizations, this
+can be verified on the list <a href="https://www.iana.org/domains/root/servers">published by IANA</a> (a subsidiary of ICANN).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  &gt; dig +short ns . 
+  g.root-servers.net.
+  e.root-servers.net.
+  l.root-servers.net.
+  m.root-servers.net.
+  a.root-servers.net.
+  j.root-servers.net.
+  c.root-servers.net.
+  h.root-servers.net.
+  d.root-servers.net.
+  i.root-servers.net.
+  k.root-servers.net.
+  b.root-servers.net.
+  f.root-servers.net.
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2c59634" class="outline-2">
+<h2 id="org2c59634">Name Servers and Resolvers</h2>
+<div class="outline-text-2" id="text-org2c59634">
+
+<figure id="orgd06da9a">
+<img src="../static/img/notes/dns_servers_and_resolvers.png" alt="dns_servers_and_resolvers.png">
+
+</figure>
+
+<p>
+There are two types of DNS servers:
+</p>
+
+<dl class="org-dl">
+<dt>Authoritative</dt><dd>Answer queries for specific zones they have authority over.</dd>
+<dt>Recursive</dt><dd>Perform DNS lookups for users, retrieving and collecting DNS
+data from authoritative servers by using recursive queries. Accepting a
+recursive query forces a given name server to follow all the links until a
+match occurs or no more referrals are found.</dd>
+</dl>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Zone</th>
+<th scope="col" class="org-left">Name Server</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">wikipedia.org</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">wikipedia.org</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">wikipedia.org</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">org</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-shell">  dig +noall +answer +trace en.wikipedia.org
+</pre>
+</div>
+</div>
+<div id="outline-container-org2ced8d8" class="outline-4">
+<h4 id="org2ced8d8">Caching</h4>
+<div class="outline-text-4" id="text-org2ced8d8">
+<ul class="org-ul">
+<li>TTLs can range from seconds to hours to days.</li>
+<li>The administrator of a zones are the ones decidings the values for the TTLs.</li>
 </ul>
 </div>
 </div>
+<div id="outline-container-orgf5e97ae" class="outline-3">
+<h3 id="orgf5e97ae">Zone Transfer</h3>
+<div class="outline-text-3" id="text-orgf5e97ae">
 </div>
-<div id="outline-container-org5cce41a" class="outline-2">
-<h2 id="org5cce41a">References:</h2>
-<div class="outline-text-2" id="text-org5cce41a">
+<div id="outline-container-orgf28865d" class="outline-4">
+<h4 id="orgf28865d">The SOA Record</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfb262a6" class="outline-2">
+<h2 id="orgfb262a6">Records</h2>
+<div class="outline-text-2" id="text-orgfb262a6">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Record Name</th>
+<th scope="col" class="org-left">Synonims</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>A</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Maps a domain name to an IPV4 address</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>AAAA</code></td>
+<td class="org-left">Quad A</td>
+<td class="org-left">Maps a domain name to an IPV6 address</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>NS</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Maps a domain name to an authoritative DNS server</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orga9d9499" class="outline-2">
+<h2 id="orga9d9499">References:</h2>
+<div class="outline-text-2" id="text-orga9d9499">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Liu, Cricket, and Paul Albitz. 2006. <i>Dns and Bind</i>. O’Reilly Media, Inc.</div>
 </div>
+</div>
+</div>
+<div id="outline-container-orgec3e347" class="outline-2">
+<h2 id="orgec3e347">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgec3e347">
+<ul class="org-ul">
+<li><a href="./20250319103806-hosts_txt.html">HOSTS.TXT</a></li>
+</ul>
 </div>
 </div>
 </main>
