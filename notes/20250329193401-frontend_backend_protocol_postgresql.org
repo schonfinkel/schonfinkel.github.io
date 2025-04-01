@@ -1,0 +1,99 @@
+:PROPERTIES:
+:ID:       7cf74f21-0ac9-46d5-a838-239a554a8e46
+:ROAM_ALIASES: "PostgreSQL Wire Protocol"
+:END:
+#+title: Frontend/Backend Protocol (PostgresSQL)
+#+filetags: :postgresql:
+
+#+begin_quote
+[[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] uses a message-based protocol for communication between frontends and
+backends (clients and servers). The protocol is supported over TCP/IP and also
+over Unix-domain sockets. Port number 5432 has been registered with IANA as the
+customary TCP port number for servers supporting this protocol, but in practice
+any non-privileged port number can be used. [cite:@pgdocs pt.7 chap.53]
+#+end_quote
+
+* Overview
+
+** TLS Handshake
+
++ Client sends 4 bytes forming an ~SSLRequest~
++ Server responds with 'Y' or 'N'.
+  + 'Y' \rightarrow Client proceeds with TLS handshake.
+  + 'N' \rightarrow Client can conitnue without encryption, or hang up.
+
+** Message Format
+
+| Length (Int32) | Protocol (Int32) | Body |
+|----------------+----------------+------|
+| 4 Bytes        | 4 Bytes        |      |
+
+| Message Type (Char) | Length (Int32) | Body |
+|---------------------+----------------+------|
+| 1 Byte              | 4 Bytes        |      |
+
+* Message Flow
+
+#+begin_quote
+To begin a session, a frontend opens a connection to the server and sends a
+startup message. This message includes the names of the user and of the database
+the user wants to connect to; it also identifies the particular protocol version
+to be used. (...) The server then uses this information and the contents of
+its configuration files (such as ~pg_hba.conf~) to determine whether the connection
+is provisionally acceptable, and what additional authentication is required (if
+any).
+
+The server then sends an appropriate authentication request message, to which
+the frontend must reply with an appropriate authentication response message
+(such as a password). [cite:@pgdocs pt.7 chap.53 sec.2]
+#+end_quote
+
+The authentication cycle ends with the server either rejecting the connection
+attempt (~ErrorResponse~), or sending ~AuthenticationOk~.
+
+#+NAME: pgsql-wire-startup-message
+#+begin_src plantuml :file ../static/img/notes/pgsql_wire_startup_message.png :exports results
+  !theme spacelab
+  Bob -> Alice : Hello World!
+#+end_src
+
+** The Startup Packet
+
++ After establishing TLS (if supported), the client sends a /startup packet/,
+  which contains:
+  1. The prococol version (currently 3).
+  2. List of supported extensions.
+  3. Database name.
+  4. User name.
+  5. Optional settings that will be set after startup.
+  6. Typically, ~application_name~.
+     
+* Authentication
+
+The server sends one of the Authentication request messages, and the client
+responds with either:
+
++ ~AuthenticationCleartextPassword~
++ ~AuthenticationMD5Password~
++ ~AuthenticationSASL~, ~AuthenticationSASLContinue~, ~AuthenticationSASLFinal~ (for [[id:ff6bf921-1aa9-4af0-bfd5-2aa2c52ec0bf][SCRAM]])
++ ~AuthenticationKerberosV5~
++ ~AuthenticationGSS~, ~AuthenticationGSSContinue~
++ ~AuthenticationSSPI~
+  
+Once an authentication method is accepted, the server responds with an
+~AuthenticationOK~ message.
+
+After authentication, the server will send:
+
+1. ~BackendKeyData~
+2. ~ParameterStatus~
+3. ~ReadyForQuery~
+
+Once the connection is stablished, the server enters the normal query handling
+loop. The client can start sending queries.
+
+* Running Queries
+
+** Simple Query Protocol
+
+** Extended Query Protocol
