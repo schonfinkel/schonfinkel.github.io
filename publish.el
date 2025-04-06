@@ -18,6 +18,7 @@
 (require 'ox-html)
 (require 'ox-publish)
 (require 'ox-rss)
+(require 'seq)
 
 ;;; org-babel configuration
 
@@ -155,7 +156,8 @@
                            "math_and_logic.bib"
                            "nixos.bib"
                            "software_engineering.bib"
-                           "sysadmin.bib"))
+                           "sysadmin.bib"
+                           "rfcs.bib"))
 (setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
 (setq org-cite-global-bibliography org-cite-refs-path)
 (setq org-cite-export-processors '((latex biblatex)

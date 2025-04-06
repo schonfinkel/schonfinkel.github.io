@@ -4,3 +4,43 @@
 #+title: SCRAM
 #+filetags: :rfc:
 
+#+begin_quote
+This specification describes a family of Simple Authentication and Security
+Layer ([[id:0fb4659b-eed6-4771-943d-6565474ccfa2][SASL]]; RFC 4422) authentication mechanisms called the Salted Challenge
+Response Authentication Mechanism (SCRAM), which addresses the security concerns
+and meets the deployability requirements.  When used in combination with TLS or
+an equivalent security layer, a mechanism from this family could improve the
+status quo for application protocol authentication and provide a suitable choice
+for a mandatory-to-implement mechanism for future application protocol
+standards. [cite:@rfc5802 p.1]
+#+end_quote
+
+SCRAM provides the following protocol features:
++ The authentication stored on the database is not sufficient to impersonate a
+  client.
++ Longer nonces defeat replay attacks
++ More resistant to dictionary attacks, configurable iteration counts.
+
+* Notation
+
+#+begin_src 
+  Hi(str, salt, i):
+    U1   := HMAC(str, salt + INT(1))
+    U2   := HMAC(str, U1)
+    ...
+    Ui-1 := HMAC(str, Ui-2)
+    Ui   := HMAC(str, Ui-1)
+   
+    Hi := U1 XOR U2 XOR ... XOR Ui
+#+end_src
+
+
+* SCRAM Algorithm Overview
+
+
+** Client Final
+
+#+begin_src
+# auth message - n=$USER,r=$CLIENT_NONCE,r=$SERVER_NONCE,s=$SALT,i=$ITER,c=$CHANNE_BINDING,r=$CLIENT_PROOF
+n=user,r=fyko+d2lbbFgONRv9qkxdawL,r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j,s=QSXCR+Q6sek8bf92,i=4096,c=biws,r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j
+#+end_src
