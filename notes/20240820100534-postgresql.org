@@ -44,7 +44,7 @@ Postgre95 to emphasize the difference compared to other, preceding versions.
 | ~database objects~ | tables, schemas, indexes, triggers, etc.                                                                       |
 | ~postmaster~       | The first process executed by the cluster, spawns a backend process everytime a connections is established.    |
 | ~PGDATA~           | The persistent directory dedicated to PostgreSQL.                                                              |
-| ~WAL~              | Intent log of database changes, used to recover from critical crashes.                                         |
+| ~WAL~              | Logs all changes to tables/indexes, used to recover from critical crashes.       |
 
 #+begin_quote
 Users are defined at a cluster-wide level, which means they are not tied to a
@@ -69,3 +69,32 @@ superusers usually see the whole set of available information.
 
 [cite:@ferrari2023postgres p.7]
 #+end_quote
+
+* Architecture
+
+** Client/Server
+
+#+begin_src sql
+  SHOW max_connections;
+#+end_src
+
+** Memory
+
+*** Shared Buffers
++ Shared by all server processes.
++ Keeps frequently accessed objects in memory for faster retrieval.
++ Defaults to 128 MB.
+
+#+begin_src sql
+  SHOW shared_buffers;
+#+end_src
+
+*** Local Memory
+It's the memory allocated to each backend process.
+
+| Kind                 | Description                        | Default |
+|----------------------+------------------------------------+---------|
+| ~work_mem~             | Sorting & Hash tables              | 1 MB    |
+| ~temp_buffers~         | Temporary Tables                   | 8 MB    |
+| ~maintenance_work_mem~ | VACUUM and ~CREATE INDEX~ operations | 64 MB   |
+

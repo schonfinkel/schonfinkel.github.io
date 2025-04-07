@@ -39,13 +39,16 @@
 
         tooling = with pkgs; [
           bash
-          just
-          sqlite
+          graphviz
           icu
+          just
+          plantuml
+          sqlite
           tzdata
 
           # To generate the Graph
           (pkgs.python3.withPackages (python-pkgs: [
+            python-pkgs.passlib
             python-pkgs.networkx
             python-pkgs.numpy
             python-pkgs.scipy
@@ -159,6 +162,7 @@
                     DOTNET_ROOT = "${dotnet}";
                     DOTNET_CLI_TELEMETRY_OPTOUT = "1";
                     LANG = "en_US.UTF-8";
+                    PLANTUML_PATH = "${pkgs.plantuml}";
                   };
 
                   scripts = {

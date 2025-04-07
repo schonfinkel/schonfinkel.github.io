@@ -22,19 +22,43 @@ the resultset from which to start returning data.
 
 * Subqueries
 
++ Subqueries return a set.
+
 ** Subqueries as Expressions
 
 *** Scalar Subquery
-Results in a single row
+Results in a single row.
 
 *** Multi-Row Subquery
-Results in multiple rows, tipically used in the where clause with operators such as ~IN~, ~NOT~, ~EXISTS~, ~ANY~ and ~ALL~.
+Results in multiple rows, tipically used in the where clause with operators such
+as ~IN~, ~NOT~, ~EXISTS~, ~ANY~ and ~ALL~.
 
 **** Correlated Subquery
-A uncorrelated sub-query is a type of sub-query where the inner query doesn’t depend upon the outer query for its execution.
+A uncorrelated sub-query is a type of sub-query where the inner query doesn’t
+depend upon the outer query for its execution.
+
+#+begin_src sql
+  SELECT
+    foo,
+    (SELECT
+      AVG(...)
+     FROM B
+     WHERE B.foo = A.foo) AS bar
+  FROM A;
+#+end_src
 
 **** Uncorrelated Subquery
-A correlated sub-query is a type of query where the inner query depends upon the outcome of the outer query in order to perform its execution.
+A correlated sub-query is a type of query where the inner query depends upon the
+outcome of the outer query in order to perform its execution.
+
+#+begin_src sql
+  SELECT
+    foo,
+    (SELECT
+      AVG(...)
+     FROM B) AS bar
+  FROM A;
+#+end_src
 
 ** Subqueries as Tables
 
@@ -152,6 +176,8 @@ respected:
 
 [cite:@ferrari2023postgres p.133]
 #+end_quote
+
++ ~UNION~ is an alias to ~UNION DISTINCT~.
 
 ** ~EXCEPT~ / ~INTERSECT~
 

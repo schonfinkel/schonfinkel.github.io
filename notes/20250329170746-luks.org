@@ -1,0 +1,65 @@
+:PROPERTIES:
+:ID:       57fdb0e5-f77f-443c-ab1f-425da39554cf
+:ROAM_ALIASES: "Linux Unified Key Setup"
+:END:
+#+title: LUKS
+#+filetags: :linux:
+
+#+begin_quote
+Being able to encrypt individual files can be handy, but it can be quite
+unwieldy for a large number of files. For that, we need something better, and we
+have three different methods:
+
++ Block encryption: We can use this for either whole-disk encryption, or to
+  encrypt individual partitions.
++ File-level encryption: We'd use this to encrypt individual directories,
+  without having to encrypt the underlying partitions.
++ Containerized Encryption: Using third-party software that doesn't come with
+  any Linux distribution, we can create encrypted, cross-platform containers
+  that can be opened on either Linux, Mac, or Windows machines.
+
+The [[id:8a427ee7-2ef1-489b-af82-91de7be8a3ba][Linux]] Unified Key Setup (LUKS), falls into the first category.
+
+[cite:@tevault2023mastering p.178]
+#+end_quote
+
+* Partition Encryption 
+
+One needs to use the ~cryptsetup~ command to interact with ~LUKS~ partitions.
+
+** Configure a LUKS partition
+
+#+begin_src shell
+  # -v stands for verbose mode
+  # -y asks for password confirmation
+  sudo cryptsetup -y -v luksFormat /dev/<...>
+#+end_src
+
+If you need to get some metadata about the partition that just got encrypted, run:
+
+#+begin_src shell
+  sudo cryptsetup luksDump /dev/<...>
+#+end_src
+
+Next, you map the newly created partition to a device name:
+
+#+begin_src shell
+  # device name can be anything, like "crypt", "supasekrit", etc
+  sudo cryptsetup luksOpen /dev/<...> <device-name>
+#+end_src
+
+Check the symlink created in the ~/dev/mapper~ directory:
+
+#+begin_src shell
+  ls -l /dev/mapper/<device-name>
+  # you can also fetch information via dmsetup
+  sudo dmsetup info <device-name>
+#+end_src
+
+Another useful trick is to fill the new partition with zeros before formatting:
+
+#+begin_src shell
+  pv -tpreb /dev/zero | dd of=/dev/mapper/<device-name> bs=128M
+#+end_src
+
+** 
