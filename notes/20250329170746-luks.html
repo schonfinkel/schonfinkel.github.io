@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-04-07 Mon 20:42 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LUKS</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">LUKS</h1>
+</header><blockquote>
+<p>
+Being able to encrypt individual files can be handy, but it can be quite
+unwieldy for a large number of files. For that, we need something better, and we
+have three different methods:
+</p>
+
+<ul class="org-ul">
+<li>Block encryption: We can use this for either whole-disk encryption, or to
+encrypt individual partitions.</li>
+<li>File-level encryption: We'd use this to encrypt individual directories,
+without having to encrypt the underlying partitions.</li>
+<li>Containerized Encryption: Using third-party software that doesn't come with
+any Linux distribution, we can create encrypted, cross-platform containers
+that can be opened on either Linux, Mac, or Windows machines.</li>
+</ul>
+
+<p>
+The <a href="20240924092617-linux.html#ID-8a427ee7-2ef1-489b-af82-91de7be8a3ba">Linux</a> Unified Key Setup (LUKS), falls into the first category.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Tevault 2023, 178</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgad59a10" class="outline-2">
+<h2 id="orgad59a10">Partition Encryption</h2>
+<div class="outline-text-2" id="text-orgad59a10">
+<p>
+One needs to use the <code>cryptsetup</code> command to interact with <code>LUKS</code> partitions.
+</p>
+</div>
+<div id="outline-container-orgc8c6608" class="outline-3">
+<h3 id="orgc8c6608">Configure a LUKS partition</h3>
+<div class="outline-text-3" id="text-orgc8c6608">
+<div class="org-src-container">
+<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">-v stands for verbose mode</span>
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">-y asks for password confirmation</span>
+  sudo cryptsetup -y -v luksFormat /dev/&lt;...&gt;
+</pre>
+</div>
+
+<p>
+If you need to get some metadata about the partition that just got encrypted, run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  sudo cryptsetup luksDump /dev/&lt;...&gt;
+</pre>
+</div>
+
+<p>
+Next, you map the newly created partition to a device name:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">device name can be anything, like "crypt", "supasekrit", etc</span>
+  sudo cryptsetup luksOpen /dev/&lt;...&gt; &lt;device-name&gt;
+</pre>
+</div>
+
+<p>
+Check the symlink created in the <code>/dev/mapper</code> directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  ls -l /dev/mapper/&lt;device-name&gt;
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">you can also fetch information via dmsetup</span>
+  sudo dmsetup info &lt;device-name&gt;
+</pre>
+</div>
+
+<p>
+Another useful trick is to fill the new partition with zeros before formatting:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">  pv -tpreb /dev/zero | dd <span style="font-weight: bold; font-style: italic;">of</span>=/dev/mapper/&lt;device-name&gt; <span style="font-weight: bold; font-style: italic;">bs</span>=128M
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org96e589b" class="outline-3">
+<h3 id="org96e589b"></h3>
+</div>
+</div>
+<div id="outline-container-org5336961" class="outline-2">
+<h2 id="org5336961">References:</h2>
+<div class="outline-text-2" id="text-org5336961">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Tevault, Donald A. 2023. <i>Mastering Linux Security and Hardening: A Practical Guide to Protecting Your Linux System from Cyber Attacks</i>. Packt Publishing Ltd.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

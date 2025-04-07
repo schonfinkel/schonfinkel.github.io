@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-04-07 Mon 20:42 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SCRAM</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">SCRAM</h1>
+</header><blockquote>
+<p>
+This specification describes a family of Simple Authentication and Security
+Layer (<a href="20250405203947-simple_authentication_and_security_layer.html#ID-0fb4659b-eed6-4771-943d-6565474ccfa2">SASL</a>; RFC 4422) authentication mechanisms called the Salted Challenge
+Response Authentication Mechanism (SCRAM), which addresses the security concerns
+and meets the deployability requirements.  When used in combination with TLS or
+an equivalent security layer, a mechanism from this family could improve the
+status quo for application protocol authentication and provide a suitable choice
+for a mandatory-to-implement mechanism for future application protocol
+standards. (<a href="#citeproc_bib_item_1">Newman et al. 2010, 1</a>)
+</p>
+</blockquote>
+
+<p>
+SCRAM provides the following protocol features:
+</p>
+<ul class="org-ul">
+<li>The authentication stored on the database is not sufficient to impersonate a
+client.</li>
+<li>Longer nonces defeat replay attacks</li>
+<li>More resistant to dictionary attacks, configurable iteration counts.</li>
+</ul>
+<div id="outline-container-org80f4cb8" class="outline-2">
+<h2 id="org80f4cb8">Notation</h2>
+<div class="outline-text-2" id="text-org80f4cb8">
+<div class="org-src-container">
+<pre class="src src-nil">  Hi(str, salt, i):
+    U1   := HMAC(str, salt + INT(1))
+    U2   := HMAC(str, U1)
+    ...
+    Ui-1 := HMAC(str, Ui-2)
+    Ui   := HMAC(str, Ui-1)
+   
+    Hi := U1 XOR U2 XOR ... XOR Ui
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org44f220b" class="outline-2">
+<h2 id="org44f220b">SCRAM Algorithm Overview</h2>
+<div class="outline-text-2" id="text-org44f220b">
+</div>
+<div id="outline-container-orga73c78c" class="outline-3">
+<h3 id="orga73c78c">Client Final</h3>
+<div class="outline-text-3" id="text-orga73c78c">
+<div class="org-src-container">
+<pre class="src src-nil"># auth message - n=$USER,r=$CLIENT_NONCE,r=$NONCE,s=$SALT,i=$ITER,c=$CHANNE_BINDING,r=$NONCE
+n=user,r=fyko+d2lbbFgONRv9qkxdawL,r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j,s=QSXCR+Q6sek8bf92,i=4096,c=biws,r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org68714d7" class="outline-2">
+<h2 id="org68714d7">References:</h2>
+<div class="outline-text-2" id="text-org68714d7">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Newman, C, A Menon-Sen, A Melnikov, and N Williams. 2010. “Rfc 5802: Salted Challenge Response Authentication Mechanism (Scram) Sasl and Gss-Api Mechanisms.” RFC Editor. <a href="https://www.ietf.org/rfc/rfc5802.html">https://www.ietf.org/rfc/rfc5802.html</a>.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbf357bc" class="outline-2">
+<h2 id="orgbf357bc">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgbf357bc">
+<ul class="org-ul">
+<li><a href="./20250329193401-frontend_backend_protocol_postgresql.html">Frontend/Backend Protocol (PostgresSQL)</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-03-23 Sun 01:41 -->
+<!-- 2025-04-07 Mon 20:42 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Window Functions (PostgreSQL)</title>
@@ -66,9 +66,9 @@ identities. Behind the scenes, the window function is able to access more than
 just the current row of the query result. <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
 </p>
 </blockquote>
-<div id="outline-container-orga3060d4" class="outline-2">
-<h2 id="orga3060d4"><code>PARTITION BY</code> and <code>WINDOW</code> clauses</h2>
-<div class="outline-text-2" id="text-orga3060d4">
+<div id="outline-container-org012a10f" class="outline-2">
+<h2 id="org012a10f"><code>PARTITION BY</code> and <code>WINDOW</code> clauses</h2>
+<div class="outline-text-2" id="text-org012a10f">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
     category,
@@ -109,13 +109,13 @@ you can also define aliases for the window frames.
 </div>
 </div>
 </div>
-<div id="outline-container-org47740b9" class="outline-2">
-<h2 id="org47740b9">Introducing some useful functions</h2>
-<div class="outline-text-2" id="text-org47740b9">
+<div id="outline-container-orgf74b839" class="outline-2">
+<h2 id="orgf74b839">Introducing some useful functions</h2>
+<div class="outline-text-2" id="text-orgf74b839">
 </div>
-<div id="outline-container-orgef032fc" class="outline-3">
-<h3 id="orgef032fc"><code>ROW_NUMBER</code></h3>
-<div class="outline-text-3" id="text-orgef032fc">
+<div id="outline-container-org1cf0987" class="outline-3">
+<h3 id="org1cf0987"><code>ROW_NUMBER</code></h3>
+<div class="outline-text-3" id="text-org1cf0987">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
     category,
@@ -127,41 +127,41 @@ you can also define aliases for the window frames.
 </div>
 </div>
 </div>
-<div id="outline-container-orgd4dc90d" class="outline-3">
-<h3 id="orgd4dc90d"><code>LEAD</code></h3>
-<div class="outline-text-3" id="text-orgd4dc90d">
+<div id="outline-container-orgca3e792" class="outline-3">
+<h3 id="orgca3e792"><code>LEAD</code></h3>
+<div class="outline-text-3" id="text-orgca3e792">
 <p>
 The <code>LEAD()</code> function is used to retrieve data from the next row.
 </p>
 </div>
 </div>
-<div id="outline-container-org6b1a509" class="outline-3">
-<h3 id="org6b1a509"><code>LAG</code></h3>
-<div class="outline-text-3" id="text-org6b1a509">
+<div id="outline-container-orgaa05c9b" class="outline-3">
+<h3 id="orgaa05c9b"><code>LAG</code></h3>
+<div class="outline-text-3" id="text-orgaa05c9b">
 <p>
 The <code>LAG()</code> function is used to retrieve data from the previous row.
 </p>
 </div>
 </div>
-<div id="outline-container-org72cb195" class="outline-3">
-<h3 id="org72cb195"><code>ORDER BY</code></h3>
+<div id="outline-container-org43fa37f" class="outline-3">
+<h3 id="org43fa37f"><code>ORDER BY</code></h3>
 </div>
 
-<div id="outline-container-orgff1137b" class="outline-3">
-<h3 id="orgff1137b"><code>FIRST_VALUE()</code> and <code>LAST_VALUE()</code></h3>
+<div id="outline-container-org9a6a6e7" class="outline-3">
+<h3 id="org9a6a6e7"><code>FIRST_VALUE()</code> and <code>LAST_VALUE()</code></h3>
 </div>
 
-<div id="outline-container-org24cf0df" class="outline-3">
-<h3 id="org24cf0df"><code>RANK</code></h3>
+<div id="outline-container-org96da0e0" class="outline-3">
+<h3 id="org96da0e0"><code>RANK</code></h3>
 </div>
 
-<div id="outline-container-org54b5332" class="outline-3">
-<h3 id="org54b5332"><code>DENSE_RANK</code></h3>
+<div id="outline-container-org134d51d" class="outline-3">
+<h3 id="org134d51d"><code>DENSE_RANK</code></h3>
 </div>
 
-<div id="outline-container-org53e334a" class="outline-3">
-<h3 id="org53e334a"><code>CUME_DIST</code></h3>
-<div class="outline-text-3" id="text-org53e334a">
+<div id="outline-container-orgf64b7db" class="outline-3">
+<h3 id="orgf64b7db"><code>CUME_DIST</code></h3>
+<div class="outline-text-3" id="text-orgf64b7db">
 <blockquote>
 <p>
 The <code>CUME_DIST</code> function computes the fraction of partition rows that are less
@@ -194,21 +194,21 @@ than or equal to the current row and its peers.
 </div>
 </div>
 </div>
-<div id="outline-container-orge9b4d7d" class="outline-3">
-<h3 id="orge9b4d7d"><code>NTILE</code></h3>
+<div id="outline-container-org91c097e" class="outline-3">
+<h3 id="org91c097e"><code>NTILE</code></h3>
 </div>
 </div>
-<div id="outline-container-org3509414" class="outline-2">
-<h2 id="org3509414">Using Advanced Statement Window Functions</h2>
-</div>
-
-<div id="outline-container-org5bdbaf2" class="outline-2">
-<h2 id="org5bdbaf2">Value Functions</h2>
+<div id="outline-container-orgaa03f07" class="outline-2">
+<h2 id="orgaa03f07">Using Advanced Statement Window Functions</h2>
 </div>
 
-<div id="outline-container-orge251c60" class="outline-2">
-<h2 id="orge251c60">References:</h2>
-<div class="outline-text-2" id="text-orge251c60">
+<div id="outline-container-org70502da" class="outline-2">
+<h2 id="org70502da">Value Functions</h2>
+</div>
+
+<div id="outline-container-org32ad980" class="outline-2">
+<h2 id="org32ad980">References:</h2>
+<div class="outline-text-2" id="text-org32ad980">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>

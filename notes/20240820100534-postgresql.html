@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-03-23 Sun 01:41 -->
+<!-- 2025-04-07 Mon 20:42 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PostgreSQL</title>
@@ -65,9 +65,9 @@ views, materialized views, partitioned tables, foreign data wrappers, multiple
 schemas, generated columns, and so on. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 3</a>)
 </p>
 </blockquote>
-<div id="outline-container-org5dd520b" class="outline-2">
-<h2 id="org5dd520b">A brief history of PostgreSQL</h2>
-<div class="outline-text-2" id="text-org5dd520b">
+<div id="outline-container-orgaa8ab7c" class="outline-2">
+<h2 id="orgaa8ab7c">A brief history of PostgreSQL</h2>
+<div class="outline-text-2" id="text-orgaa8ab7c">
 <blockquote>
 <p>
 Ingres was a relational database developed by Professor Michael Stonebraker. In
@@ -93,9 +93,9 @@ Postgre95 to emphasize the difference compared to other, preceding versions.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org3930e75" class="outline-2">
-<h2 id="org3930e75">Terminology</h2>
-<div class="outline-text-2" id="text-org3930e75">
+<div id="outline-container-org7efd9a2" class="outline-2">
+<h2 id="org7efd9a2">Terminology</h2>
+<div class="outline-text-2" id="text-org7efd9a2">
 <table>
 
 
@@ -143,7 +143,7 @@ Postgre95 to emphasize the difference compared to other, preceding versions.
 
 <tr>
 <td class="org-left"><code>WAL</code></td>
-<td class="org-left">Intent log of database changes, used to recover from critical crashes.</td>
+<td class="org-left">Logs all changes to tables/indexes, used to recover from critical crashes.</td>
 </tr>
 </tbody>
 </table>
@@ -203,20 +203,101 @@ superusers usually see the whole set of available information.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgfc427a9" class="outline-2">
-<h2 id="orgfc427a9">References:</h2>
-<div class="outline-text-2" id="text-orgfc427a9">
+<div id="outline-container-org3e36939" class="outline-2">
+<h2 id="org3e36939">Architecture</h2>
+<div class="outline-text-2" id="text-org3e36939">
+</div>
+<div id="outline-container-org10a819e" class="outline-3">
+<h3 id="org10a819e">Client/Server</h3>
+<div class="outline-text-3" id="text-org10a819e">
+<div class="org-src-container">
+<pre class="src src-sql">  SHOW max_connections;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd5882ca" class="outline-3">
+<h3 id="orgd5882ca">Memory</h3>
+<div class="outline-text-3" id="text-orgd5882ca">
+</div>
+<div id="outline-container-orgeffeeb7" class="outline-4">
+<h4 id="orgeffeeb7">Shared Buffers</h4>
+<div class="outline-text-4" id="text-orgeffeeb7">
+<ul class="org-ul">
+<li>Shared by all server processes.</li>
+<li>Keeps frequently accessed objects in memory for faster retrieval.</li>
+<li>Defaults to 128 MB.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  SHOW shared_buffers;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6e8205d" class="outline-4">
+<h4 id="org6e8205d">Local Memory</h4>
+<div class="outline-text-4" id="text-org6e8205d">
+<p>
+It's the memory allocated to each backend process.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Kind</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>work_mem</code></td>
+<td class="org-left">Sorting &amp; Hash tables</td>
+<td class="org-left">1 MB</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>temp_buffers</code></td>
+<td class="org-left">Temporary Tables</td>
+<td class="org-left">8 MB</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>maintenance_work_mem</code></td>
+<td class="org-left">VACUUM and <code>CREATE INDEX</code> operations</td>
+<td class="org-left">64 MB</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org015023b" class="outline-2">
+<h2 id="org015023b">References:</h2>
+<div class="outline-text-2" id="text-org015023b">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org6568266" class="outline-2">
-<h2 id="org6568266">Backlinks:</h2>
-<div class="outline-text-2" id="text-org6568266">
+<div id="outline-container-org4ced90e" class="outline-2">
+<h2 id="org4ced90e">Backlinks:</h2>
+<div class="outline-text-2" id="text-org4ced90e">
 <ul class="org-ul">
 <li><a href="./20240921194441-functions_and_operators_postgresql.html">Functions and Operators (PostgreSQL)</a></li>
 <li><a href="./20240921194608-index_postgresql.html">Index (PostgreSQL)</a></li>
+<li><a href="./20250329193401-frontend_backend_protocol_postgresql.html">Frontend/Backend Protocol (PostgresSQL)</a></li>
 <li><a href="./20250219153557-postgresql_repl.html">PostgreSQL REPL</a></li>
 <li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
 <li><a href="./20250313191626-full_text_search_postgresql.html">Full Text Search (PostgreSQL)</a></li>

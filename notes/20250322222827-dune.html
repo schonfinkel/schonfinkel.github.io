@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-03-23 Sun 01:41 -->
+<!-- 2025-04-07 Mon 20:42 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dune</title>
@@ -55,16 +55,97 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Dune</h1>
-</header><div id="outline-container-org59a0e97" class="outline-2">
-<h2 id="org59a0e97">References:</h2>
-<div class="outline-text-2" id="text-org59a0e97">
+</header><blockquote>
+<p>
+A Dune project is a directory (and its subdirectories) that contain <a href="20250206092839-ocaml.html#ID-3a8d5cf5-9b6c-4995-b7f0-b2218e52bd01">OCaml</a> code
+you want to compile. The root of a project is the highest directory in its
+hierarchy. A project might rely on external packages providing additional code
+that is already compiled. Usually, packages are installed with <a href="20250322172036-opam.html#ID-640be2cb-76b5-40d5-ae74-61718086f6c6">OPAM</a>, the OCaml
+Package Manager.
+</p>
+
+<p>
+Each directory in your project can contain a file named dune. That file
+describes to Dune how you want the code in that directory (and subdirectories)
+to be compiled. (<a href="#citeproc_bib_item_1">Clarkson 2025, 30</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgc328d3f" class="outline-2">
+<h2 id="orgc328d3f">Basics</h2>
+<div class="outline-text-2" id="text-orgc328d3f">
+</div>
+<div id="outline-container-orgacc64ac" class="outline-3">
+<h3 id="orgacc64ac">Creating a Dune Project Manually</h3>
+<div class="outline-text-3" id="text-orgacc64ac">
+<p>
+Assuming that you have a <code>hello.ml</code> file in a certain directory:
+</p>
+
+<ol class="org-ol">
+<li>In this same directory, create a file named <code>dune</code> with the following content:</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-nil"> (executable
+   (name hello))
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Also create a file named <code>dune-project</code> with the following content:</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-nil">  (lang dune 3.4)
+</pre>
+</div>
+
+
+<ol class="org-ol">
+<li>To build and run the project:</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-shell">  dune build hello.exe
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">now you can run the executable with either this</span>
+  _build/default/hello.exe
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">or</span>
+  dune exec ./hello.exe
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7426959" class="outline-3">
+<h3 id="org7426959">Creating a Dune Project Automatically</h3>
+<div class="outline-text-3" id="text-org7426959">
+<div class="org-src-container">
+<pre class="src src-shell">  dune init project example
+  <span style="font-weight: bold;">cd</span> example
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb084d4f" class="outline-3">
+<h3 id="orgb084d4f">Running Dune Continuously</h3>
+<div class="outline-text-3" id="text-orgb084d4f">
+<div class="org-src-container">
+<pre class="src src-shell">  dune build --watch
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org04324bb" class="outline-2">
+<h2 id="org04324bb">References:</h2>
+<div class="outline-text-2" id="text-org04324bb">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Clarkson, Michael Ryan. 2025. <i>Ocaml Programming: Correct + Efficient + Beautiful</i>. <a href="https://cs3110.github.io/textbook/">https://cs3110.github.io/textbook/</a>.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org863ed32" class="outline-2">
-<h2 id="org863ed32">Backlinks:</h2>
-<div class="outline-text-2" id="text-org863ed32">
+<div id="outline-container-org1d41ed1" class="outline-2">
+<h2 id="org1d41ed1">Backlinks:</h2>
+<div class="outline-text-2" id="text-org1d41ed1">
 <ul class="org-ul">
 <li><a href="./20250206092839-ocaml.html">OCaml</a></li>
 </ul>
