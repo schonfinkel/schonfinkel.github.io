@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-04-07 Mon 20:42 -->
+<!-- 2025-05-20 Tue 00:33 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ERTS</title>
@@ -55,29 +55,53 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">ERTS</h1>
-</header><div id="outline-container-org0129a6a" class="outline-2">
-<h2 id="org0129a6a">The Erlang Node</h2>
-<div class="outline-text-2" id="text-org0129a6a">
+</header><div id="outline-container-org7503875" class="outline-2">
+<h2 id="org7503875">The Erlang Node</h2>
+<div class="outline-text-2" id="text-org7503875">
 <blockquote>
 <p>
 When you start an <a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a> or <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> application or system, what you really start
 is an Erlang node. The node runs the Erlang RunTime System and the virtual
-machine BEAM. (<a href="#citeproc_bib_item_1">Stenman 2025</a>)
+machine BEAM. (<a href="#citeproc_bib_item_2">Stenman 2025</a>)
 </p>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgdc016ed" class="outline-2">
-<h2 id="orgdc016ed">References:</h2>
-<div class="outline-text-2" id="text-orgdc016ed">
+<div id="outline-container-org45994af" class="outline-2">
+<h2 id="org45994af">The Scheduler</h2>
+<div class="outline-text-2" id="text-org45994af">
+<blockquote>
+<p>
+One of the nice things that Erlang does for you is help with the physical
+execution of tasks. (&#x2026;), if extra CPUs (or cores or hyperthreads) are
+available, Erlang uses them to run more of your concurrent tasks in parallel. If
+not, Erlang uses what CPU power there is to do them all a bit at a time.
+</p>
+
+
+<figure id="orgba7e3e7">
+<img src="../static/img/notes/erlang_scheduler.png" alt="erlang_scheduler.png" align="center">
+
+</figure>
+
+<p>
+(<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 8 chapter.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgc07acc4" class="outline-2">
+<h2 id="orgc07acc4">References:</h2>
+<div class="outline-text-2" id="text-orgc07acc4">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org9ff1223" class="outline-2">
-<h2 id="org9ff1223">Backlinks:</h2>
-<div class="outline-text-2" id="text-org9ff1223">
+<div id="outline-container-org6632a99" class="outline-2">
+<h2 id="org6632a99">Backlinks:</h2>
+<div class="outline-text-2" id="text-org6632a99">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>

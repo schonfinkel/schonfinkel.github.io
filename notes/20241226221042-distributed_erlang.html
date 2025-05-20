@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-04-07 Mon 20:42 -->
+<!-- 2025-05-20 Tue 00:33 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Distributed Erlang</title>
@@ -72,13 +72,13 @@ make this possible:
 </blockquote>
 
 
-<figure id="orga0d0c15">
+<figure id="org5582e3e">
 <img src="../static/img/notes/distributed_erlang.png" alt="distributed_erlang.png">
 
 </figure>
-<div id="outline-container-orga7adebc" class="outline-2">
-<h2 id="orga7adebc">Nodes and Clustering</h2>
-<div class="outline-text-2" id="text-orga7adebc">
+<div id="outline-container-org76ded34" class="outline-2">
+<h2 id="org76ded34">Nodes and Clustering</h2>
+<div class="outline-text-2" id="text-org76ded34">
 <blockquote>
 <p>
 An Erlang node consists of several loosely coupled applications, (&#x2026;) combined
@@ -89,9 +89,9 @@ applications. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 11</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org2c79ffa" class="outline-3">
-<h3 id="org2c79ffa">Starting a Node</h3>
-<div class="outline-text-3" id="text-org2c79ffa">
+<div id="outline-container-org026d441" class="outline-3">
+<h3 id="org026d441">Starting a Node</h3>
+<div class="outline-text-3" id="text-org026d441">
 <p>
 To start an Erlang node in distributed mode, you run <code>erl</code> with one of the flags
 <code>-name</code> or <code>-sname</code>:
@@ -113,9 +113,9 @@ mode. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 194</a>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org4843566" class="outline-3">
-<h3 id="org4843566">Naming and Communication</h3>
-<div class="outline-text-3" id="text-org4843566">
+<div id="outline-container-orgc4837b1" class="outline-3">
+<h3 id="orgc4837b1">Naming and Communication</h3>
+<div class="outline-text-3" id="text-orgc4837b1">
 <blockquote>
 <p>
 You can <code>spawn</code> and <code>link</code> to processes on any node in the system, not just locally,
@@ -126,13 +126,13 @@ process on the remote host. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5e0bd2c" class="outline-3">
-<h3 id="org5e0bd2c">Connecting Nodes</h3>
-<div class="outline-text-3" id="text-org5e0bd2c">
+<div id="outline-container-orga5a5280" class="outline-3">
+<h3 id="orga5a5280">Connecting Nodes</h3>
+<div class="outline-text-3" id="text-orga5a5280">
 </div>
-<div id="outline-container-org5ee4276" class="outline-4">
-<h4 id="org5ee4276">Hidden Nodes</h4>
-<div class="outline-text-4" id="text-org5ee4276">
+<div id="outline-container-orge5c3517" class="outline-4">
+<h4 id="orge5c3517">Hidden Nodes</h4>
+<div class="outline-text-4" id="text-orge5c3517">
 <blockquote>
 <p>
 It's possible to connect clusters via special nodes to form a larger, not fully
@@ -143,9 +143,9 @@ nonintrusive inspection of a cluster. (<a href="#citeproc_bib_item_2">Logan, Mer
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgde9ea52" class="outline-4">
-<h4 id="orgde9ea52">EPMD</h4>
-<div class="outline-text-4" id="text-orgde9ea52">
+<div id="outline-container-org0a71c90" class="outline-4">
+<h4 id="org0a71c90">EPMD</h4>
+<div class="outline-text-4" id="text-org0a71c90">
 <blockquote>
 <p>
 EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
@@ -163,9 +163,9 @@ another. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 197<
 </div>
 </div>
 </div>
-<div id="outline-container-org12a49fb" class="outline-3">
-<h3 id="org12a49fb">The Cookie Protection System</h3>
-<div class="outline-text-3" id="text-org12a49fb">
+<div id="outline-container-orgec97491" class="outline-3">
+<h3 id="orgec97491">The Cookie Protection System</h3>
+<div class="outline-text-3" id="text-orgec97491">
 <p>
 For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
 </p>
@@ -183,13 +183,13 @@ For two distributed Erlang nodes to communicate, they must have the same magic c
 </div>
 </div>
 </div>
-<div id="outline-container-orgdc047ce" class="outline-2">
-<h2 id="orgdc047ce">Socket-Based Distribution</h2>
+<div id="outline-container-org011c7a6" class="outline-2">
+<h2 id="org011c7a6">Socket-Based Distribution</h2>
 </div>
 
-<div id="outline-container-org250b435" class="outline-2">
-<h2 id="org250b435">References:</h2>
-<div class="outline-text-2" id="text-org250b435">
+<div id="outline-container-org9c6108a" class="outline-2">
+<h2 id="org9c6108a">References:</h2>
+<div class="outline-text-2" id="text-org9c6108a">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
