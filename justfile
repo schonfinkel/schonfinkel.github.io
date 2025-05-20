@@ -12,6 +12,10 @@ D3_PATH := STATIC_JS_SRC / D3_FILENAME
 default:
   just --list
 
+# Syncs all submodules
+sync:
+    git submodule update --init
+
 # Generate the Markdown files
 build: clean
     python fix-html.py

@@ -29,8 +29,34 @@ let private addTitle src (path: String) =
 let filterNames (excluded: Set<String>) (fileName: String) =
     (fileName.StartsWith(".") || Set.contains fileName excluded) |> not
 
+let paginate size c = 
+    let pages = List.chunkBySize size c
+    let indexes = List.init (List.length pages) (fun x -> x + 1)
+    List.zip indexes pages
+
+let createItem dir interval title (fileName: String) =
+    let (s, e) = interval
+    let createdAt = fileName.[s..e]
+    let date = $"{createdAt.[0..3]}-{createdAt.[4..5]}-{createdAt.[6..7]}"
+    let file = fileName.Replace(".org", "")
+
+    $"""
+    <div class="stub">
+      <h2>
+        <a href="./{dir}/{file}.html"> {title} </a>
+      </h2>
+      <small>{date}</small>
+    </div>
+    """
+
+let createNote title fileName =
+    Shared.createItem "notes" (0, 13) title fileName
+
+let createPost title fileName =
+    Shared.createItem "blog" (0, 13) title fileName
+
 let posts =
-    let exclude = Set.empty |> Set.add "draft" |> Set.add "rss"
+    let exclude = Set.empty |> Set.add "rss.org"
 
     Directory.EnumerateFiles(postsDirectory)
     |> Seq.map System.IO.Path.GetFileName

@@ -21,7 +21,7 @@ jobs:
           lfs: true
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v30
+        uses: cachix/install-nix-action@v31
 
       - name: Cache Submodules
         id: cache-submodule
@@ -34,6 +34,7 @@ jobs:
       - name: Checkout git submodules
         if: steps.cache-submodule.outputs.cache-hit != 'true'
         uses: actions/checkout@v4
+        continue-on-error: true
         with:
           submodules: true
 
@@ -41,5 +42,6 @@ jobs:
         run: |
           mkdir -p "$HOME/.emacs.d/"
           touch "$HOME/.emacs.d/.org-id-locations"
+          nix develop .#ci -c just sync
           nix develop .#ci -c just build
 
