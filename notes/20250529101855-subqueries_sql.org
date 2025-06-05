@@ -1,0 +1,57 @@
+:PROPERTIES:
+:ID:       96701649-9ce6-44d3-99f6-0cb48c9ff477
+:END:
+#+title: Subqueries (SQL)
+
++ Subqueries are queries nested inside an ~SELECT~, ~INSERT~, ~DELETE~ or ~UPDATE~
+  statement that return a set.
++ Also know as "inner queries".
+
+* Subqueries as Expressions
+
+** Scalar Subquery
+Results in a single row.
+
+** Multi-Row Subquery
+Results in multiple rows, tipically used in the where clause with operators such
+as ~IN~, ~NOT~, ~EXISTS~, ~ANY~ and ~ALL~.
+
+*** Correlated Subquery
+A uncorrelated sub-query is a type of sub-query where the inner query doesn’t
+depend upon the outer query for its execution.
+
+#+begin_src sql
+  SELECT
+    foo,
+    (SELECT
+      AVG(...)
+     FROM B
+     WHERE B.foo = A.foo) AS bar
+  FROM A;
+#+end_src
+
+*** Uncorrelated Subquery
+A correlated sub-query is a type of query where the inner query depends upon the
+outcome of the outer query in order to perform its execution.
+
+#+begin_src sql
+  SELECT
+    foo,
+    (SELECT
+      AVG(...)
+     FROM B) AS bar
+  FROM A;
+#+end_src
+
+* Subqueries as Tables
+
+* Semi-Joins & Subquery Elimination
+
+#+begin_quote
+A semi-join between two tables R and S returns rows from table R for which there
+is at least one row from table S with matching values in the joining columns.
+
+[cite:@dombrovskaya2021postgresql p.138]
+#+end_quote
+
+

@@ -1,0 +1,119 @@
+:PROPERTIES:
+:ID:       c98f5468-7655-4cf9-a649-f89d7c894be8
+:END:
+#+title: JOIN (SQL)
+#+filetags: :databases: :sql:
+
+In [[id:11f7d9cc-51a6-4897-955b-37a756105677][SQL]] a ~JOIN~ is a way to produce a result set projecting information from two
+tables.
+
+* Types
+
+** Cross Join
+
++ Creates a Cartesian Product between two tables
+
+#+begin_src sql
+  SELECT <...>
+  FROM table1
+  CROSS JOIN table2
+  -- (...)
+
+  -- or via SQL 89, theta-style syntax,
+  -- however, this is discouraged.
+
+  SELECT <...>
+  FROM table1, table2
+  -- (...)
+#+end_src
+
+** Inner Join
+
++ Creates a result set that contains all combinations of a query filtering of
+  the *left* side with the matching rows of the *right* side.
+
+#+begin_src sql
+  SELECT <...>
+  FROM table1 t1
+  INNER JOIN table2 t2
+  ON t1.colM = t2.colN
+  -- (...)
+
+  -- Just like the CROSS JOIN example, you can also use the
+  -- theta-style syntax with a WHERE clause, but that's also
+  -- discouraged. Favor the ANSI SQL standard.
+
+  SELECT <...>
+  FROM table1, table2
+  WHERE t1.colM = t2.colN
+  -- (...)
+#+end_src
+
+** Natural Join
+
+** Outter Join
+
++ ~LEFT~
+
+#+begin_src sql
+  SELECT <...>
+  FROM table1 t1
+  LEFT JOIN table2 t2
+  ON t1.colM = t2.colN
+#+end_src
+
++ ~RIGHT~
+
+#+begin_src sql
+  SELECT <...>
+  FROM table1 t1
+  RIGHT JOIN table2 t2
+  ON t1.colM = t2.colN
+#+end_src
+
++ ~FULL~
+
+  Creates a result set based on a filter that uses both the left and right
+  sides, no matter if matches exist.
+
+#+begin_src sql
+  SELECT <...>
+  FROM table1 t1
+  FULL JOIN table2 t2
+  ON t1.colM = t2.colN
+#+end_src
+
+** Lateral Join
+
+#+begin_quote
+A lateral join is a type of join in SQL that allows you to join a table with a
+subquery, where the subquery is run for each row of the main table.
+[cite:@ferrari2023postgres p.129]
+#+end_quote
+
++ i.e. ~LATERAL JOIN~ allows a subquery to cross reference rolls from outter queries
+  (a ~FROM~ clause) while joining the subquery and the outer query result sets.
+
+#+begin_src sql
+#+end_src
+
+* Useful Keywords
+
+** ~USING~
+
+#+begin_quote
+The ~USING~ clause is a shorthand that allows you to take advantage of the
+specific situation where both sides of the join use the same name for the
+joining column(s). It takes a comma-separated list of the shared column names
+and forms a join condition that includes an equality comparison for each
+one. For example, joining ~T1~ and ~T2~ with ~USING (a, b)~ produces the join
+condition ~ON T1.a = T2.a AND T1.b = T2.b~.
+#+end_quote
+
+* JOIN Algorithms
+
+** Nested Loops
+
+** Hash Join
+
+** Merge Join

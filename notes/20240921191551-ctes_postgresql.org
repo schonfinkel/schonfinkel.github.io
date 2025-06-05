@@ -2,7 +2,72 @@
 :ID:       36f5efb2-34da-4d67-8c37-bbd5429d7b55
 :END:
 #+title: CTE (PostgreSQL)
-#+filetags: :postgresql:
+#+filetags: :postgresql: :sql:
 
-- [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]]
+#+begin_quote
+A ~CTE~, or a common table expression, is a temporary result taken from a [[id:11f7d9cc-51a6-4897-955b-37a756105677][SQL]]
+statement. This statement can contain ~SELECT~, ~INSERT~, ~UPDATE~, or ~DELETE~
+instructions. The lifetime of a ~CTE~ is equal to the lifetime of the query.
+
+[cite:@ferrari2023postgres p.145]
+#+end_quote
+
+* CTEs in PostgreSQL 12+
+
+#+begin_quote
+Starting from [[id:1949c98e-e1c0-474b-b383-c76aa418d583][PostgreSQL]] version 12, things have changed, and two new options
+have been introduced for the execution of a CTE, namely ~MATERIALIZED~ and ~NOT
+MATERIALIZED~.
+
+[cite:@ferrari2023postgres p.146]
+#+end_quote
+
+** Recursive
+
+#+BEGIN_COMMENT
+A recursive CTE is a special construct that allows an auxiliary statement to
+reference itself and, therefore, join itself onto previously computed
+results. This is particularly useful when we need to join a table an unknown
+number of times, typically to "explode" a flat tree structure. The traditional
+solution would involve some kind of iteration, probably by means of a cursor
+that iterates one tuple at a time over the whole resultset. However, with
+recursive CTEs, we can use a much cleaner and simpler approach. A recursive CTE
+is made by an auxiliary statement that is built on top of the following:
+
++ A non-recursive statement, which works as a bootstrap statement and is
+executed when the auxiliary term is first evaluated.
+
++ A recursive statement, which can either reference the bootstrap statement or
+itself
+
+[cite:@ferrari2023postgres p.150]
+#+END_COMMENT
+
+#+begin_src sql
+  WITH RECURSIVE fib AS (
+    SELECT 
+      0 as level,
+      0 as n,
+      1 as m
+    UNION ALL
+    SELECT
+      level + 1 as level,
+      m as n,
+      (n + m) as m
+    FROM fib WHERE n < 10
+  )
+  SELECT * FROM fib;
+  -- Outputs:
+   level | n  | m  
+  -------+----+----
+       0 |  0 |  1
+       1 |  1 |  1
+       2 |  1 |  2
+       3 |  2 |  3
+       4 |  3 |  5
+       5 |  5 |  8
+       6 |  8 | 13
+       7 | 13 | 21
+#+end_src
+
 
