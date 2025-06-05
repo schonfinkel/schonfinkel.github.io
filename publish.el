@@ -155,6 +155,7 @@
                            "leadership.bib"
                            "math_and_logic.bib"
                            "nixos.bib"
+                           "philosophy.bib"
                            "software_engineering.bib"
                            "sysadmin.bib"
                            "rfcs.bib"))

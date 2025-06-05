@@ -50,10 +50,10 @@ let createItem dir interval title (fileName: String) =
     """
 
 let createNote title fileName =
-    Shared.createItem "notes" (0, 13) title fileName
+    createItem "notes" (0, 13) title fileName
 
 let createPost title fileName =
-    Shared.createItem "blog" (0, 13) title fileName
+    createItem "blog" (0, 13) title fileName
 
 let posts =
     let exclude = Set.empty |> Set.add "rss.org"
