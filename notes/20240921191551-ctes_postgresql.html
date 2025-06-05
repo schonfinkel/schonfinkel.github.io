@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-05-20 Tue 00:33 -->
+<!-- 2025-06-05 Thu 13:32 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CTE (PostgreSQL)</title>
@@ -55,13 +55,70 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">CTE (PostgreSQL)</h1>
-</header><ul class="org-ul">
-<li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
-</ul>
-<div id="outline-container-org6d4181f" class="outline-2">
-<h2 id="org6d4181f">References:</h2>
-<div class="outline-text-2" id="text-org6d4181f">
+</header><blockquote>
+<p>
+A <code>CTE</code>, or a common table expression, is a temporary result taken from a <a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a>
+statement. This statement can contain <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>
+instructions. The lifetime of a <code>CTE</code> is equal to the lifetime of the query.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 145</a>)
+</p>
+</blockquote>
+<div id="outline-container-org93e8f2a" class="outline-2">
+<h2 id="org93e8f2a">CTEs in PostgreSQL 12+</h2>
+<div class="outline-text-2" id="text-org93e8f2a">
+<blockquote>
+<p>
+Starting from <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> version 12, things have changed, and two new options
+have been introduced for the execution of a CTE, namely <code>MATERIALIZED</code> and <code>NOT
+MATERIALIZED</code>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 146</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org86489e0" class="outline-3">
+<h3 id="org86489e0">Recursive</h3>
+<div class="outline-text-3" id="text-org86489e0">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">WITH</span> <span style="font-weight: bold;">RECURSIVE</span> fib <span style="font-weight: bold;">AS</span> (
+    <span style="font-weight: bold;">SELECT</span> 
+      0 <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">level</span>,
+      0 <span style="font-weight: bold;">as</span> n,
+      1 <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">m</span>
+    <span style="font-weight: bold;">UNION</span> <span style="font-weight: bold;">ALL</span>
+    <span style="font-weight: bold;">SELECT</span>
+      <span style="font-weight: bold;">level</span> + 1 <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">level</span>,
+      <span style="font-weight: bold;">m</span> <span style="font-weight: bold;">as</span> n,
+      (n + <span style="font-weight: bold;">m</span>) <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">m</span>
+    <span style="font-weight: bold;">FROM</span> fib <span style="font-weight: bold;">WHERE</span> n &lt; 10
+  )
+  <span style="font-weight: bold;">SELECT</span> * <span style="font-weight: bold;">FROM</span> fib;
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:</span>
+   <span style="font-weight: bold;">level</span> | n  | <span style="font-weight: bold;">m</span>  
+  <span style="font-weight: bold; font-style: italic;">-------</span><span style="font-weight: bold; font-style: italic;">+----+----</span>
+       0 |  0 |  1
+       1 |  1 |  1
+       2 |  1 |  2
+       3 |  2 |  3
+       4 |  3 |  5
+       5 |  5 |  8
+       6 |  8 | 13
+       7 | 13 | 21
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org86f432b" class="outline-2">
+<h2 id="org86f432b">References:</h2>
+<div class="outline-text-2" id="text-org86f432b">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>

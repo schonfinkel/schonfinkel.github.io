@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-06-05 Thu 13:32 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Subqueries (SQL)</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Subqueries (SQL)</h1>
+</header><ul class="org-ul">
+<li>Subqueries are queries nested inside an <code>SELECT</code>, <code>INSERT</code>, <code>DELETE</code> or <code>UPDATE</code>
+statement that return a set.</li>
+<li>Also know as "inner queries".</li>
+</ul>
+<div id="outline-container-org51bad5a" class="outline-2">
+<h2 id="org51bad5a">Subqueries as Expressions</h2>
+<div class="outline-text-2" id="text-org51bad5a">
+</div>
+<div id="outline-container-org02fd27c" class="outline-3">
+<h3 id="org02fd27c">Scalar Subquery</h3>
+<div class="outline-text-3" id="text-org02fd27c">
+<p>
+Results in a single row.
+</p>
+</div>
+</div>
+<div id="outline-container-org646f868" class="outline-3">
+<h3 id="org646f868">Multi-Row Subquery</h3>
+<div class="outline-text-3" id="text-org646f868">
+<p>
+Results in multiple rows, tipically used in the where clause with operators such
+as <code>IN</code>, <code>NOT</code>, <code>EXISTS</code>, <code>ANY</code> and <code>ALL</code>.
+</p>
+</div>
+<div id="outline-container-orgc5ef3fe" class="outline-4">
+<h4 id="orgc5ef3fe">Correlated Subquery</h4>
+<div class="outline-text-4" id="text-orgc5ef3fe">
+<p>
+A uncorrelated sub-query is a type of sub-query where the inner query doesn’t
+depend upon the outer query for its execution.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    foo,
+    (<span style="font-weight: bold;">SELECT</span>
+      <span style="font-weight: bold;">AVG</span>(...)
+     <span style="font-weight: bold;">FROM</span> B
+     <span style="font-weight: bold;">WHERE</span> B.foo = A.foo) <span style="font-weight: bold;">AS</span> bar
+  <span style="font-weight: bold;">FROM</span> A;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5e31a3a" class="outline-4">
+<h4 id="org5e31a3a">Uncorrelated Subquery</h4>
+<div class="outline-text-4" id="text-org5e31a3a">
+<p>
+A correlated sub-query is a type of query where the inner query depends upon the
+outcome of the outer query in order to perform its execution.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    foo,
+    (<span style="font-weight: bold;">SELECT</span>
+      <span style="font-weight: bold;">AVG</span>(...)
+     <span style="font-weight: bold;">FROM</span> B) <span style="font-weight: bold;">AS</span> bar
+  <span style="font-weight: bold;">FROM</span> A;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3af6efb" class="outline-2">
+<h2 id="org3af6efb">Subqueries as Tables</h2>
+</div>
+
+<div id="outline-container-orgf5a5a28" class="outline-2">
+<h2 id="orgf5a5a28">Semi-Joins &amp; Subquery Elimination</h2>
+<div class="outline-text-2" id="text-orgf5a5a28">
+<blockquote>
+<p>
+A semi-join between two tables R and S returns rows from table R for which there
+is at least one row from table S with matching values in the joining columns.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Dombrovskaya, Novikov, and Bailliekova 2021, 138</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org1d08ba5" class="outline-2">
+<h2 id="org1d08ba5">References:</h2>
+<div class="outline-text-2" id="text-org1d08ba5">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Dombrovskaya, Henrietta, Boris Novikov, and Anna Bailliekova. 2021. <i>Postgresql Query Optimization</i>. Springer.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

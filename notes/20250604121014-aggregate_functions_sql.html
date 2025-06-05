@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-06-05 Thu 13:32 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aggregate Functions (SQL)</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Aggregate Functions (SQL)</h1>
+</header><ul class="org-ul">
+<li><a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a></li>
+</ul>
+<div id="outline-container-orge2269ba" class="outline-2">
+<h2 id="orge2269ba"><code>GROUP BY</code></h2>
+<div class="outline-text-2" id="text-orge2269ba">
+<blockquote>
+<p>
+Aggregate functions are used in conjunction with the group by clause. A group by
+clause splits a resultset into groups of rows and aggregate functions perform
+calculations on them. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 131</a>)
+</p>
+</blockquote>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Function</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>AVG()</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>COUNT()</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>MAX()</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>MIN()</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>SUM()</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ARRAY_AGG</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>JSON_AGG</code> or <code>JSONB_AGG</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BOOL_AND(Predicate)</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BOOL_OR(Predicate)</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category;
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:</span>
+   category | <span style="font-weight: bold;">count</span>
+  <span style="font-weight: bold; font-style: italic;">----------</span><span style="font-weight: bold; font-style: italic;">+-------</span>
+          3 | 1
+          1 | 2
+</pre>
+</div>
+
+<p>
+You can also filter the result of a <code>GROUP BY</code> by using <code>HAVING</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category
+  <span style="font-weight: bold;">HAVING</span> <span style="font-weight: bold;">COUNT</span>(*) &gt; 1;
+</pre>
+</div>
+
+<p>
+and also pack multiple aggregations in a single <code>SELECT</code> statement:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+    category,
+    <span style="font-weight: bold;">COUNT</span>(*),
+    <span style="font-weight: bold;">COUNT</span>(*) FILTER (<span style="font-weight: bold;">WHERE</span> replies &gt; 2) <span style="font-weight: bold;">as</span> number_of_replies
+  <span style="font-weight: bold;">FROM</span> posts
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category
+  <span style="font-weight: bold;">HAVING</span> <span style="font-weight: bold;">COUNT</span>(*) &gt; 1;
+</pre>
+</div>
+</div>
+<div id="outline-container-org8f2e228" class="outline-3">
+<h3 id="org8f2e228"><code>GROUPING SETS</code>, <code>CUBE</code>, and <code>ROLLUP</code></h3>
+<div class="outline-text-3" id="text-org8f2e228">
+<blockquote>
+<p>
+More complex grouping operations than those described above are possible using
+the concept of grouping sets. The data selected by the <code>FROM</code> and <code>WHERE</code> clauses is
+grouped separately by each specified grouping set, aggregates computed for each
+group just as for simple GROUP BY clauses, and then the results returned.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc61caf1" class="outline-2">
+<h2 id="orgc61caf1">References:</h2>
+<div class="outline-text-2" id="text-orgc61caf1">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

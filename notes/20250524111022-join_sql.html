@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-06-05 Thu 13:32 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JOIN (SQL)</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">JOIN (SQL)</h1>
+</header><p>
+In <a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a> a <code>JOIN</code> is a way to produce a result set projecting information from two
+tables.
+</p>
+<div id="outline-container-orgae5b905" class="outline-2">
+<h2 id="orgae5b905">Types</h2>
+<div class="outline-text-2" id="text-orgae5b905">
+</div>
+<div id="outline-container-org667b41d" class="outline-3">
+<h3 id="org667b41d">Cross Join</h3>
+<div class="outline-text-3" id="text-org667b41d">
+<ul class="org-ul">
+<li>Creates a Cartesian Product between two tables</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
+  <span style="font-weight: bold;">FROM</span> table1
+  <span style="font-weight: bold;">CROSS</span> <span style="font-weight: bold;">JOIN</span> table2
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">or via SQL 89, theta-style syntax,</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">however, this is discouraged.</span>
+
+  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
+  <span style="font-weight: bold;">FROM</span> table1, table2
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org57394dc" class="outline-3">
+<h3 id="org57394dc">Inner Join</h3>
+<div class="outline-text-3" id="text-org57394dc">
+<ul class="org-ul">
+<li>Creates a result set that contains all combinations of a query filtering of
+the <b>left</b> side with the matching rows of the <b>right</b> side.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
+  <span style="font-weight: bold;">FROM</span> table1 t1
+  <span style="font-weight: bold;">INNER</span> <span style="font-weight: bold;">JOIN</span> table2 t2
+  <span style="font-weight: bold;">ON</span> t1.colM = t2.colN
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Just like the CROSS JOIN example, you can also use the</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">theta-style syntax with a WHERE clause, but that's also</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">discouraged. Favor the ANSI SQL standard.</span>
+
+  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
+  <span style="font-weight: bold;">FROM</span> table1, table2
+  <span style="font-weight: bold;">WHERE</span> t1.colM = t2.colN
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1cd5e16" class="outline-3">
+<h3 id="org1cd5e16">Natural Join</h3>
+</div>
+
+<div id="outline-container-org6197d12" class="outline-3">
+<h3 id="org6197d12">Outter Join</h3>
+<div class="outline-text-3" id="text-org6197d12">
+<ul class="org-ul">
+<li><code>LEFT</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
+  <span style="font-weight: bold;">FROM</span> table1 t1
+  <span style="font-weight: bold;">LEFT</span> <span style="font-weight: bold;">JOIN</span> table2 t2
+  <span style="font-weight: bold;">ON</span> t1.colM = t2.colN
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>RIGHT</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
+  <span style="font-weight: bold;">FROM</span> table1 t1
+  <span style="font-weight: bold;">RIGHT</span> <span style="font-weight: bold;">JOIN</span> table2 t2
+  <span style="font-weight: bold;">ON</span> t1.colM = t2.colN
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><p>
+<code>FULL</code>
+</p>
+
+<p>
+Creates a result set based on a filter that uses both the left and right
+sides, no matter if matches exist.
+</p></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
+  <span style="font-weight: bold;">FROM</span> table1 t1
+  <span style="font-weight: bold;">FULL</span> <span style="font-weight: bold;">JOIN</span> table2 t2
+  <span style="font-weight: bold;">ON</span> t1.colM = t2.colN
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org847e1e2" class="outline-3">
+<h3 id="org847e1e2">Lateral Join</h3>
+<div class="outline-text-3" id="text-org847e1e2">
+<blockquote>
+<p>
+A lateral join is a type of join in SQL that allows you to join a table with a
+subquery, where the subquery is run for each row of the main table.
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 129</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>i.e. <code>LATERAL JOIN</code> allows a subquery to cross reference rolls from outter queries
+(a <code>FROM</code> clause) while joining the subquery and the outer query result sets.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orga92e09e" class="outline-2">
+<h2 id="orga92e09e">Useful Keywords</h2>
+<div class="outline-text-2" id="text-orga92e09e">
+</div>
+<div id="outline-container-org3303dc9" class="outline-3">
+<h3 id="org3303dc9"><code>USING</code></h3>
+<div class="outline-text-3" id="text-org3303dc9">
+<blockquote>
+<p>
+The <code>USING</code> clause is a shorthand that allows you to take advantage of the
+specific situation where both sides of the join use the same name for the
+joining column(s). It takes a comma-separated list of the shared column names
+and forms a join condition that includes an equality comparison for each
+one. For example, joining <code>T1</code> and <code>T2</code> with <code>USING (a, b)</code> produces the join
+condition <code>ON T1.a = T2.a AND T1.b = T2.b</code>.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc2b8fe8" class="outline-2">
+<h2 id="orgc2b8fe8">JOIN Algorithms</h2>
+<div class="outline-text-2" id="text-orgc2b8fe8">
+</div>
+<div id="outline-container-orgb41c40e" class="outline-3">
+<h3 id="orgb41c40e">Nested Loops</h3>
+</div>
+
+<div id="outline-container-org460fcb2" class="outline-3">
+<h3 id="org460fcb2">Hash Join</h3>
+</div>
+
+<div id="outline-container-orgb59fa04" class="outline-3">
+<h3 id="orgb59fa04">Merge Join</h3>
+</div>
+</div>
+<div id="outline-container-orgb1a6729" class="outline-2">
+<h2 id="orgb1a6729">References:</h2>
+<div class="outline-text-2" id="text-orgb1a6729">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>
