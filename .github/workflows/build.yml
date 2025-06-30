@@ -23,6 +23,8 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v31
 
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
       - name: Cache Submodules
         id: cache-submodule
         uses: actions/cache@v4

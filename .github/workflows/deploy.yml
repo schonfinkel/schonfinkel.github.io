@@ -19,7 +19,9 @@ jobs:
           lfs: true
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v30
+        uses: cachix/install-nix-action@v31
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Cache Submodules
         id: cache-submodule
