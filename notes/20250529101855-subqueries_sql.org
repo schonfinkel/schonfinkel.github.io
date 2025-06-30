@@ -3,9 +3,133 @@
 :END:
 #+title: Subqueries (SQL)
 
++ [[id:11f7d9cc-51a6-4897-955b-37a756105677][SQL]]
 + Subqueries are queries nested inside an ~SELECT~, ~INSERT~, ~DELETE~ or ~UPDATE~
   statement that return a set.
 + Also know as "inner queries".
++ Can also be inclused in a [[id:c98f5468-7655-4cf9-a649-f89d7c894be8][JOIN (SQL)]], ~FROM~, ~WHERE~, ~HAVING~, etc.
+
+* Semi-Joins & Subquery Elimination
+
+#+begin_quote
+A semi-join between two tables R and S returns rows from table R for which there
+is at least one row from table S with matching values in the joining columns.
+
+[cite:@dombrovskaya2021postgresql p.138]
+#+end_quote
+
++ Perfect for use-cases that benefit from short-circuits.
+
+* Conditions
+
+** ~IN~ / ~NOT IN~
+
+#+begin_src sql
+  SELECT *
+  FROM <tbl>
+  WHERE <col> IN (A, B, ..., N);
+
+  -- Some RDBMSs also support multi-columns
+
+  SELECT *
+  FROM <tbl>
+  WHERE (<col1>, <col2>) IN (...);
+#+end_src
+
++ Used inside a ~WHERE~ clause instead of to avoid using multiple ~OR~ conditions.
++ The ~IN~ predicate evaluates to ~NULL~ if either the expression is ~NULL~ or the
+  subquery returns ~NULL~.
+
+  #+begin_src sql
+    -- To illustrate better, imagine that
+    EXPRESSION IN (VALUE [, ...])
+
+    -- Can be seem as...
+    EXPRESSION = VALUE1
+    OR
+    EXPRESSION = VALUE2
+    OR
+    ...
+
+    -- Which returns NULL, since NULL V (...) = NULL
+  #+end_src
+
++ ~NOT IN~ doesn't play nice if the subquery returns ~NULL~, the predicate will
+  return ~FALSE~ in this situation.
+
+  #+begin_src sql
+    -- To illustrate better, imagine that
+    EXPRESSION NOT IN (VALUE [, ...])
+
+    -- Can be seem as...
+    EXPRESSION <> VALUE1
+    AND
+    EXPRESSION <> VALUE2
+    AND
+    ...
+  #+end_src
+
+** ~EXISTS~ / ~NOT EXISTS~
+
++ ~EXISTS (subquery)~ evaluates and determines wheter the ~subquery~ produces a
+  result (*at least one* result is enough to make the predicate return ~TRUE~, thus
+  making it a Semi-Join).
++ Can reference variables from the outter query.
+
+#+begin_src sql
+  SELECT *
+  FROM <tbl>
+  WHERE <col> IN (A, B, ..., N);
+#+end_src
+
+** ~ANY~ / ~SOME~
+
+#+begin_src sql
+  EXPRESSION OPERATOR ANY (ARRAY EXPRESSION)
+  EXPRESSION OPERATOR SOME (ARRAY EXPRESSION)
+#+end_src
+
++ ~ANY~ / ~SOME~ compares an expression (*left*) with the right side (which must yield
+  an ~ARRAY~) using an boolean operator.
++ ~ANY~ is ~TRUE~ if some true result is obtained. It is considered ~FALSE~ otherwise
+  (including if the ~ARRAY~ has zero elements).
++ ~ANY~ is considered ~FALSE~ if no subquery returns ~TRUE~.
+
+  #+begin_src sql
+    SELECT *
+    FROM <tbl>
+    WHERE <col> IN (A, B, ..., N);
+  #+end_src
+
+#+begin_quote
+If the array expression yields a null array, the result of ANY will be null. If
+the left-hand expression yields null, the result of ANY is ordinarily null
+(though a non-strict comparison operator could possibly yield a different
+result). Also, if the right-hand array contains any null elements and no true
+comparison result is obtained, the result of ANY will be null, not false (again,
+assuming a strict comparison operator). This is in accordance with SQL's normal
+rules for Boolean combinations of null values.
+#+end_quote
+
+** ~ALL~
+
+#+begin_src sql
+  EXPRESSION OPERATOR ALL (ARRAY EXPRESSION)
+#+end_src
+
++ ~ALL~ is ~TRUE~ if all the subquery comparisons are equal or if the subquery
+  returns no rows.
++ ~ALL~ is ~FALSE~ if at least comparisson fails.
+
+#+begin_quote
+If the array expression yields a null array, the result of ALL will be null. If
+the left-hand expression yields null, the result of ALL is ordinarily null
+(though a non-strict comparison operator could possibly yield a different
+result). Also, if the right-hand array contains any null elements and no false
+comparison result is obtained, the result of ALL will be null, not true (again,
+assuming a strict comparison operator). This is in accordance with SQL's normal
+rules for Boolean combinations of null values.
+#+end_quote
 
 * Subqueries as Expressions
 
@@ -44,14 +168,3 @@ outcome of the outer query in order to perform its execution.
 #+end_src
 
 * Subqueries as Tables
-
-* Semi-Joins & Subquery Elimination
-
-#+begin_quote
-A semi-join between two tables R and S returns rows from table R for which there
-is at least one row from table S with matching values in the joining columns.
-
-[cite:@dombrovskaya2021postgresql p.138]
-#+end_quote
-
-
