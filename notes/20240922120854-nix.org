@@ -5,4 +5,12 @@
 #+HUGO_CATEGORIES: "Functional Programming"
 #+HUGO_TAGS: "Nix"
 
+* CLI
+
+** Get the new SHA of a random url
+
+#+begin_src 
+nix hash convert --hash-algo sha256 $(nix-prefetch-url --unpack $url)
+#+end_src
+
 #+print_bibliography: 
