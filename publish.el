@@ -153,11 +153,14 @@
                            "fp_general.bib"
                            "haskell.bib"
                            "leadership.bib"
+                           "literature.bib"
+                           "logic_programming.bib"
                            "math_and_logic.bib"
                            "nixos.bib"
                            "philosophy.bib"
                            "software_engineering.bib"
                            "sysadmin.bib"
+                           "systems_programming.bib"
                            "rfcs.bib"))
 (setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
 (setq org-cite-global-bibliography org-cite-refs-path)

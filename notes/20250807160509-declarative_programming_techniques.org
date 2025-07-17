@@ -1,0 +1,79 @@
+:PROPERTIES:
+:ID:       3e6c95f1-5bb6-4bf0-a53d-9f6be6dbd83a
+:END:
+#+title: Declarative Programming Techniques
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :math: :oz:
+
+#+begin_quote
+Declarative programming is important because of two properties:
+
++ Declarative programs are compositional. A declarative program consists of
+  components that can each be written, tested, and proved correct independently
+  of other components and of its own past history (previous calls).
+
++ Reasoning about declarative programs is simple. Programs written in the
+  declarative model are easier to reason about than programs written in more
+  expressive models. Since declarative programs compute only values, simple
+  algebraic and logical reasoning techniques can be used.
+
+[cite:@van2004concepts p.111 chap.3]
+#+end_quote
+
+* Definitions
+
+** Component
+
+#+begin_quote
+Let us define a component as a precisely delimited program fragment with
+well-defined inputs and outputs. A component can be defined in terms of a set of
+simpler components. For example, in the declarative model a procedure is one
+kind of component. The application program is the topmost component in a
+hierarchy of components. The hierarchy bottoms out in primitive components which
+are provided by the system.
+
+[cite:@van2004concepts p.112 chap.3]
+#+end_quote
+
+** Recursive Function Definitions
+
+#+begin_quote
+The basic technique for writing declarative programs is to consider the program
+as a set of recursive function definitions, using higher-order programming to
+simplify the program structure. A recursive function is one whose definition
+body refers to the function itself, either directly or indirectly. Direct
+recursion means that the function itself is used in the body. Indirect recursion
+means that the function refers to another function that directly or indirectly
+refers to the original function.
+
+[cite:@van2004concepts p.113 chap.3]
+#+end_quote
+
+** Higher-Order Programming
+
+#+begin_quote
+Higher-order programming means that functions can have other functions as
+arguments and results.
+
+[cite:@van2004concepts p.113 chap.3]
+#+end_quote
+
+* What is Declarativeness?
+
+** A Classification of Declarative Programming
+
+The first level of classification is based on the expressiveness.
+
++ A Descriptive Declarativeness: The least expressive.
++ A Programmable Declarativeness: As expressive as a [[id:53dde63e-e7d5-4125-8dbf-b85f4e5fcee0][Turing Machine]]. there are
+  two fundamentally different ways to view this category.
+
+  * A Definiotional View:
+    - Declarative Model
+    - [[id:171718cd-10fd-484b-8d77-0ffcffc29163][Functional Programming]]
+    - [[id:1a477871-5172-46c1-af5e-461de148ebf0][Logic Programming]]
+
+  * An Observational View:
+  
+** Specification Languages

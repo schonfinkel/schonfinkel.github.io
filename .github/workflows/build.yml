@@ -40,10 +40,14 @@ jobs:
         with:
           submodules: true
 
+      # Update references
+      - name: Git Submodule Update
+        run: |
+          git submodule update --remote --recursive
+
       - name: Build website
         run: |
           mkdir -p "$HOME/.emacs.d/"
           touch "$HOME/.emacs.d/.org-id-locations"
-          nix develop .#ci -c just sync
           nix develop .#ci -c just build
 

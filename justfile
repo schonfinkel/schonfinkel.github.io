@@ -14,7 +14,7 @@ default:
 
 # Syncs all submodules
 sync:
-    git submodule update --init
+    git submodule update --remote --recursive
 
 # Generate the Markdown files
 build: clean
@@ -32,14 +32,6 @@ graph:
 # publish
 publish: graph build
 
-# Removes org backups
-remove-org:
-    #!/usr/bin/env bash
-    find . -iname "#*.org#" | xargs rm -f
-    find . -iname "*~undo-tree~" | xargs rm -f
-    echo "Finished!"
-
 # Cleans the current environment
-clean: remove-org
-    rm -f .#content.org
+clean: 
     rm -rf public

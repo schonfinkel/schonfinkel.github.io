@@ -1,0 +1,282 @@
+:PROPERTIES:
+:ID:       6c1bb387-5786-4046-aa91-3815dce1d26c
+:END:
+#+title: Build Systems à la Carte
+#+filetags: :build-systems: :functional-programming: :haskell:
+
+* Introduction
+
+#+begin_quote
+In this paper we offer a general framework in which to understand and compare
+build systems, in a way that is both abstract (omitting incidental detail) and
+yet precise (implemented as [[id:a74d6aac-dbe9-48a6-83ca-648cd6ea933e][Haskell]] code). [cite:@mokhov2018build p.1 pt.1]
+#+end_quote
+
+Build systems vary on many axes, including:
+
+  * Minimality :: A build system is *minimal* if it executes tasks at most once
+    per build and only if they transitively depend on inputs that changed since
+    the previous build.
+  * Static vs Dynamic Dependencies :: Dependencies of a task depend on the
+    values of other dependencies.
+
+#+begin_src c
+  #ifdef LINUX
+  #include "linux.h"
+  #endif
+#+end_src
+
+  * Local vs Cloud :: Save repeating work by sharing build results among all
+    developers.
+  * Deterministic vs Non-Deterministic Build Tasks ::
+  * Support for Early Cutoff :: Stop when nothing changes.
+  * Self-Tracking Build Systems ::
+
+#+begin_quote
+We identify two key design choices that are typically deeply wired into any
+build system: *the order in which tasks are built* and *whether or not a task is
+(re-)built*. These choices turn out to be orthogonal, which leads us to a new
+classification of the design space.
+
+[cite:@mokhov2018build p.1 pt.1]
+#+end_quote
+
+* Background
+
+#+begin_quote
+Build systems automate the execution of repeatable tasks for individual users
+and large organisations. In this section we explore the design space of build
+systems, using four concrete examples:
+
++ [[id:47293346-4628-4d4a-9e55-421a98e3c341][Make]] 
++ [[id:12788e50-c2aa-4b59-9b06-a99a1b97bf58][Shake]]
++ Bazel
++ Excel
+
+We have carefully chosen these four to illustrate the various axes on which build systems differ; we
+discuss many other notable examples of build systems, and their relationships (...).
+
+[cite:@mokhov2018build p.2 pt.2]
+#+end_quote
+
+** Make: Static Dependencies and File Modification Times
+
+#+begin_src makefile
+util.o: util.h util.c
+	gcc -c util.c
+main.o: util.h main.c
+	gcc -c main.c
+main.exe: util.o main.o
+	gcc util.o main.o -o main.exe
+#+end_src
+
+#+begin_quote
+To achieve minimality Make relies on two main ideas:
+
++ It uses file modification times to detect which files changed
++ It constructs a task dependency graph from the information contained in the
+  makefile and executes tasks in a topological order.
+
+[cite:@mokhov2018build p.3 pt.2.1]
+#+end_quote
+
+** Excel: Dynamic Dependencies at the Cost of Minimality
+
+** Shake: Dynamic Dependencies with No Remorse
+
++ Developed to solve the issue of dynamic dependencies without sacrificing the
+  minimality requirement.
++ Also supports the *early cutoff optimisation*. When it executes a task and the
+  result is unchanged from the previous build, it is unnecessary to execute the
+  dependent tasks.
+
+#+begin_quote
+Shake's implementation is different from both Make and Excel in two
+aspects. First, it uses the dependency graph from the previous build to decide
+which files need to be rebuilt. This idea has a long history, going back to
+incremental [Demers et al. 1981], adaptive [Acar et al. 2002], and
+self-adjusting computations (see [Acar et al. 2007] and ğ7). Second, instead of
+aborting and deferring the execution of tasks whose newly discovered
+dependencies have not yet been built (as Excel does), Shake *suspends* their
+execution until the dependencies are brought up to date (...)
+
+[cite:@mokhov2018build p.5 pt.2.3]
+#+end_quote
+
+** Bazel: A Cloud Build System
+
++ As of the time of the article's writing, it is *not possible* to express *dynamic
+  dependencies* in *user-defined build rules*.
++ Bazel is also *not minimal* in the sense that it may require multiple restarts
+  for a single task.
++ It supports the *early cutoff optimisation*.
+
+#+begin_quote
+To support cloud builds, Bazel maintains:
+
++ A content-addressable cache that can be used to download a previously built
+  file given the hash of its content.
++ The history of all executed build commands annotated with observed file
+  hashes.
+
+The latter allows the build engine to bypass the execution of a task, by
+predicting the hash of the result from the hashes of its dependencies, and
+subsequently download the result from the cache.
+
+[cite:@mokhov2018build p.6 pt.2.4]
+#+end_quote
+  
+** Summary
+
+| Build System | Persistent Build Information | Scheduler   | Dependencies | Minimal | Early Cutoff | Cloud |
+|--------------+------------------------------+-------------+--------------+---------+--------------+-------|
+| Make         | File modification times      | Topological | Static       | Yes     | No           | No    |
+| Excel        | Dirty cells, calc chain      | Restarting  | Dynamic      | No      | No           | No    |
+| Shake        | Previous Dependency Graph    | Suspending  | Dynamic      | Yes     | Yes          | No    |
+| Bazel        | Cloud cache, command history | Restarting  | Dynamic<*>   | No      | Yes          | Yes   |
+
+* Build Systems, Abstractly
+
+** Common Vocabulary
+
+#+begin_quote
++ /Keys/, /Values/, and the /Store/ :: The goal of any build system is to bring up to
+  date a store that implements a mapping from keys to values. In software build
+  systems the store is the file system, the keys are filenames, and the values
+  are file contents.
+
++ /Input/, /Output/, and /Intermediate Values/ :: Some values must be provided by the
+  user as /input/. For example, main.c can be edited by the user who relies on the
+  build system to compile it into main.o and subsequently main.exe. End build
+  products, such as main.exe, are output values. All other values (in this case
+  main.o) are /intermediate/; they are not interesting for the user but are
+  produced in the process of turning /inputs/ into /outputs/.
+
++ /Persistent build information/ :: As well as the /Key/ / /Value/ mapping, the /Store/
+  also contains information maintained by the /Build System/ itself, which
+  persists from one invocation of the build system to the next - its "memory".
+
++ /Task description/ :: Any build system requires the user to specify how to
+  compute the new value for one key, using the (up to date) values of its
+  dependencies. We call this specification the task description. For example, in
+  Excel, the formulae of the spreadsheet constitute the task description; in
+  Make the rules in the makefile are the task description.
+
++ /Build system/ :: A build system takes a task description, a target key, and a
+  store, and returns a new store in which the target key and all its
+  dependencies have an up to date value.
+
+[cite:@mokhov2018build p.7 pt.3.1]
+#+end_quote
+
+|                          |                                                                         | Typical Build System | Excel             |
+|--------------------------+-------------------------------------------------------------------------+----------------------+-------------------|
+| Key(k)                   | Name of a thing                                                         | File Name            | Cell Adress       |
+| Value(v)                 | Value of the thing                                                      | File Contents        | Value of the Cell |
+| Store                    | Maps the Key to its Value                                               | File System          | Grid              |
+| Task (user specified)    | How to compute the new value of a key, given values of its dependencies | Build Rules          | Formulas          |
+| Dependencies (of a Task) | The keys whose values must be known before the task can be complete     |                      |                   |
+
+#+CAPTION[Short caption]: [cite:@mokhov2018build p.7 pt.3]
+#+begin_src haskell
+data Store i k v -- i = info, k = key, v = value
+
+initialise :: i -> (k -> v) -> Store i k v
+getInfo :: Store i k v -> i
+putInfo :: i -> Store i k v -> Store i k v
+getValue :: k -> Store i k v -> v
+putValue :: Eq k => k -> v -> Store i k v -> Store i k v
+
+data Hash v -- a compact summary of a value with a fast equality check
+
+hash :: Hashable v => v -> Hash v
+getHash :: Hashable v => k -> Store i k v -> Hash v
+
+-- Build tasks 
+newtype Task c k v = Task { run :: forall f. c f => (k -> f v) -> f v }
+type Tasks c k v = k -> Maybe (Task c k v)
+
+-- Build system
+type Build c i k v = Tasks c k v -> k -> Store i k v -> Store i k v
+
+-- Build system components: a scheduler and a rebuilder
+type Scheduler c i ir k v = Rebuilder c ir k v -> Build c i k v
+type Rebuilder c ir k v = k -> v -> Task c k v -> Task (MonadState ir) k v
+
+-- Applicative functors
+pure :: Applicative f => a -> f a
+(<$>) :: Functor f => (a -> b) -> f a -> f b -- Left-associative
+(<*>) :: Applicative f => f (a -> b) -> f a -> f b -- Left-associative
+
+-- Standard State monad from Control.Monad.State
+data State s a
+
+instance Monad (State s)
+get :: State s s
+gets :: (s -> a) -> State s a
+put :: s -> State s ()
+modify :: (s -> s) -> State s ()
+runState :: State s a -> s -> (a, s)
+execState :: State s a -> s -> s
+
+-- Standard types from Data.Functor.Identity and Data.Functor.Const
+newtype Identity a = Identity { runIdentity :: a }
+newtype Const m a = Const { getConst :: m }
+
+instance Functor (Const m) where
+  fmap _ (Const m) = Const m
+instance Monoid m => Applicative (Const m) where
+  pure _ = Const mempty -- mempty is the identity of the monoid m
+  Const x <*> Const y = Const (x <> y) -- <> is the binary operation of the monoid m
+#+end_src
+
+** The Task Abstraction
+
+#+CAPTION[Short caption]: [cite:@mokhov2018build p.8 pt.3.2]
+#+begin_src haskell
+  -- Build tasks 
+  newtype Task c k v = Task { run :: forall f. c f => (k -> f v) -> f v }
+  type Tasks c k v = k -> Maybe (Task c k v)
+#+end_src
+
+Here ~c~ stands for constraint, such as [[id:a70f0bfb-9796-47f1-b6c6-d9b4eca3c4ef][Applicative]]. A Task describes a single
+build task, while Tasks associates a Task to every non-input key; input keys are
+associated with Nothing. The highly-abstracted type Task describes how to build
+a value when given a way to build its dependencies, and is best explained by an
+example.
+
+** The Build Abstraction
+
+#+CAPTION[Short caption]: [cite:@mokhov2018build p.9 pt.3.3]
+#+begin_src haskell
+  -- Build system
+  type Build c i k v = Tasks c k v -> k -> Store i k v -> Store i k v
+#+end_src
+
+Given a task description, a target key, and a store, the build system returns a
+new store in which the value of the target key is up to date.
+
+** The Need for Polymorphism in Task
+
+#+CAPTION[Short caption]: [cite:@mokhov2018build p.10 pt.3.4]
+#+begin_src haskell
+  newtype Task c k v = Task { run :: forall f. c f => (k -> f v) -> f v }
+#+end_src
+
+
+** Extracting Static Dependencies
+
+** Classifying Tasks
+
+| c =                    | Description                                                  | Analog |
+|-------------------------+--------------------------------------------------------------+--------|
+| Functor                 | Tasks with exactly one static dependency                     | Docker |
+| Applicative             | Tasks with static dependencies                               | Make   |
+| Selective               | Tasks with conditional static dependencies                   | Dune   |
+| Monad                   | Tasks with dynamic dependencies                              | Shake  |
+| MonadPlus / MonadRandom | Tasks with non-determinism for example ~A1 = RANDBETWEEN(1,3)~ | Excel  |
+| MonadState              | Tasks with access to persistent information                  |        |
+
+
+
+

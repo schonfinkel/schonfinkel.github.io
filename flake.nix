@@ -162,6 +162,7 @@
                     DOTNET_ROOT = "${dotnet}";
                     DOTNET_CLI_TELEMETRY_OPTOUT = "1";
                     LANG = "en_US.UTF-8";
+                    # ORG_CV_PATH = builtins.storePath org-cv;
                     PLANTUML_PATH = "${pkgs.plantuml}";
                   };
 
