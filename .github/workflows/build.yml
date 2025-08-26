@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           lfs: true
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Checkout git submodules
         if: steps.cache-submodule.outputs.cache-hit != 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         continue-on-error: true
         with:
           submodules: true
