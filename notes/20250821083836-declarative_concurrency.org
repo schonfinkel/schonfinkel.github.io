@@ -1,0 +1,45 @@
+:PROPERTIES:
+:ID:       c5d0a6f9-f95d-439b-9756-9fb68a9546a9
+:END:
+#+title: Declarative Concurrency
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :math: :oz:
+
+
+#+begin_quote
+We will see that the deep reason why this form of concurrency is so simple is
+that programs have no observable nondeterminism.A program in the declarative
+concurrent model always has this property, if the program does not try to bind
+the same variable to incompatible values. (...) . Another way to say it is that
+there are no race conditions in a declarative concurrent program.  A race
+condition is just an observable nondeterministic behavior.
+
+[cite:@van2004concepts p.234 chap.4]
+#+end_quote
+
+* The Data-Driven Concurrent Model
+
+** Basic Concepts
+
+#+begin_quote
+Our approach to concurrency is a simple extension to the declarative model that
+allows more than one executing statement to reference the store. Roughly, all
+these statements are executing "at the same time".
+
+[cite:@van2004concepts p.236 chap.4 section.4.1.1]
+#+end_quote
+
+*** Total and Partial Orders
+
+#+begin_quote
+In a sequential program, all computation steps are totally ordered.There are no
+concurrent steps. In a concurrent program, all computation steps of a given
+thread are totally ordered. The computation steps of the whole program form a
+partial order. Two steps in this partial order are causally ordered if the first
+binds a dataflow variable X and the second needs the value of X.
+
+[cite:@van2004concepts p.238 chap.4 section.4.1.1]
+#+end_quote
+
+*** Non-Determinism

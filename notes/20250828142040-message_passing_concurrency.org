@@ -1,0 +1,242 @@
+:PROPERTIES:
+:ID:       c2a1839e-a9b4-457c-ab7a-fbfb90873a56
+:END:
+#+title: Message-Passing Concurrency
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :concurrency:
+
+#+begin_quote
+Message passing is a programming style in which a program consists of
+independent entities that interact by sending each other messages
+asynchronously, i.e., without waiting for a reply. This programming style was
+first studied by Carl Hewitt in the [[id:bde9d48a-1ba9-499d-848a-6fd32855d34f][Actor Model]].
+
+[cite:@van2004concepts p.346 chap.5]
+#+end_quote
+
+* The Message-Passing Concurrent Model
+
+#+begin_quote
+The message-passing concurrent model extends the declarative concurrent model by
+adding ports. (...). Ports are a kind of communication channel. Ports are no
+longer declarative since they allow *observable nondeterminism*: many threads can
+send a message on a port and their order is not determined. However, the part of
+the computation that does not use ports can still be declarative. This means
+that with care we can still use many of the reasoning techniques of the
+declarative concurrent model.
+
+[cite:@van2004concepts p.347 chap.5 part.5.1]
+#+end_quote
+
+** Ports
+
+A ~port~ is an asynchronous FIFO communication channel that supports two
+operations:
+
++ ~{New Port S P}~ that creates a new port ~P~ and a stream ~S~.
++ ~{Send P X}~ appends ~X~ to a stream corresponding to port ~P~.
+
+* Port Objects
+
+#+begin_quote
+A port object is a combination of one or more ports and a stream object. This
+extends stream objects in two ways. First, many-to-one communication is possible:
+many threads can reference a given port object and send to it independently. This is
+not possible with a stream object because it has to know where its next message will
+come from. Second, port objects can be embedded inside data structures (including
+messages). This is not possible with a stream object because it is referenced by a
+stream that can be extended by just one thread.
+
+[cite:@van2004concepts p.350 chap.5 part.5.2]
+#+end_quote
+
++ In the Message-Passing Model, a program consists of an evolving graph of port
+  objects sending/receiving messages.
++ Port objects can also be used to model [[id:d7efb05f-fb8f-438c-b09d-ea91dc24ebc3][Distributed Systems]]. Where a
+  distributed algorithm is just an algorithm on port objects.
+
+#+begin_src oz
+declare P1 P2 ... Pn in
+local S1 S2 ... Sn in
+  {NewPort S1 P1}
+  {NewPort S2 P2}
+  ...
+  {NewPort Sn Pn}
+  thread {RP S1 S2 ... Sn} end
+end
+#+end_src
+
+* Simple Message Protocols
+
+#+begin_quote
+Port objects work together by exchanging messages in coordinated ways. It is
+interesting to study what kinds of coordination are important. This leads us to
+deﬁne a protocol as a sequence of messages between two or more parties that can
+be understood at a higher level of abstraction than just its individual messages.
+
+[cite:@van2004concepts p.353 chap.5 part.5.3]
+#+end_quote
+
+** RMI (Remote Method Invocation)
+
++ Client sends a request for the server and then waits for reply.
+
+** Asynchronous RMI
+
++ Similar to RMI, but the client continues its execution after sending the
+  request.
+
+** RMI with Callback (Using a Thread)
+  
++ Like RMI, but the server calls the client in order to fullfill a request.
++ The server knows the client's reference because it's part of the message.
++ The client needs to create a new thread to wait for the server, to avoid deadlocks.
+
+** RMI with Callback (Using Record Continuation)
+
+#+begin_quote
+The solution of the previous example creates a new thread for each client
+call. This assumes that threads are inexpensive. How do we solve the problem if
+we are not allowed to create a new thread? The solution is for the client to
+pass a continuation to the server. After the server is done, it passes the
+continuation back to the client so that the client can continue. In that way,
+the client never waits and deadlock is avoided.
+
+[cite:@van2004concepts p.358 chap.5 part.5.3.4]
+#+end_quote
+
+#+begin_src oz
+% server side
+proc {ServerProc Msg}
+  case Msg
+  of calc(X Client Cont) then X1 D Y in
+    {Send Client delta(D)}
+    X1=X+D
+    Y=X1*X1+2.0*X1+2.0
+    {Send Client Cont#Y}
+  end
+end
+Server={NewPortObject2 ServerProc}
+
+% client side
+proc {ClientProc Msg}
+  case Msg
+  of work(?Z) then
+    {Send Server calc(10.0 Client cont(Z))}
+  [] cont(Z)#Y then
+    Z=Y+100.0
+  [] delta(?D) then
+    D=1.0
+  end
+end
+Client={NewPortObject2 ClientProc}
+{Browse {Send Client work($)}}
+#+end_src
+
+** RMI with Callback (Using Procedure Continuation)
+
++ Same as the previous method, but uses a procedure instead of a record.
+
+#+begin_src oz
+proc {ClientProc Msg}
+  case Msg
+  of work(?Z) then
+    C=proc {$ Y} Z=Y+100.0 end
+  in
+    {Send Server calc(10.0 Client cont(C))}
+  [] cont(C)#Y then
+    {C Y}
+  [] delta(?D) then
+    D=1.0
+  end
+end
+Client={NewPortObject2 ClientProc}
+{Browse {Send Client work($)}}
+#+end_src
+
+** Error Reporting
+
+** Asynchronous RMI with Callback
+
+* Program Design for Concurrency
+
+#+begin_quote
+To design a concurrent application, the ﬁrst step is to model it as a set of
+concurrent activities that interact in well-deﬁned ways. Each concurrent
+activity is modeled by exactly one concurrent component. A concurrent component
+is sometimes known as an "agent". Agents can be reactive (have no internal
+state) or have internal state.
+
+(...)
+
+In component-based programming, agents are usually considered as quite simple
+entities with little intelligence built in. In the artiﬁcial intelligence
+community, agents are usually considered as doing some kind of reasoning.
+
+[cite:@van2004concepts p.362 chap.5 part.5.4.1]
+#+end_quote
+
+** Concurrent Component
+
+#+begin_quote
+In this model, a concurrent component is a procedure with inputs and
+outputs. When invoked, the procedure creates a component instance, which is a
+port object. An input is a port whose stream is read by the component. An output
+is a port to which the component can send.
+
+[cite:@van2004concepts p.362 chap.5 part.5.4.1]
+#+end_quote
+
+** Interface
+
++ Concurrent Components interact with their environment via interfaces, which
+  consists as a set of inputs/outputs (collectivelly know as /wires/).
++ There are two basic kinds of wires:
+  * One-Shot
+  * Two-Shot
+
+** Basic Operations
+
++ /Instantiation/: Creates an instance of an component.
++ /Composition/: Builds a new component out of other components.
++ /Linking/: Combines component instances by connecting inputs/outputs (wires)
+  together.
++ /Restriction/: Restricts visibility of inputs or outputs.
+  
+** Design Methodology
+
+The following set ofdesign rules makes developing concurrent programs easier:
+
++ /Informal Specification/: Write down an informal (but realistically precise)
+  specification.
++ /Components/: Enumerate all the different forms of concurrent activity.
++ /Message Protocols/: Define what kinds of messages the components will
+  send and their protocols.
++ /State Diagrams/: For each concurrent entity, write its state diagram.
++ /Implement and Schedule/: Implement the system and pick a scheduling algorithm.
++ /Test and Iterate/: Until you get a satisfactory system.
+
+* Using the Message-Passing Model Directly
+
+** Port Objects that Share One Thread
+
+** A Thread Abstraction with Termination Detection
+
+** Eliminating Sequential Dependencies
+
+* The Erlang Language
+
+* Advanced Topics
+
+** The Nondeterministic Concurrent Model
+
+#+begin_quote
+The nondeterministic concurrent model is the model used by concurrent logic
+programming. It is sometimes called the process model of logic programming,
+since it models predicates as concurrent computations.
+
+[cite:@van2004concepts p.395 chap.5 part.5.8.1]
+#+end_quote
+
+** Limitation of the Declarative Concurrent Model

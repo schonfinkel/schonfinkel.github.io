@@ -10,7 +10,7 @@ network happily chatting with one another. Two fundamental features of Erlang
 make this possible:
     + Process communication by copying
     + Location Transparency
-[cite:@logan2010erlang p.191]
+[cite:@logan2010erlang p.191 chap.8 pt.8.1]
 #+end_quote
 
 #+NAME: distributed-erlang
@@ -75,8 +75,26 @@ To start an Erlang node in distributed mode, you run ~erl~ with one of the flags
 #+begin_quote
 Nodes with short names and long names work in different communication modes and
 can't be part of the same Erlang cluster. All connected nodes must use the same
-mode. [cite:@logan2010erlang p.194]
+mode. [cite:@logan2010erlang p.194 chap.8 pt.8.2.1]
 #+end_quote
+
+Now, to connect multiple nodes:
+
+#+begin_src shell
+  # shell #1
+  erl –name a
+
+  # shell #2
+  erl –name b
+
+  # On shell #1
+  > net_adm:ping('b@here.net')
+  > pong
+
+  # On shell #2
+  > nodes(). 
+  > ['a@here.net']
+#+end_src
 
 ** Naming and Communication
 
@@ -95,7 +113,7 @@ process on the remote host. [cite:@cesarini2016designing p.49]
 It's possible to connect clusters via special nodes to form a larger, not fully
 connected cluster. Such nodes are configured not to propagate information about
 other nodes, or even to be invisible to the other nodes, which can be useful for
-nonintrusive inspection of a cluster. [cite:@logan2010erlang p.195]
+nonintrusive inspection of a cluster. [cite:@logan2010erlang p.195 chap.8 pt.8.2.2]
 #+end_quote
 
 *** EPMD
@@ -110,7 +128,7 @@ TCP/IP on port 4369) and asks if it has a node by that name up and running. If
 so, the remote EPMD replies with the port used for communicating directly with
 the remote node. But EPMDs never try to locate each other
 automatically - communication must always be triggered by one node looking for
-another. [cite:@logan2010erlang p.197]
+another. [cite:@logan2010erlang p.197 chap.8 pt.8.2.3]
 #+end_quote
 
 ** The Cookie Protection System
@@ -122,5 +140,7 @@ For two distributed Erlang nodes to communicate, they must have the same magic c
   erl -setcookie <cookie>
 #+end_src
 3. The BIF ~erlang:set_cookie(node(), C)~ sets the cookie of the local node to the atom ~C~.
+
+** Sending messages between connected nodes
 
 * Socket-Based Distribution
