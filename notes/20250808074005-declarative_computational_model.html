@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-08-30 Sat 11:35 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Declarative Computational Model</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Declarative Computational Model</h1>
+</header><div id="outline-container-org5cbb22a" class="outline-2">
+<h2 id="org5cbb22a">Declarative Computation Model</h2>
+<div class="outline-text-2" id="text-org5cbb22a">
+</div>
+<div id="outline-container-orgbea62e0" class="outline-3">
+<h3 id="orgbea62e0">Language syntax</h3>
+<div class="outline-text-3" id="text-orgbea62e0">
+<blockquote>
+<p>
+The syntax of a language defines what are the legal programs, i.e., programs that
+can be successfully executed.At this stage we do not care what the programs are
+actually doing.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 31 chap.2 part.2.1.1</a>)
+</p>
+</blockquote>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Statement (Sentence)</th>
+<th scope="col" class="org-left">Token (Word)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Sequence of Tokens (Words)</td>
+<td class="org-left">Sequence of Characters (Letters)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="outline-container-org3df43c3" class="outline-4">
+<h4 id="org3df43c3">Context-free and context-sensitive grammars</h4>
+<div class="outline-text-4" id="text-org3df43c3">
+<blockquote>
+<p>
+For most practical programming languages, there is usually no context-free
+grammar that generates all legal programs and no others.For example, in many
+languages a variable has to be declared before it is used. This condition cannot
+be expressed in a context-free grammar because the nonterminal that uses the
+variable must only allow using already-declared variables. This is a context
+dependency. A grammar that contains a nonterminal whose use depends on the
+context where it is used is called a context-sensitive grammar.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 33 chap.2 part.2.1.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc076f68" class="outline-3">
+<h3 id="orgc076f68">Language Semantics</h3>
+<div class="outline-text-3" id="text-orgc076f68">
+</div>
+<div id="outline-container-orgf453de3" class="outline-4">
+<h4 id="orgf453de3">The Kernel Language Approach</h4>
+<div class="outline-text-4" id="text-orgf453de3">
+<blockquote>
+<p>
+In this approach, all language constructs are defined in terms of translations
+into a core language known as the kernel language. The kernel language approach
+consists of two parts:
+</p>
+
+<ul class="org-ul">
+<li>First, define a very simple language, called the kernel language. This
+language should be easy to reason in and be faithful to the space and time
+efficiency of the implementation. The kernel language and the data structures
+it manipulates together form the kernel computation model.</li>
+
+<li>Second, define a translation scheme from the full programming language to the
+kernel language.Each grammatical construct in the full language is translated
+into the kernel language. The translation should be as simple as
+possible. There are two kinds of translation, namely linguistic abstraction
+and syntactic sugar.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 37 chap.2 part.2.1.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org0a64be6" class="outline-4">
+<h4 id="org0a64be6">Formal Semantics</h4>
+<div class="outline-text-4" id="text-org0a64be6">
+<p>
+There are four widely used approaches to language semantics:
+</p>
+
+<ul class="org-ul">
+<li>Operational Semantics</li>
+<li>Axiomatic Semantices</li>
+<li>Denotational Semantics</li>
+<li>Logical Semantics</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdb3fc8e" class="outline-4">
+<h4 id="orgdb3fc8e">Linguistic Abstraction</h4>
+<div class="outline-text-4" id="text-orgdb3fc8e">
+<p>
+A "Liguistic Abstraction" is a way to extende a language's behaviour by building
+atop of its Kernel Language, by first:
+</p>
+
+<ol class="org-ol">
+<li>Defining a new grammatical construct.</li>
+<li>Define its translation into the kernel language.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org530d03e" class="outline-4">
+<h4 id="org530d03e">Other Translation Approaches</h4>
+</div>
+
+<div id="outline-container-org02b8e84" class="outline-4">
+<h4 id="org02b8e84">The Interpreter Approach</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org6a39f82" class="outline-2">
+<h2 id="org6a39f82">The Single-Assignment Store</h2>
+<div class="outline-text-2" id="text-org6a39f82">
+</div>
+<div id="outline-container-org41592cb" class="outline-3">
+<h3 id="org41592cb">Declarative Variables</h3>
+<div class="outline-text-3" id="text-org41592cb">
+<blockquote>
+<p>
+Once bound, a declarative variable stays bound throughout the computation and is
+indistinguishable from its value.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 42 chap.2 part.2.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org375d2e0" class="outline-3">
+<h3 id="org375d2e0">Value Store</h3>
+<div class="outline-text-3" id="text-org375d2e0">
+<blockquote>
+<p>
+A store where all variables are bound to values is called a value store.Another way
+to say this is that a value store is a persistent mapping from variables to values.A
+value is a mathematical constant.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 43 chap.2 part.2.2.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orga5dbe79" class="outline-3">
+<h3 id="orga5dbe79">Value Creation</h3>
+<div class="outline-text-3" id="text-orga5dbe79">
+<blockquote>
+<p>
+The basic operation on a store is binding a variable to a newly created value.We
+will write this as xi=value.Here xi refers directly to a variable in the store (it is
+not the variable’s textual name in a program!) and value refers to a value, e.g.,
+314 or [1 2 3].
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 44 chap.2 part.2.2.3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org4c35869" class="outline-3">
+<h3 id="org4c35869">Value Identifiers</h3>
+<div class="outline-text-3" id="text-org4c35869">
+<blockquote>
+<p>
+So far, we have looked at a store that contains variables and values, i.e., store
+entities, with which calculations can be done.It would be nice if we could refer to a
+store entity from outside the store.This is the role of variable identifiers.A variable
+identifier is a textual name that refers to a store entity from outside the store.The
+mapping from variable identifiers to store entities is called an environmen
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 44 chap.2 part.2.2.4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org810b732" class="outline-3">
+<h3 id="org810b732">Value Creation with Identifiers</h3>
+</div>
+
+<div id="outline-container-org02f92e1" class="outline-3">
+<h3 id="org02f92e1">Partial Value</h3>
+</div>
+
+<div id="outline-container-org7ef2db4" class="outline-3">
+<h3 id="org7ef2db4">Variable-Variable Binding</h3>
+</div>
+
+<div id="outline-container-org83e28d6" class="outline-3">
+<h3 id="org83e28d6">Dataflow Variables</h3>
+<div class="outline-text-3" id="text-org83e28d6">
+<blockquote>
+<p>
+Declarative variables that cause the program to wait until they are bound are
+called dataflow variables.The declarative model uses dataflow variables because
+they are tremendously useful in concurrent programming, i.e., for programs with
+activities that run independently.If we do two concurrent operations, say A=23 and
+B=A+1, then with the fifth case this will always run correctly and give the
+answer B = 24.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 48–49 chap.2 part.2.2.8</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb44cb4d" class="outline-2">
+<h2 id="orgb44cb4d">Kernel Language</h2>
+<div class="outline-text-2" id="text-orgb44cb4d">
+<blockquote>
+<p>
+The declarative model defines a simple kernel language.All programs in the model
+can be expressed in this language.We first define the kernel language syntax and
+semantics.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 49 chap.2 part.2.3</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orga5e01f7" class="outline-3">
+<h3 id="orga5e01f7">Syntax</h3>
+<div class="outline-text-3" id="text-orga5e01f7">
+</div>
+<div id="outline-container-org72bcd60" class="outline-4">
+<h4 id="org72bcd60">Statement Syntax</h4>
+</div>
+
+<div id="outline-container-org4e3866c" class="outline-4">
+<h4 id="org4e3866c">Value Syntax</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org7fcec71" class="outline-2">
+<h2 id="org7fcec71">Kernel language semantics</h2>
+<div class="outline-text-2" id="text-org7fcec71">
+</div>
+<div id="outline-container-orgf94945d" class="outline-3">
+<h3 id="orgf94945d">Basic Concepts</h3>
+</div>
+
+<div id="outline-container-orga2c97a6" class="outline-3">
+<h3 id="orga2c97a6">The Abstract Machine</h3>
+<div class="outline-text-3" id="text-orga2c97a6">
+<blockquote>
+<p>
+We define the semantics of the kernel language as an operational semantics, i.e.,
+it defines the meaning of the kernel language through its execution on an abstract
+machine.We first define the basic concepts of the abstract machine: environments,
+semantic statement, statement stack, execution state, and computation
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 60 chap.2 part.2.4.2</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgb718ad3" class="outline-4">
+<h4 id="orgb718ad3">Definitions</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org20a4941" class="outline-2">
+<h2 id="org20a4941">From Kernel Language to Practical Language</h2>
+</div>
+
+
+<div id="outline-container-org8edda52" class="outline-2">
+<h2 id="org8edda52">References:</h2>
+<div class="outline-text-2" id="text-org8edda52">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org59ac7ca" class="outline-2">
+<h2 id="org59ac7ca">Backlinks:</h2>
+<div class="outline-text-2" id="text-org59ac7ca">
+<ul class="org-ul">
+<li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

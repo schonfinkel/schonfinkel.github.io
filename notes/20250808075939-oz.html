@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-08-30 Sat 11:34 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oz</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Oz</h1>
+</header><div id="outline-container-orga6b5ead" class="outline-2">
+<h2 id="orga6b5ead">Introduction to Programming Concepts</h2>
+<div class="outline-text-2" id="text-orga6b5ead">
+</div>
+<div id="outline-container-org5f22476" class="outline-3">
+<h3 id="org5f22476">Variables</h3>
+<div class="outline-text-3" id="text-org5f22476">
+<blockquote>
+<p>
+The declare statement creates a new store variable and makes the variable
+identifier refer to it. Previous calculations using the same identifier are not
+changed because the identifier refers to another store variable.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 2 chap.1 part.1.2</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-oz">  declare
+  V=9999*9999
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org45615de" class="outline-3">
+<h3 id="org45615de">Functions</h3>
+<div class="outline-text-3" id="text-org45615de">
+<blockquote>
+<p>
+The declare statement creates the new variable Fact.The fun statement defines a
+function. The variable Fact is bound to the function.The function has one
+argument N, which is a local variable, i.e., it is known only inside the
+function body. Each time we call the function a new local variable is created.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 2–3 chap.1 part.1.3</a>)
+</p>
+</blockquote>
+
+
+<div class="org-src-container">
+<pre class="src src-oz">  declare
+  fun {Fact N}
+    if N==0 then 1 else N*{Fact N-1} end
+  end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga47a7c3" class="outline-3">
+<h3 id="orga47a7c3">Recursion</h3>
+<div class="outline-text-3" id="text-orga47a7c3">
+</div>
+<div id="outline-container-orgfdab9df" class="outline-4">
+<h4 id="orgfdab9df">Combinations</h4>
+<div class="outline-text-4" id="text-orgfdab9df">
+<div class="org-src-container">
+<pre class="src src-oz">  declare
+  fun {Comb N K}
+    {Fact N} div ({Fact K}*{Fact N-K})
+  end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc0ec778" class="outline-3">
+<h3 id="orgc0ec778">Lists</h3>
+<div class="outline-text-3" id="text-orgc0ec778">
+</div>
+<div id="outline-container-org049d82b" class="outline-4">
+<h4 id="org049d82b">Pattern Matching</h4>
+<div class="outline-text-4" id="text-org049d82b">
+<div class="org-src-container">
+<pre class="src src-oz">declare
+L=[5 6 7 8]
+case L of H|T then {Browse H} {Browse T} end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcbd8c2d" class="outline-3">
+<h3 id="orgcbd8c2d">Functions over Lists</h3>
+</div>
+
+<div id="outline-container-org237fa05" class="outline-3">
+<h3 id="org237fa05">Correctness</h3>
+<div class="outline-text-3" id="text-org237fa05">
+<blockquote>
+<p>
+To prove correctness in general, we have to reason about the program. This means
+three things:
+</p>
+
+<ul class="org-ul">
+<li>We need a mathematical model of the operations of the programming language,
+defining what they should do.This model is called the language’s semantics.</li>
+<li>We need to define what we would like the program to do.Usually, this is a
+mathematical definition of the inputs that the program needs and the output
+that it calculates. This is called the program’s specification.</li>
+<li>We use mathematical techniques to reason about the program, using the
+semantics. We would like to demonstrate that the program satisfies the
+specification.</li>
+</ul>
+
+<p>
+A program that is proved correct can still give incorrect results, if the system
+on which it runs is incorrectly implemented.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 9 chap.1 part.1.6</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orge768a71" class="outline-3">
+<h3 id="orge768a71">Complexity</h3>
+</div>
+
+
+<div id="outline-container-org90bbfbc" class="outline-3">
+<h3 id="org90bbfbc">Lazy Evaluation</h3>
+<div class="outline-text-3" id="text-org90bbfbc">
+<div class="org-src-container">
+<pre class="src src-oz">  fun lazy {Ints N}
+    N|{Ints N+1}
+  end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb4c9440" class="outline-3">
+<h3 id="orgb4c9440">Higher-Order Programming</h3>
+</div>
+
+<div id="outline-container-org8d5b5d0" class="outline-3">
+<h3 id="org8d5b5d0">Concurrency</h3>
+<div class="outline-text-3" id="text-org8d5b5d0">
+<div class="org-src-container">
+<pre class="src src-oz">  thread P in
+    P={Pascal 30}
+    {Browse P}
+  end
+  {Browse 99*99}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org49836d3" class="outline-3">
+<h3 id="org49836d3">Dataflow</h3>
+<div class="outline-text-3" id="text-org49836d3">
+<blockquote>
+<p>
+What happens if an operation tries to use a variable that is not yet bound? From
+a purely aesthetic point of view, it would be nice if the operation would simply
+wait. Perhaps some other thread will bind the variable, and then the operation
+can continue.This civilized behavior is known as dataflow.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+Adding threads and delays to a program can radically change a program’s
+appearance. But as long as the same operations are invoked with the same
+arguments, it does not change the program’s results at all. This is the key
+property of dataflow concurrency.This is why dataflow concurrency gives most of
+the advantages of concurrency without the complexities that are usually
+associated with it.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 15–16.1 part.1.11</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-oz">declare X in
+thread {Delay 10000} X=99 end
+{Browse start} {Browse X*X}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8eb23ad" class="outline-3">
+<h3 id="org8eb23ad">Explicit state</h3>
+<div class="outline-text-3" id="text-org8eb23ad">
+</div>
+<div id="outline-container-orgcfe5813" class="outline-4">
+<h4 id="orgcfe5813">Memory Cell</h4>
+<div class="outline-text-4" id="text-orgcfe5813">
+<blockquote>
+<p>
+There are lots of ways to define explicit state.The simplest way is to define a
+single memory cell. This is a kind of box in which you can put any content. Many
+programming languages call this a "variable". We call it a "cell" to avoid
+confusion with the variables we used before, which are more like mathematical
+variables, i.e., just shortcuts for values.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 16–17 chap.1 part.1.12</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-oz">declare
+C={NewCell 0}
+C:=@C+1
+{Browse @C}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org05a5691" class="outline-3">
+<h3 id="org05a5691">Object</h3>
+<div class="outline-text-3" id="text-org05a5691">
+<div class="org-src-container">
+<pre class="src src-oz">declare
+local C in
+  C={NewCell 0}
+  fun {Bump}
+    C:=@C+1
+    @C
+  end
+  fun {Read}
+    @C
+  end
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3f0e678" class="outline-3">
+<h3 id="org3f0e678">Classes</h3>
+<div class="outline-text-3" id="text-org3f0e678">
+<div class="org-src-container">
+<pre class="src src-oz">declare
+fun {NewCounter}
+  C Bump Read in
+  C={NewCell 0}
+
+  fun {Bump}
+    C:=@C+1
+    @C
+  end
+
+  fun {Read}
+    @C
+  end
+
+  counter(bump:Bump read:Read)
+end
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga1b857d" class="outline-3">
+<h3 id="orga1b857d">Atomicity</h3>
+<div class="outline-text-3" id="text-orga1b857d">
+<div class="org-src-container">
+<pre class="src src-oz">declare
+C={NewCell 0}
+L={NewLock}
+
+thread
+  lock L then I in
+    I=@C
+    C:=I+1
+  end
+end
+
+thread
+  lock L then J in
+    J=@C
+    C:=J+1
+  end
+end
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org9105391" class="outline-2">
+<h2 id="org9105391">References:</h2>
+<div class="outline-text-2" id="text-org9105391">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf8f409c" class="outline-2">
+<h2 id="orgf8f409c">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgf8f409c">
+<ul class="org-ul">
+<li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

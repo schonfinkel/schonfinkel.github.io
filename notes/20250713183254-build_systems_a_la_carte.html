@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-08-30 Sat 11:35 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Build Systems à la Carte</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Build Systems à la Carte</h1>
+</header><div id="outline-container-org321d0cf" class="outline-2">
+<h2 id="org321d0cf">Introduction</h2>
+<div class="outline-text-2" id="text-org321d0cf">
+<blockquote>
+<p>
+In this paper we offer a general framework in which to understand and compare
+build systems, in a way that is both abstract (omitting incidental detail) and
+yet precise (implemented as <a href="20241008121957-haskell.html#ID-a74d6aac-dbe9-48a6-83ca-648cd6ea933e">Haskell</a> code). (<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 1 pt.1</a>)
+</p>
+</blockquote>
+
+<p>
+Build systems vary on many axes, including:
+</p>
+
+<dl class="org-dl">
+<dt>Minimality</dt><dd>A build system is <b>minimal</b> if it executes tasks at most once
+per build and only if they transitively depend on inputs that changed since
+the previous build.</dd>
+<dt>Static vs Dynamic Dependencies</dt><dd>Dependencies of a task depend on the
+values of other dependencies.</dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="font-weight: bold;">  #ifdef</span> LINUX
+<span style="font-weight: bold;">  #include</span> <span style="font-style: italic;">"linux.h"</span>
+<span style="font-weight: bold;">  #endif</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Local vs Cloud</dt><dd>Save repeating work by sharing build results among all
+developers.</dd>
+<dt>Deterministic vs Non-Deterministic Build Tasks</dt><dd></dd>
+
+<dt>Support for Early Cutoff</dt><dd>Stop when nothing changes.</dd>
+<dt>Self-Tracking Build Systems</dt><dd></dd>
+</dl>
+
+<blockquote>
+<p>
+We identify two key design choices that are typically deeply wired into any
+build system: <b>the order in which tasks are built</b> and <b>whether or not a task is
+(re-)built</b>. These choices turn out to be orthogonal, which leads us to a new
+classification of the design space.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 1 pt.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org2ce41cb" class="outline-2">
+<h2 id="org2ce41cb">Background</h2>
+<div class="outline-text-2" id="text-org2ce41cb">
+<blockquote>
+<p>
+Build systems automate the execution of repeatable tasks for individual users
+and large organisations. In this section we explore the design space of build
+systems, using four concrete examples:
+</p>
+
+<ul class="org-ul">
+<li><a href="20250717214844-make.html#ID-47293346-4628-4d4a-9e55-421a98e3c341">Make</a></li>
+<li><a href="20250717214945-shake.html#ID-12788e50-c2aa-4b59-9b06-a99a1b97bf58">Shake</a></li>
+<li>Bazel</li>
+<li>Excel</li>
+</ul>
+
+<p>
+We have carefully chosen these four to illustrate the various axes on which build systems differ; we
+discuss many other notable examples of build systems, and their relationships (&#x2026;).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 2 pt.2</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orge6a0023" class="outline-3">
+<h3 id="orge6a0023">Make: Static Dependencies and File Modification Times</h3>
+<div class="outline-text-3" id="text-orge6a0023">
+<div class="org-src-container">
+<pre class="src src-makefile"><span style="font-weight: bold;">util.o</span>: util.h util.c
+        gcc -c util.c
+<span style="font-weight: bold;">main.o</span>: util.h main.c
+        gcc -c main.c
+<span style="font-weight: bold;">main.exe</span>: util.o main.o
+        gcc util.o main.o -o main.exe
+</pre>
+</div>
+
+<blockquote>
+<p>
+To achieve minimality Make relies on two main ideas:
+</p>
+
+<ul class="org-ul">
+<li>It uses file modification times to detect which files changed</li>
+<li>It constructs a task dependency graph from the information contained in the
+makefile and executes tasks in a topological order.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 3 pt.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org567984d" class="outline-3">
+<h3 id="org567984d">Excel: Dynamic Dependencies at the Cost of Minimality</h3>
+</div>
+
+<div id="outline-container-orgc3b4992" class="outline-3">
+<h3 id="orgc3b4992">Shake: Dynamic Dependencies with No Remorse</h3>
+<div class="outline-text-3" id="text-orgc3b4992">
+<ul class="org-ul">
+<li>Developed to solve the issue of dynamic dependencies without sacrificing the
+minimality requirement.</li>
+<li>Also supports the <b>early cutoff optimisation</b>. When it executes a task and the
+result is unchanged from the previous build, it is unnecessary to execute the
+dependent tasks.</li>
+</ul>
+
+<blockquote>
+<p>
+Shake's implementation is different from both Make and Excel in two
+aspects. First, it uses the dependency graph from the previous build to decide
+which files need to be rebuilt. This idea has a long history, going back to
+incremental [Demers et al. 1981], adaptive [Acar et al. 2002], and
+self-adjusting computations (see [Acar et al. 2007] and ğ7). Second, instead of
+aborting and deferring the execution of tasks whose newly discovered
+dependencies have not yet been built (as Excel does), Shake <b>suspends</b> their
+execution until the dependencies are brought up to date (&#x2026;)
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 5 pt.2.3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org989c13c" class="outline-3">
+<h3 id="org989c13c">Bazel: A Cloud Build System</h3>
+<div class="outline-text-3" id="text-org989c13c">
+<ul class="org-ul">
+<li>As of the time of the article's writing, it is <b>not possible</b> to express <b>dynamic
+dependencies</b> in <b>user-defined build rules</b>.</li>
+<li>Bazel is also <b>not minimal</b> in the sense that it may require multiple restarts
+for a single task.</li>
+<li>It supports the <b>early cutoff optimisation</b>.</li>
+</ul>
+
+<blockquote>
+<p>
+To support cloud builds, Bazel maintains:
+</p>
+
+<ul class="org-ul">
+<li>A content-addressable cache that can be used to download a previously built
+file given the hash of its content.</li>
+<li>The history of all executed build commands annotated with observed file
+hashes.</li>
+</ul>
+
+<p>
+The latter allows the build engine to bypass the execution of a task, by
+predicting the hash of the result from the hashes of its dependencies, and
+subsequently download the result from the cache.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 6 pt.2.4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org10dc8ed" class="outline-3">
+<h3 id="org10dc8ed">Summary</h3>
+<div class="outline-text-3" id="text-org10dc8ed">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Build System</th>
+<th scope="col" class="org-left">Persistent Build Information</th>
+<th scope="col" class="org-left">Scheduler</th>
+<th scope="col" class="org-left">Dependencies</th>
+<th scope="col" class="org-left">Minimal</th>
+<th scope="col" class="org-left">Early Cutoff</th>
+<th scope="col" class="org-left">Cloud</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Make</td>
+<td class="org-left">File modification times</td>
+<td class="org-left">Topological</td>
+<td class="org-left">Static</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">Excel</td>
+<td class="org-left">Dirty cells, calc chain</td>
+<td class="org-left">Restarting</td>
+<td class="org-left">Dynamic</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">Shake</td>
+<td class="org-left">Previous Dependency Graph</td>
+<td class="org-left">Suspending</td>
+<td class="org-left">Dynamic</td>
+<td class="org-left">Yes</td>
+<td class="org-left">Yes</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">Bazel</td>
+<td class="org-left">Cloud cache, command history</td>
+<td class="org-left">Restarting</td>
+<td class="org-left">Dynamic&lt;*&gt;</td>
+<td class="org-left">No</td>
+<td class="org-left">Yes</td>
+<td class="org-left">Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-orgea04bdc" class="outline-2">
+<h2 id="orgea04bdc">Build Systems, Abstractly</h2>
+<div class="outline-text-2" id="text-orgea04bdc">
+</div>
+<div id="outline-container-org60e9a97" class="outline-3">
+<h3 id="org60e9a97">Common Vocabulary</h3>
+<div class="outline-text-3" id="text-org60e9a97">
+<blockquote>
+<dl class="org-dl">
+<dt><i>Keys</i>, <i>Values</i>, and the <i>Store</i></dt><dd>The goal of any build system is to bring up to
+date a store that implements a mapping from keys to values. In software build
+systems the store is the file system, the keys are filenames, and the values
+are file contents.</dd>
+
+<dt><i>Input</i>, <i>Output</i>, and <i>Intermediate Values</i></dt><dd>Some values must be provided by the
+user as <i>input</i>. For example, main.c can be edited by the user who relies on the
+build system to compile it into main.o and subsequently main.exe. End build
+products, such as main.exe, are output values. All other values (in this case
+main.o) are <i>intermediate</i>; they are not interesting for the user but are
+produced in the process of turning <i>inputs</i> into <i>outputs</i>.</dd>
+
+<dt><i>Persistent build information</i></dt><dd>As well as the <i>Key</i> / <i>Value</i> mapping, the <i>Store</i>
+also contains information maintained by the <i>Build System</i> itself, which
+persists from one invocation of the build system to the next - its "memory".</dd>
+
+<dt><i>Task description</i></dt><dd>Any build system requires the user to specify how to
+compute the new value for one key, using the (up to date) values of its
+dependencies. We call this specification the task description. For example, in
+Excel, the formulae of the spreadsheet constitute the task description; in
+Make the rules in the makefile are the task description.</dd>
+
+<dt><i>Build system</i></dt><dd>A build system takes a task description, a target key, and a
+store, and returns a new store in which the target key and all its
+dependencies have an up to date value.</dd>
+</dl>
+
+<p>
+(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 7 pt.3.1</a>)
+</p>
+</blockquote>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">Typical Build System</th>
+<th scope="col" class="org-left">Excel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Key(k)</td>
+<td class="org-left">Name of a thing</td>
+<td class="org-left">File Name</td>
+<td class="org-left">Cell Adress</td>
+</tr>
+
+<tr>
+<td class="org-left">Value(v)</td>
+<td class="org-left">Value of the thing</td>
+<td class="org-left">File Contents</td>
+<td class="org-left">Value of the Cell</td>
+</tr>
+
+<tr>
+<td class="org-left">Store</td>
+<td class="org-left">Maps the Key to its Value</td>
+<td class="org-left">File System</td>
+<td class="org-left">Grid</td>
+</tr>
+
+<tr>
+<td class="org-left">Task (user specified)</td>
+<td class="org-left">How to compute the new value of a key, given values of its dependencies</td>
+<td class="org-left">Build Rules</td>
+<td class="org-left">Formulas</td>
+</tr>
+
+<tr>
+<td class="org-left">Dependencies (of a Task)</td>
+<td class="org-left">The keys whose values must be known before the task can be complete</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 7 pt.3</a>)</label><pre class="src src-haskell">data Store i k v -- i = info, k = key, v = value
+
+initialise :: i -&gt; (k -&gt; v) -&gt; Store i k v
+getInfo :: Store i k v -&gt; i
+putInfo :: i -&gt; Store i k v -&gt; Store i k v
+getValue :: k -&gt; Store i k v -&gt; v
+putValue :: Eq k =&gt; k -&gt; v -&gt; Store i k v -&gt; Store i k v
+
+data Hash v -- a compact summary of a value with a fast equality check
+
+hash :: Hashable v =&gt; v -&gt; Hash v
+getHash :: Hashable v =&gt; k -&gt; Store i k v -&gt; Hash v
+
+-- Build tasks 
+newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
+type Tasks c k v = k -&gt; Maybe (Task c k v)
+
+-- Build system
+type Build c i k v = Tasks c k v -&gt; k -&gt; Store i k v -&gt; Store i k v
+
+-- Build system components: a scheduler and a rebuilder
+type Scheduler c i ir k v = Rebuilder c ir k v -&gt; Build c i k v
+type Rebuilder c ir k v = k -&gt; v -&gt; Task c k v -&gt; Task (MonadState ir) k v
+
+-- Applicative functors
+pure :: Applicative f =&gt; a -&gt; f a
+(&lt;$&gt;) :: Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b -- Left-associative
+(&lt;*&gt;) :: Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b -- Left-associative
+
+-- Standard State monad from Control.Monad.State
+data State s a
+
+instance Monad (State s)
+get :: State s s
+gets :: (s -&gt; a) -&gt; State s a
+put :: s -&gt; State s ()
+modify :: (s -&gt; s) -&gt; State s ()
+runState :: State s a -&gt; s -&gt; (a, s)
+execState :: State s a -&gt; s -&gt; s
+
+-- Standard types from Data.Functor.Identity and Data.Functor.Const
+newtype Identity a = Identity { runIdentity :: a }
+newtype Const m a = Const { getConst :: m }
+
+instance Functor (Const m) where
+  fmap _ (Const m) = Const m
+instance Monoid m =&gt; Applicative (Const m) where
+  pure _ = Const mempty -- mempty is the identity of the monoid m
+  Const x &lt;*&gt; Const y = Const (x &lt;&gt; y) -- &lt;&gt; is the binary operation of the monoid m
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc0c0020" class="outline-3">
+<h3 id="orgc0c0020">The Task Abstraction</h3>
+<div class="outline-text-3" id="text-orgc0c0020">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 8 pt.3.2</a>)</label><pre class="src src-haskell">  -- Build tasks 
+  newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
+  type Tasks c k v = k -&gt; Maybe (Task c k v)
+</pre>
+</div>
+
+<p>
+Here <code>c</code> stands for constraint, such as <a href="20250717220716-applicative.html#ID-a70f0bfb-9796-47f1-b6c6-d9b4eca3c4ef">Applicative</a>. A Task describes a single
+build task, while Tasks associates a Task to every non-input key; input keys are
+associated with Nothing. The highly-abstracted type Task describes how to build
+a value when given a way to build its dependencies, and is best explained by an
+example.
+</p>
+</div>
+</div>
+<div id="outline-container-org622bedf" class="outline-3">
+<h3 id="org622bedf">The Build Abstraction</h3>
+<div class="outline-text-3" id="text-org622bedf">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 9 pt.3.3</a>)</label><pre class="src src-haskell">  -- Build system
+  type Build c i k v = Tasks c k v -&gt; k -&gt; Store i k v -&gt; Store i k v
+</pre>
+</div>
+
+<p>
+Given a task description, a target key, and a store, the build system returns a
+new store in which the value of the target key is up to date.
+</p>
+</div>
+</div>
+<div id="outline-container-org9d9693e" class="outline-3">
+<h3 id="org9d9693e">The Need for Polymorphism in Task</h3>
+<div class="outline-text-3" id="text-org9d9693e">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 4: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 10 pt.3.4</a>)</label><pre class="src src-haskell">  newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc0b30e5" class="outline-3">
+<h3 id="orgc0b30e5">Extracting Static Dependencies</h3>
+</div>
+
+<div id="outline-container-orgf735c6d" class="outline-3">
+<h3 id="orgf735c6d">Classifying Tasks</h3>
+<div class="outline-text-3" id="text-orgf735c6d">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">c =</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Analog</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Functor</td>
+<td class="org-left">Tasks with exactly one static dependency</td>
+<td class="org-left">Docker</td>
+</tr>
+
+<tr>
+<td class="org-left">Applicative</td>
+<td class="org-left">Tasks with static dependencies</td>
+<td class="org-left">Make</td>
+</tr>
+
+<tr>
+<td class="org-left">Selective</td>
+<td class="org-left">Tasks with conditional static dependencies</td>
+<td class="org-left">Dune</td>
+</tr>
+
+<tr>
+<td class="org-left">Monad</td>
+<td class="org-left">Tasks with dynamic dependencies</td>
+<td class="org-left">Shake</td>
+</tr>
+
+<tr>
+<td class="org-left">MonadPlus / MonadRandom</td>
+<td class="org-left">Tasks with non-determinism for example <code>A1 = RANDBETWEEN(1,3)</code></td>
+<td class="org-left">Excel</td>
+</tr>
+
+<tr>
+<td class="org-left">MonadState</td>
+<td class="org-left">Tasks with access to persistent information</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf047aeb" class="outline-2">
+<h2 id="orgf047aeb">References:</h2>
+<div class="outline-text-2" id="text-orgf047aeb">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Mokhov, Andrey, Neil Mitchell, and Simon Peyton Jones. 2018. “Build Systems À La Carte.” <i>Proceedings of the Acm on Programming Languages</i> 2 (ICFP): 1–29.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>
