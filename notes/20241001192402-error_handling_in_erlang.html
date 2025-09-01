@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-08-30 Sat 11:35 -->
+<!-- 2025-09-01 Mon 10:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Error Handling in Erlang</title>
@@ -73,9 +73,9 @@ The part that corrects errors is often generic, so the same error-correcting
 code can be used for many different applications. (<a href="#citeproc_bib_item_1">Armstrong 2013, 201</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgf0079f6" class="outline-2">
-<h2 id="orgf0079f6">Process Types</h2>
-<div class="outline-text-2" id="text-orgf0079f6">
+<div id="outline-container-orgfb9255a" class="outline-2">
+<h2 id="orgfb9255a">Process Types</h2>
+<div class="outline-text-2" id="text-orgfb9255a">
 <p>
 There are two types of processes: <b>normal processes</b> and <b>system processes</b>. <code>spawn</code>
 (see <a href="20240930224229-concurrent_erlang.html#ID-63607e63-4428-4578-bf2a-12a49649b49c">Concurrent Erlang</a>) creates a normal process. A normal process can become a
@@ -137,16 +137,16 @@ Reason is the reason it has terminated. (<a href="#citeproc_bib_item_2">Cesarini
 </tbody>
 </table>
 </div>
-<div id="outline-container-org879714e" class="outline-3">
-<h3 id="org879714e">Propagation Semantics</h3>
-<div class="outline-text-3" id="text-org879714e">
+<div id="outline-container-org26db65f" class="outline-3">
+<h3 id="org26db65f">Propagation Semantics</h3>
+<div class="outline-text-3" id="text-org26db65f">
 <ul class="org-ul">
 <li>Processes can trap <code>exit</code> signals by calling the BIF <code>process_flag(trap_exit, true)</code>.</li>
 <li>Once trapped, the errors are saved in the mailbox.</li>
 </ul>
 
 
-<figure id="org55d3f21">
+<figure id="org5e9279d">
 <img src="../static/img/notes/erlang_error_trapping.png" alt="erlang_error_trapping.png">
 
 </figure>
@@ -157,9 +157,9 @@ Reason is the reason it has terminated. (<a href="#citeproc_bib_item_2">Cesarini
 </div>
 </div>
 </div>
-<div id="outline-container-org6e0eed4" class="outline-2">
-<h2 id="org6e0eed4">Link</h2>
-<div class="outline-text-2" id="text-org6e0eed4">
+<div id="outline-container-orgdd7a722" class="outline-2">
+<h2 id="orgdd7a722">Link</h2>
+<div class="outline-text-2" id="text-orgdd7a722">
 <p>
 Linking processes can be thought as an extension of the error handling presented
 when dealing with <a href="20240924122449-sequential_erlang.html#ID-f0da3356-3797-4ddc-8306-cd333f159754">Sequential Erlang</a>. We can, if necessary, catch exceptions
@@ -202,28 +202,28 @@ will do so atomically.</li>
 </ul>
 
 
-<figure id="orgf43db39">
+<figure id="orga06653e">
 <img src="../static/img/notes/erlang_process_link.png" alt="erlang_process_link.png">
 
 </figure>
 </div>
-<div id="outline-container-orgd4c74de" class="outline-3">
-<h3 id="orgd4c74de">Link Set</h3>
-<div class="outline-text-3" id="text-orgd4c74de">
+<div id="outline-container-org18c4d48" class="outline-3">
+<h3 id="org18c4d48">Link Set</h3>
+<div class="outline-text-3" id="text-org18c4d48">
 <p>
 The link set of a process <code>P</code> is the set of processes that are linked to <code>P</code>.
 </p>
 
 
-<figure id="orge5ae4e6">
+<figure id="orgcbad5fb">
 <img src="../static/img/notes/erlang_link_set.png" alt="erlang_link_set.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orge186d17" class="outline-3">
-<h3 id="orge186d17">Groups of Processes That All Die Together</h3>
-<div class="outline-text-3" id="text-orge186d17">
+<div id="outline-container-org3a57a37" class="outline-3">
+<h3 id="org3a57a37">Groups of Processes That All Die Together</h3>
+<div class="outline-text-3" id="text-org3a57a37">
 <p>
 In the previous example, if a single process from the Link Set fails, all the
 processes from the Set also fail in cascate. Ultimately, the error signals
@@ -232,7 +232,7 @@ dies.
 </p>
 
 
-<figure id="org883e450">
+<figure id="org4b686e1">
 <img src="../static/img/notes/erlang_link_set_cascade.png" alt="erlang_link_set_cascade.png">
 
 </figure>
@@ -246,9 +246,9 @@ are linked to it in the form of a tuple. The tuple contains the atom <code>EXIT<
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org49ebef7" class="outline-3">
-<h3 id="org49ebef7">Exit Signals</h3>
-<div class="outline-text-3" id="text-org49ebef7">
+<div id="outline-container-orgd24431d" class="outline-3">
+<h3 id="orgd24431d">Exit Signals</h3>
+<div class="outline-text-3" id="text-orgd24431d">
 <ul class="org-ul">
 <li>A process termination can be <b>normal</b> or <b>abnormal</b>.
 <ul class="org-ul">
@@ -300,16 +300,16 @@ exit signal will contain the following information:
 </ul>
 
 
-<figure id="orgb66c8f2">
+<figure id="orge8f00f6">
 <img src="../static/img/notes/erlang_error_exit_signals.png" alt="erlang_error_exit_signals.png">
 
 </figure>
 </div>
 </div>
 </div>
-<div id="outline-container-org7f64a74" class="outline-2">
-<h2 id="org7f64a74">Monitors</h2>
-<div class="outline-text-2" id="text-org7f64a74">
+<div id="outline-container-orgaac59f5" class="outline-2">
+<h2 id="orgaac59f5">Monitors</h2>
+<div class="outline-text-2" id="text-orgaac59f5">
 <p>
 Monitors are similar to links but with several significant differences.
 </p>
@@ -321,7 +321,7 @@ Monitors are similar to links but with several significant differences.
 </ul>
 
 
-<figure id="org6633ba9">
+<figure id="org83946c0">
 <img src="../static/img/notes/erlang_monitor.png" alt="erlang_monitor.png">
 
 </figure>
@@ -334,15 +334,15 @@ to the monitoring process.</li>
 </ul>
 
 
-<figure id="org82e2d37">
+<figure id="org6b2d9dd">
 <img src="../static/img/notes/erlang_monitor_error.png" alt="erlang_monitor_error.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orgc984764" class="outline-2">
-<h2 id="orgc984764">References:</h2>
-<div class="outline-text-2" id="text-orgc984764">
+<div id="outline-container-org11a336d" class="outline-2">
+<h2 id="org11a336d">References:</h2>
+<div class="outline-text-2" id="text-org11a336d">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>

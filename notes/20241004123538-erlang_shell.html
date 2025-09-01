@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-08-30 Sat 11:35 -->
+<!-- 2025-09-01 Mon 10:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Erlang Shell</title>
@@ -58,13 +58,13 @@
 </header><p>
 Some features of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> shell.
 </p>
-<div id="outline-container-orgfb72a75" class="outline-2">
-<h2 id="orgfb72a75">Basics</h2>
-<div class="outline-text-2" id="text-orgfb72a75">
+<div id="outline-container-orgd6fb7e8" class="outline-2">
+<h2 id="orgd6fb7e8">Basics</h2>
+<div class="outline-text-2" id="text-orgd6fb7e8">
 </div>
-<div id="outline-container-orgc773fbe" class="outline-3">
-<h3 id="orgc773fbe">Compiling and Running "Hello World" in the Shell</h3>
-<div class="outline-text-3" id="text-orgc773fbe">
+<div id="outline-container-org5d97eb6" class="outline-3">
+<h3 id="org5d97eb6">Compiling and Running "Hello World" in the Shell</h3>
+<div class="outline-text-3" id="text-org5d97eb6">
 <div class="org-src-container">
 <pre class="src src-erlang">  -module(hello).
   -export([start/0]).
@@ -91,9 +91,9 @@ Running the <code>hello.erl</code> program in the erlang shell.
 </pre>
 </div>
 </div>
-<div id="outline-container-orga2fc952" class="outline-4">
-<h4 id="orga2fc952">Compiling Outside the Erlang Shell</h4>
-<div class="outline-text-4" id="text-orga2fc952">
+<div id="outline-container-orgd39cd29" class="outline-4">
+<h4 id="orgd39cd29">Compiling Outside the Erlang Shell</h4>
+<div class="outline-text-4" id="text-orgd39cd29">
 <div class="org-src-container">
 <pre class="src src-shell">  $ erlc hello.erl
   $ erl -noshell -s hello start -s init stop
@@ -115,13 +115,13 @@ terminates the Erlang session. (<a href="#citeproc_bib_item_1">Armstrong 2013, 1
 </div>
 </div>
 </div>
-<div id="outline-container-orgee77116" class="outline-2">
-<h2 id="orgee77116">Commands</h2>
-<div class="outline-text-2" id="text-orgee77116">
+<div id="outline-container-orgc30f6cf" class="outline-2">
+<h2 id="orgc30f6cf">Commands</h2>
+<div class="outline-text-2" id="text-orgc30f6cf">
 </div>
-<div id="outline-container-org8e2dc7d" class="outline-3">
-<h3 id="org8e2dc7d">Seeing Your Bound Variables</h3>
-<div class="outline-text-3" id="text-org8e2dc7d">
+<div id="outline-container-org018eba1" class="outline-3">
+<h3 id="org018eba1">Seeing Your Bound Variables</h3>
+<div class="outline-text-3" id="text-org018eba1">
 <p>
 <code>b()</code> shows all bound variables in the current erlang shell.
 </p>
@@ -134,9 +134,9 @@ terminates the Erlang session. (<a href="#citeproc_bib_item_1">Armstrong 2013, 1
 </div>
 </div>
 </div>
-<div id="outline-container-org9d265fd" class="outline-3">
-<h3 id="org9d265fd">Clearing Bound Variables in the Shell</h3>
-<div class="outline-text-3" id="text-org9d265fd">
+<div id="outline-container-orgdef0e59" class="outline-3">
+<h3 id="orgdef0e59">Clearing Bound Variables in the Shell</h3>
+<div class="outline-text-3" id="text-orgdef0e59">
 <div class="org-src-container">
 <pre class="src src-shell">  &gt; f(N)<span style="font-weight: bold;">.</span>
   &gt; f()<span style="font-weight: bold;">.</span>
@@ -144,9 +144,9 @@ terminates the Erlang session. (<a href="#citeproc_bib_item_1">Armstrong 2013, 1
 </div>
 </div>
 </div>
-<div id="outline-container-org3b7be9c" class="outline-3">
-<h3 id="org3b7be9c">Getting Help</h3>
-<div class="outline-text-3" id="text-org3b7be9c">
+<div id="outline-container-orgb7b2595" class="outline-3">
+<h3 id="orgb7b2595">Getting Help</h3>
+<div class="outline-text-3" id="text-orgb7b2595">
 <blockquote>
 <p>
 The Erlang shell has a number of built-in commands. You can see them all
@@ -155,9 +155,9 @@ with the shell command <code>help()</code>. (<a href="#citeproc_bib_item_1">Arms
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org8749d8c" class="outline-3">
-<h3 id="org8749d8c">Init</h3>
-<div class="outline-text-3" id="text-org8749d8c">
+<div id="outline-container-org9e3f9b8" class="outline-3">
+<h3 id="org9e3f9b8">Init</h3>
+<div class="outline-text-3" id="text-org9e3f9b8">
 <div class="org-src-container">
 <pre class="src src-shell">  &gt; init:restart()<span style="font-weight: bold;">.</span>
 </pre>
@@ -170,13 +170,13 @@ with the shell command <code>help()</code>. (<a href="#citeproc_bib_item_1">Arms
 </div>
 </div>
 </div>
-<div id="outline-container-org4f07c29" class="outline-2">
-<h2 id="org4f07c29">Compiling and running Erlang programs</h2>
-<div class="outline-text-2" id="text-org4f07c29">
+<div id="outline-container-orgdd7812f" class="outline-2">
+<h2 id="orgdd7812f">Compiling and running Erlang programs</h2>
+<div class="outline-text-2" id="text-orgdd7812f">
 </div>
-<div id="outline-container-org3176c61" class="outline-3">
-<h3 id="org3176c61">Modifying the Environment</h3>
-<div class="outline-text-3" id="text-org3176c61">
+<div id="outline-container-org179e8a7" class="outline-3">
+<h3 id="org179e8a7">Modifying the Environment</h3>
+<div class="outline-text-3" id="text-org179e8a7">
 <p>
 You can find the value of the current load path by starting an Erlang shell
 and giving the command <code>code:get_path()</code>. The two most common functions that we
@@ -200,9 +200,9 @@ Alternatively, you can start Erlang with a command like this:
 </div>
 </div>
 </div>
-<div id="outline-container-orged854a1" class="outline-3">
-<h3 id="orged854a1">Scripting</h3>
-<div class="outline-text-3" id="text-orged854a1">
+<div id="outline-container-org164ae0f" class="outline-3">
+<h3 id="org164ae0f">Scripting</h3>
+<div class="outline-text-3" id="text-org164ae0f">
 <p>
 Often we want to be able to execute an arbitrary Erlang function from the OS command
 line. The <code>-eval</code> argument is very handy for quick scripting.
@@ -215,9 +215,9 @@ line. The <code>-eval</code> argument is very handy for quick scripting.
 </pre>
 </div>
 </div>
-<div id="outline-container-org10f0fe5" class="outline-4">
-<h4 id="org10f0fe5">Run As an Escript</h4>
-<div class="outline-text-4" id="text-org10f0fe5">
+<div id="outline-container-org183fb66" class="outline-4">
+<h4 id="org183fb66">Run As an Escript</h4>
+<div class="outline-text-4" id="text-org183fb66">
 <div class="org-src-container">
 <pre class="src src-erlang">  #!/usr/bin/env escript
 
@@ -236,9 +236,9 @@ line. The <code>-eval</code> argument is very handy for quick scripting.
 </div>
 </div>
 </div>
-<div id="outline-container-org1522607" class="outline-2">
-<h2 id="org1522607">Debugging</h2>
-<div class="outline-text-2" id="text-org1522607">
+<div id="outline-container-orge5a528c" class="outline-2">
+<h2 id="orge5a528c">Debugging</h2>
+<div class="outline-text-2" id="text-orge5a528c">
 <p>
 To start the debugger, you can call <code>debugger:start()</code> from the shell:
 </p>
@@ -248,9 +248,9 @@ To start the debugger, you can call <code>debugger:start()</code> from the shell
 </pre>
 </div>
 </div>
-<div id="outline-container-orga5325c6" class="outline-3">
-<h3 id="orga5325c6">Reading Crash Dumps</h3>
-<div class="outline-text-3" id="text-orga5325c6">
+<div id="outline-container-org27ab27f" class="outline-3">
+<h3 id="org27ab27f">Reading Crash Dumps</h3>
+<div class="outline-text-3" id="text-org27ab27f">
 <p>
 If Erlang crashes, it leaves behind a file called <code>erl_crash.dump</code>. To start the
 analyzer, give the following command:
@@ -263,17 +263,17 @@ analyzer, give the following command:
 </div>
 </div>
 </div>
-<div id="outline-container-org22f6901" class="outline-2">
-<h2 id="org22f6901">References:</h2>
-<div class="outline-text-2" id="text-org22f6901">
+<div id="outline-container-orgb8bbf8e" class="outline-2">
+<h2 id="orgb8bbf8e">References:</h2>
+<div class="outline-text-2" id="text-orgb8bbf8e">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org234c88d" class="outline-2">
-<h2 id="org234c88d">Backlinks:</h2>
-<div class="outline-text-2" id="text-org234c88d">
+<div id="outline-container-orgcf4ee93" class="outline-2">
+<h2 id="orgcf4ee93">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgcf4ee93">
 <ul class="org-ul">
 <li><a href="./20240924122449-sequential_erlang.html">Sequential Erlang</a></li>
 </ul>

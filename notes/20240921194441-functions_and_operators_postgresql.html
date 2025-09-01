@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-08-30 Sat 11:35 -->
+<!-- 2025-09-01 Mon 10:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Functions and Operators (PostgreSQL)</title>
@@ -58,13 +58,13 @@
 </header><ul class="org-ul">
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-orgd454df6" class="outline-2">
-<h2 id="orgd454df6">Set Returning Functions</h2>
-<div class="outline-text-2" id="text-orgd454df6">
+<div id="outline-container-orga133474" class="outline-2">
+<h2 id="orga133474">Set Returning Functions</h2>
+<div class="outline-text-2" id="text-orga133474">
 </div>
-<div id="outline-container-org67ecbf2" class="outline-3">
-<h3 id="org67ecbf2"><code>generate_series</code></h3>
-<div class="outline-text-3" id="text-org67ecbf2">
+<div id="outline-container-orgb3e3d5f" class="outline-3">
+<h3 id="orgb3e3d5f"><code>generate_series</code></h3>
+<div class="outline-text-3" id="text-orgb3e3d5f">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> * <span style="font-weight: bold;">FROM</span> generate_series(2,4);
   <span style="font-weight: bold;">SELECT</span> generate_series(<span style="font-style: italic;">'2025-01-01'</span>::<span style="font-weight: bold; text-decoration: underline;">date</span>, <span style="font-style: italic;">'2025-01-31'</span>::<span style="font-weight: bold; text-decoration: underline;">date</span>, <span style="font-style: italic;">'2 day'</span>)::<span style="font-weight: bold; text-decoration: underline;">date</span> <span style="font-weight: bold;">as</span> <span style="font-weight: bold; text-decoration: underline;">date</span>;
@@ -72,9 +72,9 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org09a0361" class="outline-3">
-<h3 id="org09a0361"><code>jsonb_to_recordset</code></h3>
-<div class="outline-text-3" id="text-org09a0361">
+<div id="outline-container-orgef80dc1" class="outline-3">
+<h3 id="orgef80dc1"><code>jsonb_to_recordset</code></h3>
+<div class="outline-text-3" id="text-orgef80dc1">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> jsonb_to_recordset(<span style="font-style: italic;">'[{"a":1,"b":"foo"},{"a":"2","c":"bar"}]'</span>::jsonb)
@@ -83,18 +83,18 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org1b15e10" class="outline-3">
-<h3 id="org1b15e10"><code>string_to_table</code></h3>
-<div class="outline-text-3" id="text-org1b15e10">
+<div id="outline-container-orgd6db893" class="outline-3">
+<h3 id="orgd6db893"><code>string_to_table</code></h3>
+<div class="outline-text-3" id="text-orgd6db893">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> string_to_table(<span style="font-style: italic;">'a,b,c,d,e,f'</span>, <span style="font-style: italic;">','</span>) <span style="font-weight: bold;">as</span> letter;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org874eb81" class="outline-3">
-<h3 id="org874eb81"><code>unnest</code></h3>
-<div class="outline-text-3" id="text-org874eb81">
+<div id="outline-container-orge64401b" class="outline-3">
+<h3 id="orge64401b"><code>unnest</code></h3>
+<div class="outline-text-3" id="text-orge64401b">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> <span style="font-weight: bold;">unnest</span>(<span style="font-weight: bold; text-decoration: underline;">ARRAY</span>[1,2,3]) <span style="font-weight: bold;">AS</span> seq;
   <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">or add ordinality</span>
@@ -105,17 +105,17 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org6ed18cb" class="outline-3">
-<h3 id="org6ed18cb"><code>FROM ROWS</code></h3>
+<div id="outline-container-org30c924a" class="outline-3">
+<h3 id="org30c924a"><code>FROM ROWS</code></h3>
 </div>
 </div>
-<div id="outline-container-org3fdd580" class="outline-2">
-<h2 id="org3fdd580">Polymorphic SQL functions</h2>
+<div id="outline-container-orgb90abd6" class="outline-2">
+<h2 id="orgb90abd6">Polymorphic SQL functions</h2>
 </div>
 
-<div id="outline-container-org0579e7b" class="outline-2">
-<h2 id="org0579e7b">PL/pgSQL functions</h2>
-<div class="outline-text-2" id="text-org0579e7b">
+<div id="outline-container-orgb4288c7" class="outline-2">
+<h2 id="orgb4288c7">PL/pgSQL functions</h2>
+<div class="outline-text-2" id="text-orgb4288c7">
 <div class="org-src-container">
 <pre class="src src-plpgsql">CREATE OR REPLACE FUNCTION
   function_name(arg1 INT, arg2 INT, arg3 INT)
@@ -133,16 +133,16 @@ $$;
 </div>
 </div>
 </div>
-<div id="outline-container-orga42e3a3" class="outline-2">
-<h2 id="orga42e3a3">References:</h2>
-<div class="outline-text-2" id="text-orga42e3a3">
+<div id="outline-container-orgd89986b" class="outline-2">
+<h2 id="orgd89986b">References:</h2>
+<div class="outline-text-2" id="text-orgd89986b">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>
 </div>
-<div id="outline-container-org2aa357f" class="outline-2">
-<h2 id="org2aa357f">Backlinks:</h2>
-<div class="outline-text-2" id="text-org2aa357f">
+<div id="outline-container-org281ed1e" class="outline-2">
+<h2 id="org281ed1e">Backlinks:</h2>
+<div class="outline-text-2" id="text-org281ed1e">
 <ul class="org-ul">
 <li><a href="./20240921194608-index_postgresql.html">Index (PostgreSQL)</a></li>
 </ul>
