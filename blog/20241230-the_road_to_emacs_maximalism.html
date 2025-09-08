@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-01 Mon 10:57 -->
+<!-- 2025-09-08 Mon 13:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The road to Emacs maximalism</title>
@@ -66,7 +66,7 @@ a great light. (<a href="#citeproc_bib_item_1">Knuth 1984, 1</a>)
 </blockquote>
 <div id="outline-container-ID-1294efc9-91ca-464f-9f50-f16d1d66bff6" class="outline-2">
 <h2 id="ID-1294efc9-91ca-464f-9f50-f16d1d66bff6">Introduction</h2>
-<div class="outline-text-2" id="text-orga8bf9c4">
+<div class="outline-text-2" id="text-org603fbf6">
 <p>
 A couple years ago I've started watching <a href="https://github.com/sponsors/daviwil">David Wilson's</a> channel (also know as
 <a href="https://www.youtube.com/c/SystemCrafters">SystemCrafters</a>), originally his channel focused heavilly on<a href="https://fsharp.org/"> F#</a> (and that's how I
@@ -148,7 +148,7 @@ of <b>Emacs Lisp</b> functions.
 </div>
 <div id="outline-container-ID-7a2263c7-fc32-4e2e-b5d3-bb97987b9cd7" class="outline-3">
 <h3 id="ID-7a2263c7-fc32-4e2e-b5d3-bb97987b9cd7">Literate Programming</h3>
-<div class="outline-text-3" id="text-orgafe862d">
+<div class="outline-text-3" id="text-org7e056c7">
 <blockquote>
 <p>
 I believe that the time is ripe for significantly better documentation of
@@ -186,11 +186,11 @@ computer. (<a href="#citeproc_bib_item_2">Schulte et al. 2012, 12</a>)
 </div>
 <div id="outline-container-ID-cd679f88-fedc-4132-95d7-b746c36322da" class="outline-2">
 <h2 id="ID-cd679f88-fedc-4132-95d7-b746c36322da">Orgmode</h2>
-<div class="outline-text-2" id="text-org39d2c56">
+<div class="outline-text-2" id="text-orgd911edb">
 </div>
 <div id="outline-container-ID-aaefc243-0470-4229-92d5-7ecd1b5bdeaf" class="outline-3">
 <h3 id="ID-aaefc243-0470-4229-92d5-7ecd1b5bdeaf">Arbitrary Code Execution and Generation</h3>
-<div class="outline-text-3" id="text-org5cc22a5">
+<div class="outline-text-3" id="text-orgd9a7fc6">
 <p>
 Here's what my <code>blog.org</code> file looks like:
 </p>
@@ -244,7 +244,7 @@ CI).
 </div>
 <div id="outline-container-ID-641485b8-6dd0-4909-b8e1-8d9744bb0338" class="outline-3">
 <h3 id="ID-641485b8-6dd0-4909-b8e1-8d9744bb0338">Roam</h3>
-<div class="outline-text-3" id="text-org368265c">
+<div class="outline-text-3" id="text-org68426be">
 <p>
 Similar to the previous section, my <a href="https://schonfinkel.github.io/notes.html">notes</a> are also generated via some hacky <code>F#</code>
 script:
@@ -271,9 +271,9 @@ actual html code. That's where the <code>d3.js</code> graph setup is.
 </div>
 <div id="outline-container-ID-1653090e-9f07-47f3-bc17-dfee925ecba7" class="outline-4">
 <h4 id="ID-1653090e-9f07-47f3-bc17-dfee925ecba7">Stealing the Graph</h4>
-<div class="outline-text-4" id="text-orgc1e4f08">
+<div class="outline-text-4" id="text-org50b2271">
 
-<figure id="org2eac2d9">
+<figure id="org5d3a230">
 <img src="../static/img/the_road_to_emacs_maximalism/notes.png" alt="notes.png" width="70%" height="70%" align="center">
 
 <figcaption><span class="figure-number">Figure 1: </span>My crappy graph</figcaption>
@@ -306,14 +306,14 @@ won't work for me, at least in this current iteration of the blog.
 </div>
 <div id="outline-container-ID-4f02e18f-3564-455e-b5f9-6400892a6f54" class="outline-3">
 <h3 id="ID-4f02e18f-3564-455e-b5f9-6400892a6f54">Diagrams as Code</h3>
-<div class="outline-text-3" id="text-orga8ca8ca">
+<div class="outline-text-3" id="text-org61bd124">
 <p>
 For my current needs <code>graphviz</code> is enough, but I can keep adding similar
 tools later:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-dot" id="org44a3e78">  digraph {
+<pre class="src src-dot" id="orgfed3443">  digraph {
     a -&gt; b;
     b -&gt; c;
     c -&gt; a;
@@ -322,7 +322,7 @@ tools later:
 </div>
 
 
-<figure id="org8364c14">
+<figure id="org29dbaf1">
 <img src="../static/img/the_road_to_emacs_maximalism/graphviz_example.png" alt="graphviz_example.png">
 
 </figure>
@@ -330,7 +330,7 @@ tools later:
 </div>
 <div id="outline-container-ID-c8f3907d-9bcf-4b87-8e3f-2bacd0f4d2fa" class="outline-3">
 <h3 id="ID-c8f3907d-9bcf-4b87-8e3f-2bacd0f4d2fa">Exports</h3>
-<div class="outline-text-3" id="text-orgc72b8c9">
+<div class="outline-text-3" id="text-org0f4e267">
 <p>
 You take an org file and <a href="https://orgmode.org/manual/Publishing-options.html">export it</a> to different formats like: <code>html</code> (that's how
 this blog is made), <code>LaTeX</code>, <code>markdown</code>, etc. Currently I only care about the <code>html</code>
@@ -341,7 +341,7 @@ export and you can find the <code>publish.el</code> file <a href="https://github
 </div>
 <div id="outline-container-ID-8d9ed80b-0862-41e7-abd5-8dce2a0bf64b" class="outline-2">
 <h2 id="ID-8d9ed80b-0862-41e7-abd5-8dce2a0bf64b">The Infrastructure</h2>
-<div class="outline-text-2" id="text-orgc38a536">
+<div class="outline-text-2" id="text-org0831330">
 <p>
 Knuth has a point about some of the portability issues on his "Literate
 Programming" paper, even though the markup language (<code>WEB</code>) was portable to
@@ -370,7 +370,7 @@ months and there's a pretty good chance it will never run.
 </div>
 <div id="outline-container-ID-062b018a-f9e1-4b6b-a26a-fc2cc2ac8ac3" class="outline-3">
 <h3 id="ID-062b018a-f9e1-4b6b-a26a-fc2cc2ac8ac3">Nix</h3>
-<div class="outline-text-3" id="text-org328f55a">
+<div class="outline-text-3" id="text-org4b8dcaa">
 <p>
 To make this less likelly to happen, my development environment heavilly relies
 on <a href="https://nixos.org/">Nix</a> and <a href="https://devenv.sh/">devenv</a>. Everything is set in a single <a href="https://github.com/schonfinkel/schonfinkel.github.io/blob/master/flake.nix">flake.nix</a> file, a <code>LaTeX</code>
@@ -462,7 +462,7 @@ the full setup can be found in the main <a href="https://github.com/schonfinkel/
 </div>
 <div id="outline-container-ID-2a785563-245e-4952-a45a-89c1d0631af7" class="outline-3">
 <h3 id="ID-2a785563-245e-4952-a45a-89c1d0631af7">Continous Integration</h3>
-<div class="outline-text-3" id="text-orgafb5862">
+<div class="outline-text-3" id="text-org55eda71">
 <p>
 Again, I benefit from a somewhat easy to setup CI pipeline thanks to
 <a href="https://github.com/cachix/install-nix-action">install-nix</a>, it's a copy of what I already do locally. And you can also benefit
@@ -493,7 +493,7 @@ from faster builds with the <a href="https://github.com/DeterminateSystems/magic
 </div>
 <div id="outline-container-ID-a6d4d3ea-b867-426b-81e1-c7b7b04cdffa" class="outline-3">
 <h3 id="ID-a6d4d3ea-b867-426b-81e1-c7b7b04cdffa">What is Still Missing</h3>
-<div class="outline-text-3" id="text-orgbf0243b">
+<div class="outline-text-3" id="text-org58502cc">
 <ul class="org-ul">
 <li>Anki-Like Flashcards: With either <a href="https://orgmode.org/worg/org-contrib/org-drill.html%5C">org-drill</a> or <a href="https://www.leonrische.me/fc/index.html">org-fc</a>.</li>
 
@@ -512,11 +512,11 @@ the same in pure <code>elisp</code>, but I still suck at it.</li>
 </div>
 <div id="outline-container-ID-86fc8bb6-088e-41cb-b82f-e8fe5eeb81b9" class="outline-2">
 <h2 id="ID-86fc8bb6-088e-41cb-b82f-e8fe5eeb81b9">Notable Mentions</h2>
-<div class="outline-text-2" id="text-org5048c07">
+<div class="outline-text-2" id="text-orga687c17">
 </div>
 <div id="outline-container-ID-536c9512-efd1-4999-bd89-4cef6ab304d5" class="outline-3">
 <h3 id="ID-536c9512-efd1-4999-bd89-4cef6ab304d5">Hugo</h3>
-<div class="outline-text-3" id="text-org1c17caa">
+<div class="outline-text-3" id="text-org594b0f8">
 <p>
 This blog was originally fully integrated with<a href="https://gohugo.io/"> hugo</a> and <a href="https://ox-hugo.scripter.co/">ox-hugo</a> (first stolen
 from <a href="https://github.com/ratsclub">my close friend</a>), but eventually I've started facing issues since the way I
@@ -530,7 +530,7 @@ for a couple months.
 </div>
 <div id="outline-container-ID-fcd17701-eefc-423f-acaf-71ff4167112c" class="outline-3">
 <h3 id="ID-fcd17701-eefc-423f-acaf-71ff4167112c">Quartz</h3>
-<div class="outline-text-3" id="text-orgeb7fe7e">
+<div class="outline-text-3" id="text-orgc432fac">
 <p>
 Similar to <code>hugo</code>, although <a href="https://quartz.jzhao.xyz/">Quartz</a> is also built to support <a href="https://obsidian.md/">Obsidian</a>-like notes.
 </p>
@@ -538,7 +538,7 @@ Similar to <code>hugo</code>, although <a href="https://quartz.jzhao.xyz/">Quart
 </div>
 <div id="outline-container-ID-c2a8a85b-360a-4ae0-ae5f-52f2c076a1ca" class="outline-3">
 <h3 id="ID-c2a8a85b-360a-4ae0-ae5f-52f2c076a1ca">Emanote</h3>
-<div class="outline-text-3" id="text-org605f2a8">
+<div class="outline-text-3" id="text-orga014d57">
 <p>
 Before doing the full refactor and moving it back to a pure <a href="https://orgmode.org/manual/Publishing.html">org-publish</a>
 workflow, I found out about <a href="https://emanote.srid.ca/">emanote</a>. It is similar to Quartz, but it feels
@@ -551,7 +551,7 @@ choice for people already familiar with Haskell and Nix.
 </div>
 <div id="outline-container-ID-98eed0a6-2a6c-4a75-a019-681adc747df5" class="outline-2">
 <h2 id="ID-98eed0a6-2a6c-4a75-a019-681adc747df5">Conclusion</h2>
-<div class="outline-text-2" id="text-org7feaf19">
+<div class="outline-text-2" id="text-org483810e">
 <p>
 While I haven't moved all my development workflow to <code>Emacs</code> (it might be a matter
 of time), <code>Emacs</code> already stole all my note-taking and blogging capabilities and
@@ -566,7 +566,7 @@ well.
 </div>
 <div id="outline-container-ID-41aa38de-4163-4905-acbe-bac37bcd16e4" class="outline-2">
 <h2 id="ID-41aa38de-4163-4905-acbe-bac37bcd16e4">References</h2>
-<div class="outline-text-2" id="text-orgfc98363">
+<div class="outline-text-2" id="text-org46302d5">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Knuth, Donald Ervin. 1984. “Literate Programming.” <i>The Computer Journal</i> 27 (2): 97–111.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Schulte, Eric, Dan Davison, Thomas Dye, and Carsten Dominik. 2012. “A Multi-Language Computing Environment for Literate Programming and Reproducible Research.” <i>Journal of Statistical Software</i> 46: 1–24.</div>
