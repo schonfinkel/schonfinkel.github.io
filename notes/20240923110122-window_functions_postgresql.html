@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-08 Mon 13:07 -->
+<!-- 2025-09-25 Thu 15:21 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Window Functions (PostgreSQL)</title>
@@ -66,9 +66,9 @@ identities. Behind the scenes, the window function is able to access more than
 just the current row of the query result. <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
 </p>
 </blockquote>
-<div id="outline-container-org081471c" class="outline-2">
-<h2 id="org081471c"><code>PARTITION BY</code> and <code>WINDOW</code> clauses</h2>
-<div class="outline-text-2" id="text-org081471c">
+<div id="outline-container-orgfced88b" class="outline-2">
+<h2 id="orgfced88b"><code>PARTITION BY</code> and <code>WINDOW</code> clauses</h2>
+<div class="outline-text-2" id="text-orgfced88b">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
     category,
@@ -108,14 +108,98 @@ you can also define aliases for the window frames.
 </pre>
 </div>
 </div>
+<div id="outline-container-org1b05d04" class="outline-3">
+<h3 id="org1b05d04">Frames</h3>
+<div class="outline-text-3" id="text-org1b05d04">
+<ul class="org-ul">
+<li>Partitions can be divided into <code>frames</code></li>
+<li><p>
+Frames can either be <b>absolute</b> or <b>relative</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span>
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
+    <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table</span>
+    WINDOW w <span style="font-weight: bold;">as</span> (
+      PARTITION <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> ...
+      MODE <span style="font-weight: bold;">BETWEEN</span> f_start <span style="font-weight: bold;">AND</span> f_end [EXCLUDE exclusion_mode]
+    )
+</pre>
+</div></li>
+
+<li><p>
+The default frame is equivalent to:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">      PARTITION <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> ...
+      RANGE <span style="font-weight: bold;">BETWEEN</span> UNBOUNDED PRECEDING <span style="font-weight: bold;">AND</span> <span style="font-weight: bold;">CURRENT</span> <span style="font-weight: bold; text-decoration: underline;">ROW</span>
+</pre>
+</div></li>
+
+<li><p>
+To span an entire partition, set the mode equals to <code>ROWS</code> and use <code>UNBOUNDED FOLLOWING</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">      PARTITION <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ROWS</span> <span style="font-weight: bold;">BETWEEN</span> UNBOUNDED PRECEDING <span style="font-weight: bold;">AND</span> UNBOUNDED FOLLOWING
+</pre>
+</div></li>
+
+<li><p>
+If you want to limit the amount of records inside a frame:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">      PARTITION <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ROWS</span> <span style="font-weight: bold;">BETWEEN</span> <span style="font-weight: bold;">M</span> PRECEDING <span style="font-weight: bold;">AND</span> N FOLLOWING
+</pre>
+</div></li>
+
+<li><p>
+You can also use <code>GROUPS</code> instead of <code>ROWS</code>, to span a group of records:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">      PARTITION <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> ...
+      GROUPS <span style="font-weight: bold;">BETWEEN</span> ... <span style="font-weight: bold;">AND</span> ...
+</pre>
+</div></li>
+
+<li><p>
+<code>EXCLUDE</code> can used to drop certain records from the frame, by default this is
+the to <code>NO OTHERS</code>. This can be set to:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">      PARTITION <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> ...
+      <span style="font-weight: bold;">ROWS</span> <span style="font-weight: bold;">BETWEEN</span> <span style="font-weight: bold;">M</span> PRECEDING <span style="font-weight: bold;">AND</span> N FOLLOWING
+      EXCLUDE <span style="font-weight: bold;">CURRENT</span> <span style="font-weight: bold; text-decoration: underline;">ROW</span>
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">or</span>
+      EXCLUDE <span style="font-weight: bold;">CURRENT</span> <span style="font-weight: bold;">GROUP</span>
+      <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">or</span>
+      EXCLUDE TIES
+</pre>
+</div></li>
+</ul>
 </div>
-<div id="outline-container-org070a574" class="outline-2">
-<h2 id="org070a574">Introducing some useful functions</h2>
-<div class="outline-text-2" id="text-org070a574">
 </div>
-<div id="outline-container-orgb5c6e15" class="outline-3">
-<h3 id="orgb5c6e15"><code>ROW_NUMBER</code></h3>
-<div class="outline-text-3" id="text-orgb5c6e15">
+</div>
+<div id="outline-container-org94b34a7" class="outline-2">
+<h2 id="org94b34a7">Introducing some useful functions</h2>
+<div class="outline-text-2" id="text-org94b34a7">
+</div>
+<div id="outline-container-org30b1612" class="outline-3">
+<h3 id="org30b1612"><code>ROW_NUMBER</code></h3>
+<div class="outline-text-3" id="text-org30b1612">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
     category,
@@ -127,46 +211,467 @@ you can also define aliases for the window frames.
 </div>
 </div>
 </div>
-<div id="outline-container-org78e6147" class="outline-3">
-<h3 id="org78e6147"><code>LEAD</code></h3>
-<div class="outline-text-3" id="text-org78e6147">
+<div id="outline-container-org3557aed" class="outline-3">
+<h3 id="org3557aed"><code>SUM</code></h3>
+<div class="outline-text-3" id="text-org3557aed">
+<div class="org-src-container">
+<pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span>
+      <span style="font-weight: bold;">SUM</span>(amount) OVER w
+    <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table</span>
+    WINDOW w <span style="font-weight: bold;">as</span> (
+      PARTITION <span style="font-weight: bold;">BY</span> id
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> created_on
+    )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgef9b2ad" class="outline-3">
+<h3 id="orgef9b2ad"><code>LEAD</code> &amp; <code>LAG</code></h3>
+<div class="outline-text-3" id="text-orgef9b2ad">
+<blockquote>
 <p>
-The <code>LEAD()</code> function is used to retrieve data from the next row.
+The <code>LAG</code> function returns a value evaluated at the row that is offset rows before
+the current row within the partition; if there is no such row, it instead
+returns the default (which must be of the same type as the value). Both the
+offset and the default are evaluated with respect to the current row. If
+omitted, <code>OFFSET</code> defaults to 1 and default to null
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 163 chap.6</a>)
 </p>
+</blockquote>
+
+<ul class="org-ul">
+<li>The <code>LEAD(field, N)</code> function is used to retrieve data from the next N rows.</li>
+<li><p>
+The <code>LAG(field, N)</code> function is used to retrieve data from the previous N rows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span>
+      id,
+      created_at,
+      LEAD(created_at, 1) OVER w <span style="font-weight: bold;">as</span> prev_timestamp,
+      LAG(created_at, 1) OVER w <span style="font-weight: bold;">as</span> next_timestamp
+    <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table</span>
+    WINDOW w <span style="font-weight: bold;">as</span> (
+      PARTITION <span style="font-weight: bold;">BY</span> id
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> created_at
+    )
+</pre>
+</div></li>
+</ul>
 </div>
 </div>
-<div id="outline-container-org9938051" class="outline-3">
-<h3 id="org9938051"><code>LAG</code></h3>
-<div class="outline-text-3" id="text-org9938051">
+<div id="outline-container-org2b1913d" class="outline-3">
+<h3 id="org2b1913d"><code>FIRST_VALUE()</code> and <code>LAST_VALUE()</code></h3>
+<div class="outline-text-3" id="text-org2b1913d">
+<ul class="org-ul">
+<li><p>
+You can reference the beginning/end of a partition.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span>
+      id,
+      created_at,
+      created_at - FIRST_VALUE(created_at) OVER w <span style="font-weight: bold;">as</span> timestamp_since_first,
+      LAST_VALUE(created_at) - created_at OVER w <span style="font-weight: bold;">as</span> timestamp_until_last
+    <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table</span>
+    WINDOW w <span style="font-weight: bold;">as</span> (
+      PARTITION <span style="font-weight: bold;">BY</span> id
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> created_at
+      RANGE <span style="font-weight: bold;">BETWEEN</span> UNBOUNDED PRECEDING <span style="font-weight: bold;">AND</span> UNBOUNDED FOLLOWING
+    )
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org19142ca" class="outline-3">
+<h3 id="org19142ca"><code>RANK</code> and <code>DENSE_RANK</code></h3>
+<div class="outline-text-3" id="text-org19142ca">
+<blockquote>
 <p>
-The <code>LAG()</code> function is used to retrieve data from the previous row.
+The <code>RANK</code> function ranks the current row within its partition with gaps. If we
+don't specify a <code>PARTITION BY</code> clause, the function doesn't know how to correlate
+the current tuple, so the function correlates to itself. (&#x2026;). If we add the
+<code>ORDER BY</code> clause, the function ranks in the assigned order. (&#x2026;). If we add the
+<code>PARTITION BY</code> clause, the working mechanism is the same; the only difference is
+that the ranking is calculated within the partition and not on the whole table.
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 161–62 chap.6</a>)
 </p>
-</div>
-</div>
-<div id="outline-container-orga9cdf17" class="outline-3">
-<h3 id="orga9cdf17"><code>ORDER BY</code></h3>
+</blockquote>
+
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right"><code>id</code></th>
+<th scope="col" class="org-left"><code>name</code></th>
+<th scope="col" class="org-right"><code>month</code></th>
+<th scope="col" class="org-right"><code>sold_products</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Carl</td>
+<td class="org-right">1</td>
+<td class="org-right">2200</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Grace</td>
+<td class="org-right">1</td>
+<td class="org-right">2200</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Alex</td>
+<td class="org-right">1</td>
+<td class="org-right">1200</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Carl</td>
+<td class="org-right">2</td>
+<td class="org-right">1200</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Grace</td>
+<td class="org-right">2</td>
+<td class="org-right">500</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Alex</td>
+<td class="org-right">2</td>
+<td class="org-right">2200</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Carl</td>
+<td class="org-right">3</td>
+<td class="org-right">3000</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Grace</td>
+<td class="org-right">3</td>
+<td class="org-right">3000</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span>
+      RANK() OVER(w) <span style="font-weight: bold;">AS</span> rank,
+      <span style="font-weight: bold;">name</span>,
+      <span style="font-weight: bold;">month</span>,
+      sold_products
+    <span style="font-weight: bold;">FROM</span> sales
+    WINDOW w <span style="font-weight: bold;">AS</span> (
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> sold products <span style="font-weight: bold;">DESC</span>
+    );
+</pre>
 </div>
 
-<div id="outline-container-orgaa3ae25" class="outline-3">
-<h3 id="orgaa3ae25"><code>FIRST_VALUE()</code> and <code>LAST_VALUE()</code></h3>
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right"><code>rank</code></th>
+<th scope="col" class="org-left"><code>name</code></th>
+<th scope="col" class="org-right"><code>month</code></th>
+<th scope="col" class="org-right"><code>sold_products</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Carl</td>
+<td class="org-right">1</td>
+<td class="org-right">2200</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Grace</td>
+<td class="org-right">1</td>
+<td class="org-right">2500</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Alex</td>
+<td class="org-right">1</td>
+<td class="org-right">1200</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Alex</td>
+<td class="org-right">2</td>
+<td class="org-right">2200</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Carl</td>
+<td class="org-right">2</td>
+<td class="org-right">1200</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Grace</td>
+<td class="org-right">2</td>
+<td class="org-right">500</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Carl</td>
+<td class="org-right">3</td>
+<td class="org-right">3000</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Grace</td>
+<td class="org-right">3</td>
+<td class="org-right">3000</td>
+</tr>
+</tbody>
+</table>
+
+
+<blockquote>
+<p>
+Similar to the RANK function. The difference is that the <code>DENSE_RANK</code> function
+ranks the current row within its partition without gaps.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 162 chap.6</a>)
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span>
+      DENSE_RANK() OVER(w) <span style="font-weight: bold;">AS</span> rank,
+      <span style="font-weight: bold;">name</span>,
+      <span style="font-weight: bold;">month</span>,
+      sold_products
+    <span style="font-weight: bold;">FROM</span> sales
+    WINDOW w <span style="font-weight: bold;">AS</span> (
+      <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> sold products <span style="font-weight: bold;">DESC</span>
+    );
+</pre>
 </div>
 
-<div id="outline-container-orgd914ca4" class="outline-3">
-<h3 id="orgd914ca4"><code>RANK</code></h3>
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right"><code>rank</code></th>
+<th scope="col" class="org-left"><code>name</code></th>
+<th scope="col" class="org-right"><code>month</code></th>
+<th scope="col" class="org-right"><code>sold_products</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Carl</td>
+<td class="org-right">1</td>
+<td class="org-right">2200</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Grace</td>
+<td class="org-right">1</td>
+<td class="org-right">2500</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Alex</td>
+<td class="org-right">1</td>
+<td class="org-right">1200</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Alex</td>
+<td class="org-right">2</td>
+<td class="org-right">2200</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Carl</td>
+<td class="org-right">2</td>
+<td class="org-right">1200</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Grace</td>
+<td class="org-right">2</td>
+<td class="org-right">500</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Carl</td>
+<td class="org-right">3</td>
+<td class="org-right">3000</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">Grace</td>
+<td class="org-right">3</td>
+<td class="org-right">3000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org6805f18" class="outline-3">
+<h3 id="org6805f18"><code>PERCENTILE_CONT</code></h3>
+<div class="outline-text-3" id="text-org6805f18">
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">WITH</span> test_rows <span style="font-weight: bold;">AS</span> (
+    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Generates a series of random numbers between 0 and 100, distributed</span>
+    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">over 10 fake ids.</span>
+    <span style="font-weight: bold;">SELECT</span>
+      floor(random() * 10) <span style="font-weight: bold;">AS</span> id,
+      floor(random() * 100) <span style="font-weight: bold;">AS</span> <span style="font-weight: bold;">value</span>
+    <span style="font-weight: bold;">FROM</span> generate_series(1, 100)
+  )
+  <span style="font-weight: bold;">SELECT</span>
+    tr.id,
+    PERCENTILE_CONT(0.5) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> median,
+    PERCENTILE_CONT(0.75) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> p75,
+    PERCENTILE_CONT(0.95) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> p95,
+    PERCENTILE_CONT(0.99) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> p99
+  <span style="font-weight: bold;">FROM</span> test_rows tr
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> tr.id
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.id <span style="font-weight: bold;">ASC</span>
+</pre>
 </div>
 
-<div id="outline-container-org54c8e3f" class="outline-3">
-<h3 id="org54c8e3f"><code>DENSE_RANK</code></h3>
+<div class="org-src-container">
+<pre class="src src-text"> id | median |  p75  |        p95        |        p99        
+----+--------+-------+-------------------+-------------------
+  0 |     45 |  59.5 |              71.5 |              75.9
+  1 |     32 |    81 |              83.4 |             84.68
+  2 |     62 |  72.5 | 88.89999999999998 |             95.38
+  3 |     54 | 69.25 |             92.15 |             92.83
+  4 |     65 |  81.5 |              96.1 |             96.82
+  5 |   46.5 |    82 |              96.6 |             97.72
+  6 |     28 |    60 | 71.39999999999999 |             74.28
+  7 |     48 |  59.5 |             86.25 |             88.45
+  8 |     44 | 53.25 |              73.8 |             75.56
+  9 |   39.5 |  59.5 |              90.5 | 97.30000000000001
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6285dbf" class="outline-3">
+<h3 id="org6285dbf"><code>PERCENTILE_DISC</code></h3>
+<div class="outline-text-3" id="text-org6285dbf">
+<ul class="org-ul">
+<li>Discrete version of <code>PERCENTILE_CONT</code>, gets the closest value, does not perform interpolation.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">WITH</span> test_rows <span style="font-weight: bold;">AS</span> (
+    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Generates a series of random numbers between 0 and 100, distributed</span>
+    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">over 10 fake ids.</span>
+    <span style="font-weight: bold;">SELECT</span>
+      floor(random() * 10) <span style="font-weight: bold;">AS</span> id,
+      floor(random() * 100) <span style="font-weight: bold;">AS</span> <span style="font-weight: bold;">value</span>
+    <span style="font-weight: bold;">FROM</span> generate_series(1, 100)
+  )
+  <span style="font-weight: bold;">SELECT</span>
+    tr.id,
+    PERCENTILE_DISC(0.5) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> median,
+    PERCENTILE_DISC(0.75) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> p75,
+    PERCENTILE_DISC(0.95) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> p95,
+    PERCENTILE_DISC(0.99) WITHIN <span style="font-weight: bold;">GROUP</span>(<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>) <span style="font-weight: bold;">as</span> p99
+  <span style="font-weight: bold;">FROM</span> test_rows tr
+  <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> tr.id
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.id <span style="font-weight: bold;">ASC</span>
+</pre>
 </div>
 
-<div id="outline-container-orgc459384" class="outline-3">
-<h3 id="orgc459384"><code>CUME_DIST</code></h3>
-<div class="outline-text-3" id="text-orgc459384">
+<div class="org-src-container">
+<pre class="src src-text"> id | median | p75 | p95 | p99 
+----+--------+-----+-----+-----
+  0 |     54 |  83 |  89 |  89
+  1 |     58 |  67 |  91 |  91
+  2 |     43 |  82 |  98 |  98
+  3 |     55 |  85 |  94 |  94
+  4 |     48 |  89 |  97 |  97
+  5 |     52 |  78 |  96 |  96
+  6 |     41 |  74 |  98 |  98
+  7 |     66 |  76 |  89 |  89
+  8 |     44 |  87 |  91 |  91
+  9 |     61 |  77 |  98 |  98
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org396bef0" class="outline-3">
+<h3 id="org396bef0"><code>CUME_DIST</code></h3>
+<div class="outline-text-3" id="text-org396bef0">
 <blockquote>
 <p>
 The <code>CUME_DIST</code> function computes the fraction of partition rows that are less
 than or equal to the current row and its peers.
-(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 165</a>)
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 165 chap.6</a>)
 </p>
 </blockquote>
 
@@ -194,21 +699,103 @@ than or equal to the current row and its peers.
 </div>
 </div>
 </div>
-<div id="outline-container-orgedeb0f1" class="outline-3">
-<h3 id="orgedeb0f1"><code>NTILE</code></h3>
+<div id="outline-container-org306c47a" class="outline-3">
+<h3 id="org306c47a"><code>PERCENT_RANK</code></h3>
+<div class="outline-text-3" id="text-org306c47a">
+<ul class="org-ul">
+<li>Calculates percent values in a current partition.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">WITH</span> test_rows <span style="font-weight: bold;">AS</span> (
+    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Generates a series of random numbers between 0 and 100, distributed</span>
+    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">over 5 fake ids.</span>
+    <span style="font-weight: bold;">SELECT</span>
+      floor(random() * 10) <span style="font-weight: bold;">AS</span> id,
+      floor(random() * 100) <span style="font-weight: bold;">AS</span> <span style="font-weight: bold;">value</span>
+    <span style="font-weight: bold;">FROM</span> generate_series(1, 20)
+  )
+  <span style="font-weight: bold;">SELECT</span>
+    tr.id,
+    tr.<span style="font-weight: bold;">value</span>,
+    CUME_DIST() OVER w <span style="font-weight: bold;">as</span> c_rank,
+    PERCENT_RANK() OVER w <span style="font-weight: bold;">as</span> p_rank
+  <span style="font-weight: bold;">FROM</span> test_rows tr
+  WINDOW w <span style="font-weight: bold;">AS</span> (
+    PARTITION <span style="font-weight: bold;">BY</span> tr.id
+    <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> tr.<span style="font-weight: bold;">value</span>
+  );
+#+end_src <span style="font-weight: bold;">sql</span>
+
+#+begin_src 
+   id | <span style="font-weight: bold;">value</span> |       c_rank       |       p_rank       
+  <span style="font-weight: bold; font-style: italic;">----</span><span style="font-weight: bold; font-style: italic;">+-------+--------------------+--------------------</span>
+    0 |    61 |                0.5 |                  0
+    0 |    92 |                  1 |                  1
+    1 |    21 |                0.5 |                  0
+    1 |    31 |                  1 |                  1
+    2 |     4 | 0.3333333333333333 |                  0
+    2 |    15 | 0.6666666666666666 |                0.5
+    2 |    68 |                  1 |                  1
+    3 |    29 |                0.5 |                  0
+    3 |    72 |                  1 |                  1
+    4 |     7 |               0.25 |                  0
+    4 |    31 |                0.5 | 0.3333333333333333
+    4 |    35 |               0.75 | 0.6666666666666666
+    4 |    63 |                  1 |                  1
+    6 |    39 |                  1 |                  0
+    7 |    26 |                0.5 |                  0
+    7 |    43 |                  1 |                  1
+    8 |    18 |               0.25 |                  0
+    8 |    62 |                0.5 | 0.3333333333333333
+    8 |    66 |               0.75 | 0.6666666666666666
+    8 |    96 |                  1 |                  1
+</pre>
 </div>
 </div>
-<div id="outline-container-org50c3f37" class="outline-2">
-<h2 id="org50c3f37">Using Advanced Statement Window Functions</h2>
+</div>
+<div id="outline-container-org49e89d0" class="outline-3">
+<h3 id="org49e89d0"><code>NTILE</code></h3>
+<div class="outline-text-3" id="text-org49e89d0">
+<ul class="org-ul">
+<li>Divides an ordered partition into a number of ranked groups, each having
+close-to-equal size, if feasible.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> 
+    id,
+    NTILE(3) OVER w
+  <span style="font-weight: bold;">FROM</span> (<span style="font-weight: bold;">SELECT</span> generate_series(1,6) <span style="font-weight: bold;">AS</span> id)
+  WINDOW w <span style="font-weight: bold;">AS</span> (<span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> id);
+</pre>
 </div>
 
-<div id="outline-container-org95c4e48" class="outline-2">
-<h2 id="org95c4e48">Value Functions</h2>
+<div class="org-src-container">
+<pre class="src src-text"> id | ntile 
+----+-------
+  1 |     1
+  2 |     1
+  3 |     2
+  4 |     2
+  5 |     3
+  6 |     3
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org0f2fd21" class="outline-2">
+<h2 id="org0f2fd21">Using Advanced Statement Window Functions</h2>
 </div>
 
-<div id="outline-container-org4b36d49" class="outline-2">
-<h2 id="org4b36d49">References:</h2>
-<div class="outline-text-2" id="text-org4b36d49">
+<div id="outline-container-orgc49b2a3" class="outline-2">
+<h2 id="orgc49b2a3">Value Functions</h2>
+</div>
+
+<div id="outline-container-org3f6f5ee" class="outline-2">
+<h2 id="org3f6f5ee">References:</h2>
+<div class="outline-text-2" id="text-org3f6f5ee">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>

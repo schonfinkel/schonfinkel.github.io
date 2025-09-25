@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-08 Mon 13:07 -->
+<!-- 2025-09-25 Thu 15:20 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SQL</title>
@@ -55,17 +55,31 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">SQL</h1>
-</header><div id="outline-container-org78c78f0" class="outline-2">
-<h2 id="org78c78f0">Logical Query Processing Order</h2>
-<div class="outline-text-2" id="text-org78c78f0">
+</header><blockquote>
+<p>
+The SQL language has several parts:
+</p>
+
+<ul class="org-ul">
+<li>Data-definition language (DDL). The SQL DDL provides commands for defining
+relation schemas, deleting relations, and modifying relation schemas.</li>
+
+<li>Data-manipulation language (DML). The SQL DML provides the ability to query
+information from the database and to insert tuples into, delete tuples from,
+and modify tuples in the database.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Silberschatz et al. 2019, 7:66 chap.3 part.3.1</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgb6e9be3" class="outline-2">
+<h2 id="orgb6e9be3">Logical Query Processing Order</h2>
+<div class="outline-text-2" id="text-orgb6e9be3">
 </div>
-<div id="outline-container-org2331c79" class="outline-3">
-<h3 id="org2331c79">FROM</h3>
-<div class="outline-text-3" id="text-org2331c79">
-</div>
-<div id="outline-container-org0b0f0ad" class="outline-4">
-<h4 id="org0b0f0ad">JOIN</h4>
-<div class="outline-text-4" id="text-org0b0f0ad">
+<div id="outline-container-orgc9954e1" class="outline-3">
+<h3 id="orgc9954e1"><code>FROM</code> and <code>JOIN</code></h3>
+<div class="outline-text-3" id="text-orgc9954e1">
 <table>
 
 
@@ -107,52 +121,107 @@ proceed to the qualification step.
 <p>
 <code>INNER</code> and <code>OUTER</code> <code>JOINS</code> are called "qualified JOINs", the qualification
 predicated is specified using the <code>ON</code> keyword, which filters all rows from the
-previous cartesian step where the predicate is <code>TRUE</code>. If the request is an
-<code>INNER JOIN</code>, then the qualified rows are returned to the next clause, if it is an
-<code>OUTER JOIN</code>, the qualified rows go throught the next step.
+previous cartesian step where the predicate is <code>TRUE</code>.
+</p>
+
+<p>
+If the request is an <code>INNER JOIN</code>, then the qualified rows are returned to the
+next clause, if it is an <code>OUTER JOIN</code>, the qualified rows go throught the next
+step.
 </p>
 </div>
-<div id="outline-container-orgcbd1e85" class="outline-5">
-<h5 id="orgcbd1e85">Chiastic Order</h5>
+<div id="outline-container-org82ae89b" class="outline-4">
+<h4 id="org82ae89b">Chiastic Order</h4>
 </div>
 </div>
+<div id="outline-container-orga8484ec" class="outline-3">
+<h3 id="orga8484ec"><code>WHERE</code></h3>
 </div>
-<div id="outline-container-org7964a63" class="outline-3">
-<h3 id="org7964a63">WHERE</h3>
+
+<div id="outline-container-orgefce92b" class="outline-3">
+<h3 id="orgefce92b"><code>GROUP BY</code></h3>
+<div class="outline-text-3" id="text-orgefce92b">
 </div>
-<div id="outline-container-org76f4e4b" class="outline-3">
-<h3 id="org76f4e4b">GROUP BY</h3>
-</div>
-<div id="outline-container-org45000b9" class="outline-3">
-<h3 id="org45000b9">HAVING</h3>
-</div>
-<div id="outline-container-orga7049aa" class="outline-3">
-<h3 id="orga7049aa">SELECT</h3>
-</div>
-<div id="outline-container-org1dfd4ac" class="outline-3">
-<h3 id="org1dfd4ac">ORDER BY</h3>
-</div>
-<div id="outline-container-org5257a79" class="outline-3">
-<h3 id="org5257a79">OFFSET/FETCH</h3>
-</div>
-</div>
-<div id="outline-container-org5acc248" class="outline-2">
-<h2 id="org5acc248">References:</h2>
-<div class="outline-text-2" id="text-org5acc248">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-</div>
-</div>
-</div>
-<div id="outline-container-orge86cb5c" class="outline-2">
-<h2 id="orge86cb5c">Backlinks:</h2>
-<div class="outline-text-2" id="text-orge86cb5c">
+<div id="outline-container-org4320db2" class="outline-4">
+<h4 id="org4320db2">Stream/Group Aggregation</h4>
+<div class="outline-text-4" id="text-org4320db2">
 <ul class="org-ul">
-<li><a href="./20240921191551-ctes_postgresql.html">CTE (PostgreSQL)</a></li>
+<li>Requires input streams to be sorted.</li>
+<li>Useful for "Top-N" queries, as it is more memory efficient due to its
+streaming behaviour.</li>
+<li>It's called <code>GroupAggregate</code> on the <code>EXPLAIN ANALYZE</code> output.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org43462da" class="outline-4">
+<h4 id="org43462da">Hash-based Aggregation</h4>
+<div class="outline-text-4" id="text-org43462da">
+<ul class="org-ul">
+<li>Builds a temporary in-memory hash table using the conditions from <code>GROUP BY</code>.</li>
+<li>Does not require the input stream to be sorted.</li>
+<li>It's called <code>HashAggregate</code> on the <code>EXPLAIN ANALYZE</code> output.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgba7bbaf" class="outline-3">
+<h3 id="orgba7bbaf"><code>HAVING</code></h3>
+<div class="outline-text-3" id="text-orgba7bbaf">
+<ul class="org-ul">
+<li>Acts as a <code>WHERE</code> clause on the outputs generated by the <code>GROUP BY</code>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4f4886e" class="outline-3">
+<h3 id="org4f4886e">Window Functions</h3>
+</div>
+
+<div id="outline-container-orgcf51c91" class="outline-3">
+<h3 id="orgcf51c91"><code>SELECT</code></h3>
+</div>
+
+<div id="outline-container-orgf1d9db9" class="outline-3">
+<h3 id="orgf1d9db9"><code>DISTINCT</code></h3>
+<div class="outline-text-3" id="text-orgf1d9db9">
+<ul class="org-ul">
+<li>Can either happen via a <code>HashAggregate</code> or a combination of <code>SORT/UNIQUE</code>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org10c58d0" class="outline-3">
+<h3 id="org10c58d0"><code>UNION</code> / <code>UNION ALL</code></h3>
+</div>
+
+<div id="outline-container-org7cc3e98" class="outline-3">
+<h3 id="org7cc3e98"><code>ORDER BY</code></h3>
+</div>
+
+<div id="outline-container-orgbd137ca" class="outline-3">
+<h3 id="orgbd137ca"><code>OFFSET</code></h3>
+</div>
+
+<div id="outline-container-org7e18b7b" class="outline-3">
+<h3 id="org7e18b7b"><code>LIMIT</code> / <code>FETCH ROWS</code> / <code>TOP</code></h3>
+</div>
+</div>
+<div id="outline-container-org6fc3d8a" class="outline-2">
+<h2 id="org6fc3d8a">References:</h2>
+<div class="outline-text-2" id="text-org6fc3d8a">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Silberschatz, Abraham, Henry F Korth, Shashank Sudarshan, and others. 2019. <i>Database System Concepts</i>. Vol. 7. McGraw-Hill New York.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3736816" class="outline-2">
+<h2 id="org3736816">Backlinks:</h2>
+<div class="outline-text-2" id="text-org3736816">
+<ul class="org-ul">
+<li><a href="./20250604121014-aggregate_functions_sql.html">Aggregate Functions (SQL)</a></li>
 <li><a href="./20250524111022-join_sql.html">JOIN (SQL)</a></li>
 <li><a href="./20250529101855-subqueries_sql.html">Subqueries (SQL)</a></li>
-<li><a href="./20250604121014-aggregate_functions_sql.html">Aggregate Functions (SQL)</a></li>
-<li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
 <li><a href="./20240820100534-postgresql.html">PostgreSQL</a></li>
+<li><a href="./20240921191551-ctes_postgresql.html">CTE (PostgreSQL)</a></li>
+<li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
 </ul>
 </div>
 </div>
