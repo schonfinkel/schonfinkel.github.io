@@ -48,6 +48,68 @@ you can also define aliases for the window frames.
   ORDER BY category;
 #+end_src
 
+** Frames
+
++ Partitions can be divided into ~frames~
++ Frames can either be *absolute* or *relative*
+
+  #+begin_src sql
+    SELECT
+      -- (...)
+    FROM table
+    WINDOW w as (
+      PARTITION BY ...
+      ORDER BY ...
+      MODE BETWEEN f_start AND f_end [EXCLUDE exclusion_mode]
+    )
+  #+end_src
+
++ The default frame is equivalent to:
+
+    #+begin_src sql
+      PARTITION BY ...
+      ORDER BY ...
+      RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    #+end_src
+
++ To span an entire partition, set the mode equals to ~ROWS~ and use ~UNBOUNDED FOLLOWING~.
+
+    #+begin_src sql
+      PARTITION BY ...
+      ORDER BY ...
+      ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    #+end_src
+
++ If you want to limit the amount of records inside a frame:
+
+    #+begin_src sql
+      PARTITION BY ...
+      ORDER BY ...
+      ROWS BETWEEN M PRECEDING AND N FOLLOWING
+    #+end_src
+
++ You can also use ~GROUPS~ instead of ~ROWS~, to span a group of records:
+
+    #+begin_src sql
+      PARTITION BY ...
+      ORDER BY ...
+      GROUPS BETWEEN ... AND ...
+    #+end_src
+
++ ~EXCLUDE~ can used to drop certain records from the frame, by default this is
+  the to ~NO OTHERS~. This can be set to:
+
+    #+begin_src sql
+      PARTITION BY ...
+      ORDER BY ...
+      ROWS BETWEEN M PRECEDING AND N FOLLOWING
+      EXCLUDE CURRENT ROW
+      -- or
+      EXCLUDE CURRENT GROUP
+      -- or
+      EXCLUDE TIES
+    #+end_src
+
 * Introducing some useful functions
 
 ** ~ROW_NUMBER~
@@ -61,26 +123,221 @@ you can also define aliases for the window frames.
   ORDER BY category;
 #+end_src
 
-** ~LEAD~
-The ~LEAD()~ function is used to retrieve data from the next row.
+** ~SUM~
 
-** ~LAG~
-The ~LAG()~ function is used to retrieve data from the previous row.
+  #+begin_src sql
+    SELECT
+      SUM(amount) OVER w
+    FROM table
+    WINDOW w as (
+      PARTITION BY id
+      ORDER BY created_on
+    )
+  #+end_src
 
-** ~ORDER BY~
+** ~LEAD~ & ~LAG~
+
+#+begin_quote
+The ~LAG~ function returns a value evaluated at the row that is offset rows before
+the current row within the partition; if there is no such row, it instead
+returns the default (which must be of the same type as the value). Both the
+offset and the default are evaluated with respect to the current row. If
+omitted, ~OFFSET~ defaults to 1 and default to null
+[cite:@ferrari2023postgres p.163 chap.6]
+#+end_quote
+
++ The ~LEAD(field, N)~ function is used to retrieve data from the next N rows.
++ The ~LAG(field, N)~ function is used to retrieve data from the previous N rows.
+
+  #+begin_src sql
+    SELECT
+      id,
+      created_at,
+      LEAD(created_at, 1) OVER w as prev_timestamp,
+      LAG(created_at, 1) OVER w as next_timestamp
+    FROM table
+    WINDOW w as (
+      PARTITION BY id
+      ORDER BY created_at
+    )
+  #+end_src
 
 ** ~FIRST_VALUE()~ and ~LAST_VALUE()~
++ You can reference the beginning/end of a partition.
 
-** ~RANK~
+  #+begin_src sql
+    SELECT
+      id,
+      created_at,
+      created_at - FIRST_VALUE(created_at) OVER w as timestamp_since_first,
+      LAST_VALUE(created_at) - created_at OVER w as timestamp_until_last
+    FROM table
+    WINDOW w as (
+      PARTITION BY id
+      ORDER BY created_at
+      RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    )
+  #+end_src
 
-** ~DENSE_RANK~
+** ~RANK~ and ~DENSE_RANK~
+
+#+begin_quote
+The ~RANK~ function ranks the current row within its partition with gaps. If we
+don't specify a ~PARTITION BY~ clause, the function doesn't know how to correlate
+the current tuple, so the function correlates to itself. (...). If we add the
+~ORDER BY~ clause, the function ranks in the assigned order. (...). If we add the
+~PARTITION BY~ clause, the working mechanism is the same; the only difference is
+that the ranking is calculated within the partition and not on the whole table.
+[cite:@ferrari2023postgres p.161-162 chap.6]
+#+end_quote
+
+| ~id~ | ~name~  | ~month~ | ~sold_products~ |
+|----+-------+-------+---------------|
+|  1 | Carl  |     1 |          2200 |
+|  2 | Grace |     1 |          2200 |
+|  3 | Alex  |     1 |          1200 |
+|  1 | Carl  |     2 |          1200 |
+|  2 | Grace |     2 |           500 |
+|  3 | Alex  |     2 |          2200 |
+|  1 | Carl  |     3 |          3000 |
+|  2 | Grace |     3 |          3000 |
+
+  #+begin_src sql
+    SELECT
+      RANK() OVER(w) AS rank,
+      name,
+      month,
+      sold_products
+    FROM sales
+    WINDOW w AS (
+      ORDER BY sold products DESC
+    );
+  #+end_src
+
+| ~rank~ | ~name~  | ~month~ | ~sold_products~ |
+|------+-------+-------+---------------|
+|    1 | Carl  |     1 |          2200 |
+|    1 | Grace |     1 |          2500 |
+|    3 | Alex  |     1 |          1200 |
+|    1 | Alex  |     2 |          2200 |
+|    2 | Carl  |     2 |          1200 |
+|    3 | Grace |     2 |           500 |
+|    1 | Carl  |     3 |          3000 |
+|    1 | Grace |     3 |          3000 |
+
+
+#+begin_quote
+Similar to the RANK function. The difference is that the ~DENSE_RANK~ function
+ranks the current row within its partition without gaps.
+
+[cite:@ferrari2023postgres p.162 chap.6]
+#+end_quote
+
+  #+begin_src sql
+    SELECT
+      DENSE_RANK() OVER(w) AS rank,
+      name,
+      month,
+      sold_products
+    FROM sales
+    WINDOW w AS (
+      ORDER BY sold products DESC
+    );
+  #+end_src
+
+| ~rank~ | ~name~  | ~month~ | ~sold_products~ |
+|------+-------+-------+---------------|
+|    1 | Carl  |     1 |          2200 |
+|    1 | Grace |     1 |          2500 |
+|    2 | Alex  |     1 |          1200 |
+|    1 | Alex  |     2 |          2200 |
+|    2 | Carl  |     2 |          1200 |
+|    3 | Grace |     2 |           500 |
+|    1 | Carl  |     3 |          3000 |
+|    1 | Grace |     3 |          3000 |
+
+** ~PERCENTILE_CONT~
+
+#+begin_src sql
+  WITH test_rows AS (
+    -- Generates a series of random numbers between 0 and 100, distributed
+    -- over 10 fake ids.
+    SELECT
+      floor(random() * 10) AS id,
+      floor(random() * 100) AS value
+    FROM generate_series(1, 100)
+  )
+  SELECT
+    tr.id,
+    PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY tr.value) as median,
+    PERCENTILE_CONT(0.75) WITHIN GROUP(ORDER BY tr.value) as p75,
+    PERCENTILE_CONT(0.95) WITHIN GROUP(ORDER BY tr.value) as p95,
+    PERCENTILE_CONT(0.99) WITHIN GROUP(ORDER BY tr.value) as p99
+  FROM test_rows tr
+  GROUP BY tr.id
+  ORDER BY tr.id ASC
+#+end_src
+
+#+begin_src text
+ id | median |  p75  |        p95        |        p99        
+----+--------+-------+-------------------+-------------------
+  0 |     45 |  59.5 |              71.5 |              75.9
+  1 |     32 |    81 |              83.4 |             84.68
+  2 |     62 |  72.5 | 88.89999999999998 |             95.38
+  3 |     54 | 69.25 |             92.15 |             92.83
+  4 |     65 |  81.5 |              96.1 |             96.82
+  5 |   46.5 |    82 |              96.6 |             97.72
+  6 |     28 |    60 | 71.39999999999999 |             74.28
+  7 |     48 |  59.5 |             86.25 |             88.45
+  8 |     44 | 53.25 |              73.8 |             75.56
+  9 |   39.5 |  59.5 |              90.5 | 97.30000000000001
+#+end_src
+
+** ~PERCENTILE_DISC~
+
++ Discrete version of ~PERCENTILE_CONT~, gets the closest value, does not perform interpolation.
+
+#+begin_src sql
+  WITH test_rows AS (
+    -- Generates a series of random numbers between 0 and 100, distributed
+    -- over 10 fake ids.
+    SELECT
+      floor(random() * 10) AS id,
+      floor(random() * 100) AS value
+    FROM generate_series(1, 100)
+  )
+  SELECT
+    tr.id,
+    PERCENTILE_DISC(0.5) WITHIN GROUP(ORDER BY tr.value) as median,
+    PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY tr.value) as p75,
+    PERCENTILE_DISC(0.95) WITHIN GROUP(ORDER BY tr.value) as p95,
+    PERCENTILE_DISC(0.99) WITHIN GROUP(ORDER BY tr.value) as p99
+  FROM test_rows tr
+  GROUP BY tr.id
+  ORDER BY tr.id ASC
+#+end_src
+
+#+begin_src text
+ id | median | p75 | p95 | p99 
+----+--------+-----+-----+-----
+  0 |     54 |  83 |  89 |  89
+  1 |     58 |  67 |  91 |  91
+  2 |     43 |  82 |  98 |  98
+  3 |     55 |  85 |  94 |  94
+  4 |     48 |  89 |  97 |  97
+  5 |     52 |  78 |  96 |  96
+  6 |     41 |  74 |  98 |  98
+  7 |     66 |  76 |  89 |  89
+  8 |     44 |  87 |  91 |  91
+  9 |     61 |  77 |  98 |  98
+#+end_src
 
 ** ~CUME_DIST~
 
 #+begin_quote
 The ~CUME_DIST~ function computes the fraction of partition rows that are less
 than or equal to the current row and its peers.
-[cite:@ferrari2023postgres p.165]
+[cite:@ferrari2023postgres p.165 chap.6]
 #+end_quote
 
 #+begin_src sql
@@ -105,7 +362,77 @@ than or equal to the current row and its peers.
    10 |         1
 #+end_src
 
+** ~PERCENT_RANK~
++ Calculates percent values in a current partition.
+
+#+begin_src sql
+  WITH test_rows AS (
+    -- Generates a series of random numbers between 0 and 100, distributed
+    -- over 5 fake ids.
+    SELECT
+      floor(random() * 10) AS id,
+      floor(random() * 100) AS value
+    FROM generate_series(1, 20)
+  )
+  SELECT
+    tr.id,
+    tr.value,
+    CUME_DIST() OVER w as c_rank,
+    PERCENT_RANK() OVER w as p_rank
+  FROM test_rows tr
+  WINDOW w AS (
+    PARTITION BY tr.id
+    ORDER BY tr.value
+  );
+#+end_src sql
+
+#+begin_src 
+   id | value |       c_rank       |       p_rank       
+  ----+-------+--------------------+--------------------
+    0 |    61 |                0.5 |                  0
+    0 |    92 |                  1 |                  1
+    1 |    21 |                0.5 |                  0
+    1 |    31 |                  1 |                  1
+    2 |     4 | 0.3333333333333333 |                  0
+    2 |    15 | 0.6666666666666666 |                0.5
+    2 |    68 |                  1 |                  1
+    3 |    29 |                0.5 |                  0
+    3 |    72 |                  1 |                  1
+    4 |     7 |               0.25 |                  0
+    4 |    31 |                0.5 | 0.3333333333333333
+    4 |    35 |               0.75 | 0.6666666666666666
+    4 |    63 |                  1 |                  1
+    6 |    39 |                  1 |                  0
+    7 |    26 |                0.5 |                  0
+    7 |    43 |                  1 |                  1
+    8 |    18 |               0.25 |                  0
+    8 |    62 |                0.5 | 0.3333333333333333
+    8 |    66 |               0.75 | 0.6666666666666666
+    8 |    96 |                  1 |                  1
+#+end_src
+
 ** ~NTILE~
++ Divides an ordered partition into a number of ranked groups, each having
+  close-to-equal size, if feasible.
+
+#+begin_src sql
+  SELECT 
+    id,
+    NTILE(3) OVER w
+  FROM (SELECT generate_series(1,6) AS id)
+  WINDOW w AS (ORDER BY id);
+#+end_src
+
+#+begin_src text
+ id | ntile 
+----+-------
+  1 |     1
+  2 |     1
+  3 |     2
+  4 |     2
+  5 |     3
+  6 |     3
+#+end_src
 
 * Using Advanced Statement Window Functions
 

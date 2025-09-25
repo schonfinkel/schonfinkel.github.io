@@ -1,0 +1,18 @@
+:PROPERTIES:
+:ID:       13a820d4-ff88-40fe-b031-ec90a530fe48
+:END:
+#+title: Pagination (SQL)
+#+FILETAGS: :sql:
+
+#+begin_quote
+After implementing a pipelined top-N query to retrieve the first page
+efficiently, you will often also need another query to fetch the next pages. The
+resulting challenge is that it has to skip the rows from the previous
+pages. There are two different methods to meet this challenge: firstly the
+*offset method*, which numbers the rows from the beginning and uses a filter on
+this row number to discard the rows before the requested page. The second
+method, which I call the *seek method*, searches the last entry of the previous
+page and fetches only the following rows.
+
+[cite:@winand2012sql p.148 chap.7]
+#+end_quote
