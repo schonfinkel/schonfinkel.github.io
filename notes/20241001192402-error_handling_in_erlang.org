@@ -194,7 +194,8 @@ are linked to it in the form of a tuple. The tuple contains the atom ~EXIT~, the
 + A process termination can be *normal* or *abnormal*.
   * *Normal*: When there is no more code to execute.
   * *Abnormal*: Initiated in case of a runtime error, receiving an exit signal
-    when not trapping exits, or by calling the ~exit~ BIFs.
+    (without proper trapping), or by calling the ~exit~ BIFs.
+
 + When a process terminates, it sends a signal to all process its linked to. The
   exit signal will contain the following information:
 

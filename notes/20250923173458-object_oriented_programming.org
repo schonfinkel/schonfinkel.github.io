@@ -22,4 +22,63 @@ principles for building data abstractions:
 [cite:@van2004concepts p.489-490 chap.7]
 #+end_quote
 
+* Inheritance
 
+#+begin_quote
+Inheritance is based on the observation that data abstractions frequently have much
+in common.
+
+(...)
+
+A data abstraction can be deﬁned to "*inherit*" from one or more other data
+abstractions, i.e., *to have substantially the same functionality as the others,
+with possibly some extensions and modiﬁcations*. Only the diﬀerences between the
+data abstraction and its ancestors have to be speciﬁed. Such an incremental
+*deﬁnition of a data abstraction is called a *class*.
+
+A new class is deﬁned by a kind of transformation: one or more existing classes
+are combined with a description of the extensions and modiﬁcations to give the
+new class. Object-oriented languages support this transformation by adding
+classes as a linguistic abstraction.
+
+While inheritance has great promise, experience shows that it must be used with
+great care. First of all, the transformation must be deﬁned with intimate
+knowledge of the ancestor classes, since they can easily break a class 
+invariant. Another problem is that using inheritance opens an additional
+interface to a component. That is, the ability to extend a class can be seen as
+an additional way to interact with that class. This interface has to be
+maintained throughout the lifetime of the component. 
+
+(...)
+
+Instead of using inheritance, an alternative is to use component-based
+programming, i.e., to use components directly and compose them. The idea is to
+deﬁne a component that encapsulates another component and provides a modiﬁed
+functionality. There is a trade-oﬀ between inheritance and component
+composition: inheritance is more ﬂexible but can break a class invariant,
+whereas component composition is less ﬂexible but cannot break a component
+invariant. This trade-oﬀ should be carefully considered whenever an abstraction
+must be extended.
+
+[cite:@van2004concepts p.491-492 chap.7 part.7.1]
+#+end_quote
+
+* Classes as Complete Data Abstractions
+
+#+begin_quote
+The heart of the object concept is controlled access to encapsulated data. The
+behavior of an object is speciﬁed by a class. In the most general case, a class
+is an incremental deﬁnition of a data abstraction, that deﬁnes the abstraction
+as a modiﬁcation of others.
+
+[cite:@van2004concepts p.493 chap.7 part.7.2]
+#+end_quote
+
+
++ /Complete Data Abstraction/: Define the elements that make up a class.
+  * i.e. methods, attributes, and properties.
+  * Dynamic Typing \rightarrow ﬁrst-class messages and ﬁrst-class attributes.
+
++ /Incremental Data Abstraction/: Inheritance and its related concepts.
+
+*** Class Members
