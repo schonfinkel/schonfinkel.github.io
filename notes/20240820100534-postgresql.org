@@ -5,13 +5,6 @@
 #+TITLE: PostgreSQL
 #+filetags: :postgresql: :sql:
 
-PostgreSQL relies heavily on transactions to keep data consistent across concurrent connections
-and parallel activities, and thanks to Write-Ahead Logs (WALs), PostgreSQL does its best to
-keep the data safe and reliable. Moreover, PostgreSQL implements multi-version concurrency
-control (MVCC), a way to maintain high concurrency among transactions.
-
-Multi-Version Concurrency Control
-
 #+begin_quote
 PostgreSQL is fully ACID-compliant (see the box below) and has a very strong
 foundation in data integrity and concurrency. It ships with a procedural
@@ -104,4 +97,3 @@ It's the memory allocated to each backend process.
 | ~work_mem~             | Sorting & Hash tables              | 1 MB    |
 | ~temp_buffers~         | Temporary Tables                   | 8 MB    |
 | ~maintenance_work_mem~ | VACUUM and ~CREATE INDEX~ operations | 64 MB   |
-
