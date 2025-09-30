@@ -3,7 +3,14 @@
 :ROAM_ALIASES: "Postgres"
 :END:
 #+TITLE: PostgreSQL
-#+filetags: :postgresql:
+#+filetags: :postgresql: :sql:
+
+PostgreSQL relies heavily on transactions to keep data consistent across concurrent connections
+and parallel activities, and thanks to Write-Ahead Logs (WALs), PostgreSQL does its best to
+keep the data safe and reliable. Moreover, PostgreSQL implements multi-version concurrency
+control (MVCC), a way to maintain high concurrency among transactions.
+
+Multi-Version Concurrency Control
 
 #+begin_quote
 PostgreSQL is fully ACID-compliant (see the box below) and has a very strong
