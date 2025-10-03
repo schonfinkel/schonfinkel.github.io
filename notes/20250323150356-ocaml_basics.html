@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-25 Thu 15:21 -->
+<!-- 2025-10-03 Fri 18:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OCaml Basics</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <!-- syntax highlighting -->
 <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
 <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
@@ -46,7 +46,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -55,20 +55,20 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">OCaml Basics</h1>
-</header><div id="outline-container-org1f4c65e" class="outline-2">
-<h2 id="org1f4c65e">Expressions</h2>
-<div class="outline-text-2" id="text-org1f4c65e">
+</header><div id="outline-container-org97a1821" class="outline-2">
+<h2 id="org97a1821">Expressions</h2>
+<div class="outline-text-2" id="text-org97a1821">
 <p>
 The <a href="20250206092839-ocaml.html#ID-3a8d5cf5-9b6c-4995-b7f0-b2218e52bd01">OCaml</a> <a href="https://ocaml.org/manual/5.3/expr.html">manual</a> has a complete definition of all the expressions in the language.
 </p>
 </div>
-<div id="outline-container-org8922d13" class="outline-3">
-<h3 id="org8922d13">Primitive Types</h3>
-<div class="outline-text-3" id="text-org8922d13">
+<div id="outline-container-org80ba96c" class="outline-3">
+<h3 id="org80ba96c">Primitive Types</h3>
+<div class="outline-text-3" id="text-org80ba96c">
 </div>
-<div id="outline-container-org9b91859" class="outline-4">
-<h4 id="org9b91859">Integers</h4>
-<div class="outline-text-4" id="text-org9b91859">
+<div id="outline-container-org6e06cd5" class="outline-4">
+<h4 id="org6e06cd5">Integers</h4>
+<div class="outline-text-4" id="text-org6e06cd5">
 <blockquote>
 <p>
 OCaml integers range from 2<sup>62</sup> to 2<sup>62</sup> − 1 on modern platforms. They are
@@ -84,53 +84,53 @@ purposes, the built-in int type suffices and offers the best performance.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org3d4b0c2" class="outline-4">
-<h4 id="org3d4b0c2">Float</h4>
+<div id="outline-container-org6bfb5f7" class="outline-4">
+<h4 id="org6bfb5f7">Float</h4>
 </div>
 
-<div id="outline-container-org5b1a082" class="outline-4">
-<h4 id="org5b1a082">Bool</h4>
+<div id="outline-container-org974ce59" class="outline-4">
+<h4 id="org974ce59">Bool</h4>
 </div>
 
-<div id="outline-container-orga5bf7ad" class="outline-4">
-<h4 id="orga5bf7ad">Char</h4>
+<div id="outline-container-org19b2bd6" class="outline-4">
+<h4 id="org19b2bd6">Char</h4>
 </div>
 
-<div id="outline-container-org3435038" class="outline-4">
-<h4 id="org3435038">String</h4>
+<div id="outline-container-org51e572d" class="outline-4">
+<h4 id="org51e572d">String</h4>
 </div>
 </div>
-<div id="outline-container-org11908d1" class="outline-3">
-<h3 id="org11908d1">More Operators</h3>
-</div>
-
-<div id="outline-container-orge51ef7a" class="outline-3">
-<h3 id="orge51ef7a">Assertions</h3>
+<div id="outline-container-orgc8fd128" class="outline-3">
+<h3 id="orgc8fd128">More Operators</h3>
 </div>
 
-<div id="outline-container-org52b2d3e" class="outline-3">
-<h3 id="org52b2d3e">If Expressions</h3>
+<div id="outline-container-orgcded79a" class="outline-3">
+<h3 id="orgcded79a">Assertions</h3>
 </div>
 
-<div id="outline-container-org78d7b30" class="outline-3">
-<h3 id="org78d7b30">Let Expressions</h3>
+<div id="outline-container-org6420b0a" class="outline-3">
+<h3 id="org6420b0a">If Expressions</h3>
 </div>
 
-<div id="outline-container-orgb351e27" class="outline-3">
-<h3 id="orgb351e27">Scope</h3>
+<div id="outline-container-org869ce94" class="outline-3">
+<h3 id="org869ce94">Let Expressions</h3>
 </div>
 
-<div id="outline-container-org3895498" class="outline-3">
-<h3 id="org3895498">Type Annotations</h3>
+<div id="outline-container-orgd774eea" class="outline-3">
+<h3 id="orgd774eea">Scope</h3>
 </div>
 
-<div id="outline-container-orgeeda1ec" class="outline-3">
-<h3 id="orgeeda1ec"></h3>
+<div id="outline-container-org5aa3ca7" class="outline-3">
+<h3 id="org5aa3ca7">Type Annotations</h3>
+</div>
+
+<div id="outline-container-org09b87ea" class="outline-3">
+<h3 id="org09b87ea"></h3>
 </div>
 </div>
-<div id="outline-container-orgfacd92a" class="outline-2">
-<h2 id="orgfacd92a">References:</h2>
-<div class="outline-text-2" id="text-orgfacd92a">
+<div id="outline-container-orgf798301" class="outline-2">
+<h2 id="orgf798301">References:</h2>
+<div class="outline-text-2" id="text-orgf798301">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Clarkson, Michael Ryan. 2025. <i>Ocaml Programming: Correct + Efficient + Beautiful</i>. <a href="https://cs3110.github.io/textbook/">https://cs3110.github.io/textbook/</a>.</div>
 </div>

@@ -4,7 +4,7 @@
 <!-- 2025-10-03 Fri 18:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Monoidal Finite-State Automaton</title>
+<title>Multi-Version Concurrency Control</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -28,38 +28,6 @@
       inlineMath: [['\\(', '\\)']]                  // inline
     }
   };
-</script>
-<script>
-  window.MathJax = {
-    tex: {
-      ams: {
-        multlineWidth: '85%'
-      },
-      tags: 'ams',
-      tagSide: 'left',
-      tagIndent: '.8em'
-    },
-    chtml: {
-      scale: 1.0,
-      displayAlign: 'left',
-      displayIndent: '5em'
-    },
-    svg: {
-      scale: 1.0,
-      displayAlign: 'left',
-      displayIndent: '5em'
-    },
-    output: {
-      font: 'mathjax-modern',
-      displayOverflow: 'overflow'
-    }
-  };
-</script>
-
-<script
-  id="MathJax-script"
-  async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 </head>
 <body>
@@ -86,31 +54,24 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Monoidal Finite-State Automaton</h1>
+<h1 class="title">Multi-Version Concurrency Control</h1>
 </header><blockquote>
 <p>
-A monoidal finite-state automaton (MSA) is a tuple of the
-form \(A = (\mathit{M}, \mathit{Q}, \mathit{I}, \mathit{F}, \Delta)\)  where:
+MVCC dictates that, instead of modifying an existing tuple within the database,
+the system has to replicate the tuple, apply the changes, and invalidate the
+original one. You can compare this to the <code>copy-on-write</code> mechanism used in
+operating filesystems such as <a href="20250708130121-zfs.html#ID-519e11ea-6d0f-4b1e-8edf-fd109ffd4677">ZFS</a>.
 </p>
-
-<ul class="org-ul">
-<li>\(\mathit{M} = (\texttt{M}, \circ, 1)\)  is a <a href="20231008214945-monoid.html#ID-d89285be-d7a9-46a1-8a10-e14e73b66935">Monoid</a>.</li>
-<li>\(\mathit{Q}\) is a finite set of states.</li>
-<li>\(\mathit{I} \subseteq \mathit{Q}\) is the set of initial states.</li>
-<li>\(\mathit{F} \subseteq \mathit{Q}\) is the set of final states.</li>
-<li>\(\Delta \subseteq \mathit{Q} \times \texttt{M} \times \mathit{Q}\) is a <b>finite</b> set called
-<i>transition relation</i>.</li>
-</ul>
 
 <p>
-(<a href="#citeproc_bib_item_1">Mihov and Schulz 2019, 60:23</a>)
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 373 chap.11</a>)
 </p>
 </blockquote>
-<div id="outline-container-org80df712" class="outline-2">
-<h2 id="org80df712">References:</h2>
-<div class="outline-text-2" id="text-org80df712">
+<div id="outline-container-orga2fe5e1" class="outline-2">
+<h2 id="orga2fe5e1">References:</h2>
+<div class="outline-text-2" id="text-orga2fe5e1">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Mihov, Stoyan, and Klaus U Schulz. 2019. <i>Finite-State Techniques</i>. Vol. 60. Cambridge University Press.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>

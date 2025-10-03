@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-25 Thu 15:20 -->
+<!-- 2025-10-03 Fri 18:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lambda Calculus</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <!-- syntax highlighting -->
 <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
 <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
@@ -78,7 +78,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -107,17 +107,17 @@ built-in syntactic restrictions, for example
 type-restrictions. (<a href="#citeproc_bib_item_1">Hindley and Seldin 2008, 1</a>)
 </p>
 </blockquote>
-<div id="outline-container-org90f4e7d" class="outline-2">
-<h2 id="org90f4e7d">Untyped &lambda;-Calculus</h2>
-<div class="outline-text-2" id="text-org90f4e7d">
+<div id="outline-container-org999c71e" class="outline-2">
+<h2 id="org999c71e">Untyped &lambda;-Calculus</h2>
+<div class="outline-text-2" id="text-org999c71e">
 </div>
-<div id="outline-container-orge4f38b5" class="outline-3">
-<h3 id="orge4f38b5">Definitions</h3>
-<div class="outline-text-3" id="text-orge4f38b5">
+<div id="outline-container-org81f10c8" class="outline-3">
+<h3 id="org81f10c8">Definitions</h3>
+<div class="outline-text-3" id="text-org81f10c8">
 </div>
-<div id="outline-container-org3a4433f" class="outline-4">
-<h4 id="org3a4433f">&lambda;-Term:</h4>
-<div class="outline-text-4" id="text-org3a4433f">
+<div id="outline-container-org406b16a" class="outline-4">
+<h4 id="org406b16a">&lambda;-Term:</h4>
+<div class="outline-text-4" id="text-org406b16a">
 <p>
 Assume given an infinite set \(V\) of variables, the set of lambda terms is given
 by the following Backus-Naur Form:
@@ -128,18 +128,18 @@ M, N &::=  x \mid (M N) \mid (\lambda x.M)
 \end{align*}
 </div>
 </div>
-<div id="outline-container-orgc80b638" class="outline-4">
-<h4 id="orgc80b638">Scope</h4>
-<div class="outline-text-4" id="text-orgc80b638">
+<div id="outline-container-org28de348" class="outline-4">
+<h4 id="org28de348">Scope</h4>
+<div class="outline-text-4" id="text-org28de348">
 <p>
 For a particular occurrence of \(λx.M\) in a term \(P\), the occurrence of \(M\) is
 called the scope of the occurrence of \(λx\) on the left.
 </p>
 </div>
 </div>
-<div id="outline-container-orgcacf119" class="outline-4">
-<h4 id="orgcacf119">Free and Bound Variables</h4>
-<div class="outline-text-4" id="text-orgcacf119">
+<div id="outline-container-org7863bf4" class="outline-4">
+<h4 id="org7863bf4">Free and Bound Variables</h4>
+<div class="outline-text-4" id="text-org7863bf4">
 <p>
 An occurrence of a variable \(x\) in a term \(P\) is called:
 </p>
@@ -161,9 +161,9 @@ FV(M N) &= FV(M) \cup FV(N)
 \end{align*}
 </div>
 </div>
-<div id="outline-container-org32fbaaa" class="outline-4">
-<h4 id="org32fbaaa">Substitution</h4>
-<div class="outline-text-4" id="text-org32fbaaa">
+<div id="outline-container-org0122d21" class="outline-4">
+<h4 id="org0122d21">Substitution</h4>
+<div class="outline-text-4" id="text-org0122d21">
 <blockquote>
 <p>
 For any \(M, N, x\), define \([N/x]M\) to be the result of substituting \(N\) for
@@ -187,9 +187,9 @@ clashes. The precise definition is by induction on \(M\), as follows:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgbb586e3" class="outline-4">
-<h4 id="orgbb586e3">&alpha;-conversion</h4>
-<div class="outline-text-4" id="text-orgbb586e3">
+<div id="outline-container-org1b7cb03" class="outline-4">
+<h4 id="org1b7cb03">&alpha;-conversion</h4>
+<div class="outline-text-4" id="text-org1b7cb03">
 <blockquote>
 <p>
 Let a term \(P\) contain an occurrence of \(\lambda x. M\), and let \(y \not\in FV(M)\). The act
@@ -208,30 +208,30 @@ we shall say <b>P is congruent to Q</b>, or <b>P α-converts to Q</b>, or \(P \e
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orge2cf77f" class="outline-4">
-<h4 id="orge2cf77f">&beta;-reduction</h4>
+<div id="outline-container-org4bfe6cf" class="outline-4">
+<h4 id="org4bfe6cf">&beta;-reduction</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-orgedb5d79" class="outline-2">
-<h2 id="orgedb5d79">Simply-typed &lambda;-Calculus.</h2>
-</div>
-
-<div id="outline-container-orgb01a807" class="outline-2">
-<h2 id="orgb01a807">Polymorphically typed &lambda;-Calculus</h2>
+<div id="outline-container-orge8083d7" class="outline-2">
+<h2 id="orge8083d7">Simply-typed &lambda;-Calculus.</h2>
 </div>
 
-<div id="outline-container-orgb895c6d" class="outline-2">
-<h2 id="orgb895c6d">References:</h2>
-<div class="outline-text-2" id="text-orgb895c6d">
+<div id="outline-container-org825b190" class="outline-2">
+<h2 id="org825b190">Polymorphically typed &lambda;-Calculus</h2>
+</div>
+
+<div id="outline-container-org4aa30a6" class="outline-2">
+<h2 id="org4aa30a6">References:</h2>
+<div class="outline-text-2" id="text-org4aa30a6">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Hindley, J Roger, and Jonathan P Seldin. 2008. <i>Lambda-Calculus and Combinators: An Introduction</i>. Cambridge University Press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd2b179e" class="outline-2">
-<h2 id="orgd2b179e">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgd2b179e">
+<div id="outline-container-org39a55ff" class="outline-2">
+<h2 id="org39a55ff">Backlinks:</h2>
+<div class="outline-text-2" id="text-org39a55ff">
 <ul class="org-ul">
 <li><a href="./20250119195829-curry_howard_isomorphism.html">Curry-Howard Isomorphism</a></li>
 <li><a href="./20250120081842-combinatory_logic.html">Combinatory Logic</a></li>

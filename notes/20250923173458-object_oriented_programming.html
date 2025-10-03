@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-25 Thu 15:20 -->
+<!-- 2025-10-03 Fri 18:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Object-Oriented Programming</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <!-- syntax highlighting -->
 <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
 <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
@@ -46,7 +46,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -76,17 +76,666 @@ style is important because it encourages polymorphism and inheritance.</li>
 (<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 489–90 chap.7</a>)
 </p>
 </blockquote>
-<div id="outline-container-org9e755fe" class="outline-2">
-<h2 id="org9e755fe">References:</h2>
-<div class="outline-text-2" id="text-org9e755fe">
+<div id="outline-container-orgbd7299d" class="outline-2">
+<h2 id="orgbd7299d">Inheritance</h2>
+<div class="outline-text-2" id="text-orgbd7299d">
+<blockquote>
+<p>
+Inheritance is based on the observation that data abstractions frequently have much
+in common.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+A data abstraction can be deﬁned to "<b>inherit</b>" from one or more other data
+abstractions, i.e., <b>to have substantially the same functionality as the others,
+with possibly some extensions and modiﬁcations</b>. Only the diﬀerences between the
+data abstraction and its ancestors have to be speciﬁed. Such an incremental
+<b>deﬁnition of a data abstraction is called a class</b>.
+</p>
+
+<p>
+A new class is deﬁned by a kind of transformation: one or more existing classes
+are combined with a description of the extensions and modiﬁcations to give the
+new class. Object-oriented languages support this transformation by adding
+classes as a linguistic abstraction.
+</p>
+
+<p>
+While inheritance has great promise, experience shows that it must be used with
+great care. First of all, the transformation must be deﬁned with intimate
+knowledge of the ancestor classes, since they can easily break a class 
+invariant. Another problem is that using inheritance opens an additional
+interface to a component. That is, the ability to extend a class can be seen as
+an additional way to interact with that class. This interface has to be
+maintained throughout the lifetime of the component. 
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+Instead of using inheritance, an alternative is to use component-based
+programming, i.e., to use components directly and compose them. The idea is to
+deﬁne a component that encapsulates another component and provides a modiﬁed
+functionality. There is a trade-oﬀ between inheritance and component
+composition: inheritance is more ﬂexible but can break a class invariant,
+whereas component composition is less ﬂexible but cannot break a component
+invariant. This trade-oﬀ should be carefully considered whenever an abstraction
+must be extended.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 491–92 chap.7 part.7.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgb342355" class="outline-2">
+<h2 id="orgb342355">Classes as Complete Data Abstractions</h2>
+<div class="outline-text-2" id="text-orgb342355">
+<blockquote>
+<p>
+The heart of the object concept is controlled access to encapsulated data. The
+behavior of an object is speciﬁed by a class. In the most general case, a class
+is an incremental deﬁnition of a data abstraction, that deﬁnes the abstraction
+as a modiﬁcation of others.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 493 chap.7 part.7.2</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li><i>Complete Data Abstraction</i>: Define the elements that make up a class.
+<dl class="org-dl">
+<dt>Attributes</dt><dd>Visible only in the class deﬁnition and all classes that inherit from it.</dd>
+<dt>Methods</dt><dd>A kind of procedure that is called in the context of a particular
+object and that can access the object's attributes.</dd>
+<dt>Properties</dt><dd>Modiﬁes how an object behaves (e.g. <code>final</code> prevents an object
+from being further extended).</dd>
+<dt>Dynamic Typing</dt><dd>Frst-class messages and Frst-class attributes.</dd>
+</dl></li>
+
+<li><i>Incremental Data Abstraction</i>: Inheritance and its related concepts.</li>
+</ul>
+</div>
+<div id="outline-container-org6fddaf8" class="outline-4">
+<h4 id="org6fddaf8">Initializing Attributes</h4>
+<div class="outline-text-4" id="text-org6fddaf8">
+<dl class="org-dl">
+<dt>Per Instance</dt><dd>An attribute is given a diﬀerent initial value per instance. This
+is done by not initializing it in the class deﬁnition.</dd>
+
+<dt>Per Class</dt><dd>An attribute is given a value that is the same for all instances
+of a class.</dd>
+
+<dt>Per Brand</dt><dd>A brand is a set of classes that are related in some way, but not
+by inheritance (e.g. having similar attributes), this is a variation of <b>Per
+Class</b> initialization.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgd3c3b3e" class="outline-4">
+<h4 id="orgd3c3b3e">First-Class Messages</h4>
+<div class="outline-text-4" id="text-orgd3c3b3e">
+<blockquote>
+<p>
+The principle is simple: messages are records and method heads are patterns that
+match a record. As a consequence, the following possibilities exist for the
+object call and the method deﬁnition.
+</p>
+
+<ol class="org-ol">
+<li>Static record as message. In the simplest case, <code>M</code> is a record that is known
+at compile time.</li>
+
+<li>Dynamic record as message. It is possible to call <code>{Obj M}</code> where <code>M</code> is a
+variable that references a record that is calculated at run time. Because of
+dynamic typing, it is possible to create new record types at run time.</li>
+</ol>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 493 chap.7 part.7.2.6</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org060da57" class="outline-4">
+<h4 id="org060da57">Programming Techniques</h4>
+<div class="outline-text-4" id="text-org060da57">
+<blockquote>
+<p>
+The class concept we have introduced so far gives a convenient syntax for
+deﬁning data abstractions with encapsulated state and multiple operations. (&#x2026;)
+. Classes are compositional: classes can be nested within classes. They are
+compatible with procedure values: classes can be nested within procedures and
+vice versa. Classes are not this ﬂexible in all object-oriented languages;
+usually some limits are imposed (&#x2026;)
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 501 chap.7 part.7.2.8</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orge36e02f" class="outline-2">
+<h2 id="orge36e02f">Classes as Incremental Data Abstractions</h2>
+<div class="outline-text-2" id="text-orge36e02f">
+</div>
+<div id="outline-container-org1f209ee" class="outline-3">
+<h3 id="org1f209ee">Inheritance Graph</h3>
+<div class="outline-text-3" id="text-org1f209ee">
+<blockquote>
+<p>
+Inheritance is a way to construct new classes from existing classes. It deﬁnes
+what attributes and methods are available in the new class. (&#x2026;) . The methods
+available in a class <code>C</code> are deﬁned through a precedence relation on the methods
+that appear in the class hierarchy. We call this relation the <b>overriding relation</b>:
+</p>
+
+<ul class="org-ul">
+<li>A method in class <code>C</code> overrides any method with the same label in all of <code>C</code>'s superclasses.</li>
+</ul>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+A class that inherits from exactly one class is said to use single inheritance
+(sometimes called simple inheritance). Inheriting from more than one class is
+called multiple inheritance. A class B is a superclass of a class A if:
+</p>
+
+<ul class="org-ul">
+<li><code>B</code> appears in the <code>from</code> declaration of <code>A</code>, or</li>
+<li><code>B</code> is a superclass of a class appearing in the <code>from</code> declaration of <code>A</code>.</li>
+</ul>
+
+<p>
+A class hierarchy with the superclass relation can be seen as a directed graph
+with the current class being the root. 
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 502–3 chap.7 part.7.3.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org9b0281c" class="outline-3">
+<h3 id="org9b0281c">Static and Dynamic Binding</h3>
+<div class="outline-text-3" id="text-org9b0281c">
+<blockquote>
+<dl class="org-dl">
+<dt>Dynamic Binding</dt><dd>This is written <code>{self M}</code>. This chooses the method matching
+<code>M</code> that is visible in the current object. This takes into account the
+overriding that has been done.</dd>
+
+<dt>Static binding</dt><dd>This is written <code>C, M</code>, where <code>C</code> is a class that deﬁnes a
+method matching <code>M</code>. This chooses the method matching <code>M</code> that is visible in the
+class <code>C</code>. This takes overriding into account from the root class up to class <code>C</code>,
+but no further. If the object is of a subclass of <code>C</code> that has overridden <code>M</code>
+again, then this is not taken into account.</dd>
+</dl>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 506 chap.7 part.7.3.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orga3cc3f5" class="outline-3">
+<h3 id="orga3cc3f5">Encapsulation control</h3>
+<div class="outline-text-3" id="text-orga3cc3f5">
+<blockquote>
+<p>
+The principle of controlling encapsulation in an object-oriented language is to
+limit access to class members, namely attributes and methods, according to the
+requirements of the application architecture. Each member is deﬁned with a
+scope.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+Programming languages usually give a default scope to each member when it is
+declared. This default can be altered with special keywords. Typical keywords
+used are public, private, and protected. Unfortunately, diﬀerent languages use
+these terms to deﬁne slightly diﬀerent scopes.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 506–7 chap.7 part.7.3.3</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org6e13a78" class="outline-4">
+<h4 id="org6e13a78">Private and Public Scopes</h4>
+<div class="outline-text-4" id="text-org6e13a78">
+<dl class="org-dl">
+<dt>Private Member</dt><dd>Only visible in the object instance. The object instance can
+see all members deﬁned in its class and its superclasses.</dd>
+<dt>Public Member</dt><dd>Visible anywhere in the program.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org653bc6e" class="outline-4">
+<h4 id="org653bc6e">Attribute Scopes</h4>
+<div class="outline-text-4" id="text-org653bc6e">
+<ul class="org-ul">
+<li>Attributes are always private.</li>
+<li>The only way to make them public is by means of methods.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd4bd056" class="outline-3">
+<h3 id="orgd4bd056">Forwarding and Delegation</h3>
+<div class="outline-text-3" id="text-orgd4bd056">
+</div>
+<div id="outline-container-org218450c" class="outline-4">
+<h4 id="org218450c">Fowarding</h4>
+<div class="outline-text-4" id="text-org218450c">
+<div class="org-src-container">
+<pre class="src src-oz">local
+  class ForwardMixin
+    attr Forward:none
+    meth setForward(F) Forward:=F end
+    meth otherwise(M)
+      if @Forward==none then raise undefinedMethod end
+      else {@Forward M} end
+    end
+  end
+in
+  fun {NewF Class Init}
+    {New class $ from Class ForwardMixin end Init}
+  end
+end
+</pre>
+</div>
+
+<blockquote>
+<p>
+An object can forward to any other object. (&#x2026;) . The argument <code>M</code> is a
+ﬁrst-class message that can be passed to another object. (&#x2026;) . Objects created
+with <code>NewF</code> have a method <code>setForward(F)</code> that lets them set dynamically the object
+to which they will forward messages they do not understand.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 512 chap.7 part.7.3.4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgfa01e5d" class="outline-4">
+<h4 id="orgfa01e5d">Delegation</h4>
+<div class="outline-text-4" id="text-orgfa01e5d">
+<blockquote>
+<p>
+It lets us build a hierarchy among objects instead of among classes. Instead of
+an object inheriting from a class (at class deﬁnition time), we let an object
+delegate to another object (at object creation time). <b>Delegation can achieve
+the same eﬀects as inheritance, with two main diﬀerences: the hierarchy is
+between objects, not classes, and it can be changed at any time</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 512–13 chap.7 part.7.3.4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orge16a38f" class="outline-3">
+<h3 id="orge16a38f">Reflection</h3>
+<div class="outline-text-3" id="text-orge16a38f">
+<blockquote>
+<p>
+A system is reﬂective if it can inspect part of its execution state while it is
+running. Reﬂection can be <b>purely introspective</b> (only reading the internal state,
+without modifying it) or <b>intrusive</b> (both reading and modifying the internal
+state). Reﬂection can be done at a high or low level of abstraction.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 515 chap.7 part.7.3.5</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org7060737" class="outline-4">
+<h4 id="org7060737">Meta-Object Protocols</h4>
+<div class="outline-text-4" id="text-org7060737">
+<blockquote>
+<p>
+Object-oriented programming, because of its richness, is a particularly fertile
+area for reﬂection. For example, the system could make it possible to examine or
+even change the inheritance hierarchy while a program is running
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 516 chap.7 part.7.3.5</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org8073c1c" class="outline-4">
+<h4 id="org8073c1c">Meta-Object Protocols</h4>
+<div class="outline-text-4" id="text-org8073c1c">
+<blockquote>
+<p>
+A common use of meta-object protocols is to do method wrapping, i.e., to
+intercept each method call, possibly performing a user-deﬁned operation before
+and after the call and possibly changing the arguments to the call itself.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 516 chap.7 part.7.3.5</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org4104a8c" class="outline-2">
+<h2 id="org4104a8c">Programming with Inheritance</h2>
+<div class="outline-text-2" id="text-org4104a8c">
+</div>
+<div id="outline-container-org06a19ce" class="outline-3">
+<h3 id="org06a19ce">The Correct Use of Inheritance</h3>
+<div class="outline-text-3" id="text-org06a19ce">
+<blockquote>
+<p>
+There are two ways to view inheritance:
+</p>
+
+<dl class="org-dl">
+<dt><i>The Type View</i></dt><dd>In this view, classes are types and subclasses are
+subtypes. For example, take a <code>LabeledWindow</code> class that inherits from a <code>Window</code>
+class. All labeled windows are also windows. The type view is consistent with
+the principle that classes should model real-world entities or some abstract
+versions of them. In the type view, classes satisfy the substitution property:
+every operation that works for an object of class <code>C</code> also works for objects of
+a subclass of <code>C</code>.</dd>
+
+<dt><i>The Structure View</i></dt><dd><p>
+In this view, inheritance is just another programming
+tool that is used to structure programs. This view is strongly discouraged
+because classes no longer satisfy the substitution property. The structure
+view is an almost unending source of bugs and bad designs.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+In the type view, each class stands on its own two feet, so to speak, as a
+bona ﬁde data abstraction. In the structure view, classes are sometimes just
+scaﬀolding, which exists only for its role in structuring the program.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 519 chap.7 part.7.4.1</a>)
+</p></dd>
+</dl>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org9e4885f" class="outline-3">
+<h3 id="org9e4885f">Design by Contract</h3>
+<div class="outline-text-3" id="text-org9e4885f">
+<blockquote>
+<p>
+We say a program is correct if it performs according to its speciﬁcation. One
+way to prove the correctness of a program is by reasoning with a formal semantics.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+The principal idea of design by contract is that a data abstraction implies a
+contract between the abstraction’s designer and its users. The users must
+guarantee that an abstraction is called in the right way, and in return the
+abstraction behaves in the right way. There is a deliberate analogy with
+contracts in human society. All parties are expected to follow the contract.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 520–21 chap.7 part.7.4.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgd0517e0" class="outline-4">
+<h4 id="orgd0517e0">Generic Classes</h4>
+<div class="outline-text-4" id="text-orgd0517e0">
+<blockquote>
+<p>
+A generic class is one that only deﬁnes part of the functionality of a data
+abstraction. It has to be completed before it can be used to create objects. Let
+us look at two ways to deﬁne generic classes. The ﬁrst way, often used in OOP,
+uses inheritance. The second way uses higher-order programming. We will see that
+the ﬁrst way is just a syntactic variation of the second. In other words,
+inheritance can be seen as a programming style that is based on higher-order
+programming.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 524 chap.7 part.7.4.3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org657657a" class="outline-4">
+<h4 id="org657657a">Multiple Inheritance</h4>
+<div class="outline-text-4" id="text-org657657a">
+<blockquote>
+<p>
+Multiple inheritance is useful when an object has to be two diﬀerent things in
+the same program. (&#x2026;). The idea for this design comes from Bertrand Meyer
+[140].
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 524 chap.7 part.7.4.4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orga34e4af" class="outline-4">
+<h4 id="orga34e4af">Rules of Thumb for Multiple Inheritance</h4>
+<div class="outline-text-4" id="text-orga34e4af">
+<blockquote>
+<p>
+Multiple inheritance is a powerful technique that has to be used with care. We
+recommend that you use multiple inheritance as follows:
+</p>
+
+<ul class="org-ul">
+<li>Multiple inheritance works well when combining two completely independent
+abstractions.</li>
+
+<li>Multiple inheritance is much harder to use correctly when the abstractions
+have something in common. (&#x2026;).  Even if they do not have a shared ancestor,
+there can be problems if they have some concepts in common.</li>
+
+<li>What happens when sibling superclasses share (directly or indirectly) a common
+ancestor class that speciﬁes a stateful object (i.e., it has attributes)? This
+is known as the implementation-sharing problem. This can lead to duplicated
+operations on the common ancestor. (&#x2026;). The only remedy is to understand
+carefully the inheritance hierarchy to avoid such duplication. Alternatively,
+you should only inherit from multiple classes that do not share a stateful
+common ancestor.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 533 chap.7 part.7.4.5</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgb74b68f" class="outline-4">
+<h4 id="orgb74b68f">The Purpose of Class Diagrams</h4>
+<div class="outline-text-4" id="text-orgb74b68f">
+<blockquote>
+<p>
+Class diagrams are excellent tools for visualizing the class structure of an
+application. They are at the heart of the UML approach to modeling
+object-oriented applications, and as such they enjoy widespread use. <b>This
+popularity has often masked their limitations. They have three clear limitations</b>:
+</p>
+
+<ul class="org-ul">
+<li>They do not specify the functionality of a class. For example, if the methods
+of a class enforce an invariant, then this invariant does not show up in the
+class diagram.</li>
+
+<li>They do not model the dynamic behavior of the application, i.e., its evolution
+over time. Dynamic behavior is both large-scale and small-scale.</li>
+
+<li>They only model one level in the application's component hierarchy.</li>
+</ul>
+
+<p>
+The UML approach recognizes these limitations and provides tools that partially
+alleviate them, e.g., the interaction diagram and the package
+diagram. Interaction diagrams model part of the dynamic behavior. Package
+diagrams model components at a higher level in the hierarchy than classes.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 534 chap.7 part.7.4.6</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgeed865a" class="outline-4">
+<h4 id="orgeed865a">Design Patterns</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org443e670" class="outline-2">
+<h2 id="org443e670">Relation to Other Computation Models</h2>
+<div class="outline-text-2" id="text-org443e670">
+<blockquote>
+<p>
+Object-oriented programming is one way to structure programs, which is most
+often used together with explicit state. In comparison with other computation
+models, it is characterized primarily by its use of polymorphism and
+inheritance. (&#x2026;). From the viewpoint of multiple computation models,
+inheritance is not a new concept in the kernel language, but emerges rather from
+how the class linguistic abstraction is deﬁned.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 537 chap.7 part.7.5</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org93fa93c" class="outline-2">
+<h2 id="org93fa93c">Implementing the Object System</h2>
+<div class="outline-text-2" id="text-org93fa93c">
+<blockquote>
+<p>
+The complete object system can be implemented in a straightforward way from the
+declarative stateful computation model. In particular, the main characteristics
+come from the combination of higher-order programming with explicit state.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 545 chap.7 part.7.6</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org6ff738d" class="outline-3">
+<h3 id="org6ff738d">Abstraction Diagram</h3>
+<div class="outline-text-3" id="text-org6ff738d">
+<blockquote>
+<p>
+The ﬁrst step in understanding how to build an object system is to understand
+how the diﬀerent parts are related. Object-oriented programming deﬁnes a
+hierarchy of abstractions that are related to each other by a kind of
+"speciﬁcation-implementation" relationship. There are many variations on this
+hierarchy.
+</p>
+
+<dl class="org-dl">
+<dt>Running Object</dt><dd>A running object is an active invocation of an object. It
+associates a thread to an object. It contains a set of environment frames as well as an object.</dd>
+
+<dt>Object</dt><dd>An object is a procedure that encapsulates an explicit state (a
+cell) and a set of procedures that reference the state.</dd>
+
+<dt>Class</dt><dd>A class is a wrapped record that encapsulates a set of procedures
+named by literals and a set of attributes, which are just literals. The
+procedures are called methods. (&#x2026;). Often the following distinction is
+useful:
+
+<ul class="org-ul">
+<li><b>Abstract class</b>: An abstract class is a class in which some methods are
+called that have no deﬁnition in the class.</li>
+
+<li><b>Concrete Class</b>. A concrete class is a class in which all methods that are
+called are also deﬁned.</li>
+</ul></dd>
+
+<dt>Metaclass</dt><dd>A metaclass is a class with a particular set of methods that
+correspond to the basic operations of a class, e.g.: object creation,
+inheritance policy (which methods to inherit), method call, method return,
+choice of method to call, attribute assignment, attribute access, self call.</dd>
+</dl>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 546–47 chap.7 part.7.6.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaa0a8c0" class="outline-2">
+<h2 id="orgaa0a8c0">Active Objects</h2>
+<div class="outline-text-2" id="text-orgaa0a8c0">
+<blockquote>
+<p>
+An active object is a port object whose behavior is deﬁned by a class. It
+consists of a port, a thread that reads messages from the port’s stream, and an
+object that is a class instance. Each message that is received will cause one of
+the object’s methods to be invoked. Active objects combine the abilities of OOP
+(including polymorphism and inheritance) and the abilities of message-passing
+concurrency (including concurrency and object independence).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 556 chap.7 part.7.8</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgbd0d06b" class="outline-2">
+<h2 id="orgbd0d06b">References:</h2>
+<div class="outline-text-2" id="text-orgbd0d06b">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgff9d544" class="outline-2">
-<h2 id="orgff9d544">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgff9d544">
+<div id="outline-container-org1d32318" class="outline-2">
+<h2 id="org1d32318">Backlinks:</h2>
+<div class="outline-text-2" id="text-org1d32318">
 <ul class="org-ul">
 <li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
 </ul>

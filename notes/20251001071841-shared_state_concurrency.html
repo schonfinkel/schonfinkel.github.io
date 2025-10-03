@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-10-03 Fri 18:57 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shared-State Concurrency</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
+      inlineMath: [['\\(', '\\)']]                  // inline
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Shared-State Concurrency</h1>
+</header><blockquote>
+<p>
+The shared-state concurrent model is a simple extension to the declarative
+concurrent model that adds explicit state in the form of cells, which are a kind
+of mutable variable. This model is equivalent in expressiveness to the
+message-passing concurrent model (&#x2026;), because cells can be eﬃciently
+implemented with ports and vice versa. (&#x2026;). The shared-state model encourages
+programs where threads concurrently access a shared data repository. The
+message-passing model encourages multi-agent programs. <b>The shared-state model is
+harder to program than the message-passing model</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 569 chap.8</a>)
+</p>
+</blockquote>
+<div id="outline-container-orge185be0" class="outline-2">
+<h2 id="orge185be0">Programming with Concurrency</h2>
+<div class="outline-text-2" id="text-orge185be0">
+<blockquote>
+<p>
+Shared state is another basic programming style of the stateful concurrent
+model. (&#x2026;). It consists of a set of threads accessing a set of shared passive
+objects. The threads coordinate among each other when accessing the shared
+objects. They do this by means of coarse-grained atomic actions, e.g., locks,
+monitors, or transactions. Again, this limits the possible interleavings and
+allows us to reason using invariants.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 569 chap.8</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgb153c6b" class="outline-3">
+<h3 id="orgb153c6b">Overview of the Diﬀerent Approaches</h3>
+</div>
+
+<div id="outline-container-orgea98dd1" class="outline-3">
+<h3 id="orgea98dd1">Programming with Atomic Actions</h3>
+<div class="outline-text-3" id="text-orgea98dd1">
+<blockquote>
+<ul class="org-ul">
+<li>Locks allow the grouping of little atomic operations into big atomic
+operations. With a reentrant lock, the same lock can guard discontiguous parts
+of the program. A thread that is inside one part can reenter the lock at any
+part without suspending.</li>
+<li>Monitors reﬁne locks with wait points. A wait point is a pair of an exit and a
+corresponding entry with no code in between. (Wait points are sometimes called
+delay points). Threads can park themselves at a wait point, just outside the
+lock. Exiting threads can wake up parked threads.</li>
+<li>Transactions reﬁne locks to have two possible exits: a normal one (called
+commit) and an exceptional one (called abort). The exceptional exit can be
+taken at any time during the transaction. When it is taken, the transaction
+leaves the execution state unchanged, i.e., as it was upon entry.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 579–80 chap.8 part.8.2.3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org0d106c8" class="outline-2">
+<h2 id="org0d106c8">Locks</h2>
+</div>
+
+<div id="outline-container-orgf6d1526" class="outline-2">
+<h2 id="orgf6d1526">Monitors</h2>
+</div>
+
+<div id="outline-container-org851b90b" class="outline-2">
+<h2 id="org851b90b">Transactions</h2>
+<div class="outline-text-2" id="text-org851b90b">
+<blockquote>
+<p>
+Transactions were introduced as a basic concept for the management of large
+shared databases. Ideally, databases must sustain a high rate of concurrent
+updates while keeping the data coherent and surviving system crashes. <b>This is
+not an easy problem to solve</b>.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+The term "transaction" has acquired a fairly precise meaning: <b>it is any operation
+that satisﬁes the four ACID properties</b>. <b>ACID</b> is an acronym:
+</p>
+
+<dl class="org-dl">
+<dt>A (Atomic)</dt><dd>No intermediate states of a transaction's execution are
+observable. It is as if the transaction happened instantaneously or did not
+happen at all. The transaction can complete normally (it commits) or it can be
+canceled (it aborts).</dd>
+
+<dt><b>C (Consistent)</b></dt><dd>Observable state changes respect the system
+invariants. Consistency is closely related to atomicity. The diﬀerence is that
+consistency is the responsibility of the programmer, whereas atomicity is the
+responsibility of the implementation of the transaction system.</dd>
+
+<dt>I (Isolation)</dt><dd>Several transactions can execute concurrently without
+interfering with each other. They execute as if they were sequential. This
+property is also called serializability. It means that the transactions have
+an interleaving semantics, just like the underlying computation model. We have
+"lifted" the interleaving semantics up from the model to the level of the
+transactions.</dd>
+
+<dt>D (Durability)</dt><dd>Observable state changes survive across system
+shutdowns. Durability is often called persistence. Implementing durability
+requires a stable storage (such as a disk) that stores the observable state
+changes.</dd>
+</dl>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 600 chap.8 part.8.5</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org57d8b5b" class="outline-3">
+<h3 id="org57d8b5b">Concurrency Control</h3>
+<div class="outline-text-3" id="text-org57d8b5b">
+</div>
+<div id="outline-container-org6e2780f" class="outline-4">
+<h4 id="org6e2780f">Locks and Timestamps</h4>
+<div class="outline-text-4" id="text-org6e2780f">
+<blockquote>
+<p>
+The two most widely used approaches to concurrency control are locks and timestamps:
+</p>
+
+<dl class="org-dl">
+<dt>Lock-based concurrency control</dt><dd>Each stateful entity has a lock that
+controls access to the entity. (&#x2026;). Locks are important to enforce
+serializability. This is a safety property, i.e., an assertion that is always
+true during execution.</dd>
+
+<dt>Timestamp-based concurrency control</dt><dd>Each transaction is given a timestamp
+that gives it a priority. The timestamps are taken from an ordered set,
+something like the numbered tickets used in shops to ensure that customers are
+served in order. (&#x2026;). This is a liveness property, i.e., an assertion that
+always eventually becomes true.</dd>
+</dl>
+
+<p>
+Safety and liveness properties describe how a system behaves as a function of
+time. To reason with these properties, it is important to be careful about the
+exact meanings of the terms "is always true" and "eventually becomes true".
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 602–3 chap.8 part.8.5.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgdffa0cc" class="outline-4">
+<h4 id="orgdffa0cc">Optimistic and Pessimistic Scheduling</h4>
+<div class="outline-text-4" id="text-orgdffa0cc">
+<p>
+Algorithms for concurrency control vary on different axes, one of these axes is
+how optimistic or pessimistic they are. When a transaction requests a lock, the
+schedule needs to decide on the following actions:
+</p>
+
+<ul class="org-ul">
+<li>Satisfy the request immediately.</li>
+<li>Reject the request (causing the transaction to abort).</li>
+<li>Postpone the decision.</li>
+</ul>
+
+<p>
+An optimistic scheduler tens to give the lock right away, even if it may cause issues
+later on. A pessimistic scheduler tends to delay giving the lock until its sure
+no problems may occur.
+</p>
+</div>
+</div>
+<div id="outline-container-org9c741b1" class="outline-4">
+<h4 id="org9c741b1">Two-Phase Locking</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-orgadbb758" class="outline-2">
+<h2 id="orgadbb758">References:</h2>
+<div class="outline-text-2" id="text-orgadbb758">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org300aa97" class="outline-2">
+<h2 id="org300aa97">Backlinks:</h2>
+<div class="outline-text-2" id="text-org300aa97">
+<ul class="org-ul">
+<li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

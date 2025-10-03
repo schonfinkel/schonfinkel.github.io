@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-25 Thu 15:21 -->
+<!-- 2025-10-03 Fri 18:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>DNS</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <!-- syntax highlighting -->
 <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
 <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
@@ -46,7 +46,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -107,9 +107,9 @@ to a nameserver. (<a href="#citeproc_bib_item_1">Liu and Albitz 2006, chap. 1 p.
 </tr>
 </tbody>
 </table>
-<div id="outline-container-orgc34da6f" class="outline-2">
-<h2 id="orgc34da6f">The Domain Namespace</h2>
-<div class="outline-text-2" id="text-orgc34da6f">
+<div id="outline-container-orgcb8473b" class="outline-2">
+<h2 id="orgcb8473b">The Domain Namespace</h2>
+<div class="outline-text-2" id="text-orgcb8473b">
 <blockquote>
 <p>
 Each <b>node</b> in the tree has a text label (without dots) that can be up to 63
@@ -125,14 +125,14 @@ that <b>node</b> to the <b>root</b>. <b>Domain names</b> are always read from th
 </blockquote>
 
 
-<figure id="org12d3200">
+<figure id="org83aa7ed">
 <img src="../static/img/notes/dns_structure.png" alt="dns_structure.png">
 
 </figure>
 </div>
-<div id="outline-container-orgf21667b" class="outline-3">
-<h3 id="orgf21667b">Domains and Subdomains</h3>
-<div class="outline-text-3" id="text-orgf21667b">
+<div id="outline-container-orgfce0aa3" class="outline-3">
+<h3 id="orgfce0aa3">Domains and Subdomains</h3>
+<div class="outline-text-3" id="text-orgfce0aa3">
 <blockquote>
 <p>
 A <b>domain</b> may have several subtrees of its own, called <b>subdomains</b>.
@@ -220,9 +220,9 @@ where TLD is an abbreviation for "Top Level Domain".
 </p>
 </div>
 </div>
-<div id="outline-container-orga4e63a9" class="outline-3">
-<h3 id="orga4e63a9">Resource Records</h3>
-<div class="outline-text-3" id="text-orga4e63a9">
+<div id="outline-container-org23c0738" class="outline-3">
+<h3 id="org23c0738">Resource Records</h3>
+<div class="outline-text-3" id="text-org23c0738">
 <blockquote>
 <p>
 The data associated with domain names is contained in resource records, or RRs.
@@ -237,9 +237,9 @@ software.
 </div>
 </div>
 </div>
-<div id="outline-container-orgddacdf7" class="outline-2">
-<h2 id="orgddacdf7">Delegation</h2>
-<div class="outline-text-2" id="text-orgddacdf7">
+<div id="outline-container-orgc38abf5" class="outline-2">
+<h2 id="orgc38abf5">Delegation</h2>
+<div class="outline-text-2" id="text-orgc38abf5">
 <blockquote>
 <p>
 In DNS, each <b>domain</b> can be broken into a number of <b>subdomains</b>, and
@@ -260,9 +260,9 @@ organization.</li>
 <li><i>Zones</i> are the administrative unit in DNS.</li>
 </ul>
 </div>
-<div id="outline-container-org711ae06" class="outline-3">
-<h3 id="org711ae06">Root Servers</h3>
-<div class="outline-text-3" id="text-org711ae06">
+<div id="outline-container-org1c8cb0f" class="outline-3">
+<h3 id="org1c8cb0f">Root Servers</h3>
+<div class="outline-text-3" id="text-org1c8cb0f">
 <p>
 The root zone is overseen by<a href="https://www.icann.org/"> ICANN</a> (Internet Corporation for Assigned Names and
 Numbers) and its name servers are hosted by a total of 12 organizations, this
@@ -289,11 +289,11 @@ can be verified on the list <a href="https://www.iana.org/domains/root/servers">
 </div>
 </div>
 </div>
-<div id="outline-container-org316282a" class="outline-2">
-<h2 id="org316282a">Name Servers and Resolvers</h2>
-<div class="outline-text-2" id="text-org316282a">
+<div id="outline-container-org25c1e34" class="outline-2">
+<h2 id="org25c1e34">Name Servers and Resolvers</h2>
+<div class="outline-text-2" id="text-org25c1e34">
 
-<figure id="org9242d79">
+<figure id="org7e22060">
 <img src="../static/img/notes/dns_servers_and_resolvers.png" alt="dns_servers_and_resolvers.png">
 
 </figure>
@@ -352,27 +352,27 @@ match occurs or no more referrals are found.</dd>
 </pre>
 </div>
 </div>
-<div id="outline-container-org4a3cc97" class="outline-4">
-<h4 id="org4a3cc97">Caching</h4>
-<div class="outline-text-4" id="text-org4a3cc97">
+<div id="outline-container-orgfd60adf" class="outline-4">
+<h4 id="orgfd60adf">Caching</h4>
+<div class="outline-text-4" id="text-orgfd60adf">
 <ul class="org-ul">
 <li>TTLs can range from seconds to hours to days.</li>
 <li>The administrator of a zones are the ones decidings the values for the TTLs.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org9dac8e3" class="outline-3">
-<h3 id="org9dac8e3">Zone Transfer</h3>
-<div class="outline-text-3" id="text-org9dac8e3">
+<div id="outline-container-org6731ed1" class="outline-3">
+<h3 id="org6731ed1">Zone Transfer</h3>
+<div class="outline-text-3" id="text-org6731ed1">
 </div>
-<div id="outline-container-org460580e" class="outline-4">
-<h4 id="org460580e">The SOA Record</h4>
+<div id="outline-container-org6f8cc09" class="outline-4">
+<h4 id="org6f8cc09">The SOA Record</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-orgeef00af" class="outline-2">
-<h2 id="orgeef00af">Records</h2>
-<div class="outline-text-2" id="text-orgeef00af">
+<div id="outline-container-orgbd56a64" class="outline-2">
+<h2 id="orgbd56a64">Records</h2>
+<div class="outline-text-2" id="text-orgbd56a64">
 <table>
 
 
@@ -412,17 +412,17 @@ match occurs or no more referrals are found.</dd>
 </table>
 </div>
 </div>
-<div id="outline-container-org86b734c" class="outline-2">
-<h2 id="org86b734c">References:</h2>
-<div class="outline-text-2" id="text-org86b734c">
+<div id="outline-container-org3d89c39" class="outline-2">
+<h2 id="org3d89c39">References:</h2>
+<div class="outline-text-2" id="text-org3d89c39">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Liu, Cricket, and Paul Albitz. 2006. <i>Dns and Bind</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org84bff8e" class="outline-2">
-<h2 id="org84bff8e">Backlinks:</h2>
-<div class="outline-text-2" id="text-org84bff8e">
+<div id="outline-container-orga6b7a3d" class="outline-2">
+<h2 id="orga6b7a3d">Backlinks:</h2>
+<div class="outline-text-2" id="text-orga6b7a3d">
 <ul class="org-ul">
 <li><a href="./20250319103806-hosts_txt.html">HOSTS.TXT</a></li>
 </ul>

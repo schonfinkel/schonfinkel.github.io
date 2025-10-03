@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-25 Thu 15:21 -->
+<!-- 2025-10-03 Fri 18:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kubernetes-Storage</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <!-- syntax highlighting -->
 <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
 <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
@@ -46,7 +46,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -55,13 +55,13 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Kubernetes-Storage</h1>
-</header><div id="outline-container-org7235b48" class="outline-2">
-<h2 id="org7235b48">Volume Types</h2>
-<div class="outline-text-2" id="text-org7235b48">
+</header><div id="outline-container-orgbaddfb6" class="outline-2">
+<h2 id="orgbaddfb6">Volume Types</h2>
+<div class="outline-text-2" id="text-orgbaddfb6">
 </div>
-<div id="outline-container-org31a0052" class="outline-3">
-<h3 id="org31a0052">emptyDir</h3>
-<div class="outline-text-3" id="text-org31a0052">
+<div id="outline-container-orga223317" class="outline-3">
+<h3 id="orga223317">emptyDir</h3>
+<div class="outline-text-3" id="text-orga223317">
 <p>
 Empty directory for storing data ephemeral data from the Pods
 </p>
@@ -94,33 +94,33 @@ Empty directory for storing data ephemeral data from the Pods
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa5ed93" class="outline-3">
-<h3 id="orgaa5ed93">hostPath</h3>
-<div class="outline-text-3" id="text-orgaa5ed93">
+<div id="outline-container-org9e3a36c" class="outline-3">
+<h3 id="org9e3a36c">hostPath</h3>
+<div class="outline-text-3" id="text-org9e3a36c">
 <p>
 A volume that's mounted in the Node's filesystem and is shared with a Pod
 </p>
 </div>
 </div>
-<div id="outline-container-org150e8e2" class="outline-3">
-<h3 id="org150e8e2">nfs</h3>
-<div class="outline-text-3" id="text-org150e8e2">
+<div id="outline-container-org5c2995b" class="outline-3">
+<h3 id="org5c2995b">nfs</h3>
+<div class="outline-text-3" id="text-org5c2995b">
 <p>
 A NFS share mounted into the Pod
 </p>
 </div>
 </div>
-<div id="outline-container-orgca9cbff" class="outline-3">
-<h3 id="orgca9cbff">configMap/secret</h3>
-<div class="outline-text-3" id="text-orgca9cbff">
+<div id="outline-container-orgb344c02" class="outline-3">
+<h3 id="orgb344c02">configMap/secret</h3>
+<div class="outline-text-3" id="text-orgb344c02">
 <p>
 Provides access to <a href="20211012215602-kubernetes.html#ID-dd924a84-7d6f-41ec-98c2-aa16582c0d89">Kubernetes</a> resources
 </p>
 </div>
 </div>
-<div id="outline-container-org5fba13b" class="outline-3">
-<h3 id="org5fba13b">persistentVolumeClaim</h3>
-<div class="outline-text-3" id="text-org5fba13b">
+<div id="outline-container-org4b7b134" class="outline-3">
+<h3 id="org4b7b134">persistentVolumeClaim</h3>
+<div class="outline-text-3" id="text-org4b7b134">
 <p>
 A <code>persistentVolume</code> is a cluster-wide storage resource that relies on
 network-attached storage. It's abstracted and associated to a Pod via a
@@ -172,9 +172,9 @@ network-attached storage. It's abstracted and associated to a Pod via a
 </div>
 </div>
 </div>
-<div id="outline-container-org0b0c4e7" class="outline-3">
-<h3 id="org0b0c4e7">Cloud</h3>
-<div class="outline-text-3" id="text-org0b0c4e7">
+<div id="outline-container-orgdab717f" class="outline-3">
+<h3 id="orgdab717f">Cloud</h3>
+<div class="outline-text-3" id="text-orgdab717f">
 <p>
 Cluster-wide storage, which varies depending on the cloud provider
 </p>
@@ -197,9 +197,9 @@ Cluster-wide storage, which varies depending on the cloud provider
 </div>
 </div>
 </div>
-<div id="outline-container-orgccffc4a" class="outline-2">
-<h2 id="orgccffc4a">References:</h2>
-<div class="outline-text-2" id="text-orgccffc4a">
+<div id="outline-container-orgd2d7a01" class="outline-2">
+<h2 id="orgd2d7a01">References:</h2>
+<div class="outline-text-2" id="text-orgd2d7a01">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>

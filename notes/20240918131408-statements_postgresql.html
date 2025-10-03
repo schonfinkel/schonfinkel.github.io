@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-09-25 Thu 15:21 -->
+<!-- 2025-10-03 Fri 18:57 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Statements (PostgreSQL)</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
-<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <!-- syntax highlighting -->
 <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
 <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
@@ -46,7 +46,7 @@
     <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
     <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
     <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
-    <li><a href="https://schonfinkel.github.io/static/cv.pdf">CV</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
     <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
   </ul>
@@ -58,19 +58,19 @@
 </header><ul class="org-ul">
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-orgdacfc40" class="outline-2">
-<h2 id="orgdacfc40"><code>SELECT</code></h2>
-<div class="outline-text-2" id="text-orgdacfc40">
+<div id="outline-container-org8efa5fc" class="outline-2">
+<h2 id="org8efa5fc"><code>SELECT</code></h2>
+<div class="outline-text-2" id="text-org8efa5fc">
 </div>
-<div id="outline-container-org72f294d" class="outline-3">
-<h3 id="org72f294d"><code>LIKE</code> and <code>ILIKE</code></h3>
+<div id="outline-container-org14816b0" class="outline-3">
+<h3 id="org14816b0"><code>LIKE</code> and <code>ILIKE</code></h3>
 </div>
-<div id="outline-container-org2d4e492" class="outline-3">
-<h3 id="org2d4e492"><code>DISTINCT</code></h3>
+<div id="outline-container-org5ca5f31" class="outline-3">
+<h3 id="org5ca5f31"><code>DISTINCT</code></h3>
 </div>
-<div id="outline-container-org42e3ab1" class="outline-3">
-<h3 id="org42e3ab1"><code>LIMIT</code> and <code>OFFSET</code></h3>
-<div class="outline-text-3" id="text-org42e3ab1">
+<div id="outline-container-orgffcc6b9" class="outline-3">
+<h3 id="orgffcc6b9"><code>LIMIT</code> and <code>OFFSET</code></h3>
+<div class="outline-text-3" id="text-orgffcc6b9">
 <blockquote>
 <p>
 <code>LIMIT</code> and <code>OFFSET</code> are used to return a portion of data from a resultset
@@ -86,13 +86,13 @@ the resultset from which to start returning data.
 </div>
 </div>
 </div>
-<div id="outline-container-org0f2482c" class="outline-2">
-<h2 id="org0f2482c">Combining Queries</h2>
-<div class="outline-text-2" id="text-org0f2482c">
+<div id="outline-container-org2f0feab" class="outline-2">
+<h2 id="org2f0feab">Combining Queries</h2>
+<div class="outline-text-2" id="text-org2f0feab">
 </div>
-<div id="outline-container-org70afcf8" class="outline-3">
-<h3 id="org70afcf8"><code>UNION</code> / <code>UNION ALL</code></h3>
-<div class="outline-text-3" id="text-org70afcf8">
+<div id="outline-container-orgcb491ff" class="outline-3">
+<h3 id="orgcb491ff"><code>UNION</code> / <code>UNION ALL</code></h3>
+<div class="outline-text-3" id="text-orgcb491ff">
 <blockquote>
 <p>
 The <code>UNION</code> operator is used to combine the resultset of two or more <code>SELECT</code>
@@ -115,13 +115,13 @@ respected:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf069730" class="outline-3">
-<h3 id="orgf069730"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
+<div id="outline-container-org5d8c689" class="outline-3">
+<h3 id="org5d8c689"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
 </div>
 </div>
-<div id="outline-container-org8bf4d04" class="outline-2">
-<h2 id="org8bf4d04">Upsert</h2>
-<div class="outline-text-2" id="text-org8bf4d04">
+<div id="outline-container-org80b9700" class="outline-2">
+<h2 id="org80b9700">Upsert</h2>
+<div class="outline-text-2" id="text-org80b9700">
 <blockquote>
 <p>
 In PostgreSQL, the <code>UPSERT</code> statement does not exist as in other DBMSes. An <code>UPSERT</code>
@@ -162,26 +162,26 @@ where <code>EXCLUDED</code> references the proposed new insertion row.
 </p>
 </div>
 </div>
-<div id="outline-container-orgee07b54" class="outline-2">
-<h2 id="orgee07b54"><code>RETURNING</code></h2>
-<div class="outline-text-2" id="text-orgee07b54">
+<div id="outline-container-orgd523adc" class="outline-2">
+<h2 id="orgd523adc"><code>RETURNING</code></h2>
+<div class="outline-text-2" id="text-orgd523adc">
 <p>
 Reduces the need for an extra query as it enables you to output columns.
 </p>
 </div>
-<div id="outline-container-org6f2a5bc" class="outline-3">
-<h3 id="org6f2a5bc">Inserts</h3>
+<div id="outline-container-orgf792053" class="outline-3">
+<h3 id="orgf792053">Inserts</h3>
 </div>
-<div id="outline-container-orgb8d5c0b" class="outline-3">
-<h3 id="orgb8d5c0b">Updates</h3>
+<div id="outline-container-org42052f7" class="outline-3">
+<h3 id="org42052f7">Updates</h3>
 </div>
-<div id="outline-container-org9ae1d0f" class="outline-3">
-<h3 id="org9ae1d0f">Deletes</h3>
+<div id="outline-container-orga90dfa0" class="outline-3">
+<h3 id="orga90dfa0">Deletes</h3>
 </div>
 </div>
-<div id="outline-container-org2f22ec9" class="outline-2">
-<h2 id="org2f22ec9">References:</h2>
-<div class="outline-text-2" id="text-org2f22ec9">
+<div id="outline-container-org868ac34" class="outline-2">
+<h2 id="org868ac34">References:</h2>
+<div class="outline-text-2" id="text-org868ac34">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
