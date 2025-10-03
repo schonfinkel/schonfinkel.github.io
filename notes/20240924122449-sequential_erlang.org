@@ -246,6 +246,27 @@ Erlang has a macro facility, implemented by the Erlang preprocessor (~epp~), whi
   -define(TWICE(F,X),F(F(X))).
 #+end_src
 
+*** Parametrized Macros
+
+#+begin_quote
+Macros can take parameters which are indicated by variable names. The general
+form for parameterized macros is:
+
+~-define(Name(Var1,Var2,...,VarN), Replacement).~
+
+where, as for normal Erlang variables, the variables ~Var1~, ~Var2~, ..., ~VarN~ need
+to begin with a capital letter.
+
+[cite:@cesarini2009erlang p.166 chap.7]
+#+end_quote
+
+#+begin_src erlang
+  -define(Multiple(X,Y),X rem Y == 0).
+  
+  tstFun(Z,W) when ?Multiple(Z,W) -> true;
+  tstFun(Z,W) -> false.
+#+end_src
+
 *** Conditional Macros
 
 + ~-undef(Flag)~
@@ -253,8 +274,28 @@ Erlang has a macro facility, implemented by the Erlang preprocessor (~epp~), whi
 + ~-ifndef(Flag)~
 + ~-else(Flag)~
 + ~-endif~
+  
+#+begin_src erlang
+  -ifdef(debug).
+    -define(DBG(Str, Args), io:format(Str, Args)).
+  -else.
+    -define(DBG(Str, Args), ok).
+  -endif.
+#+end_src
 
 ** Include Files
+
+#+begin_quote
+It is customary to put record and macro definitions into an include file so that
+they can be shared across multiple modules throughout a project, and not simply
+in a single module. To make the definitions available to more than one module,
+you place them in a separate file and include them in a module using the
+~–include~ directive, usually placed after the module and export directives:
+
+~-include("File.hrl").~
+
+[cite:@cesarini2009erlang p.168 chap.7]
+#+end_quote
 
 * Term Comparisson
 
