@@ -1,0 +1,135 @@
+:PROPERTIES:
+:ID:       55ac8463-78c1-414a-b383-ac8344651102
+:END:
+#+title: Shared-State Concurrency
+#+filetags: :concurrency:
+
+#+begin_quote
+The shared-state concurrent model is a simple extension to the declarative
+concurrent model that adds explicit state in the form of cells, which are a kind
+of mutable variable. This model is equivalent in expressiveness to the
+message-passing concurrent model (...), because cells can be eﬃciently
+implemented with ports and vice versa. (...). The shared-state model encourages
+programs where threads concurrently access a shared data repository. The
+message-passing model encourages multi-agent programs. *The shared-state model is
+harder to program than the message-passing model*.
+
+[cite:@van2004concepts p.569 chap.8]
+#+end_quote
+
+* Programming with Concurrency
+
+#+begin_quote
+Shared state is another basic programming style of the stateful concurrent
+model. (...). It consists of a set of threads accessing a set of shared passive
+objects. The threads coordinate among each other when accessing the shared
+objects. They do this by means of coarse-grained atomic actions, e.g., locks,
+monitors, or transactions. Again, this limits the possible interleavings and
+allows us to reason using invariants.
+
+[cite:@van2004concepts p.569 chap.8]
+#+end_quote
+
+** Overview of the Diﬀerent Approaches
+
+** Programming with Atomic Actions
+
+#+begin_quote
++ Locks allow the grouping of little atomic operations into big atomic
+  operations. With a reentrant lock, the same lock can guard discontiguous parts
+  of the program. A thread that is inside one part can reenter the lock at any
+  part without suspending. 
++ Monitors reﬁne locks with wait points. A wait point is a pair of an exit and a
+  corresponding entry with no code in between. (Wait points are sometimes called
+  delay points). Threads can park themselves at a wait point, just outside the
+  lock. Exiting threads can wake up parked threads.
++ Transactions reﬁne locks to have two possible exits: a normal one (called
+  commit) and an exceptional one (called abort). The exceptional exit can be
+  taken at any time during the transaction. When it is taken, the transaction
+  leaves the execution state unchanged, i.e., as it was upon entry.
+
+[cite:@van2004concepts p.579-580 chap.8 part.8.2.3]
+#+end_quote
+
+* Locks
+
+* Monitors
+
+* Transactions
+
+#+begin_quote
+Transactions were introduced as a basic concept for the management of large
+shared databases. Ideally, databases must sustain a high rate of concurrent
+updates while keeping the data coherent and surviving system crashes. *This is
+not an easy problem to solve*.
+
+(...)
+
+The term "transaction" has acquired a fairly precise meaning: *it is any operation
+that satisﬁes the four ACID properties*. *ACID* is an acronym:
+
++ A (Atomic) :: No intermediate states of a transaction's execution are
+  observable. It is as if the transaction happened instantaneously or did not
+  happen at all. The transaction can complete normally (it commits) or it can be
+  canceled (it aborts).
+
++ *C (Consistent)* :: Observable state changes respect the system
+  invariants. Consistency is closely related to atomicity. The diﬀerence is that
+  consistency is the responsibility of the programmer, whereas atomicity is the
+  responsibility of the implementation of the transaction system.
+
++ I (Isolation) :: Several transactions can execute concurrently without
+  interfering with each other. They execute as if they were sequential. This
+  property is also called serializability. It means that the transactions have
+  an interleaving semantics, just like the underlying computation model. We have
+  "lifted" the interleaving semantics up from the model to the level of the
+  transactions.
+
++ D (Durability) :: Observable state changes survive across system
+  shutdowns. Durability is often called persistence. Implementing durability
+  requires a stable storage (such as a disk) that stores the observable state
+  changes.
+
+[cite:@van2004concepts p.600 chap.8 part.8.5]
+#+end_quote
+
+** Concurrency Control
+
+*** Locks and Timestamps
+
+#+begin_quote
+The two most widely used approaches to concurrency control are locks and timestamps:
+
++ Lock-based concurrency control :: Each stateful entity has a lock that
+  controls access to the entity. (...). Locks are important to enforce
+  serializability. This is a safety property, i.e., an assertion that is always
+  true during execution.
+
++ Timestamp-based concurrency control :: Each transaction is given a timestamp
+  that gives it a priority. The timestamps are taken from an ordered set,
+  something like the numbered tickets used in shops to ensure that customers are
+  served in order. (...). This is a liveness property, i.e., an assertion that
+  always eventually becomes true.
+
+Safety and liveness properties describe how a system behaves as a function of
+time. To reason with these properties, it is important to be careful about the
+exact meanings of the terms "is always true" and "eventually becomes true".
+
+[cite:@van2004concepts p.602-603 chap.8 part.8.5.1]
+#+end_quote
+
+*** Optimistic and Pessimistic Scheduling
+
+Algorithms for concurrency control vary on different axes, one of these axes is
+how optimistic or pessimistic they are. When a transaction requests a lock, the
+schedule needs to decide on the following actions:
+
++ Satisfy the request immediately.
++ Reject the request (causing the transaction to abort).
++ Postpone the decision.
+
+An optimistic scheduler tens to give the lock right away, even if it may cause issues
+later on. A pessimistic scheduler tends to delay giving the lock until its sure
+no problems may occur.
+
+*** Two-Phase Locking

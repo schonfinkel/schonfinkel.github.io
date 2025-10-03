@@ -22,4 +22,442 @@ principles for building data abstractions:
 [cite:@van2004concepts p.489-490 chap.7]
 #+end_quote
 
+* Inheritance
 
+#+begin_quote
+Inheritance is based on the observation that data abstractions frequently have much
+in common.
+
+(...)
+
+A data abstraction can be deﬁned to "*inherit*" from one or more other data
+abstractions, i.e., *to have substantially the same functionality as the others,
+with possibly some extensions and modiﬁcations*. Only the diﬀerences between the
+data abstraction and its ancestors have to be speciﬁed. Such an incremental
+*deﬁnition of a data abstraction is called a class*.
+
+A new class is deﬁned by a kind of transformation: one or more existing classes
+are combined with a description of the extensions and modiﬁcations to give the
+new class. Object-oriented languages support this transformation by adding
+classes as a linguistic abstraction.
+
+While inheritance has great promise, experience shows that it must be used with
+great care. First of all, the transformation must be deﬁned with intimate
+knowledge of the ancestor classes, since they can easily break a class 
+invariant. Another problem is that using inheritance opens an additional
+interface to a component. That is, the ability to extend a class can be seen as
+an additional way to interact with that class. This interface has to be
+maintained throughout the lifetime of the component. 
+
+(...)
+
+Instead of using inheritance, an alternative is to use component-based
+programming, i.e., to use components directly and compose them. The idea is to
+deﬁne a component that encapsulates another component and provides a modiﬁed
+functionality. There is a trade-oﬀ between inheritance and component
+composition: inheritance is more ﬂexible but can break a class invariant,
+whereas component composition is less ﬂexible but cannot break a component
+invariant. This trade-oﬀ should be carefully considered whenever an abstraction
+must be extended.
+
+[cite:@van2004concepts p.491-492 chap.7 part.7.1]
+#+end_quote
+
+* Classes as Complete Data Abstractions
+
+#+begin_quote
+The heart of the object concept is controlled access to encapsulated data. The
+behavior of an object is speciﬁed by a class. In the most general case, a class
+is an incremental deﬁnition of a data abstraction, that deﬁnes the abstraction
+as a modiﬁcation of others.
+
+[cite:@van2004concepts p.493 chap.7 part.7.2]
+#+end_quote
+
++ /Complete Data Abstraction/: Define the elements that make up a class.
+  * Attributes :: Visible only in the class deﬁnition and all classes that inherit from it.
+  * Methods :: A kind of procedure that is called in the context of a particular
+    object and that can access the object's attributes.
+  * Properties :: Modiﬁes how an object behaves (e.g. ~final~ prevents an object
+    from being further extended).
+  * Dynamic Typing :: Frst-class messages and Frst-class attributes.
+
++ /Incremental Data Abstraction/: Inheritance and its related concepts.
+
+*** Initializing Attributes
+
++ Per Instance :: An attribute is given a diﬀerent initial value per instance. This
+  is done by not initializing it in the class deﬁnition.
+
++ Per Class :: An attribute is given a value that is the same for all instances
+  of a class.
+
++ Per Brand :: A brand is a set of classes that are related in some way, but not
+  by inheritance (e.g. having similar attributes), this is a variation of *Per
+  Class* initialization.
+
+*** First-Class Messages
+
+#+begin_quote
+The principle is simple: messages are records and method heads are patterns that
+match a record. As a consequence, the following possibilities exist for the
+object call and the method deﬁnition.
+
+1. Static record as message. In the simplest case, ~M~ is a record that is known
+   at compile time.
+
+2. Dynamic record as message. It is possible to call ~{Obj M}~ where ~M~ is a
+   variable that references a record that is calculated at run time. Because of
+   dynamic typing, it is possible to create new record types at run time.
+
+[cite:@van2004concepts p.493 chap.7 part.7.2.6]
+#+end_quote
+
+*** Programming Techniques
+
+#+begin_quote
+The class concept we have introduced so far gives a convenient syntax for
+deﬁning data abstractions with encapsulated state and multiple operations. (...)
+. Classes are compositional: classes can be nested within classes. They are
+compatible with procedure values: classes can be nested within procedures and
+vice versa. Classes are not this ﬂexible in all object-oriented languages;
+usually some limits are imposed (...)
+
+[cite:@van2004concepts p.501 chap.7 part.7.2.8]
+#+end_quote
+
+* Classes as Incremental Data Abstractions
+
+** Inheritance Graph
+
+#+begin_quote
+Inheritance is a way to construct new classes from existing classes. It deﬁnes
+what attributes and methods are available in the new class. (...) . The methods
+available in a class ~C~ are deﬁned through a precedence relation on the methods
+that appear in the class hierarchy. We call this relation the *overriding relation*:
+
++ A method in class ~C~ overrides any method with the same label in all of ~C~'s superclasses.
+
+(...)
+
+A class that inherits from exactly one class is said to use single inheritance
+(sometimes called simple inheritance). Inheriting from more than one class is
+called multiple inheritance. A class B is a superclass of a class A if:
+
++ ~B~ appears in the ~from~ declaration of ~A~, or
++ ~B~ is a superclass of a class appearing in the ~from~ declaration of ~A~.
+
+A class hierarchy with the superclass relation can be seen as a directed graph
+with the current class being the root. 
+
+[cite:@van2004concepts p.502-503 chap.7 part.7.3.1]
+#+end_quote
+
+** Static and Dynamic Binding
+
+#+begin_quote
++ Dynamic Binding :: This is written ~{self M}~. This chooses the method matching
+  ~M~ that is visible in the current object. This takes into account the
+  overriding that has been done.
+
++ Static binding :: This is written ~C, M~, where ~C~ is a class that deﬁnes a
+  method matching ~M~. This chooses the method matching ~M~ that is visible in the
+  class ~C~. This takes overriding into account from the root class up to class ~C~,
+  but no further. If the object is of a subclass of ~C~ that has overridden ~M~
+  again, then this is not taken into account.
+
+[cite:@van2004concepts p.506 chap.7 part.7.3.2]
+#+end_quote
+
+** Encapsulation control
+
+#+begin_quote
+The principle of controlling encapsulation in an object-oriented language is to
+limit access to class members, namely attributes and methods, according to the
+requirements of the application architecture. Each member is deﬁned with a
+scope.
+
+(...)
+
+Programming languages usually give a default scope to each member when it is
+declared. This default can be altered with special keywords. Typical keywords
+used are public, private, and protected. Unfortunately, diﬀerent languages use
+these terms to deﬁne slightly diﬀerent scopes.
+
+[cite:@van2004concepts p.506-507 chap.7 part.7.3.3]
+#+end_quote
+
+*** Private and Public Scopes
+
++ Private Member :: Only visible in the object instance. The object instance can
+  see all members deﬁned in its class and its superclasses.
++ Public Member :: Visible anywhere in the program.
+  
+*** Attribute Scopes
+
++ Attributes are always private.
++ The only way to make them public is by means of methods. 
+
+** Forwarding and Delegation
+
+*** Fowarding
+
+#+begin_src oz
+local
+  class ForwardMixin
+    attr Forward:none
+    meth setForward(F) Forward:=F end
+    meth otherwise(M)
+      if @Forward==none then raise undefinedMethod end
+      else {@Forward M} end
+    end
+  end
+in
+  fun {NewF Class Init}
+    {New class $ from Class ForwardMixin end Init}
+  end
+end
+#+end_src
+
+#+begin_quote
+An object can forward to any other object. (...) . The argument ~M~ is a
+ﬁrst-class message that can be passed to another object. (...) . Objects created
+with ~NewF~ have a method ~setForward(F)~ that lets them set dynamically the object
+to which they will forward messages they do not understand.
+
+[cite:@van2004concepts p.512 chap.7 part.7.3.4]
+#+end_quote
+
+*** Delegation
+
+#+begin_quote
+It lets us build a hierarchy among objects instead of among classes. Instead of
+an object inheriting from a class (at class deﬁnition time), we let an object
+delegate to another object (at object creation time). *Delegation can achieve
+the same eﬀects as inheritance, with two main diﬀerences: the hierarchy is
+between objects, not classes, and it can be changed at any time*.
+
+[cite:@van2004concepts p.512-513 chap.7 part.7.3.4]
+#+end_quote
+
+** Reflection
+
+#+begin_quote
+A system is reﬂective if it can inspect part of its execution state while it is
+running. Reﬂection can be *purely introspective* (only reading the internal state,
+without modifying it) or *intrusive* (both reading and modifying the internal
+state). Reﬂection can be done at a high or low level of abstraction.
+
+[cite:@van2004concepts p.515 chap.7 part.7.3.5]
+#+end_quote
+
+*** Meta-Object Protocols
+
+#+begin_quote
+Object-oriented programming, because of its richness, is a particularly fertile
+area for reﬂection. For example, the system could make it possible to examine or
+even change the inheritance hierarchy while a program is running
+
+[cite:@van2004concepts p.516 chap.7 part.7.3.5]
+#+end_quote
+
+*** Meta-Object Protocols
+
+#+begin_quote
+A common use of meta-object protocols is to do method wrapping, i.e., to
+intercept each method call, possibly performing a user-deﬁned operation before
+and after the call and possibly changing the arguments to the call itself.
+
+[cite:@van2004concepts p.516 chap.7 part.7.3.5]
+#+end_quote
+
+* Programming with Inheritance
+
+**  The Correct Use of Inheritance
+
+#+begin_quote
+There are two ways to view inheritance:
+
++ /The Type View/ :: In this view, classes are types and subclasses are
+  subtypes. For example, take a ~LabeledWindow~ class that inherits from a ~Window~
+  class. All labeled windows are also windows. The type view is consistent with
+  the principle that classes should model real-world entities or some abstract
+  versions of them. In the type view, classes satisfy the substitution property:
+  every operation that works for an object of class ~C~ also works for objects of
+  a subclass of ~C~.
+
++ /The Structure View/ :: In this view, inheritance is just another programming
+  tool that is used to structure programs. This view is strongly discouraged
+  because classes no longer satisfy the substitution property. The structure
+  view is an almost unending source of bugs and bad designs.
+
+  (...)
+
+  In the type view, each class stands on its own two feet, so to speak, as a
+  bona ﬁde data abstraction. In the structure view, classes are sometimes just
+  scaﬀolding, which exists only for its role in structuring the program.
+
+  [cite:@van2004concepts p.519 chap.7 part.7.4.1]
+#+end_quote
+
+** Design by Contract
+
+#+begin_quote
+We say a program is correct if it performs according to its speciﬁcation. One
+way to prove the correctness of a program is by reasoning with a formal semantics.
+
+(...)
+
+The principal idea of design by contract is that a data abstraction implies a
+contract between the abstraction’s designer and its users. The users must
+guarantee that an abstraction is called in the right way, and in return the
+abstraction behaves in the right way. There is a deliberate analogy with
+contracts in human society. All parties are expected to follow the contract.
+
+[cite:@van2004concepts p.520-521 chap.7 part.7.4.1]
+#+end_quote
+
+*** Generic Classes
+
+#+begin_quote
+A generic class is one that only deﬁnes part of the functionality of a data
+abstraction. It has to be completed before it can be used to create objects. Let
+us look at two ways to deﬁne generic classes. The ﬁrst way, often used in OOP,
+uses inheritance. The second way uses higher-order programming. We will see that
+the ﬁrst way is just a syntactic variation of the second. In other words,
+inheritance can be seen as a programming style that is based on higher-order
+programming.
+
+[cite:@van2004concepts p.524 chap.7 part.7.4.3]
+#+end_quote
+
+*** Multiple Inheritance
+
+#+begin_quote
+Multiple inheritance is useful when an object has to be two diﬀerent things in
+the same program. (...). The idea for this design comes from Bertrand Meyer
+[140].
+
+[cite:@van2004concepts p.524 chap.7 part.7.4.4]
+#+end_quote
+
+*** Rules of Thumb for Multiple Inheritance
+
+#+begin_quote
+Multiple inheritance is a powerful technique that has to be used with care. We
+recommend that you use multiple inheritance as follows:
+
++ Multiple inheritance works well when combining two completely independent
+  abstractions.
+
++ Multiple inheritance is much harder to use correctly when the abstractions
+  have something in common. (...).  Even if they do not have a shared ancestor,
+  there can be problems if they have some concepts in common.
+
++ What happens when sibling superclasses share (directly or indirectly) a common
+  ancestor class that speciﬁes a stateful object (i.e., it has attributes)? This
+  is known as the implementation-sharing problem. This can lead to duplicated
+  operations on the common ancestor. (...). The only remedy is to understand
+  carefully the inheritance hierarchy to avoid such duplication. Alternatively,
+  you should only inherit from multiple classes that do not share a stateful
+  common ancestor.
+
+[cite:@van2004concepts p.533 chap.7 part.7.4.5]
+#+end_quote
+
+*** The Purpose of Class Diagrams
+
+#+begin_quote
+Class diagrams are excellent tools for visualizing the class structure of an
+application. They are at the heart of the UML approach to modeling
+object-oriented applications, and as such they enjoy widespread use. *This
+popularity has often masked their limitations. They have three clear limitations*:
+
++ They do not specify the functionality of a class. For example, if the methods
+  of a class enforce an invariant, then this invariant does not show up in the
+  class diagram.
+
++ They do not model the dynamic behavior of the application, i.e., its evolution
+  over time. Dynamic behavior is both large-scale and small-scale.
+
++ They only model one level in the application's component hierarchy.
+
+The UML approach recognizes these limitations and provides tools that partially
+alleviate them, e.g., the interaction diagram and the package
+diagram. Interaction diagrams model part of the dynamic behavior. Package
+diagrams model components at a higher level in the hierarchy than classes.
+
+[cite:@van2004concepts p.534 chap.7 part.7.4.6]
+#+end_quote
+
+*** Design Patterns
+
+* Relation to Other Computation Models
+
+#+begin_quote
+Object-oriented programming is one way to structure programs, which is most
+often used together with explicit state. In comparison with other computation
+models, it is characterized primarily by its use of polymorphism and
+inheritance. (...). From the viewpoint of multiple computation models,
+inheritance is not a new concept in the kernel language, but emerges rather from
+how the class linguistic abstraction is deﬁned.
+
+[cite:@van2004concepts p.537 chap.7 part.7.5]
+#+end_quote
+
+* Implementing the Object System
+
+#+begin_quote
+The complete object system can be implemented in a straightforward way from the
+declarative stateful computation model. In particular, the main characteristics
+come from the combination of higher-order programming with explicit state.
+
+[cite:@van2004concepts p.545 chap.7 part.7.6]
+#+end_quote
+
+** Abstraction Diagram
+
+#+begin_quote
+The ﬁrst step in understanding how to build an object system is to understand
+how the diﬀerent parts are related. Object-oriented programming deﬁnes a
+hierarchy of abstractions that are related to each other by a kind of
+"speciﬁcation-implementation" relationship. There are many variations on this
+hierarchy.
+
++ Running Object :: A running object is an active invocation of an object. It
+  associates a thread to an object. It contains a set of environment frames as well as an object.
+
++ Object :: An object is a procedure that encapsulates an explicit state (a
+  cell) and a set of procedures that reference the state.
+
++ Class :: A class is a wrapped record that encapsulates a set of procedures
+  named by literals and a set of attributes, which are just literals. The
+  procedures are called methods. (...). Often the following distinction is
+  useful:
+
+  * *Abstract class*: An abstract class is a class in which some methods are
+    called that have no deﬁnition in the class.
+
+  * *Concrete Class*. A concrete class is a class in which all methods that are
+    called are also deﬁned.
+
++ Metaclass :: A metaclass is a class with a particular set of methods that
+  correspond to the basic operations of a class, e.g.: object creation,
+  inheritance policy (which methods to inherit), method call, method return,
+  choice of method to call, attribute assignment, attribute access, self call.
+
+[cite:@van2004concepts p.546-547 chap.7 part.7.6.1]
+#+end_quote
+
+* Active Objects
+
+#+begin_quote
+An active object is a port object whose behavior is deﬁned by a class. It
+consists of a port, a thread that reads messages from the port’s stream, and an
+object that is a class instance. Each message that is received will cause one of
+the object’s methods to be invoked. Active objects combine the abilities of OOP
+(including polymorphism and inheritance) and the abilities of message-passing
+concurrency (including concurrency and object independence).
+
+[cite:@van2004concepts p.556 chap.7 part.7.8]
+#+end_quote

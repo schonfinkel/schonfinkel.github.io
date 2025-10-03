@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       8bc155a8-ccf6-4827-b6bd-09a735f28c7b
+:END:
+#+title: Multi-Version Concurrency Control
+#+ROAM_ALIASES: MVCC
+#+filetags: :concurrency: :databases: :postgresql: :sql:
+
+#+begin_quote
+MVCC dictates that, instead of modifying an existing tuple within the database,
+the system has to replicate the tuple, apply the changes, and invalidate the
+original one. You can compare this to the ~copy-on-write~ mechanism used in
+operating filesystems such as [[id:519e11ea-6d0f-4b1e-8edf-fd109ffd4677][ZFS]].
+
+[cite:@ferrari2023postgres p.373 chap.11]
+#+end_quote
