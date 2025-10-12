@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:57 -->
+<!-- 2025-10-12 Sun 14:59 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PostgreSQL Cluster</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -65,9 +65,9 @@ very same <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76
 (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 22</a>)
 </p>
 </blockquote>
-<div id="outline-container-org89d0bf1" class="outline-2">
-<h2 id="org89d0bf1">Locating the database server files</h2>
-<div class="outline-text-2" id="text-org89d0bf1">
+<div id="outline-container-org7a7f176" class="outline-2">
+<h2 id="org7a7f176">Locating the database server files</h2>
+<div class="outline-text-2" id="text-org7a7f176">
 <p>
 Cluster files are initially stored in a location referred to as data directory:
 </p>
@@ -90,13 +90,13 @@ the database directory:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdd264b0" class="outline-2">
-<h2 id="orgdd264b0">Cluster Management with <code>pg_ctl</code></h2>
-<div class="outline-text-2" id="text-orgdd264b0">
+<div id="outline-container-org7fa5ab9" class="outline-2">
+<h2 id="org7fa5ab9">Cluster Management with <code>pg_ctl</code></h2>
+<div class="outline-text-2" id="text-org7fa5ab9">
 </div>
-<div id="outline-container-org5038007" class="outline-3">
-<h3 id="org5038007">Starting and Stopping the Cluster</h3>
-<div class="outline-text-3" id="text-org5038007">
+<div id="outline-container-org016d068" class="outline-3">
+<h3 id="org016d068">Starting and Stopping the Cluster</h3>
+<div class="outline-text-3" id="text-org016d068">
 <div class="org-src-container">
 <pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">wait for all connections...</span>
   pg_ctl stop -m s[mart]
@@ -108,17 +108,17 @@ the database directory:
 </div>
 </div>
 </div>
-<div id="outline-container-org88baab8" class="outline-3">
-<h3 id="org88baab8">Restarts</h3>
+<div id="outline-container-org6ba4d78" class="outline-3">
+<h3 id="org6ba4d78">Restarts</h3>
 </div>
 
-<div id="outline-container-orgb75a8ac" class="outline-3">
-<h3 id="orgb75a8ac">Reload</h3>
+<div id="outline-container-org3312c03" class="outline-3">
+<h3 id="org3312c03">Reload</h3>
 </div>
 </div>
-<div id="outline-container-org8d3fe5a" class="outline-2">
-<h2 id="org8d3fe5a">The Console (<code>psql</code>)</h2>
-<div class="outline-text-2" id="text-org8d3fe5a">
+<div id="outline-container-org03fb1e3" class="outline-2">
+<h2 id="org03fb1e3">The Console (<code>psql</code>)</h2>
+<div class="outline-text-2" id="text-org03fb1e3">
 <p>
 Most commonly used options:
 </p>
@@ -191,9 +191,9 @@ different variations of <code>\d</code>:
 </div>
 </div>
 </div>
-<div id="outline-container-org2c93ad0" class="outline-2">
-<h2 id="org2c93ad0">References:</h2>
-<div class="outline-text-2" id="text-org2c93ad0">
+<div id="outline-container-orga8e7cfc" class="outline-2">
+<h2 id="orga8e7cfc">References:</h2>
+<div class="outline-text-2" id="text-orga8e7cfc">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>

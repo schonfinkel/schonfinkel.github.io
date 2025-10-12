@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:57 -->
+<!-- 2025-10-12 Sun 14:59 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kubernetes-Storage</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -55,13 +55,13 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Kubernetes-Storage</h1>
-</header><div id="outline-container-orgbaddfb6" class="outline-2">
-<h2 id="orgbaddfb6">Volume Types</h2>
-<div class="outline-text-2" id="text-orgbaddfb6">
+</header><div id="outline-container-orgb392487" class="outline-2">
+<h2 id="orgb392487">Volume Types</h2>
+<div class="outline-text-2" id="text-orgb392487">
 </div>
-<div id="outline-container-orga223317" class="outline-3">
-<h3 id="orga223317">emptyDir</h3>
-<div class="outline-text-3" id="text-orga223317">
+<div id="outline-container-org88f56aa" class="outline-3">
+<h3 id="org88f56aa">emptyDir</h3>
+<div class="outline-text-3" id="text-org88f56aa">
 <p>
 Empty directory for storing data ephemeral data from the Pods
 </p>
@@ -94,33 +94,33 @@ Empty directory for storing data ephemeral data from the Pods
 </div>
 </div>
 </div>
-<div id="outline-container-org9e3a36c" class="outline-3">
-<h3 id="org9e3a36c">hostPath</h3>
-<div class="outline-text-3" id="text-org9e3a36c">
+<div id="outline-container-orgfeb166e" class="outline-3">
+<h3 id="orgfeb166e">hostPath</h3>
+<div class="outline-text-3" id="text-orgfeb166e">
 <p>
 A volume that's mounted in the Node's filesystem and is shared with a Pod
 </p>
 </div>
 </div>
-<div id="outline-container-org5c2995b" class="outline-3">
-<h3 id="org5c2995b">nfs</h3>
-<div class="outline-text-3" id="text-org5c2995b">
+<div id="outline-container-org96794ac" class="outline-3">
+<h3 id="org96794ac">nfs</h3>
+<div class="outline-text-3" id="text-org96794ac">
 <p>
 A NFS share mounted into the Pod
 </p>
 </div>
 </div>
-<div id="outline-container-orgb344c02" class="outline-3">
-<h3 id="orgb344c02">configMap/secret</h3>
-<div class="outline-text-3" id="text-orgb344c02">
+<div id="outline-container-orgbb1ad3d" class="outline-3">
+<h3 id="orgbb1ad3d">configMap/secret</h3>
+<div class="outline-text-3" id="text-orgbb1ad3d">
 <p>
 Provides access to <a href="20211012215602-kubernetes.html#ID-dd924a84-7d6f-41ec-98c2-aa16582c0d89">Kubernetes</a> resources
 </p>
 </div>
 </div>
-<div id="outline-container-org4b7b134" class="outline-3">
-<h3 id="org4b7b134">persistentVolumeClaim</h3>
-<div class="outline-text-3" id="text-org4b7b134">
+<div id="outline-container-org9dc8232" class="outline-3">
+<h3 id="org9dc8232">persistentVolumeClaim</h3>
+<div class="outline-text-3" id="text-org9dc8232">
 <p>
 A <code>persistentVolume</code> is a cluster-wide storage resource that relies on
 network-attached storage. It's abstracted and associated to a Pod via a
@@ -172,9 +172,9 @@ network-attached storage. It's abstracted and associated to a Pod via a
 </div>
 </div>
 </div>
-<div id="outline-container-orgdab717f" class="outline-3">
-<h3 id="orgdab717f">Cloud</h3>
-<div class="outline-text-3" id="text-orgdab717f">
+<div id="outline-container-orge2933a9" class="outline-3">
+<h3 id="orge2933a9">Cloud</h3>
+<div class="outline-text-3" id="text-orge2933a9">
 <p>
 Cluster-wide storage, which varies depending on the cloud provider
 </p>
@@ -197,9 +197,9 @@ Cluster-wide storage, which varies depending on the cloud provider
 </div>
 </div>
 </div>
-<div id="outline-container-orgd2d7a01" class="outline-2">
-<h2 id="orgd2d7a01">References:</h2>
-<div class="outline-text-2" id="text-orgd2d7a01">
+<div id="outline-container-orgc4042b8" class="outline-2">
+<h2 id="orgc4042b8">References:</h2>
+<div class="outline-text-2" id="text-orgc4042b8">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>

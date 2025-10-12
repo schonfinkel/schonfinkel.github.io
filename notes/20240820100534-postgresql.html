@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:57 -->
+<!-- 2025-10-12 Sun 14:59 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PostgreSQL</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -65,9 +65,9 @@ views, materialized views, partitioned tables, foreign data wrappers, multiple
 schemas, generated columns, and so on. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 3</a>)
 </p>
 </blockquote>
-<div id="outline-container-org21a5a71" class="outline-2">
-<h2 id="org21a5a71">A brief history of PostgreSQL</h2>
-<div class="outline-text-2" id="text-org21a5a71">
+<div id="outline-container-org4b8bf20" class="outline-2">
+<h2 id="org4b8bf20">A brief history of PostgreSQL</h2>
+<div class="outline-text-2" id="text-org4b8bf20">
 <blockquote>
 <p>
 Ingres was a relational database developed by Professor Michael Stonebraker. In
@@ -93,9 +93,9 @@ Postgre95 to emphasize the difference compared to other, preceding versions.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org8e4de43" class="outline-2">
-<h2 id="org8e4de43">Terminology</h2>
-<div class="outline-text-2" id="text-org8e4de43">
+<div id="outline-container-org0afcb70" class="outline-2">
+<h2 id="org0afcb70">Terminology</h2>
+<div class="outline-text-2" id="text-org0afcb70">
 <table>
 
 
@@ -203,26 +203,26 @@ superusers usually see the whole set of available information.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org43569e5" class="outline-2">
-<h2 id="org43569e5">Architecture</h2>
-<div class="outline-text-2" id="text-org43569e5">
+<div id="outline-container-org2a7c7b0" class="outline-2">
+<h2 id="org2a7c7b0">Architecture</h2>
+<div class="outline-text-2" id="text-org2a7c7b0">
 </div>
-<div id="outline-container-org7791be2" class="outline-3">
-<h3 id="org7791be2">Client/Server</h3>
-<div class="outline-text-3" id="text-org7791be2">
+<div id="outline-container-org8a1a12f" class="outline-3">
+<h3 id="org8a1a12f">Client/Server</h3>
+<div class="outline-text-3" id="text-org8a1a12f">
 <div class="org-src-container">
 <pre class="src src-sql">  SHOW max_connections;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3276c02" class="outline-3">
-<h3 id="org3276c02">Memory</h3>
-<div class="outline-text-3" id="text-org3276c02">
+<div id="outline-container-org445ff1c" class="outline-3">
+<h3 id="org445ff1c">Memory</h3>
+<div class="outline-text-3" id="text-org445ff1c">
 </div>
-<div id="outline-container-org24f9d0b" class="outline-4">
-<h4 id="org24f9d0b">Shared Buffers</h4>
-<div class="outline-text-4" id="text-org24f9d0b">
+<div id="outline-container-orga340bf2" class="outline-4">
+<h4 id="orga340bf2">Shared Buffers</h4>
+<div class="outline-text-4" id="text-orga340bf2">
 <ul class="org-ul">
 <li>Shared by all server processes.</li>
 <li>Keeps frequently accessed objects in memory for faster retrieval.</li>
@@ -235,9 +235,9 @@ superusers usually see the whole set of available information.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc338f9b" class="outline-4">
-<h4 id="orgc338f9b">Local Memory</h4>
-<div class="outline-text-4" id="text-orgc338f9b">
+<div id="outline-container-orgc2b132f" class="outline-4">
+<h4 id="orgc2b132f">Local Memory</h4>
+<div class="outline-text-4" id="text-orgc2b132f">
 <p>
 It's the memory allocated to each backend process.
 </p>
@@ -283,17 +283,17 @@ It's the memory allocated to each backend process.
 </div>
 </div>
 </div>
-<div id="outline-container-org35b0c2c" class="outline-2">
-<h2 id="org35b0c2c">References:</h2>
-<div class="outline-text-2" id="text-org35b0c2c">
+<div id="outline-container-orgc651d0e" class="outline-2">
+<h2 id="orgc651d0e">References:</h2>
+<div class="outline-text-2" id="text-orgc651d0e">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orga121e53" class="outline-2">
-<h2 id="orga121e53">Backlinks:</h2>
-<div class="outline-text-2" id="text-orga121e53">
+<div id="outline-container-orga6cb04c" class="outline-2">
+<h2 id="orga6cb04c">Backlinks:</h2>
+<div class="outline-text-2" id="text-orga6cb04c">
 <ul class="org-ul">
 <li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
 <li><a href="./20250329193401-frontend_backend_protocol_postgresql.html">Frontend/Backend Protocol (PostgresSQL)</a></li>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:57 -->
+<!-- 2025-10-12 Sun 14:59 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Statements (PostgreSQL)</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -58,19 +58,19 @@
 </header><ul class="org-ul">
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-org8efa5fc" class="outline-2">
-<h2 id="org8efa5fc"><code>SELECT</code></h2>
-<div class="outline-text-2" id="text-org8efa5fc">
+<div id="outline-container-org008c0f5" class="outline-2">
+<h2 id="org008c0f5"><code>SELECT</code></h2>
+<div class="outline-text-2" id="text-org008c0f5">
 </div>
-<div id="outline-container-org14816b0" class="outline-3">
-<h3 id="org14816b0"><code>LIKE</code> and <code>ILIKE</code></h3>
+<div id="outline-container-org6899805" class="outline-3">
+<h3 id="org6899805"><code>LIKE</code> and <code>ILIKE</code></h3>
 </div>
-<div id="outline-container-org5ca5f31" class="outline-3">
-<h3 id="org5ca5f31"><code>DISTINCT</code></h3>
+<div id="outline-container-org8fac6b2" class="outline-3">
+<h3 id="org8fac6b2"><code>DISTINCT</code></h3>
 </div>
-<div id="outline-container-orgffcc6b9" class="outline-3">
-<h3 id="orgffcc6b9"><code>LIMIT</code> and <code>OFFSET</code></h3>
-<div class="outline-text-3" id="text-orgffcc6b9">
+<div id="outline-container-org5710414" class="outline-3">
+<h3 id="org5710414"><code>LIMIT</code> and <code>OFFSET</code></h3>
+<div class="outline-text-3" id="text-org5710414">
 <blockquote>
 <p>
 <code>LIMIT</code> and <code>OFFSET</code> are used to return a portion of data from a resultset
@@ -86,13 +86,13 @@ the resultset from which to start returning data.
 </div>
 </div>
 </div>
-<div id="outline-container-org2f0feab" class="outline-2">
-<h2 id="org2f0feab">Combining Queries</h2>
-<div class="outline-text-2" id="text-org2f0feab">
+<div id="outline-container-org4973353" class="outline-2">
+<h2 id="org4973353">Combining Queries</h2>
+<div class="outline-text-2" id="text-org4973353">
 </div>
-<div id="outline-container-orgcb491ff" class="outline-3">
-<h3 id="orgcb491ff"><code>UNION</code> / <code>UNION ALL</code></h3>
-<div class="outline-text-3" id="text-orgcb491ff">
+<div id="outline-container-orgc9570ba" class="outline-3">
+<h3 id="orgc9570ba"><code>UNION</code> / <code>UNION ALL</code></h3>
+<div class="outline-text-3" id="text-orgc9570ba">
 <blockquote>
 <p>
 The <code>UNION</code> operator is used to combine the resultset of two or more <code>SELECT</code>
@@ -115,13 +115,13 @@ respected:
 </ul>
 </div>
 </div>
-<div id="outline-container-org5d8c689" class="outline-3">
-<h3 id="org5d8c689"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
+<div id="outline-container-org4d144fa" class="outline-3">
+<h3 id="org4d144fa"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
 </div>
 </div>
-<div id="outline-container-org80b9700" class="outline-2">
-<h2 id="org80b9700">Upsert</h2>
-<div class="outline-text-2" id="text-org80b9700">
+<div id="outline-container-org9a273fc" class="outline-2">
+<h2 id="org9a273fc">Upsert</h2>
+<div class="outline-text-2" id="text-org9a273fc">
 <blockquote>
 <p>
 In PostgreSQL, the <code>UPSERT</code> statement does not exist as in other DBMSes. An <code>UPSERT</code>
@@ -162,26 +162,26 @@ where <code>EXCLUDED</code> references the proposed new insertion row.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd523adc" class="outline-2">
-<h2 id="orgd523adc"><code>RETURNING</code></h2>
-<div class="outline-text-2" id="text-orgd523adc">
+<div id="outline-container-org49e067f" class="outline-2">
+<h2 id="org49e067f"><code>RETURNING</code></h2>
+<div class="outline-text-2" id="text-org49e067f">
 <p>
 Reduces the need for an extra query as it enables you to output columns.
 </p>
 </div>
-<div id="outline-container-orgf792053" class="outline-3">
-<h3 id="orgf792053">Inserts</h3>
+<div id="outline-container-orgbf9036a" class="outline-3">
+<h3 id="orgbf9036a">Inserts</h3>
 </div>
-<div id="outline-container-org42052f7" class="outline-3">
-<h3 id="org42052f7">Updates</h3>
+<div id="outline-container-org01a4649" class="outline-3">
+<h3 id="org01a4649">Updates</h3>
 </div>
-<div id="outline-container-orga90dfa0" class="outline-3">
-<h3 id="orga90dfa0">Deletes</h3>
+<div id="outline-container-orgf5e54cf" class="outline-3">
+<h3 id="orgf5e54cf">Deletes</h3>
 </div>
 </div>
-<div id="outline-container-org868ac34" class="outline-2">
-<h2 id="org868ac34">References:</h2>
-<div class="outline-text-2" id="text-org868ac34">
+<div id="outline-container-orgf758d04" class="outline-2">
+<h2 id="orgf758d04">References:</h2>
+<div class="outline-text-2" id="text-orgf758d04">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>

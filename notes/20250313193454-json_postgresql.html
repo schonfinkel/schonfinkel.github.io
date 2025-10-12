@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:57 -->
+<!-- 2025-10-12 Sun 14:59 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JSON (PostgreSQL)</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -93,17 +93,17 @@ data type, also supports the <code>JSONB</code> data type.
 </tr>
 </tbody>
 </table>
-<div id="outline-container-orgc6bbf37" class="outline-2">
-<h2 id="orgc6bbf37">Validation</h2>
+<div id="outline-container-org84d47ad" class="outline-2">
+<h2 id="org84d47ad">Validation</h2>
 </div>
 
-<div id="outline-container-orga458014" class="outline-2">
-<h2 id="orga458014">Functions &amp; Operators</h2>
-<div class="outline-text-2" id="text-orga458014">
+<div id="outline-container-orge65a563" class="outline-2">
+<h2 id="orge65a563">Functions &amp; Operators</h2>
+<div class="outline-text-2" id="text-orge65a563">
 </div>
-<div id="outline-container-org168fdbf" class="outline-3">
-<h3 id="org168fdbf">Creating JSON data</h3>
-<div class="outline-text-3" id="text-org168fdbf">
+<div id="outline-container-org2cc944b" class="outline-3">
+<h3 id="org2cc944b">Creating JSON data</h3>
+<div class="outline-text-3" id="text-org2cc944b">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> json_build_object(
     <span style="font-style: italic;">'id'</span>, 1,
@@ -150,9 +150,9 @@ every json object in its own row:
 </div>
 </div>
 </div>
-<div id="outline-container-org79ac2e7" class="outline-3">
-<h3 id="org79ac2e7">Extraction Operators</h3>
-<div class="outline-text-3" id="text-org79ac2e7">
+<div id="outline-container-org6952fd8" class="outline-3">
+<h3 id="org6952fd8">Extraction Operators</h3>
+<div class="outline-text-3" id="text-org6952fd8">
 <table>
 
 
@@ -219,9 +219,9 @@ every json object in its own row:
 </table>
 </div>
 </div>
-<div id="outline-container-org77a1cd3" class="outline-3">
-<h3 id="org77a1cd3">Containment Operators</h3>
-<div class="outline-text-3" id="text-org77a1cd3">
+<div id="outline-container-org4cab4bd" class="outline-3">
+<h3 id="org4cab4bd">Containment Operators</h3>
+<div class="outline-text-3" id="text-org4cab4bd">
 <table>
 
 
@@ -260,9 +260,9 @@ every json object in its own row:
 </table>
 </div>
 </div>
-<div id="outline-container-orgccf865a" class="outline-3">
-<h3 id="orgccf865a">Existence Operators</h3>
-<div class="outline-text-3" id="text-orgccf865a">
+<div id="outline-container-orgb2360e9" class="outline-3">
+<h3 id="orgb2360e9">Existence Operators</h3>
+<div class="outline-text-3" id="text-orgb2360e9">
 <p>
 You can also use the following operators to check if one or more values are
 contained inside a <code>JSONB</code> object:
@@ -289,9 +289,9 @@ yields <code>t</code>.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org645c560" class="outline-3">
-<h3 id="org645c560">JSON Path Operators</h3>
-<div class="outline-text-3" id="text-org645c560">
+<div id="outline-container-org1fe5b17" class="outline-3">
+<h3 id="org1fe5b17">JSON Path Operators</h3>
+<div class="outline-text-3" id="text-org1fe5b17">
 <table>
 
 
@@ -330,9 +330,9 @@ yields <code>t</code>.</li>
 </table>
 </div>
 </div>
-<div id="outline-container-orgdba34c0" class="outline-3">
-<h3 id="orgdba34c0">Deletion Operators</h3>
-<div class="outline-text-3" id="text-orgdba34c0">
+<div id="outline-container-orgeaa0076" class="outline-3">
+<h3 id="orgeaa0076">Deletion Operators</h3>
+<div class="outline-text-3" id="text-orgeaa0076">
 <table>
 
 
@@ -385,18 +385,18 @@ yields <code>t</code>.</li>
 </table>
 </div>
 </div>
-<div id="outline-container-orgd811512" class="outline-3">
-<h3 id="orgd811512">Update Functions</h3>
-<div class="outline-text-3" id="text-orgd811512">
+<div id="outline-container-org4924942" class="outline-3">
+<h3 id="org4924942">Update Functions</h3>
+<div class="outline-text-3" id="text-org4924942">
 <p>
 <code>jsonb_set</code>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf8897b4" class="outline-2">
-<h2 id="orgf8897b4">JSON Record Sets</h2>
-<div class="outline-text-2" id="text-orgf8897b4">
+<div id="outline-container-org3173e45" class="outline-2">
+<h2 id="org3173e45">JSON Record Sets</h2>
+<div class="outline-text-2" id="text-org3173e45">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> jsonb_each(<span style="font-style: italic;">'{"a": 1, "b": "something", "c": {"d": 1}}'</span>);
@@ -426,17 +426,17 @@ raw JSON data:
 </div>
 </div>
 </div>
-<div id="outline-container-org133a3ec" class="outline-2">
-<h2 id="org133a3ec">Indexing</h2>
-<div class="outline-text-2" id="text-org133a3ec">
+<div id="outline-container-org4c49173" class="outline-2">
+<h2 id="org4c49173">Indexing</h2>
+<div class="outline-text-2" id="text-org4c49173">
 </div>
-<div id="outline-container-org1c9b370" class="outline-3">
-<h3 id="org1c9b370">Functional Indexes and Generated Columns</h3>
+<div id="outline-container-org31c59b9" class="outline-3">
+<h3 id="org31c59b9">Functional Indexes and Generated Columns</h3>
 </div>
 
-<div id="outline-container-org9a941b4" class="outline-3">
-<h3 id="org9a941b4">GIN Indexes</h3>
-<div class="outline-text-3" id="text-org9a941b4">
+<div id="outline-container-orgde4b85e" class="outline-3">
+<h3 id="orgde4b85e">GIN Indexes</h3>
+<div class="outline-text-3" id="text-orgde4b85e">
 <blockquote>
 <p>
 <code>GIN</code> indexes can be used to efficiently search for keys or key/value pairs
@@ -467,17 +467,17 @@ For <code>JSONB</code>, <code>GIN</code> supports two operator classes:
 </div>
 </div>
 </div>
-<div id="outline-container-org343e39f" class="outline-2">
-<h2 id="org343e39f">References:</h2>
-<div class="outline-text-2" id="text-org343e39f">
+<div id="outline-container-org50fee53" class="outline-2">
+<h2 id="org50fee53">References:</h2>
+<div class="outline-text-2" id="text-org50fee53">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcab3225" class="outline-2">
-<h2 id="orgcab3225">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgcab3225">
+<div id="outline-container-orgfde2c1e" class="outline-2">
+<h2 id="orgfde2c1e">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgfde2c1e">
 <ul class="org-ul">
 <li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
 </ul>

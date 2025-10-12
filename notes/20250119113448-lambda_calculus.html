@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:57 -->
+<!-- 2025-10-12 Sun 14:59 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lambda Calculus</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -107,17 +107,17 @@ built-in syntactic restrictions, for example
 type-restrictions. (<a href="#citeproc_bib_item_1">Hindley and Seldin 2008, 1</a>)
 </p>
 </blockquote>
-<div id="outline-container-org999c71e" class="outline-2">
-<h2 id="org999c71e">Untyped &lambda;-Calculus</h2>
-<div class="outline-text-2" id="text-org999c71e">
+<div id="outline-container-orgeb6f35f" class="outline-2">
+<h2 id="orgeb6f35f">Untyped &lambda;-Calculus</h2>
+<div class="outline-text-2" id="text-orgeb6f35f">
 </div>
-<div id="outline-container-org81f10c8" class="outline-3">
-<h3 id="org81f10c8">Definitions</h3>
-<div class="outline-text-3" id="text-org81f10c8">
+<div id="outline-container-org77fec09" class="outline-3">
+<h3 id="org77fec09">Definitions</h3>
+<div class="outline-text-3" id="text-org77fec09">
 </div>
-<div id="outline-container-org406b16a" class="outline-4">
-<h4 id="org406b16a">&lambda;-Term:</h4>
-<div class="outline-text-4" id="text-org406b16a">
+<div id="outline-container-org0956f66" class="outline-4">
+<h4 id="org0956f66">&lambda;-Term:</h4>
+<div class="outline-text-4" id="text-org0956f66">
 <p>
 Assume given an infinite set \(V\) of variables, the set of lambda terms is given
 by the following Backus-Naur Form:
@@ -128,18 +128,18 @@ M, N &::=  x \mid (M N) \mid (\lambda x.M)
 \end{align*}
 </div>
 </div>
-<div id="outline-container-org28de348" class="outline-4">
-<h4 id="org28de348">Scope</h4>
-<div class="outline-text-4" id="text-org28de348">
+<div id="outline-container-orgf8602d5" class="outline-4">
+<h4 id="orgf8602d5">Scope</h4>
+<div class="outline-text-4" id="text-orgf8602d5">
 <p>
 For a particular occurrence of \(λx.M\) in a term \(P\), the occurrence of \(M\) is
 called the scope of the occurrence of \(λx\) on the left.
 </p>
 </div>
 </div>
-<div id="outline-container-org7863bf4" class="outline-4">
-<h4 id="org7863bf4">Free and Bound Variables</h4>
-<div class="outline-text-4" id="text-org7863bf4">
+<div id="outline-container-org78f50f3" class="outline-4">
+<h4 id="org78f50f3">Free and Bound Variables</h4>
+<div class="outline-text-4" id="text-org78f50f3">
 <p>
 An occurrence of a variable \(x\) in a term \(P\) is called:
 </p>
@@ -161,9 +161,9 @@ FV(M N) &= FV(M) \cup FV(N)
 \end{align*}
 </div>
 </div>
-<div id="outline-container-org0122d21" class="outline-4">
-<h4 id="org0122d21">Substitution</h4>
-<div class="outline-text-4" id="text-org0122d21">
+<div id="outline-container-org2ab6969" class="outline-4">
+<h4 id="org2ab6969">Substitution</h4>
+<div class="outline-text-4" id="text-org2ab6969">
 <blockquote>
 <p>
 For any \(M, N, x\), define \([N/x]M\) to be the result of substituting \(N\) for
@@ -187,9 +187,9 @@ clashes. The precise definition is by induction on \(M\), as follows:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org1b7cb03" class="outline-4">
-<h4 id="org1b7cb03">&alpha;-conversion</h4>
-<div class="outline-text-4" id="text-org1b7cb03">
+<div id="outline-container-org93f9208" class="outline-4">
+<h4 id="org93f9208">&alpha;-conversion</h4>
+<div class="outline-text-4" id="text-org93f9208">
 <blockquote>
 <p>
 Let a term \(P\) contain an occurrence of \(\lambda x. M\), and let \(y \not\in FV(M)\). The act
@@ -208,30 +208,30 @@ we shall say <b>P is congruent to Q</b>, or <b>P α-converts to Q</b>, or \(P \e
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org4bfe6cf" class="outline-4">
-<h4 id="org4bfe6cf">&beta;-reduction</h4>
+<div id="outline-container-org64ce1fc" class="outline-4">
+<h4 id="org64ce1fc">&beta;-reduction</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-orge8083d7" class="outline-2">
-<h2 id="orge8083d7">Simply-typed &lambda;-Calculus.</h2>
-</div>
-
-<div id="outline-container-org825b190" class="outline-2">
-<h2 id="org825b190">Polymorphically typed &lambda;-Calculus</h2>
+<div id="outline-container-org0efd244" class="outline-2">
+<h2 id="org0efd244">Simply-typed &lambda;-Calculus.</h2>
 </div>
 
-<div id="outline-container-org4aa30a6" class="outline-2">
-<h2 id="org4aa30a6">References:</h2>
-<div class="outline-text-2" id="text-org4aa30a6">
+<div id="outline-container-org4628d75" class="outline-2">
+<h2 id="org4628d75">Polymorphically typed &lambda;-Calculus</h2>
+</div>
+
+<div id="outline-container-org543b6b6" class="outline-2">
+<h2 id="org543b6b6">References:</h2>
+<div class="outline-text-2" id="text-org543b6b6">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Hindley, J Roger, and Jonathan P Seldin. 2008. <i>Lambda-Calculus and Combinators: An Introduction</i>. Cambridge University Press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org39a55ff" class="outline-2">
-<h2 id="org39a55ff">Backlinks:</h2>
-<div class="outline-text-2" id="text-org39a55ff">
+<div id="outline-container-org364e3c4" class="outline-2">
+<h2 id="org364e3c4">Backlinks:</h2>
+<div class="outline-text-2" id="text-org364e3c4">
 <ul class="org-ul">
 <li><a href="./20250119195829-curry_howard_isomorphism.html">Curry-Howard Isomorphism</a></li>
 <li><a href="./20250120081842-combinatory_logic.html">Combinatory Logic</a></li>

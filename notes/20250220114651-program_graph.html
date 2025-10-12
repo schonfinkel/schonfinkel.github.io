@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:56 -->
+<!-- 2025-10-12 Sun 14:58 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Program Graph</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -87,9 +87,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Program Graph</h1>
-</header><div id="outline-container-orge483251" class="outline-2">
-<h2 id="orge483251">Definition</h2>
-<div class="outline-text-2" id="text-orge483251">
+</header><div id="outline-container-orge74cd60" class="outline-2">
+<h2 id="orge74cd60">Definition</h2>
+<div class="outline-text-2" id="text-orge74cd60">
 <blockquote>
 <p>
 A program graph \(\texttt{PG} = (Q, \{ q_{\vartriangleright}, q_{\blacktriangleleft}
@@ -110,7 +110,7 @@ it is labelled with the <b>action 𝛼</b>.
 
 <p>
 We shall require that the initial and final nodes are distinct and that there
-are no edges with source \(q_\bullet\). (<a href="#citeproc_bib_item_1">Nielson and Nielson 2019, 2</a>)
+are no edges with source \(q_\bullet\). (<a href="#citeproc_bib_item_2">Nielson and Nielson 2019, 2</a>)
 </p>
 </blockquote>
 
@@ -122,19 +122,84 @@ semantic-based formalism look at <a href="20250221180117-kripke_structures.html#
 </p>
 </div>
 </div>
-<div id="outline-container-org47589e6" class="outline-2">
-<h2 id="org47589e6">References:</h2>
-<div class="outline-text-2" id="text-org47589e6">
+<div id="outline-container-orgb820c9e" class="outline-2">
+<h2 id="orgb820c9e">Sets of Typed Variables</h2>
+<div class="outline-text-2" id="text-orgb820c9e">
+<blockquote>
+<p>
+A program graph \(\texttt{PG}\) over set \(\texttt{Var}\) of typed variables is a
+tuple \((\texttt{Loc}, \texttt{Act}, \texttt{Effect}, \longrightarrow, \texttt{Loc}_0,
+g_0)\) where:
+</p>
+
+<ul class="org-ul">
+<li>\(\texttt{Loc}\) is a set of locations and \(\texttt{Act}\) is a set of actions.</li>
+<li>\(\texttt{Effect} : \texttt{Act} \times \texttt{Eval}(\texttt{Var}) \rightarrow
+  \texttt{Eval}(\texttt{Var})\) is the effect function, which indicates how the evaluation \(\eta\) of variables is changed by performing an action.</li>
+<li>\(\longrightarrow \subseteq \texttt{Loc} \times \texttt{Cond}(\texttt{Var}) \times \texttt{Act} \times \texttt{Loc}\) is the conditional transition relation.</li>
+<li>\(\texttt{Loc}_0 \subseteq \texttt{Loc}\) is a set of initial locations.</li>
+<li>\(g_0 \in \texttt{Cond}(\texttt{Var})\) is the initial condition.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 32 chap.2 part.2.1.2</a>)
+</p>
+</blockquote>
+
+<p>
+The following conventions are also useful:
+</p>
+
+<ul class="org-ul">
+<li>\(l \xrightarrow{g:\alpha} l^\prime\) is a notation for \((l, g, \alpha, l^\prime) \in \longrightarrow\).</li>
+<li>The condition \(g\) is also called the <b>guard</b> of the conditional transition \(l \xrightarrow{g:a} l^\prime\).</li>
+<li>If the guard is a tautology (e.g., \(g = \texttt{true} \, \lor g = (x < 1) \lor (x \geq
+  1)\)), the the transition is shortened to \(l \xrightarrow{a} l^\prime\).</li>
+</ul>
+
+<p>
+To better understand the \(\texttt{Effect}\) function. Given an \(\alpha\) that denotes
+action \(x := y + 5\), with \(\eta\) being a valuation of both \(x\) and \(y\), such that
+\(\eta(x) = 17 \land \eta(y) = -2\), then:
+</p>
+
+\begin{align*}
+\texttt{Effect}(\alpha, \eta)(x) &= \eta(y) + 5 = -2 + 5 = 3 \\
+\texttt{Effect}(\alpha, \eta)(y) &= \eta(y) + 5 = -2
+\end{align*}
+
+<p>
+Thus, \(\texttt{Effect}(\alpha, \eta)\) is the evaluation that assigns 3 to x and −2 to y,
+this means \(l \in \texttt{Loc}\) depends on the current valuation of \(\eta\). Given a
+transition \(l \xrightarrow{g:a} l^\prime\), a nondeterministic choice is made to
+satisfy a condition \(g\) in \(\eta\) (\(\eta \models g\)). 
+</p>
+
+<p>
+The execution of action \(\alpha\) changes the valuation of variables according to
+\(\texttt{Effect}(\alpha, \cdot)\), thus the systems moves to location \(l^\prime\). If no such
+transition is possible, the system stops.
+</p>
+</div>
+<div id="outline-container-orgffc8cab" class="outline-3">
+<h3 id="orgffc8cab">Transition System Semantics of a Program Graph</h3>
+</div>
+</div>
+<div id="outline-container-orgbde33b9" class="outline-2">
+<h2 id="orgbde33b9">References:</h2>
+<div class="outline-text-2" id="text-orgbde33b9">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Nielson, Flemming, and Hanne Riis Nielson. 2019. <i>Formal Methods: An Appetizer</i>. Springer.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Nielson, Flemming, and Hanne Riis Nielson. 2019. <i>Formal Methods: An Appetizer</i>. Springer.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org8b23a71" class="outline-2">
-<h2 id="org8b23a71">Backlinks:</h2>
-<div class="outline-text-2" id="text-org8b23a71">
+<div id="outline-container-orgeb1070a" class="outline-2">
+<h2 id="orgeb1070a">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgeb1070a">
 <ul class="org-ul">
 <li><a href="./20250217202807-formal_methods.html">Formal Methods</a></li>
+<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
 </ul>
 </div>
 </div>

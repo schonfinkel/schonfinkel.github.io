@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:57 -->
+<!-- 2025-10-12 Sun 14:59 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Build Systems à la Carte</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -55,9 +55,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Build Systems à la Carte</h1>
-</header><div id="outline-container-orgaaf3a37" class="outline-2">
-<h2 id="orgaaf3a37">Introduction</h2>
-<div class="outline-text-2" id="text-orgaaf3a37">
+</header><div id="outline-container-org1207b94" class="outline-2">
+<h2 id="org1207b94">Introduction</h2>
+<div class="outline-text-2" id="text-org1207b94">
 <blockquote>
 <p>
 In this paper we offer a general framework in which to understand and compare
@@ -108,9 +108,9 @@ classification of the design space.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org336c7a3" class="outline-2">
-<h2 id="org336c7a3">Background</h2>
-<div class="outline-text-2" id="text-org336c7a3">
+<div id="outline-container-org54e4267" class="outline-2">
+<h2 id="org54e4267">Background</h2>
+<div class="outline-text-2" id="text-org54e4267">
 <blockquote>
 <p>
 Build systems automate the execution of repeatable tasks for individual users
@@ -135,9 +135,9 @@ discuss many other notable examples of build systems, and their relationships (&
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org1e9fbc4" class="outline-3">
-<h3 id="org1e9fbc4">Make: Static Dependencies and File Modification Times</h3>
-<div class="outline-text-3" id="text-org1e9fbc4">
+<div id="outline-container-org90dabbb" class="outline-3">
+<h3 id="org90dabbb">Make: Static Dependencies and File Modification Times</h3>
+<div class="outline-text-3" id="text-org90dabbb">
 <div class="org-src-container">
 <pre class="src src-makefile"><span style="font-weight: bold;">util.o</span>: util.h util.c
         gcc -c util.c
@@ -165,13 +165,13 @@ makefile and executes tasks in a topological order.</li>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgf3df97a" class="outline-3">
-<h3 id="orgf3df97a">Excel: Dynamic Dependencies at the Cost of Minimality</h3>
+<div id="outline-container-orgb9dc7a8" class="outline-3">
+<h3 id="orgb9dc7a8">Excel: Dynamic Dependencies at the Cost of Minimality</h3>
 </div>
 
-<div id="outline-container-org4a253fa" class="outline-3">
-<h3 id="org4a253fa">Shake: Dynamic Dependencies with No Remorse</h3>
-<div class="outline-text-3" id="text-org4a253fa">
+<div id="outline-container-org6d1ffa2" class="outline-3">
+<h3 id="org6d1ffa2">Shake: Dynamic Dependencies with No Remorse</h3>
+<div class="outline-text-3" id="text-org6d1ffa2">
 <ul class="org-ul">
 <li>Developed to solve the issue of dynamic dependencies without sacrificing the
 minimality requirement.</li>
@@ -198,9 +198,9 @@ execution until the dependencies are brought up to date (&#x2026;)
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org2b0a904" class="outline-3">
-<h3 id="org2b0a904">Bazel: A Cloud Build System</h3>
-<div class="outline-text-3" id="text-org2b0a904">
+<div id="outline-container-orga3c4266" class="outline-3">
+<h3 id="orga3c4266">Bazel: A Cloud Build System</h3>
+<div class="outline-text-3" id="text-orga3c4266">
 <ul class="org-ul">
 <li>As of the time of the article's writing, it is <b>not possible</b> to express <b>dynamic
 dependencies</b> in <b>user-defined build rules</b>.</li>
@@ -233,9 +233,9 @@ subsequently download the result from the cache.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org6c84ba6" class="outline-3">
-<h3 id="org6c84ba6">Summary</h3>
-<div class="outline-text-3" id="text-org6c84ba6">
+<div id="outline-container-orgc545fc5" class="outline-3">
+<h3 id="orgc545fc5">Summary</h3>
+<div class="outline-text-3" id="text-orgc545fc5">
 <table>
 
 
@@ -310,13 +310,13 @@ subsequently download the result from the cache.
 </div>
 </div>
 </div>
-<div id="outline-container-org4c2e5a4" class="outline-2">
-<h2 id="org4c2e5a4">Build Systems, Abstractly</h2>
-<div class="outline-text-2" id="text-org4c2e5a4">
+<div id="outline-container-orge4e765a" class="outline-2">
+<h2 id="orge4e765a">Build Systems, Abstractly</h2>
+<div class="outline-text-2" id="text-orge4e765a">
 </div>
-<div id="outline-container-org5331e22" class="outline-3">
-<h3 id="org5331e22">Common Vocabulary</h3>
-<div class="outline-text-3" id="text-org5331e22">
+<div id="outline-container-org2fd517f" class="outline-3">
+<h3 id="org2fd517f">Common Vocabulary</h3>
+<div class="outline-text-3" id="text-org2fd517f">
 <blockquote>
 <dl class="org-dl">
 <dt><i>Keys</i>, <i>Values</i>, and the <i>Store</i></dt><dd>The goal of any build system is to bring up to
@@ -463,9 +463,9 @@ instance Monoid m =&gt; Applicative (Const m) where
 </div>
 </div>
 </div>
-<div id="outline-container-org0642ca2" class="outline-3">
-<h3 id="org0642ca2">The Task Abstraction</h3>
-<div class="outline-text-3" id="text-org0642ca2">
+<div id="outline-container-orgf5466a0" class="outline-3">
+<h3 id="orgf5466a0">The Task Abstraction</h3>
+<div class="outline-text-3" id="text-orgf5466a0">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 8 pt.3.2</a>)</label><pre class="src src-haskell">  -- Build tasks 
   newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
@@ -482,9 +482,9 @@ example.
 </p>
 </div>
 </div>
-<div id="outline-container-org6ba5043" class="outline-3">
-<h3 id="org6ba5043">The Build Abstraction</h3>
-<div class="outline-text-3" id="text-org6ba5043">
+<div id="outline-container-orgd13529f" class="outline-3">
+<h3 id="orgd13529f">The Build Abstraction</h3>
+<div class="outline-text-3" id="text-orgd13529f">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 3: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 9 pt.3.3</a>)</label><pre class="src src-haskell">  -- Build system
   type Build c i k v = Tasks c k v -&gt; k -&gt; Store i k v -&gt; Store i k v
@@ -497,22 +497,22 @@ new store in which the value of the target key is up to date.
 </p>
 </div>
 </div>
-<div id="outline-container-org3237833" class="outline-3">
-<h3 id="org3237833">The Need for Polymorphism in Task</h3>
-<div class="outline-text-3" id="text-org3237833">
+<div id="outline-container-orgc2112a7" class="outline-3">
+<h3 id="orgc2112a7">The Need for Polymorphism in Task</h3>
+<div class="outline-text-3" id="text-orgc2112a7">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 4: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 10 pt.3.4</a>)</label><pre class="src src-haskell">  newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3a2ada2" class="outline-3">
-<h3 id="org3a2ada2">Extracting Static Dependencies</h3>
+<div id="outline-container-org30fe9de" class="outline-3">
+<h3 id="org30fe9de">Extracting Static Dependencies</h3>
 </div>
 
-<div id="outline-container-orgb8fa9e1" class="outline-3">
-<h3 id="orgb8fa9e1">Classifying Tasks</h3>
-<div class="outline-text-3" id="text-orgb8fa9e1">
+<div id="outline-container-orge5ab0d3" class="outline-3">
+<h3 id="orge5ab0d3">Classifying Tasks</h3>
+<div class="outline-text-3" id="text-orge5ab0d3">
 <table>
 
 
@@ -571,9 +571,9 @@ new store in which the value of the target key is up to date.
 </div>
 </div>
 </div>
-<div id="outline-container-org657fcd8" class="outline-2">
-<h2 id="org657fcd8">References:</h2>
-<div class="outline-text-2" id="text-org657fcd8">
+<div id="outline-container-org95d0a70" class="outline-2">
+<h2 id="org95d0a70">References:</h2>
+<div class="outline-text-2" id="text-org95d0a70">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Mokhov, Andrey, Neil Mitchell, and Simon Peyton Jones. 2018. “Build Systems À La Carte.” <i>Proceedings of the Acm on Programming Languages</i> 2 (ICFP): 1–29.</div>
 </div>

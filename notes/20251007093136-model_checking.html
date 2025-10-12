@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-10-12 Sun 14:58 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Model Checking</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Model Checking</h1>
+</header><div id="outline-container-org906501b" class="outline-2">
+<h2 id="org906501b">System Verification</h2>
+<div class="outline-text-2" id="text-org906501b">
+<blockquote>
+<p>
+This specification prescribes what the system has to do and what not, and thus
+constitutes the basis for any verification activity. A defect is found once the
+system does not fulfill one of the specification’s properties. <b>The system is
+considered to be "correct" whenever it satisfies all properties obtained from
+its specification. So correctness is always relative to a specification, and is
+not an absolute property of a system</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 3 chap.1</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>A process that asserts the correctness of a computer system (<i>hardware</i>,
+<i>software</i> or <i>both</i>).</li>
+<li>Software Verification Techniques: Peer reviewing and testing.</li>
+<li>Hardware Verification Techniques:
+
+<dl class="org-dl">
+<dt>Structural Analysis</dt><dd>Comprises several specific techniques such as
+synthesis, timing analysis, and equivalence checking.</dd>
+
+<dt>Emulation</dt><dd><p>
+Can be seem as the hardware-analogous to <i>Software Testing</i>. A
+reconfigurable generic hardware system (the emulator) is configured such
+that it behaves like the circuit under consideration and is then extensively
+tested.
+</p>
+
+<p>
+For complex hardware it becomes impractical and the number of tests needs to
+be reduced significantly, yielding potential undiscovered errors.
+</p></dd>
+
+<dt>Simulation</dt><dd>A widely used method that verifies a design model by comparing
+its output with a <b>golden model</b> (which represents expected behavior). While
+flexible, simulation is slow and may not cover enough input scenarios in a
+reasonable time.</dd>
+</dl></li>
+</ul>
+</div>
+<div id="outline-container-org71bda28" class="outline-3">
+<h3 id="org71bda28">Model Checking</h3>
+<div class="outline-text-3" id="text-org71bda28">
+<blockquote>
+<p>
+Let us first briefly discuss the role of <a href="20250217202807-formal_methods.html#ID-828cc1e0-61fa-462b-9274-73d6b4cf0c8c">Formal Methods</a>. To put it in a
+nutshell, formal methods can be considered as "the applied mathematics for
+modeling and analyzing ICT systems". Their aim is to establish system
+correctness with mathematical rigor. Their great potential has led to an
+increasing use by engineers of formal methods for the verification of complex
+software and hardware systems.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+Model-based verification techniques are based on models describing the possible
+system behavior in a mathematically precise and unambiguous manner. It turns out
+that - prior to any form of verification - the accurate modeling of systems
+often leads to the discovery of incompleteness, ambiguities, and inconsistencies
+in informal system specifications.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+As the startingpoint of these techniques is a model of the system under
+consideration, we have as a given fact that: <b>any verification using model-based
+techniques is only as good as the model of the system</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 7–8 chap.1 part.1.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgecd7894" class="outline-4">
+<h4 id="orgecd7894">Characteristics of Model Checking</h4>
+<div class="outline-text-4" id="text-orgecd7894">
+<blockquote>
+<p>
+Model checking is an automated technique that, given a finite-state model of a
+system and a formal property, systematically checks whether this property holds
+for (a given state in) that model.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 11 chap.1 part.1.2</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org77ecc13" class="outline-5">
+<h5 id="org77ecc13">The Model-Checking Process</h5>
+<div class="outline-text-5" id="text-org77ecc13">
+
+<figure id="orgfa72d8f">
+<img src="../static/img/notes/pmc_model_checking_diagram.png" alt="pmc_model_checking_diagram.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 8 chap.1 part.1.1</a>)</figcaption>
+</figure>
+
+<dl class="org-dl">
+<dt>Modeling Phase</dt><dd>Describe the system using the model checker's language
+(usally a combination of <i>finite-state atomata</i> and <i>temporal logic</i>), perform
+initial simulations for sanity checks, and formalize the properties to be
+verified.</dd>
+
+<dt>Running Phase</dt><dd>Execute the model checker to verify whether the specified
+properties hold in the system model.</dd>
+
+<dt>Analysis</dt><dd>Interpret results, if properties hold, proceed; if something got
+violated, analyze counterexamples, refine the model or properties, and rerun;
+if memory issues occur, reduce the model and retry.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcb8e398" class="outline-4">
+<h4 id="orgcb8e398">Properties</h4>
+<div class="outline-text-4" id="text-orgcb8e398">
+<dl class="org-dl">
+<dt>Safety</dt><dd>Nothing bad ever happens.</dd>
+<dt>Liveness</dt><dd>Good things eventually happen.</dd>
+<dt>Fairness</dt><dd>Something happens infinetely often or repeatedly.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge8f9812" class="outline-2">
+<h2 id="orge8f9812">Modelling Concurrent Systems</h2>
+<div class="outline-text-2" id="text-orge8f9812">
+<ul class="org-ul">
+<li><a href="20251010142516-transition_systems.html#ID-fbe5a587-ce97-40c3-9748-a459c3b89b9a">Transition Systems</a></li>
+<li><a href="20250220114651-program_graph.html#ID-808559c1-3472-46c7-8f5c-aac840e6f038">Program Graph</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1191b47" class="outline-2">
+<h2 id="org1191b47">References:</h2>
+<div class="outline-text-2" id="text-org1191b47">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

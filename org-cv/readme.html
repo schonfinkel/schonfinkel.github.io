@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-03 Fri 18:56 -->
+<!-- 2025-10-12 Sun 14:58 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Org exporter for curriculum vitae</title>
@@ -19,13 +19,13 @@
 <script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <!-- For LaTeX -->
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
 <link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
 <script>
   MathJax = {
     tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  // block
-      inlineMath: [['\\(', '\\)']]                  // inline
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
     }
   };
 </script>
@@ -87,9 +87,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Org exporter for curriculum vitae</h1>
-</header><div id="outline-container-org2c8bb18" class="outline-2">
-<h2 id="org2c8bb18">Goal: Export backend for CV</h2>
-<div class="outline-text-2" id="text-org2c8bb18">
+</header><div id="outline-container-org7be4ea2" class="outline-2">
+<h2 id="org7be4ea2">Goal: Export backend for CV</h2>
+<div class="outline-text-2" id="text-org7be4ea2">
 <p>
 This project exports an org-mode file with reasonably structured items into
 a latex file, which compiles into a nice CV. In the same spirit the
@@ -109,9 +109,9 @@ documentation page directly.
 </p>
 </div>
 </div>
-<div id="outline-container-orga00d102" class="outline-2">
-<h2 id="orga00d102">Installation</h2>
-<div class="outline-text-2" id="text-orga00d102">
+<div id="outline-container-org8bfd539" class="outline-2">
+<h2 id="org8bfd539">Installation</h2>
+<div class="outline-text-2" id="text-org8bfd539">
 <p>
 This project is not on MELPA so you have to do a manual installation. First
 clone this git repository.
@@ -135,16 +135,16 @@ use <code>use-package</code> to manage the installation for example of <code>ox-
 </div>
 </div>
 </div>
-<div id="outline-container-org2fff82d" class="outline-2">
-<h2 id="org2fff82d">Basic Org file</h2>
-<div class="outline-text-2" id="text-org2fff82d">
+<div id="outline-container-orgb2e25d7" class="outline-2">
+<h2 id="orgb2e25d7">Basic Org file</h2>
+<div class="outline-text-2" id="text-orgb2e25d7">
 <p>
 The basic structure of an org file containing your CV is shown next.
 </p>
 </div>
-<div id="outline-container-orga5361f8" class="outline-3">
-<h3 id="orga5361f8">Personal contact information</h3>
-<div class="outline-text-3" id="text-orga5361f8">
+<div id="outline-container-org9339f36" class="outline-3">
+<h3 id="org9339f36">Personal contact information</h3>
+<div class="outline-text-3" id="text-org9339f36">
 <p>
 <code>TITLE</code>, <code>AUTHOR</code> and <code>EMAIL</code> are standard org options. But on <code>TITLE</code> you
 put your foreseen job.
@@ -286,13 +286,13 @@ I write about awesome stuff I do.
 </div>
 </div>
 </div>
-<div id="outline-container-org6af8dd6" class="outline-2">
-<h2 id="org6af8dd6">Latex Exporter</h2>
-<div class="outline-text-2" id="text-org6af8dd6">
+<div id="outline-container-orgd801778" class="outline-2">
+<h2 id="orgd801778">Latex Exporter</h2>
+<div class="outline-text-2" id="text-orgd801778">
 </div>
-<div id="outline-container-orgfde9d30" class="outline-3">
-<h3 id="orgfde9d30">Using modern-cv</h3>
-<div class="outline-text-3" id="text-orgfde9d30">
+<div id="outline-container-orge2bfa85" class="outline-3">
+<h3 id="orge2bfa85">Using modern-cv</h3>
+<div class="outline-text-3" id="text-orge2bfa85">
 <p>
 <a href="https://www.ctan.org/tex-archive/macros/latex/contrib/moderncv">moderncv</a> is a standard \(\LaTeX\) package that you can find in many of your
 latex distributions. I maintain a fork of it, to work with my use case at
@@ -327,9 +327,9 @@ When exporting you can call the following function to get the latex file.
 </div>
 </div>
 </div>
-<div id="outline-container-orga6ac5c8" class="outline-3">
-<h3 id="orga6ac5c8">Using alta-cv</h3>
-<div class="outline-text-3" id="text-orga6ac5c8">
+<div id="outline-container-org388e0c5" class="outline-3">
+<h3 id="org388e0c5">Using alta-cv</h3>
+<div class="outline-text-3" id="text-org388e0c5">
 <p>
 <a href="https://github.com/liantze/AltaCV">AltaCV</a> is another project to generate a CV, you will need to install it
 yourself. I maintain a fork too at <a href="https://github.com/Titan-C/AltaCV.git">https://github.com/Titan-C/AltaCV.git</a>
@@ -393,9 +393,9 @@ When exporting you can call the following function to get the latex file.
 </div>
 </div>
 </div>
-<div id="outline-container-org934cd54" class="outline-3">
-<h3 id="org934cd54">Using AwesomeCV</h3>
-<div class="outline-text-3" id="text-org934cd54">
+<div id="outline-container-orgbf5eaba" class="outline-3">
+<h3 id="orgbf5eaba">Using AwesomeCV</h3>
+<div class="outline-text-3" id="text-orgbf5eaba">
 <p>
 <a href="https://github.com/posquit0/Awesome-CV">AwesomeCV</a> is another LaTeX template for producing nice-looking
 CVs and cover letters. This style also supports some additional options. For example:
@@ -530,9 +530,9 @@ In addition to the regular document attributes, the following are supported:
 </tbody>
 </table>
 </div>
-<div id="outline-container-orgf4f9a72" class="outline-4">
-<h4 id="orgf4f9a72">CV environments</h4>
-<div class="outline-text-4" id="text-orgf4f9a72">
+<div id="outline-container-orgd674b1a" class="outline-4">
+<h4 id="orgd674b1a">CV environments</h4>
+<div class="outline-text-4" id="text-orgd674b1a">
 <p>
 AwesomeCV supports a few additional types of environment types in <code>CV_ENV</code>,
 including <code>cvemployer</code>, <code>cvskills</code>, <code>cvhonors</code> and <code>cvschool</code> (see full list below).
@@ -630,54 +630,54 @@ Some of these support additional property fields:
 All the supported values of <code>CV_ENV</code> for CVs are described below.
 </p>
 </div>
-<div id="outline-container-orga21f358" class="outline-5">
-<h5 id="orga21f358"><code>cventries</code></h5>
-<div class="outline-text-5" id="text-orga21f358">
+<div id="outline-container-org2b2e1a5" class="outline-5">
+<h5 id="org2b2e1a5"><code>cventries</code></h5>
+<div class="outline-text-5" id="text-org2b2e1a5">
 <p>
 Enclose all the subheaders in a <code>cventries</code> environment. Subheaders can
 be of type <code>cventry</code>, <code>cvschool</code>, or <code>cvemployer</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd538c08" class="outline-5">
-<h5 id="orgd538c08"><code>cvhonors</code></h5>
-<div class="outline-text-5" id="text-orgd538c08">
+<div id="outline-container-org8923a32" class="outline-5">
+<h5 id="org8923a32"><code>cvhonors</code></h5>
+<div class="outline-text-5" id="text-org8923a32">
 <p>
 Enclose all the subheaders in a <code>cvhonors</code> environment. Subheaders must
 be of type <code>cvhonor</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgadca865" class="outline-5">
-<h5 id="orgadca865"><code>cventry</code></h5>
-<div class="outline-text-5" id="text-orgadca865">
+<div id="outline-container-orga02350d" class="outline-5">
+<h5 id="orga02350d"><code>cventry</code></h5>
+<div class="outline-text-5" id="text-orga02350d">
 <p>
 Converts to a <code>\cventry</code> command. Supports attributes <code>FROM</code>, <code>TO</code>, <code>DATE</code>,
 <code>EMPLOYER</code>, <code>LOCATION</code>, <code>RIGHT_IMG</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org74fc45d" class="outline-5">
-<h5 id="org74fc45d"><code>cvsubentry</code></h5>
-<div class="outline-text-5" id="text-org74fc45d">
+<div id="outline-container-org07c80e7" class="outline-5">
+<h5 id="org07c80e7"><code>cvsubentry</code></h5>
+<div class="outline-text-5" id="text-org07c80e7">
 <p>
 Converts to a <code>\cvsubentry</code> command. Supports attributes <code>FROM</code>, <code>TO</code>, <code>DATE</code>,
 <code>LABEL</code> <code>RIGHT_IMG</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org0dfbcb0" class="outline-5">
-<h5 id="org0dfbcb0"><code>cvemployer</code></h5>
-<div class="outline-text-5" id="text-org0dfbcb0">
+<div id="outline-container-org57a8d5f" class="outline-5">
+<h5 id="org57a8d5f"><code>cvemployer</code></h5>
+<div class="outline-text-5" id="text-org57a8d5f">
 <p>
 Converts to a <code>\cventry</code> with only the title line. Supports attributes
 <code>FROM</code>, <code>TO</code>, <code>DATE</code> and <code>LOCATION</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org788003d" class="outline-5">
-<h5 id="org788003d"><code>cvschool</code></h5>
-<div class="outline-text-5" id="text-org788003d">
+<div id="outline-container-org8ea854a" class="outline-5">
+<h5 id="org8ea854a"><code>cvschool</code></h5>
+<div class="outline-text-5" id="text-org8ea854a">
 <p>
 Converts to a <code>\cventry</code>. The headline should contain the degree
 obtained, shown as the main title. Supports attributes <code>LOCATION</code>,
@@ -685,9 +685,9 @@ obtained, shown as the main title. Supports attributes <code>LOCATION</code>,
 </p>
 </div>
 </div>
-<div id="outline-container-org60e2f5a" class="outline-5">
-<h5 id="org60e2f5a"><code>cvhonor</code></h5>
-<div class="outline-text-5" id="text-org60e2f5a">
+<div id="outline-container-org6e74109" class="outline-5">
+<h5 id="org6e74109"><code>cvhonor</code></h5>
+<div class="outline-text-5" id="text-org6e74109">
 <p>
 Converts to a <code>\cvhonor</code> command (must be inside a <code>cvhonors</code>
 headline). Supports attributes <code>LOCATION</code>, <code>EMPLOYER</code> (in this case <code>EVENT</code>
@@ -696,9 +696,9 @@ used), <code>FROM</code>, <code>TO</code>, <code>DATE</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc2418b5" class="outline-5">
-<h5 id="orgc2418b5"><code>cvskills</code></h5>
-<div class="outline-text-5" id="text-orgc2418b5">
+<div id="outline-container-org1fad525" class="outline-5">
+<h5 id="org1fad525"><code>cvskills</code></h5>
+<div class="outline-text-5" id="text-org1fad525">
 <p>
 Converts to a <code>\cvskills</code> environment. The headline must contain a
 <a href="https://orgmode.org/manual/Plain-lists.html">description list</a>, which gets converted into a sequence of <code>\cvskill</code>
@@ -708,16 +708,16 @@ contents.
 </div>
 </div>
 </div>
-<div id="outline-container-org658612f" class="outline-4">
-<h4 id="org658612f">Cover letter environments</h4>
-<div class="outline-text-4" id="text-org658612f">
+<div id="outline-container-org656b61a" class="outline-4">
+<h4 id="org656b61a">Cover letter environments</h4>
+<div class="outline-text-4" id="text-org656b61a">
 <p>
 AwesomeCV also supports generating cover letters. For this, <code>CV_ENV</code> can have a few additional values, shown below.
 </p>
 </div>
-<div id="outline-container-org9c46f2d" class="outline-5">
-<h5 id="org9c46f2d"><code>letterheader</code></h5>
-<div class="outline-text-5" id="text-org9c46f2d">
+<div id="outline-container-org8f365b3" class="outline-5">
+<h5 id="org8f365b3"><code>letterheader</code></h5>
+<div class="outline-text-5" id="text-org8f365b3">
 <p>
 This environment provides heading/signature information for a cover letter. Supports attributes <code>RECIPIENT</code>. <code>EMPLOYER</code>, <code>LOCATION</code>, <code>LETTER_OPENING</code>, <code>LETTER_CLOSING</code>, <code>LETTER_ATTACHED</code>, <code>DATE</code>, <code>DATEFORMAT</code>.
 </p>
@@ -807,9 +807,9 @@ They will <span style="font-weight: bold;">*not*</span> be exported.
 </table>
 </div>
 </div>
-<div id="outline-container-orge6e4002" class="outline-5">
-<h5 id="orge6e4002"><code>cvletter</code></h5>
-<div class="outline-text-5" id="text-orge6e4002">
+<div id="outline-container-org2af2ba6" class="outline-5">
+<h5 id="org2af2ba6"><code>cvletter</code></h5>
+<div class="outline-text-5" id="text-org2af2ba6">
 <p>
 Converts to a <code>\cvletter</code> environment. This holds the content of a cover letter. The body can be subdivided using <code>lettersection</code> headings. The heading title is converted to a title line at the top of the letter.
 </p>
@@ -841,17 +841,17 @@ Suspendisse commodo, massa eu congue tincidunt, elit mauris pellentesque orci, c
 </div>
 </div>
 </div>
-<div id="outline-container-org011c7bc" class="outline-5">
-<h5 id="org011c7bc"><code>cvletter_notitle</code></h5>
-<div class="outline-text-5" id="text-org011c7bc">
+<div id="outline-container-org253fcb2" class="outline-5">
+<h5 id="org253fcb2"><code>cvletter_notitle</code></h5>
+<div class="outline-text-5" id="text-org253fcb2">
 <p>
 Same as <code>cvletter</code>, but does not include a letter title at the top.
 </p>
 </div>
 </div>
-<div id="outline-container-org98b9673" class="outline-5">
-<h5 id="org98b9673"><code>lettersection</code></h5>
-<div class="outline-text-5" id="text-org98b9673">
+<div id="outline-container-org57a5318" class="outline-5">
+<h5 id="org57a5318"><code>lettersection</code></h5>
+<div class="outline-text-5" id="text-org57a5318">
 <p>
 Converts to a <code>\lettersection</code> command. These are the headline portions of a cover letter.
 </p>
@@ -860,9 +860,9 @@ Converts to a <code>\lettersection</code> command. These are the headline portio
 </div>
 </div>
 </div>
-<div id="outline-container-org8649c2e" class="outline-2">
-<h2 id="org8649c2e">Markdown Hugo Exporter</h2>
-<div class="outline-text-2" id="text-org8649c2e">
+<div id="outline-container-orgd3fff5a" class="outline-2">
+<h2 id="orgd3fff5a">Markdown Hugo Exporter</h2>
+<div class="outline-text-2" id="text-orgd3fff5a">
 <p>
 If your target is not a PDF file but a website, this exporter extends the
 <a href="https://ox-hugo.scripter.co/">ox-hugo</a> exporter backend. So be sure to install that too.
@@ -930,17 +930,17 @@ Next is the rendered result for the special entries with styling.
 </p>
 </div>
 </div>
-<div id="outline-container-orgcfef3a9" class="outline-2">
-<h2 id="orgcfef3a9">CV</h2>
-<div class="outline-text-2" id="text-orgcfef3a9">
+<div id="outline-container-org58d9758" class="outline-2">
+<h2 id="org58d9758">CV</h2>
+<div class="outline-text-2" id="text-org58d9758">
 <p>
 Place holder stuff
 </p>
 </div>
 </div>
-<div id="outline-container-org4eff3cf" class="outline-2">
-<h2 id="org4eff3cf">License</h2>
-<div class="outline-text-2" id="text-org4eff3cf">
+<div id="outline-container-orgd86eb62" class="outline-2">
+<h2 id="orgd86eb62">License</h2>
+<div class="outline-text-2" id="text-orgd86eb62">
 <blockquote>
 <p>
 org-cv
@@ -963,9 +963,9 @@ GNU General Public License for more details.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org1858b45" class="outline-2">
-<h2 id="org1858b45">Tips</h2>
-<div class="outline-text-2" id="text-org1858b45">
+<div id="outline-container-org159af0c" class="outline-2">
+<h2 id="org159af0c">Tips</h2>
+<div class="outline-text-2" id="text-org159af0c">
 <p>
 If you have found this project useful. Please consider giving back. You can
 kindly tip me for this project
@@ -977,8 +977,8 @@ kindly tip me for this project
 </dl>
 </div>
 </div>
-<div id="outline-container-org08d3453" class="outline-2">
-<h2 id="org08d3453">Local Variables&#xa0;&#xa0;&#xa0;<span class="tag"><span class="ARCHIVE">ARCHIVE</span></span></h2>
+<div id="outline-container-org3b041a6" class="outline-2">
+<h2 id="org3b041a6">Local Variables&#xa0;&#xa0;&#xa0;<span class="tag"><span class="ARCHIVE">ARCHIVE</span></span></h2>
 </div>
 </main>
 <footer id="postamble" class="status">

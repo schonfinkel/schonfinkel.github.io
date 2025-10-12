@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-10-12 Sun 14:59 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Transition Systems</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Transition Systems</h1>
+</header><blockquote>
+<p>
+A transition system \(\texttt{TS}\) is a tuple \((\texttt{S}, \texttt{Act},
+\longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})\) where:
+</p>
+
+<ul class="org-ul">
+<li>\(\texttt{S}\) is a set of states.</li>
+<li>\(\texttt{Act}\) is a set of actions.</li>
+<li>\(\longrightarrow \subseteq \texttt{S} \times \texttt{Act} \times \texttt{S}\) is a transition relation.</li>
+<li>\(\texttt{I} \subseteq \texttt{S}\) is a set of initial states.</li>
+<li>\(\texttt{AP}\) is a set of atomic propositions.</li>
+<li>\(\texttt{L} : \texttt{S} \rightarrow 2^{\texttt{AP}}\) is a labeling function.</li>
+</ul>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+The labeling function \(\texttt{L}\) relates a set \(\texttt{L}(s) \in 2^{\texttt{AP}}\) of
+atomic propositions to any state \(s\). \(\texttt{L}(s)\) intuitively stands for
+exactly those atomic propositions \(a \in \texttt{AP}\) which are satisfied by state
+\(s\). Given that \(\Phi\) is a propositional logic formula, then \(s\) satisfies the
+formula \(\Phi\) if the evaluation induced by \(\texttt{L}(s)\) makes the formula \(\Phi\) true; that is:
+</p>
+
+<p>
+\[s \models \Phi \iff \texttt{L}(s) \models \Phi\]
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 20–21 chap.2 part.2.1</a>)
+</p>
+</blockquote>
+
+<p>
+The following conventions are also adopted:
+</p>
+<ul class="org-ul">
+<li>\(s \xrightarrow[]{a} s^\prime\) is a notation for \((s, a, s^\prime) \in \longrightarrow\).</li>
+<li>Actions are used to model communication mechanisms. In cases where action
+names are irrelevant, a special symbol (\(\tau\)) is often used.</li>
+<li>The set of propositions \(\texttt{AP}\) often is not explicitly indicated and it
+is assumed that \(\texttt{AP} \subseteq \texttt{S}\) and \(\texttt{L}(s) = { s } \cap \texttt{AP}\).</li>
+</ul>
+<div id="outline-container-org907b7b4" class="outline-2">
+<h2 id="org907b7b4">Direct Predecessors and Successors</h2>
+<div class="outline-text-2" id="text-org907b7b4">
+<p>
+Given \(\texttt{TS} = (\texttt{S}, \texttt{Act},
+\longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})\) , the sets of direct &alpha;-successors and &alpha;-predessors are defined as:
+</p>
+
+<blockquote>
+\begin{align*}
+\texttt{Post}(s, \alpha) &= \{ s^\prime \in \texttt{s} \mid s \xrightarrow[]{a} s^\prime \}\\
+\texttt{Post}(s) &= \bigcup\limits_{\alpha \in \texttt{act}} \texttt{Post}(s, \alpha) \\
+\\
+\texttt{Pre}(s, \alpha) &= \{ s^\prime \in \texttt{s} \mid s^\prime \xrightarrow[]{a} s \}\\
+\texttt{Pre}(s) &= \bigcup\limits_{\alpha \in \texttt{act}} \texttt{Pre}(s, \alpha) \\
+\end{align*}
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 23 chap.2 part.2.1</a>)
+</p>
+</blockquote>
+
+<p>
+Analogously, given a set \(\texttt{C} \subseteq \texttt{S}\), we can define:
+</p>
+
+\begin{align*}
+\texttt{Post}(C, \alpha) &= \bigcup\limits_{s \in C} \texttt{Post}(s, \alpha) \\
+\texttt{Post}(C) &= \bigcup\limits_{s \in C} \texttt{Post}(s) \\
+\\
+\texttt{Pre}(C, \alpha) &= \bigcup\limits_{s \in C} \texttt{Pre}(s, \alpha) \\
+\texttt{Pre}(C) &= \bigcup\limits_{s \in C} \texttt{Pre}(s) \\
+\end{align*}
+</div>
+</div>
+<div id="outline-container-orgffcc0d7" class="outline-2">
+<h2 id="orgffcc0d7">Terminal States</h2>
+<div class="outline-text-2" id="text-orgffcc0d7">
+<p>
+A state \(s\) is called <b>terminal</b> if and only if, \(\texttt{Post}(s) = \emptyset\).
+</p>
+</div>
+</div>
+<div id="outline-container-orgccf209f" class="outline-2">
+<h2 id="orgccf209f">Deterministic Transition Systems</h2>
+<div class="outline-text-2" id="text-orgccf209f">
+<blockquote>
+<p>
+Let \(\texttt{TS} = (\texttt{S}, \texttt{Act},
+\longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})\) be a transition system.
+</p>
+
+<ul class="org-ul">
+<li><p>
+\(\texttt{TS}\) is called <b>action-deterministic</b> if:
+</p>
+
+<p>
+\[| \texttt{I} | \leq 1 \, \land \, | \texttt{Post}(s, \alpha) | \leq 1 ; \, \forall s \in \texttt{S}, \forall \alpha \in \texttt{Act}\]
+</p>
+
+<p>
+that is, no more than one one successor state is bound to the same action.
+</p></li>
+
+<li><p>
+\(\texttt{TS}\) is called <b>AP-deterministic</b> if:
+</p>
+
+<p>
+\[|\texttt{I}| \leq 1 \, \land
+  \, |\texttt{Post}(s) \cap \{ s \in \texttt{S} \mid \texttt{L}(s) = \texttt{A} \}| \leq
+  1, \forall s \in \texttt{S} \, \land \, \texttt{A} \in 2^{\texttt{AP}}\]
+</p>
+
+<p>
+which means that no more than one successor state has the same labeling.
+</p></li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 24 chap.2 part.2.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgb4cb141" class="outline-4">
+<h4 id="orgb4cb141">Non-Determinism</h4>
+<div class="outline-text-4" id="text-orgb4cb141">
+<ul class="org-ul">
+<li>Used to model <b>concurrency by interleaving</b>.</li>
+<li>Also useful to model <b>implementation freedom</b>, i.e., one should only care about
+what a system shold do, not how.</li>
+<li>You can also use it to model <b>under-specified</b> systems.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org9f39ee0" class="outline-2">
+<h2 id="org9f39ee0">Executions</h2>
+<div class="outline-text-2" id="text-org9f39ee0">
+<ul class="org-ul">
+<li>An execution (also known as "run") describes a possible behavior of the transition system.</li>
+</ul>
+</div>
+<div id="outline-container-orgf6794bf" class="outline-3">
+<h3 id="orgf6794bf">Execution Fragment</h3>
+<div class="outline-text-3" id="text-orgf6794bf">
+<blockquote>
+<p>
+Let \(\texttt{TS} = (\texttt{S}, \texttt{Act}, \longrightarrow, \texttt{I},
+\texttt{AP}, \texttt{L})\) be a transition system. A finite execution fragment
+\(\varrho\) of \(\texttt{TS}\) is an alternating sequence of states and actions
+ending with a state:
+</p>
+
+<p>
+\[ \varrho = s_0 \alpha_1 s_1 \alpha_2 \ldots s_{n-1} \alpha_n s_n, \, s_i \xrightarrow[]{a_{i+1}} s_{i+1}, \forall 0
+\leq i < n \]
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 24 chap.2 part.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org0ebe82e" class="outline-3">
+<h3 id="org0ebe82e">Maximal and Initial Execution Fragment</h3>
+<div class="outline-text-3" id="text-org0ebe82e">
+<blockquote>
+<p>
+A maximal execution fragment is either a finite execution fragment that ends in
+a terminal state, or an infinite execution fragment. An execution fragment is called initial if it starts
+in an initial state, i.e., if \(s_0 \in \texttt{I}\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 25 chap.2 part.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org6e93d7a" class="outline-3">
+<h3 id="org6e93d7a">Formal Definition of Execution</h3>
+<div class="outline-text-3" id="text-org6e93d7a">
+<blockquote>
+<p>
+An execution of transition system <b>TS</b> is an <b>initial</b>, <b>maximal execution fragment</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 25 chap.2 part.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org826e33f" class="outline-3">
+<h3 id="org826e33f">Reachable States</h3>
+<div class="outline-text-3" id="text-org826e33f">
+<blockquote>
+<p>
+Let \(\texttt{TS} = (\texttt{S}, \texttt{Act}, \longrightarrow, \texttt{I},
+\texttt{AP}, \texttt{L})\) be a transition system. A state \(s \in \texttt{S}\) is
+called reachable in \(\texttt{TS}\) if there exists an <b>initial</b>, <b>finite execution
+fragment</b>.
+</p>
+
+<p>
+\[ s_0 \xrightarrow[]{a_1} s_1 \xrightarrow[]{a_2} \ldots \xrightarrow[]{a_{n-1}} s_{n-1} \xrightarrow[]{a_n} s_n \]
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 25 chap.2 part.2.1</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>\(\texttt{Reach}(\texttt{TS})\) denotes the set of all reachable states in \(\texttt{TS}\).</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgad53ed3" class="outline-2">
+<h2 id="orgad53ed3">References:</h2>
+<div class="outline-text-2" id="text-orgad53ed3">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org8293270" class="outline-2">
+<h2 id="org8293270">Backlinks:</h2>
+<div class="outline-text-2" id="text-org8293270">
+<ul class="org-ul">
+<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>
