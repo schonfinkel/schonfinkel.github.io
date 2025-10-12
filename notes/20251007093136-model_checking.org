@@ -1,0 +1,145 @@
+:PROPERTIES:
+:ID:       209ae2c0-f5f0-42e5-b66e-e9c0b04d9c87
+:END:
+#+title: Model Checking
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science: :formal-methods: :model-checking:
+
+* System Verification
+
+#+begin_quote
+This specification prescribes what the system has to do and what not, and thus
+constitutes the basis for any verification activity. A defect is found once the
+system does not fulfill one of the specification’s properties. *The system is
+considered to be "correct" whenever it satisfies all properties obtained from
+its specification. So correctness is always relative to a specification, and is
+not an absolute property of a system*.
+
+[cite:@baier2008principles p.3 chap.1]
+#+end_quote
+
++ A process that asserts the correctness of a computer system (/hardware/,
+  /software/ or /both/).
++ Software Verification Techniques: Peer reviewing and testing.
++ Hardware Verification Techniques:
+
+  * Structural Analysis :: Comprises several specific techniques such as
+    synthesis, timing analysis, and equivalence checking.
+
+  * Emulation :: Can be seem as the hardware-analogous to /Software Testing/. A
+    reconfigurable generic hardware system (the emulator) is configured such
+    that it behaves like the circuit under consideration and is then extensively
+    tested.
+
+    For complex hardware it becomes impractical and the number of tests needs to
+    be reduced significantly, yielding potential undiscovered errors.
+
+  * Simulation :: A widely used method that verifies a design model by comparing
+    its output with a *golden model* (which represents expected behavior). While
+    flexible, simulation is slow and may not cover enough input scenarios in a
+    reasonable time.
+
+** Model Checking
+
+#+begin_quote
+Let us first briefly discuss the role of [[id:828cc1e0-61fa-462b-9274-73d6b4cf0c8c][Formal Methods]]. To put it in a
+nutshell, formal methods can be considered as "the applied mathematics for
+modeling and analyzing ICT systems". Their aim is to establish system
+correctness with mathematical rigor. Their great potential has led to an
+increasing use by engineers of formal methods for the verification of complex
+software and hardware systems.
+
+(...)
+
+Model-based verification techniques are based on models describing the possible
+system behavior in a mathematically precise and unambiguous manner. It turns out
+that - prior to any form of verification - the accurate modeling of systems
+often leads to the discovery of incompleteness, ambiguities, and inconsistencies
+in informal system specifications.
+
+(...)
+
+As the startingpoint of these techniques is a model of the system under
+consideration, we have as a given fact that: *any verification using model-based
+techniques is only as good as the model of the system*.
+
+[cite:@baier2008principles p.7-8 chap.1 part.1.1]
+#+end_quote
+
+***  Characteristics of Model Checking
+
+#+begin_quote
+Model checking is an automated technique that, given a finite-state model of a
+system and a formal property, systematically checks whether this property holds
+for (a given state in) that model.
+
+[cite:@baier2008principles p.11 chap.1 part.1.2]
+#+end_quote
+
+**** The Model-Checking Process
+
+#+NAME: model-checking-diagram
+#+BEGIN_SRC dot :file ../static/img/notes/pmc_model_checking_diagram.png :cmdline -Kdot -Tpng :exports results
+digraph ModelChecking {
+  rankdir=TB;
+  node [shape=box, style=filled];
+  
+  // Nodes
+  requirements [label="Requirements", fillcolor=white];
+  system [label="System", fillcolor=white];
+  formalizing [label="Formalizing", shape=box, fillcolor=white];
+  modeling [label="Modeling", shape=box, fillcolor=white];
+  property_spec [label="Property\nSpecification", fillcolor=white];
+  system_model [label="System Model", fillcolor=white];
+  model_checking [label="Model Checking", shape=box, fillcolor=gold];
+  satisfied [label="Satisfied", fillcolor=green];
+  violated [label="Violated +\nCounterexample", fillcolor=lightcoral];
+  insufficient [label="Insufficient\nMemory", fillcolor=brown, fontcolor=white];
+  simulation [label="Simulation", shape=box, fillcolor=white];
+  location_error [label="Location\nError", fillcolor=lightblue];
+  
+  // Edges
+  requirements -> formalizing;
+  formalizing -> property_spec;
+  property_spec -> model_checking;
+  
+  system -> modeling;
+  modeling -> system_model;
+  system_model -> model_checking;
+  system_model -> simulation [style=dotted];
+  
+  model_checking -> satisfied;
+  model_checking -> violated;
+  model_checking -> insufficient;
+  
+  violated -> simulation;
+  simulation -> location_error;
+}
+#+END_SRC
+
+#+CAPTION: [cite:@baier2008principles p.8 chap.1 part.1.1]
+#+RESULTS: model-checking-diagram
+[[file:../static/img/notes/pmc_model_checking_diagram.png]]
+
++ Modeling Phase :: Describe the system using the model checker's language
+  (usally a combination of /finite-state atomata/ and /temporal logic/), perform
+  initial simulations for sanity checks, and formalize the properties to be
+  verified.
+
++ Running Phase :: Execute the model checker to verify whether the specified
+  properties hold in the system model.
+
++ Analysis :: Interpret results, if properties hold, proceed; if something got
+  violated, analyze counterexamples, refine the model or properties, and rerun;
+  if memory issues occur, reduce the model and retry.
+
+*** Properties
++ Safety :: Nothing bad ever happens.
++ Liveness :: Good things eventually happen.
++ Fairness :: Something happens infinetely often or repeatedly.
+
+* Modelling Concurrent Systems
+
++ [[id:fbe5a587-ce97-40c3-9748-a459c3b89b9a][Transition Systems]]
++ [[id:808559c1-3472-46c7-8f5c-aac840e6f038][Program Graph]]

@@ -4,7 +4,7 @@
 #+title: Program Graph
 #+STARTUP: latexpreview
 #+Html_MATHJAX: align: left indent: 5em tagside: left
-#+filetags: :computer-science:
+#+filetags: :computer-science: :formal-methods:
 
 * Definition
 
@@ -28,3 +28,49 @@ The edge labels of represent the computational "actions" that take place once
 the program reaches a certain state, there is no semantics behind the edges in
 this defiition (which is why the $\texttt{Act}$ has a generic definition). For a
 semantic-based formalism look at [[id:d2462178-d921-4d12-ae3c-0f3b22a147ad][Kripke Structures]].
+
+* Sets of Typed Variables
+
+#+begin_quote
+A program graph $\texttt{PG}$ over set $\texttt{Var}$ of typed variables is a
+tuple $(\texttt{Loc}, \texttt{Act}, \texttt{Effect}, \longrightarrow, \texttt{Loc}_0,
+g_0)$ where:
+
++ $\texttt{Loc}$ is a set of locations and $\texttt{Act}$ is a set of actions.
++ $\texttt{Effect} : \texttt{Act} \times \texttt{Eval}(\texttt{Var}) \rightarrow
+  \texttt{Eval}(\texttt{Var})$ is the effect function, which indicates how the evaluation $\eta$ of variables is changed by performing an action.
++ $\longrightarrow \subseteq \texttt{Loc} \times \texttt{Cond}(\texttt{Var}) \times \texttt{Act} \times \texttt{Loc}$ is the conditional transition relation.
++ $\texttt{Loc}_0 \subseteq \texttt{Loc}$ is a set of initial locations.
++ $g_0 \in \texttt{Cond}(\texttt{Var})$ is the initial condition.
+
+[cite:@baier2008principles p.32 chap.2 part.2.1.2]
+#+end_quote
+
+The following conventions are also useful:
+
++ $l \xrightarrow{g:\alpha} l^\prime$ is a notation for $(l, g, \alpha, l^\prime) \in \longrightarrow$.
++ The condition $g$ is also called the *guard* of the conditional transition $l \xrightarrow{g:a} l^\prime$.
++ If the guard is a tautology (e.g., $g = \texttt{true} \, \lor g = (x < 1) \lor (x \geq
+  1)$), the the transition is shortened to $l \xrightarrow{a} l^\prime$.
+
+To better understand the $\texttt{Effect}$ function. Given an $\alpha$ that denotes
+action $x := y + 5$, with $\eta$ being a valuation of both $x$ and $y$, such that
+$\eta(x) = 17 \land \eta(y) = -2$, then:
+
+\begin{align*}
+\texttt{Effect}(\alpha, \eta)(x) &= \eta(y) + 5 = -2 + 5 = 3 \\
+\texttt{Effect}(\alpha, \eta)(y) &= \eta(y) + 5 = -2
+\end{align*}
+
+Thus, $\texttt{Effect}(\alpha, \eta)$ is the evaluation that assigns 3 to x and −2 to y,
+this means $l \in \texttt{Loc}$ depends on the current valuation of $\eta$. Given a
+transition $l \xrightarrow{g:a} l^\prime$, a nondeterministic choice is made to
+satisfy a condition $g$ in $\eta$ ($\eta \models g$). 
+
+The execution of action $\alpha$ changes the valuation of variables according to
+$\texttt{Effect}(\alpha, \cdot)$, thus the systems moves to location $l^\prime$. If no such
+transition is possible, the system stops.
+
+** Transition System Semantics of a Program Graph
+
+

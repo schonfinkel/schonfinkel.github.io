@@ -11,7 +11,10 @@ pkgs.emacs.pkgs.trivialBuild {
     sha256 = "sha256-qwJTtyfNZpA4YCOxh90hXW89aYThE9K6GnJIxeUI7No=";
   };
 
-  packageRequires = [ pkgs.emacsPackages.org pkgs.emacsPackages.ox-hugo ];
+  packageRequires = [
+    pkgs.emacsPackages.org
+    pkgs.emacsPackages.ox-hugo
+  ];
 
   meta = {
     description = "Org exporter for CV generation";

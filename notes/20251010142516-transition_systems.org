@@ -1,0 +1,149 @@
+:PROPERTIES:
+:ID:       fbe5a587-ce97-40c3-9748-a459c3b89b9a
+:END:
+#+title: Transition Systems
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science: :formal-methods: :model-checking:
+
+#+begin_quote
+A transition system $\texttt{TS}$ is a tuple $(\texttt{S}, \texttt{Act},
+\longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})$ where:
+
++ $\texttt{S}$ is a set of states.
++ $\texttt{Act}$ is a set of actions.
++ $\longrightarrow \subseteq \texttt{S} \times \texttt{Act} \times \texttt{S}$ is a transition relation.
++ $\texttt{I} \subseteq \texttt{S}$ is a set of initial states.
++ $\texttt{AP}$ is a set of atomic propositions.
++ $\texttt{L} : \texttt{S} \rightarrow 2^{\texttt{AP}}$ is a labeling function.
+
+(...)
+
+The labeling function $\texttt{L}$ relates a set $\texttt{L}(s) \in 2^{\texttt{AP}}$ of
+atomic propositions to any state $s$. $\texttt{L}(s)$ intuitively stands for
+exactly those atomic propositions $a \in \texttt{AP}$ which are satisfied by state
+$s$. Given that $\Phi$ is a propositional logic formula, then $s$ satisfies the
+formula $\Phi$ if the evaluation induced by $\texttt{L}(s)$ makes the formula $\Phi$ true; that is:
+
+$$s \models \Phi \iff \texttt{L}(s) \models \Phi$$
+
+[cite:@baier2008principles p.20-21 chap.2 part.2.1]
+#+end_quote
+
+The following conventions are also adopted:
++ $s \xrightarrow[]{a} s^\prime$ is a notation for $(s, a, s^\prime) \in \longrightarrow$.
++ Actions are used to model communication mechanisms. In cases where action
+  names are irrelevant, a special symbol ($\tau$) is often used.
++ The set of propositions $\texttt{AP}$ often is not explicitly indicated and it
+  is assumed that $\texttt{AP} \subseteq \texttt{S}$ and $\texttt{L}(s) = { s } \cap \texttt{AP}$.
+
+* Direct Predecessors and Successors
+
+Given $\texttt{TS} = (\texttt{S}, \texttt{Act},
+\longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})$ , the sets of direct \alpha-successors and \alpha-predessors are defined as:
+
+#+begin_quote
+\begin{align*}
+\texttt{Post}(s, \alpha) &= \{ s^\prime \in \texttt{s} \mid s \xrightarrow[]{a} s^\prime \}\\
+\texttt{Post}(s) &= \bigcup\limits_{\alpha \in \texttt{act}} \texttt{Post}(s, \alpha) \\
+\\
+\texttt{Pre}(s, \alpha) &= \{ s^\prime \in \texttt{s} \mid s^\prime \xrightarrow[]{a} s \}\\
+\texttt{Pre}(s) &= \bigcup\limits_{\alpha \in \texttt{act}} \texttt{Pre}(s, \alpha) \\
+\end{align*}
+
+[cite:@baier2008principles p.23 chap.2 part.2.1]
+#+end_quote
+
+Analogously, given a set $\texttt{C} \subseteq \texttt{S}$, we can define:
+
+\begin{align*}
+\texttt{Post}(C, \alpha) &= \bigcup\limits_{s \in C} \texttt{Post}(s, \alpha) \\
+\texttt{Post}(C) &= \bigcup\limits_{s \in C} \texttt{Post}(s) \\
+\\
+\texttt{Pre}(C, \alpha) &= \bigcup\limits_{s \in C} \texttt{Pre}(s, \alpha) \\
+\texttt{Pre}(C) &= \bigcup\limits_{s \in C} \texttt{Pre}(s) \\
+\end{align*}
+
+* Terminal States
+
+A state $s$ is called *terminal* if and only if, $\texttt{Post}(s) = \emptyset$.
+
+* Deterministic Transition Systems
+
+#+begin_quote
+Let $\texttt{TS} = (\texttt{S}, \texttt{Act},
+\longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})$ be a transition system.
+
++ $\texttt{TS}$ is called *action-deterministic* if:
+
+  $$| \texttt{I} | \leq 1 \, \land \, | \texttt{Post}(s, \alpha) | \leq 1 ; \, \forall s \in \texttt{S}, \forall \alpha \in \texttt{Act}$$
+
+  that is, no more than one one successor state is bound to the same action.
+
++ $\texttt{TS}$ is called *AP-deterministic* if:
+
+  $$|\texttt{I}| \leq 1 \, \land
+  \, |\texttt{Post}(s) \cap \{ s \in \texttt{S} \mid \texttt{L}(s) = \texttt{A} \}| \leq
+  1, \forall s \in \texttt{S} \, \land \, \texttt{A} \in 2^{\texttt{AP}}$$
+
+  which means that no more than one successor state has the same labeling.
+
+[cite:@baier2008principles p.24 chap.2 part.2.1]
+#+end_quote
+
+*** Non-Determinism
++ Used to model *concurrency by interleaving*.
++ Also useful to model *implementation freedom*, i.e., one should only care about
+  what a system shold do, not how.
++ You can also use it to model *under-specified* systems.
+
+* Executions
+
++ An execution (also known as "run") describes a possible behavior of the transition system.
+
+** Execution Fragment
+
+#+begin_quote
+Let $\texttt{TS} = (\texttt{S}, \texttt{Act}, \longrightarrow, \texttt{I},
+\texttt{AP}, \texttt{L})$ be a transition system. A finite execution fragment
+$\varrho$ of $\texttt{TS}$ is an alternating sequence of states and actions
+ending with a state:
+
+$$ \varrho = s_0 \alpha_1 s_1 \alpha_2 \ldots s_{n-1} \alpha_n s_n, \, s_i \xrightarrow[]{a_{i+1}} s_{i+1}, \forall 0
+\leq i < n $$
+
+[cite:@baier2008principles p.24 chap.2 part.2.1]
+#+end_quote
+
+** Maximal and Initial Execution Fragment
+
+#+begin_quote
+A maximal execution fragment is either a finite execution fragment that ends in
+a terminal state, or an infinite execution fragment. An execution fragment is called initial if it starts
+in an initial state, i.e., if $s_0 \in \texttt{I}$.
+
+[cite:@baier2008principles p.25 chap.2 part.2.1]
+#+end_quote
+
+** Formal Definition of Execution
+
+#+begin_quote
+An execution of transition system *TS* is an *initial*, *maximal execution fragment*.
+
+[cite:@baier2008principles p.25 chap.2 part.2.1]
+#+end_quote
+
+** Reachable States
+
+#+begin_quote
+Let $\texttt{TS} = (\texttt{S}, \texttt{Act}, \longrightarrow, \texttt{I},
+\texttt{AP}, \texttt{L})$ be a transition system. A state $s \in \texttt{S}$ is
+called reachable in $\texttt{TS}$ if there exists an *initial*, *finite execution
+fragment*.
+
+$$ s_0 \xrightarrow[]{a_1} s_1 \xrightarrow[]{a_2} \ldots \xrightarrow[]{a_{n-1}} s_{n-1} \xrightarrow[]{a_n} s_n $$
+
+[cite:@baier2008principles p.25 chap.2 part.2.1]
+#+end_quote
+
++ $\texttt{Reach}(\texttt{TS})$ denotes the set of all reachable states in $\texttt{TS}$.
