@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-12 Sun 14:59 -->
+<!-- 2025-10-25 Sat 01:36 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Build Systems à la Carte</title>
@@ -55,9 +55,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Build Systems à la Carte</h1>
-</header><div id="outline-container-org1207b94" class="outline-2">
-<h2 id="org1207b94">Introduction</h2>
-<div class="outline-text-2" id="text-org1207b94">
+</header><div id="outline-container-org0e7ad60" class="outline-2">
+<h2 id="org0e7ad60">Introduction</h2>
+<div class="outline-text-2" id="text-org0e7ad60">
 <blockquote>
 <p>
 In this paper we offer a general framework in which to understand and compare
@@ -108,9 +108,9 @@ classification of the design space.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org54e4267" class="outline-2">
-<h2 id="org54e4267">Background</h2>
-<div class="outline-text-2" id="text-org54e4267">
+<div id="outline-container-org588a3cf" class="outline-2">
+<h2 id="org588a3cf">Background</h2>
+<div class="outline-text-2" id="text-org588a3cf">
 <blockquote>
 <p>
 Build systems automate the execution of repeatable tasks for individual users
@@ -135,9 +135,9 @@ discuss many other notable examples of build systems, and their relationships (&
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org90dabbb" class="outline-3">
-<h3 id="org90dabbb">Make: Static Dependencies and File Modification Times</h3>
-<div class="outline-text-3" id="text-org90dabbb">
+<div id="outline-container-orge212958" class="outline-3">
+<h3 id="orge212958">Make: Static Dependencies and File Modification Times</h3>
+<div class="outline-text-3" id="text-orge212958">
 <div class="org-src-container">
 <pre class="src src-makefile"><span style="font-weight: bold;">util.o</span>: util.h util.c
         gcc -c util.c
@@ -165,13 +165,13 @@ makefile and executes tasks in a topological order.</li>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgb9dc7a8" class="outline-3">
-<h3 id="orgb9dc7a8">Excel: Dynamic Dependencies at the Cost of Minimality</h3>
+<div id="outline-container-org40a4900" class="outline-3">
+<h3 id="org40a4900">Excel: Dynamic Dependencies at the Cost of Minimality</h3>
 </div>
 
-<div id="outline-container-org6d1ffa2" class="outline-3">
-<h3 id="org6d1ffa2">Shake: Dynamic Dependencies with No Remorse</h3>
-<div class="outline-text-3" id="text-org6d1ffa2">
+<div id="outline-container-orgde6f38b" class="outline-3">
+<h3 id="orgde6f38b">Shake: Dynamic Dependencies with No Remorse</h3>
+<div class="outline-text-3" id="text-orgde6f38b">
 <ul class="org-ul">
 <li>Developed to solve the issue of dynamic dependencies without sacrificing the
 minimality requirement.</li>
@@ -198,9 +198,9 @@ execution until the dependencies are brought up to date (&#x2026;)
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orga3c4266" class="outline-3">
-<h3 id="orga3c4266">Bazel: A Cloud Build System</h3>
-<div class="outline-text-3" id="text-orga3c4266">
+<div id="outline-container-org24ce2ba" class="outline-3">
+<h3 id="org24ce2ba">Bazel: A Cloud Build System</h3>
+<div class="outline-text-3" id="text-org24ce2ba">
 <ul class="org-ul">
 <li>As of the time of the article's writing, it is <b>not possible</b> to express <b>dynamic
 dependencies</b> in <b>user-defined build rules</b>.</li>
@@ -233,9 +233,9 @@ subsequently download the result from the cache.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgc545fc5" class="outline-3">
-<h3 id="orgc545fc5">Summary</h3>
-<div class="outline-text-3" id="text-orgc545fc5">
+<div id="outline-container-orgafc5011" class="outline-3">
+<h3 id="orgafc5011">Summary</h3>
+<div class="outline-text-3" id="text-orgafc5011">
 <table>
 
 
@@ -310,13 +310,13 @@ subsequently download the result from the cache.
 </div>
 </div>
 </div>
-<div id="outline-container-orge4e765a" class="outline-2">
-<h2 id="orge4e765a">Build Systems, Abstractly</h2>
-<div class="outline-text-2" id="text-orge4e765a">
+<div id="outline-container-org13d2c03" class="outline-2">
+<h2 id="org13d2c03">Build Systems, Abstractly</h2>
+<div class="outline-text-2" id="text-org13d2c03">
 </div>
-<div id="outline-container-org2fd517f" class="outline-3">
-<h3 id="org2fd517f">Common Vocabulary</h3>
-<div class="outline-text-3" id="text-org2fd517f">
+<div id="outline-container-org01cf6d6" class="outline-3">
+<h3 id="org01cf6d6">Common Vocabulary</h3>
+<div class="outline-text-3" id="text-org01cf6d6">
 <blockquote>
 <dl class="org-dl">
 <dt><i>Keys</i>, <i>Values</i>, and the <i>Store</i></dt><dd>The goal of any build system is to bring up to
@@ -463,9 +463,9 @@ instance Monoid m =&gt; Applicative (Const m) where
 </div>
 </div>
 </div>
-<div id="outline-container-orgf5466a0" class="outline-3">
-<h3 id="orgf5466a0">The Task Abstraction</h3>
-<div class="outline-text-3" id="text-orgf5466a0">
+<div id="outline-container-org2415dce" class="outline-3">
+<h3 id="org2415dce">The Task Abstraction</h3>
+<div class="outline-text-3" id="text-org2415dce">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 8 pt.3.2</a>)</label><pre class="src src-haskell">  -- Build tasks 
   newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
@@ -482,9 +482,9 @@ example.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd13529f" class="outline-3">
-<h3 id="orgd13529f">The Build Abstraction</h3>
-<div class="outline-text-3" id="text-orgd13529f">
+<div id="outline-container-orgbc4e204" class="outline-3">
+<h3 id="orgbc4e204">The Build Abstraction</h3>
+<div class="outline-text-3" id="text-orgbc4e204">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 3: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 9 pt.3.3</a>)</label><pre class="src src-haskell">  -- Build system
   type Build c i k v = Tasks c k v -&gt; k -&gt; Store i k v -&gt; Store i k v
@@ -497,22 +497,22 @@ new store in which the value of the target key is up to date.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc2112a7" class="outline-3">
-<h3 id="orgc2112a7">The Need for Polymorphism in Task</h3>
-<div class="outline-text-3" id="text-orgc2112a7">
+<div id="outline-container-org1720f5a" class="outline-3">
+<h3 id="org1720f5a">The Need for Polymorphism in Task</h3>
+<div class="outline-text-3" id="text-org1720f5a">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 4: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 10 pt.3.4</a>)</label><pre class="src src-haskell">  newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org30fe9de" class="outline-3">
-<h3 id="org30fe9de">Extracting Static Dependencies</h3>
+<div id="outline-container-org6138ed0" class="outline-3">
+<h3 id="org6138ed0">Extracting Static Dependencies</h3>
 </div>
 
-<div id="outline-container-orge5ab0d3" class="outline-3">
-<h3 id="orge5ab0d3">Classifying Tasks</h3>
-<div class="outline-text-3" id="text-orge5ab0d3">
+<div id="outline-container-org026a22f" class="outline-3">
+<h3 id="org026a22f">Classifying Tasks</h3>
+<div class="outline-text-3" id="text-org026a22f">
 <table>
 
 
@@ -571,9 +571,9 @@ new store in which the value of the target key is up to date.
 </div>
 </div>
 </div>
-<div id="outline-container-org95d0a70" class="outline-2">
-<h2 id="org95d0a70">References:</h2>
-<div class="outline-text-2" id="text-org95d0a70">
+<div id="outline-container-orgae82924" class="outline-2">
+<h2 id="orgae82924">References:</h2>
+<div class="outline-text-2" id="text-orgae82924">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Mokhov, Andrey, Neil Mitchell, and Simon Peyton Jones. 2018. “Build Systems À La Carte.” <i>Proceedings of the Acm on Programming Languages</i> 2 (ICFP): 1–29.</div>
 </div>
