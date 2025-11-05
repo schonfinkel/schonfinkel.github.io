@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-25 Sat 01:36 -->
+<!-- 2025-11-05 Wed 10:39 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JOIN (SQL)</title>
@@ -59,13 +59,13 @@
 In <a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a> a <code>JOIN</code> is a way to produce a result set projecting information from two
 tables.
 </p>
-<div id="outline-container-org1e61118" class="outline-2">
-<h2 id="org1e61118">Types</h2>
-<div class="outline-text-2" id="text-org1e61118">
+<div id="outline-container-orgd630f3b" class="outline-2">
+<h2 id="orgd630f3b">Types</h2>
+<div class="outline-text-2" id="text-orgd630f3b">
 </div>
-<div id="outline-container-org118f508" class="outline-3">
-<h3 id="org118f508">Cross Join</h3>
-<div class="outline-text-3" id="text-org118f508">
+<div id="outline-container-orgb10cb3d" class="outline-3">
+<h3 id="orgb10cb3d">Cross Join</h3>
+<div class="outline-text-3" id="text-orgb10cb3d">
 <ul class="org-ul">
 <li>Creates a Cartesian Product between two tables</li>
 </ul>
@@ -74,11 +74,11 @@ tables.
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
   <span style="font-weight: bold;">FROM</span> table1
   <span style="font-weight: bold;">CROSS</span> <span style="font-weight: bold;">JOIN</span> table2
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
-
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">or via SQL 89, theta-style syntax,</span>
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">however, this is discouraged.</span>
-
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)
+</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">or via SQL 89, theta-style syntax,
+</span>  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">however, this is discouraged.
+</span>
   <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
   <span style="font-weight: bold;">FROM</span> table1, table2
   <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
@@ -86,9 +86,9 @@ tables.
 </div>
 </div>
 </div>
-<div id="outline-container-org7eedbb6" class="outline-3">
-<h3 id="org7eedbb6">Inner Join</h3>
-<div class="outline-text-3" id="text-org7eedbb6">
+<div id="outline-container-org091419f" class="outline-3">
+<h3 id="org091419f">Inner Join</h3>
+<div class="outline-text-3" id="text-org091419f">
 <ul class="org-ul">
 <li>Creates a result set that contains all combinations of a query filtering of
 the <b>left</b> side with the matching rows of the <b>right</b> side.</li>
@@ -99,12 +99,12 @@ the <b>left</b> side with the matching rows of the <b>right</b> side.</li>
   <span style="font-weight: bold;">FROM</span> table1 t1
   <span style="font-weight: bold;">INNER</span> <span style="font-weight: bold;">JOIN</span> table2 t2
   <span style="font-weight: bold;">ON</span> t1.colM = t2.colN
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)</span>
-
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Just like the CROSS JOIN example, you can also use the</span>
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">theta-style syntax with a WHERE clause, but that's also</span>
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">discouraged. Favor the ANSI SQL standard.</span>
-
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">(...)
+</span>
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Just like the CROSS JOIN example, you can also use the
+</span>  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">theta-style syntax with a WHERE clause, but that's also
+</span>  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">discouraged. Favor the ANSI SQL standard.
+</span>
   <span style="font-weight: bold;">SELECT</span> &lt;...&gt;
   <span style="font-weight: bold;">FROM</span> table1, table2
   <span style="font-weight: bold;">WHERE</span> t1.colM = t2.colN
@@ -113,13 +113,13 @@ the <b>left</b> side with the matching rows of the <b>right</b> side.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org3f76246" class="outline-3">
-<h3 id="org3f76246">Natural Join</h3>
+<div id="outline-container-org2e02915" class="outline-3">
+<h3 id="org2e02915">Natural Join</h3>
 </div>
 
-<div id="outline-container-org12fdb4e" class="outline-3">
-<h3 id="org12fdb4e">Outter Join</h3>
-<div class="outline-text-3" id="text-org12fdb4e">
+<div id="outline-container-org12a8668" class="outline-3">
+<h3 id="org12a8668">Outter Join</h3>
+<div class="outline-text-3" id="text-org12a8668">
 <ul class="org-ul">
 <li><code>LEFT</code></li>
 </ul>
@@ -164,9 +164,9 @@ sides, no matter if matches exist.
 </div>
 </div>
 </div>
-<div id="outline-container-org770f9f2" class="outline-3">
-<h3 id="org770f9f2">Lateral Join</h3>
-<div class="outline-text-3" id="text-org770f9f2">
+<div id="outline-container-org3a89430" class="outline-3">
+<h3 id="org3a89430">Lateral Join</h3>
+<div class="outline-text-3" id="text-org3a89430">
 <blockquote>
 <p>
 A lateral join is a type of join in SQL that allows you to join a table with a
@@ -187,13 +187,13 @@ subquery, where the subquery is run for each row of the main table.
 </div>
 </div>
 </div>
-<div id="outline-container-org3a55603" class="outline-2">
-<h2 id="org3a55603">Useful Keywords</h2>
-<div class="outline-text-2" id="text-org3a55603">
+<div id="outline-container-org4309419" class="outline-2">
+<h2 id="org4309419">Useful Keywords</h2>
+<div class="outline-text-2" id="text-org4309419">
 </div>
-<div id="outline-container-org8d88f5b" class="outline-3">
-<h3 id="org8d88f5b"><code>USING</code></h3>
-<div class="outline-text-3" id="text-org8d88f5b">
+<div id="outline-container-org5205244" class="outline-3">
+<h3 id="org5205244"><code>USING</code></h3>
+<div class="outline-text-3" id="text-org5205244">
 <blockquote>
 <p>
 The <code>USING</code> clause is a shorthand that allows you to take advantage of the
@@ -207,33 +207,33 @@ condition <code>ON T1.a = T2.a AND T1.b = T2.b</code>.
 </div>
 </div>
 </div>
-<div id="outline-container-org42fe95a" class="outline-2">
-<h2 id="org42fe95a">JOIN Algorithms</h2>
-<div class="outline-text-2" id="text-org42fe95a">
+<div id="outline-container-orgc04b4d8" class="outline-2">
+<h2 id="orgc04b4d8">JOIN Algorithms</h2>
+<div class="outline-text-2" id="text-orgc04b4d8">
 </div>
-<div id="outline-container-orgf49b188" class="outline-3">
-<h3 id="orgf49b188">Nested Loops</h3>
-</div>
-
-<div id="outline-container-org893b486" class="outline-3">
-<h3 id="org893b486">Hash Join</h3>
+<div id="outline-container-org6db74fa" class="outline-3">
+<h3 id="org6db74fa">Nested Loops</h3>
 </div>
 
-<div id="outline-container-orga961534" class="outline-3">
-<h3 id="orga961534">Merge Join</h3>
+<div id="outline-container-org5e4cd8e" class="outline-3">
+<h3 id="org5e4cd8e">Hash Join</h3>
+</div>
+
+<div id="outline-container-org023b2fd" class="outline-3">
+<h3 id="org023b2fd">Merge Join</h3>
 </div>
 </div>
-<div id="outline-container-orgd223941" class="outline-2">
-<h2 id="orgd223941">References:</h2>
-<div class="outline-text-2" id="text-orgd223941">
+<div id="outline-container-orge2bf478" class="outline-2">
+<h2 id="orge2bf478">References:</h2>
+<div class="outline-text-2" id="text-orge2bf478">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org7d19bc3" class="outline-2">
-<h2 id="org7d19bc3">Backlinks:</h2>
-<div class="outline-text-2" id="text-org7d19bc3">
+<div id="outline-container-org1273fec" class="outline-2">
+<h2 id="org1273fec">Backlinks:</h2>
+<div class="outline-text-2" id="text-org1273fec">
 <ul class="org-ul">
 <li><a href="./20250529101855-subqueries_sql.html">Subqueries (SQL)</a></li>
 </ul>

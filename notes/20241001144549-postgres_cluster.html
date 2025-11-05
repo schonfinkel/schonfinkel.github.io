@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-25 Sat 01:36 -->
+<!-- 2025-11-05 Wed 10:38 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PostgreSQL Cluster</title>
@@ -65,9 +65,9 @@ very same <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76
 (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 22</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgcad0e14" class="outline-2">
-<h2 id="orgcad0e14">Locating the database server files</h2>
-<div class="outline-text-2" id="text-orgcad0e14">
+<div id="outline-container-orgbfb7b8b" class="outline-2">
+<h2 id="orgbfb7b8b">Locating the database server files</h2>
+<div class="outline-text-2" id="text-orgbfb7b8b">
 <p>
 Cluster files are initially stored in a location referred to as data directory:
 </p>
@@ -90,35 +90,35 @@ the database directory:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc82dce7" class="outline-2">
-<h2 id="orgc82dce7">Cluster Management with <code>pg_ctl</code></h2>
-<div class="outline-text-2" id="text-orgc82dce7">
+<div id="outline-container-orgc5ca9fe" class="outline-2">
+<h2 id="orgc5ca9fe">Cluster Management with <code>pg_ctl</code></h2>
+<div class="outline-text-2" id="text-orgc5ca9fe">
 </div>
-<div id="outline-container-orgf8509ba" class="outline-3">
-<h3 id="orgf8509ba">Starting and Stopping the Cluster</h3>
-<div class="outline-text-3" id="text-orgf8509ba">
+<div id="outline-container-org702033a" class="outline-3">
+<h3 id="org702033a">Starting and Stopping the Cluster</h3>
+<div class="outline-text-3" id="text-org702033a">
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">wait for all connections...</span>
-  pg_ctl stop -m s[mart]
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">force disconnect</span>
-  pg_ctl stop -m f[ast]
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">SIGQUIT</span>
-  pg_ctl stop -m i[mmediate]
+<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">wait for all connections...
+</span>  pg_ctl stop -m s[mart]
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">force disconnect
+</span>  pg_ctl stop -m f[ast]
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">SIGQUIT
+</span>  pg_ctl stop -m i[mmediate]
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0681486" class="outline-3">
-<h3 id="org0681486">Restarts</h3>
+<div id="outline-container-org9d177bb" class="outline-3">
+<h3 id="org9d177bb">Restarts</h3>
 </div>
 
-<div id="outline-container-org455e175" class="outline-3">
-<h3 id="org455e175">Reload</h3>
+<div id="outline-container-org539c326" class="outline-3">
+<h3 id="org539c326">Reload</h3>
 </div>
 </div>
-<div id="outline-container-org5b53ad8" class="outline-2">
-<h2 id="org5b53ad8">The Console (<code>psql</code>)</h2>
-<div class="outline-text-2" id="text-org5b53ad8">
+<div id="outline-container-org2e3dad8" class="outline-2">
+<h2 id="org2e3dad8">The Console (<code>psql</code>)</h2>
+<div class="outline-text-2" id="text-org2e3dad8">
 <p>
 Most commonly used options:
 </p>
@@ -158,12 +158,12 @@ The command <code>\?</code> shows all <code>\</code> commands available. Some us
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">lists all databases in the cluster</span>
-  \l
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">adds additional information</span>
-  \l+
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">switches to a different database in the cluster</span>
-  \c &lt;dbname&gt;
+<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">lists all databases in the cluster
+</span>  \l
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">adds additional information
+</span>  \l+
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">switches to a different database in the cluster
+</span>  \c &lt;dbname&gt;
 </pre>
 </div>
 
@@ -173,27 +173,27 @@ different variations of <code>\d</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">tables</span>
-  \dt
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">sequences</span>
-  \ds
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">indexes</span>
-  \di
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">schemas</span>
-  \dn
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">functions</span>
-  \df
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">users/roles</span>
-  \du
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">extensions installed</span>
-  \dx
+<pre class="src src-sql">  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">tables
+</span>  \dt
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">sequences
+</span>  \ds
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">indexes
+</span>  \di
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">schemas
+</span>  \dn
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">functions
+</span>  \df
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">users/roles
+</span>  \du
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">extensions installed
+</span>  \dx
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4b3bf25" class="outline-2">
-<h2 id="org4b3bf25">References:</h2>
-<div class="outline-text-2" id="text-org4b3bf25">
+<div id="outline-container-orgaaccf08" class="outline-2">
+<h2 id="orgaaccf08">References:</h2>
+<div class="outline-text-2" id="text-orgaaccf08">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>

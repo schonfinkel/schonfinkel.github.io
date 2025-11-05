@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-25 Sat 01:36 -->
+<!-- 2025-11-05 Wed 10:39 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>DNS</title>
@@ -75,8 +75,8 @@ to a nameserver. (<a href="#citeproc_bib_item_1">Liu and Albitz 2006, chap. 1 p.
 <div class="org-src-container">
 <pre class="src src-shell">  &gt; dig +noall +answer wikipedia.org
   wikipedia.org.                276     IN      A       195.200.68.224
-  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">or </span>
-  &gt; dig +noall +answer wikipedia.org AAAA
+  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">or 
+</span>  &gt; dig +noall +answer wikipedia.org AAAA
   wikipedia.org.                185     IN      AAAA    2a02:ec80:700:ed1a::1
 </pre>
 </div>
@@ -107,9 +107,9 @@ to a nameserver. (<a href="#citeproc_bib_item_1">Liu and Albitz 2006, chap. 1 p.
 </tr>
 </tbody>
 </table>
-<div id="outline-container-orgdaab974" class="outline-2">
-<h2 id="orgdaab974">The Domain Namespace</h2>
-<div class="outline-text-2" id="text-orgdaab974">
+<div id="outline-container-orgcce0915" class="outline-2">
+<h2 id="orgcce0915">The Domain Namespace</h2>
+<div class="outline-text-2" id="text-orgcce0915">
 <blockquote>
 <p>
 Each <b>node</b> in the tree has a text label (without dots) that can be up to 63
@@ -125,14 +125,14 @@ that <b>node</b> to the <b>root</b>. <b>Domain names</b> are always read from th
 </blockquote>
 
 
-<figure id="org81622b8">
+<figure id="orgedd6329">
 <img src="../static/img/notes/dns_structure.png" alt="dns_structure.png">
 
 </figure>
 </div>
-<div id="outline-container-orgc8d5439" class="outline-3">
-<h3 id="orgc8d5439">Domains and Subdomains</h3>
-<div class="outline-text-3" id="text-orgc8d5439">
+<div id="outline-container-org83106a9" class="outline-3">
+<h3 id="org83106a9">Domains and Subdomains</h3>
+<div class="outline-text-3" id="text-org83106a9">
 <blockquote>
 <p>
 A <b>domain</b> may have several subtrees of its own, called <b>subdomains</b>.
@@ -220,9 +220,9 @@ where TLD is an abbreviation for "Top Level Domain".
 </p>
 </div>
 </div>
-<div id="outline-container-org37cf270" class="outline-3">
-<h3 id="org37cf270">Resource Records</h3>
-<div class="outline-text-3" id="text-org37cf270">
+<div id="outline-container-org6c06983" class="outline-3">
+<h3 id="org6c06983">Resource Records</h3>
+<div class="outline-text-3" id="text-org6c06983">
 <blockquote>
 <p>
 The data associated with domain names is contained in resource records, or RRs.
@@ -237,9 +237,9 @@ software.
 </div>
 </div>
 </div>
-<div id="outline-container-org34b6049" class="outline-2">
-<h2 id="org34b6049">Delegation</h2>
-<div class="outline-text-2" id="text-org34b6049">
+<div id="outline-container-org3a450ca" class="outline-2">
+<h2 id="org3a450ca">Delegation</h2>
+<div class="outline-text-2" id="text-org3a450ca">
 <blockquote>
 <p>
 In DNS, each <b>domain</b> can be broken into a number of <b>subdomains</b>, and
@@ -260,9 +260,9 @@ organization.</li>
 <li><i>Zones</i> are the administrative unit in DNS.</li>
 </ul>
 </div>
-<div id="outline-container-org5a0d3e1" class="outline-3">
-<h3 id="org5a0d3e1">Root Servers</h3>
-<div class="outline-text-3" id="text-org5a0d3e1">
+<div id="outline-container-org279b79f" class="outline-3">
+<h3 id="org279b79f">Root Servers</h3>
+<div class="outline-text-3" id="text-org279b79f">
 <p>
 The root zone is overseen by<a href="https://www.icann.org/"> ICANN</a> (Internet Corporation for Assigned Names and
 Numbers) and its name servers are hosted by a total of 12 organizations, this
@@ -289,11 +289,11 @@ can be verified on the list <a href="https://www.iana.org/domains/root/servers">
 </div>
 </div>
 </div>
-<div id="outline-container-orga49f56e" class="outline-2">
-<h2 id="orga49f56e">Name Servers and Resolvers</h2>
-<div class="outline-text-2" id="text-orga49f56e">
+<div id="outline-container-orgd40428d" class="outline-2">
+<h2 id="orgd40428d">Name Servers and Resolvers</h2>
+<div class="outline-text-2" id="text-orgd40428d">
 
-<figure id="orge5332f6">
+<figure id="org5ec573b">
 <img src="../static/img/notes/dns_servers_and_resolvers.png" alt="dns_servers_and_resolvers.png">
 
 </figure>
@@ -352,27 +352,27 @@ match occurs or no more referrals are found.</dd>
 </pre>
 </div>
 </div>
-<div id="outline-container-org57592f6" class="outline-4">
-<h4 id="org57592f6">Caching</h4>
-<div class="outline-text-4" id="text-org57592f6">
+<div id="outline-container-org7f684a4" class="outline-4">
+<h4 id="org7f684a4">Caching</h4>
+<div class="outline-text-4" id="text-org7f684a4">
 <ul class="org-ul">
 <li>TTLs can range from seconds to hours to days.</li>
 <li>The administrator of a zones are the ones decidings the values for the TTLs.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orga1426e6" class="outline-3">
-<h3 id="orga1426e6">Zone Transfer</h3>
-<div class="outline-text-3" id="text-orga1426e6">
+<div id="outline-container-org7fe5e2c" class="outline-3">
+<h3 id="org7fe5e2c">Zone Transfer</h3>
+<div class="outline-text-3" id="text-org7fe5e2c">
 </div>
-<div id="outline-container-org5c72d46" class="outline-4">
-<h4 id="org5c72d46">The SOA Record</h4>
+<div id="outline-container-orgd6b3f05" class="outline-4">
+<h4 id="orgd6b3f05">The SOA Record</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-org41efb08" class="outline-2">
-<h2 id="org41efb08">Records</h2>
-<div class="outline-text-2" id="text-org41efb08">
+<div id="outline-container-org1e4657c" class="outline-2">
+<h2 id="org1e4657c">Records</h2>
+<div class="outline-text-2" id="text-org1e4657c">
 <table>
 
 
@@ -412,17 +412,17 @@ match occurs or no more referrals are found.</dd>
 </table>
 </div>
 </div>
-<div id="outline-container-org1cbbf4a" class="outline-2">
-<h2 id="org1cbbf4a">References:</h2>
-<div class="outline-text-2" id="text-org1cbbf4a">
+<div id="outline-container-org4599ee7" class="outline-2">
+<h2 id="org4599ee7">References:</h2>
+<div class="outline-text-2" id="text-org4599ee7">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Liu, Cricket, and Paul Albitz. 2006. <i>Dns and Bind</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org48425e5" class="outline-2">
-<h2 id="org48425e5">Backlinks:</h2>
-<div class="outline-text-2" id="text-org48425e5">
+<div id="outline-container-orgd5e976f" class="outline-2">
+<h2 id="orgd5e976f">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgd5e976f">
 <ul class="org-ul">
 <li><a href="./20250319103806-hosts_txt.html">HOSTS.TXT</a></li>
 </ul>

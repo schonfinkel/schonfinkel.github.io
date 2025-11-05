@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-10-25 Sat 01:36 -->
+<!-- 2025-11-05 Wed 10:39 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Aggregate Functions (SQL)</title>
@@ -58,9 +58,9 @@
 </header><ul class="org-ul">
 <li><a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a></li>
 </ul>
-<div id="outline-container-orga101742" class="outline-2">
-<h2 id="orga101742"><code>GROUP BY</code></h2>
-<div class="outline-text-2" id="text-orga101742">
+<div id="outline-container-org38e3828" class="outline-2">
+<h2 id="org38e3828"><code>GROUP BY</code></h2>
+<div class="outline-text-2" id="text-org38e3828">
 <blockquote>
 <p>
 Aggregate functions are used in conjunction with the group by clause. A group by
@@ -135,10 +135,10 @@ calculations on them. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
   <span style="font-weight: bold;">FROM</span> posts
   <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category;
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:</span>
-   category | <span style="font-weight: bold;">count</span>
-  <span style="font-weight: bold; font-style: italic;">----------</span><span style="font-weight: bold; font-style: italic;">+-------</span>
-          3 | 1
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:
+</span>   category | <span style="font-weight: bold;">count</span>
+  <span style="font-weight: bold; font-style: italic;">----------</span><span style="font-weight: bold; font-style: italic;">+-------
+</span>          3 | 1
           1 | 2
 </pre>
 </div>
@@ -170,9 +170,9 @@ and also pack multiple aggregations in a single <code>SELECT</code> statement:
 </pre>
 </div>
 </div>
-<div id="outline-container-org34dfee4" class="outline-3">
-<h3 id="org34dfee4"><code>GROUPING SETS</code>, <code>CUBE</code>, and <code>ROLLUP</code></h3>
-<div class="outline-text-3" id="text-org34dfee4">
+<div id="outline-container-org45d5938" class="outline-3">
+<h3 id="org45d5938"><code>GROUPING SETS</code>, <code>CUBE</code>, and <code>ROLLUP</code></h3>
+<div class="outline-text-3" id="text-org45d5938">
 <blockquote>
 <p>
 More complex grouping operations than those described above are possible using
@@ -184,9 +184,9 @@ group just as for simple GROUP BY clauses, and then the results returned.
 </div>
 </div>
 </div>
-<div id="outline-container-org388bd87" class="outline-2">
-<h2 id="org388bd87">References:</h2>
-<div class="outline-text-2" id="text-org388bd87">
+<div id="outline-container-orgbea82ee" class="outline-2">
+<h2 id="orgbea82ee">References:</h2>
+<div class="outline-text-2" id="text-orgbea82ee">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
