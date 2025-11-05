@@ -7,11 +7,98 @@
 #+filetags: :logic-programming: :relational-programming:
 
 #+begin_quote
-From the programmer’s point of view, relational programming extends declara-
-tive programming with a new kind of statement called a “choice.” Conceptually, the
-choice statement nondeterministically picks one among a set of alternatives. During
-execution, the choice is implemented with search, which enumerates the possible
-answers.
+From the programmer’s point of view, relational programming extends declarative
+programming with a new kind of statement called a "choice". Conceptually, the
+choice statement nondeterministically picks one among a set of
+alternatives. During execution, the choice is implemented with search, which
+enumerates the possible answers.
 
 [cite:@van2004concepts p.621 chap.9]
+#+end_quote
+
+* The Relational Computation Model
+
+** The ~choice~ and ~fail~ Statements
+
+#+begin_quote
+The relational computation model extends the declarative model with two new statements, ~choice~ and ~fail~:
+
++ The ~choice~ statement groups together a set of alternative
+  statements. Executing a choice statement provisionally picks one of these
+  alternatives. If the alternative is found to be wrong later on, then another
+  one is picked.
+
++ The ~fail~ statement indicates that the current alternative is wrong. A ~fail~ is
+  executed implicitly when trying to bind two incompatible values
+
+[cite:@van2004concepts p.623 chap.9 part.9.1]
+#+end_quote
+
+** Search Tree
+
++ Relational programs run sequentially.
++ Choices are tried left to right. On failure, execution backtracks to the last
+  choice point.
++ Execution forms a search tree, with nodes as choices and subtrees as
+  alternatives.
+  
+** Encapsulated Search
+
++ A relational program can execute in many ways, depending on the choices
+  made. The search strategy can be controlled (e.g., depth-first, breadth-first)
+  and so can the number of solutions (one, all, or on demand).
+
++ Encapsulated search provides this control by running the program in a
+  controlled environment, an environment decides which choices are made (and
+  when), it also isolates the program’s variable bindings from the rest of the
+  application.
+
+  This allows the following properties to emerge:
+
+  * Modularity :: Multiple relational programs can run concurrently without interference.
+  * Compositionality :: One encapsulated search can safely run inside another
+
+** The ~Solve~ Function
+
+#+begin_quote
+We provide encapsulated search by adding one function, ~Solve~, to the computation
+model. The call ~{Solve F}~ is given a zero-argument function ~F~ (or equivalently,
+a one-argument procedure) that returns a solution to a relational program. The
+call returns a lazy list of all solutions, ordered according to a depth-ﬁrst
+search strategy.
+
+(...)
+
+Solve is compositional, i.e., it can be nested: the function ~F~ can contain calls
+to ~Solve~. Using ~Solve~ as a basic operation, we can deﬁne both one solution and
+all-solutions search.
+
+[cite:@van2004concepts p.626 chap.9 part.9.1.4]
+#+end_quote
+
+* Relation to Logic Programming
+
+#+begin_quote
+The advantage of logic programming is that programs have two semantics, a
+logical and an operational semantics, which can be studied separately. If the
+underlying logic is chosen well, then the logical semantics is much simpler than
+the operational. *However, logic programming cannot be used for all computation
+models. For example, there is no good way to design a logic for the stateful
+model*.
+
+[cite:@van2004concepts p.631-632 chap.9 part.9.3]
+#+end_quote
+
+** Logic and Logic Programming
+
+#+begin_quote
+*A logic program is a statement of logic that is given an operational semantics,
+i.e., it can be executed on a computer*. If the operational semantics is well
+designed, then the execution has two properties: it is correct, i.e., it
+respects the logical semantics (all consequences of the execution are valid
+logical consequences of the program considered as a set of logical axioms) and
+it is eﬃcient, i.e., it allows writing programs that execute with the expected
+time and space complexity.
+
+[cite:@van2004concepts p.632 chap.9 part.9.3.1]
 #+end_quote
