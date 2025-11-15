@@ -16,6 +16,14 @@ url. Anything found on the command line which cannot be interpreted as an option
 is considered to be an output url.[fn:1] 
 #+end_quote
 
+* CLI
+
+** Cutting Videos
+
+#+begin_src shell
+ffmpeg -i inputFile -vcodec copy -acodec copy -ss 00:09:23 -to 00:25:33 outputFile
+#+end_src
+
 * Footnotes
 
 [fn:1] Source: [[https://ffmpeg.org/ffmpeg.html][ffmpeg documentation]] 
