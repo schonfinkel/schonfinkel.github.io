@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-05 Wed 10:39 -->
+<!-- 2025-11-24 Mon 10:20 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Frontend/Backend Protocol (PostgresSQL)</title>
@@ -64,13 +64,13 @@ customary TCP port number for servers supporting this protocol, but in practice
 any non-privileged port number can be used. (<a href="#citeproc_bib_item_1">PostgreSQL 2025, pt. 7 chap.53</a>)
 </p>
 </blockquote>
-<div id="outline-container-org41391b1" class="outline-2">
-<h2 id="org41391b1">Overview</h2>
-<div class="outline-text-2" id="text-org41391b1">
+<div id="outline-container-orgd86371d" class="outline-2">
+<h2 id="orgd86371d">Overview</h2>
+<div class="outline-text-2" id="text-orgd86371d">
 </div>
-<div id="outline-container-orgdb00224" class="outline-3">
-<h3 id="orgdb00224">TLS Handshake</h3>
-<div class="outline-text-3" id="text-orgdb00224">
+<div id="outline-container-org86bb67c" class="outline-3">
+<h3 id="org86bb67c">TLS Handshake</h3>
+<div class="outline-text-3" id="text-org86bb67c">
 <ul class="org-ul">
 <li>Client sends 4 bytes forming an <code>SSLRequest</code></li>
 <li>Server responds with 'Y' or 'N'.
@@ -81,9 +81,9 @@ any non-privileged port number can be used. (<a href="#citeproc_bib_item_1">Post
 </ul>
 </div>
 </div>
-<div id="outline-container-org56d0b4d" class="outline-3">
-<h3 id="org56d0b4d">Message Format</h3>
-<div class="outline-text-3" id="text-org56d0b4d">
+<div id="outline-container-orgc8882cb" class="outline-3">
+<h3 id="orgc8882cb">Message Format</h3>
+<div class="outline-text-3" id="text-orgc8882cb">
 <table>
 
 
@@ -138,9 +138,9 @@ any non-privileged port number can be used. (<a href="#citeproc_bib_item_1">Post
 </div>
 </div>
 </div>
-<div id="outline-container-orgad4774d" class="outline-2">
-<h2 id="orgad4774d">Message Flow</h2>
-<div class="outline-text-2" id="text-orgad4774d">
+<div id="outline-container-org31a573f" class="outline-2">
+<h2 id="org31a573f">Message Flow</h2>
+<div class="outline-text-2" id="text-org31a573f">
 <blockquote>
 <p>
 To begin a session, a frontend opens a connection to the server and sends a
@@ -164,9 +164,9 @@ The authentication cycle ends with the server either rejecting the connection
 attempt (<code>ErrorResponse</code>), or sending <code>AuthenticationOk</code>.
 </p>
 </div>
-<div id="outline-container-orgae7060c" class="outline-3">
-<h3 id="orgae7060c">The Startup Packet</h3>
-<div class="outline-text-3" id="text-orgae7060c">
+<div id="outline-container-orge4e8c7f" class="outline-3">
+<h3 id="orge4e8c7f">The Startup Packet</h3>
+<div class="outline-text-3" id="text-orge4e8c7f">
 <ul class="org-ul">
 <li>After establishing TLS (if supported), the client sends a <i>startup packet</i>,
 which contains:
@@ -182,9 +182,9 @@ which contains:
 </div>
 </div>
 </div>
-<div id="outline-container-org878c710" class="outline-2">
-<h2 id="org878c710">Authentication</h2>
-<div class="outline-text-2" id="text-org878c710">
+<div id="outline-container-orga1f5a19" class="outline-2">
+<h2 id="orga1f5a19">Authentication</h2>
+<div class="outline-text-2" id="text-orga1f5a19">
 <p>
 The server sends one of the Authentication request messages, and the client
 responds with either:
@@ -220,21 +220,21 @@ loop. The client can start sending queries.
 </p>
 </div>
 </div>
-<div id="outline-container-org848127f" class="outline-2">
-<h2 id="org848127f">Running Queries</h2>
-<div class="outline-text-2" id="text-org848127f">
+<div id="outline-container-org06aa031" class="outline-2">
+<h2 id="org06aa031">Running Queries</h2>
+<div class="outline-text-2" id="text-org06aa031">
 </div>
-<div id="outline-container-org288c3ca" class="outline-3">
-<h3 id="org288c3ca">Simple Query Protocol</h3>
+<div id="outline-container-org8fbd03a" class="outline-3">
+<h3 id="org8fbd03a">Simple Query Protocol</h3>
 </div>
 
-<div id="outline-container-org8128214" class="outline-3">
-<h3 id="org8128214">Extended Query Protocol</h3>
+<div id="outline-container-orga42e957" class="outline-3">
+<h3 id="orga42e957">Extended Query Protocol</h3>
 </div>
 </div>
-<div id="outline-container-org474e09c" class="outline-2">
-<h2 id="org474e09c">References:</h2>
-<div class="outline-text-2" id="text-org474e09c">
+<div id="outline-container-org3b3f9ee" class="outline-2">
+<h2 id="org3b3f9ee">References:</h2>
+<div class="outline-text-2" id="text-org3b3f9ee">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>PostgreSQL. 2025. <i>Postgresql 17.4 Documentation</i>. <a href="https://www.postgresql.org/docs/">https://www.postgresql.org/docs/</a>.</div>
 </div>
