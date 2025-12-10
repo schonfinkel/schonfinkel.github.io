@@ -2,8 +2,23 @@
 :ID:       2a24a73a-0ad2-4276-be47-03cf33d52bc0
 :END:
 #+title: Gen StateM
+#+filetags: :erlang: :elixir: :otp:
 
-Another [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]] behaviour used to implement State Machines, a successor of [[id:b4a73d3d-2658-45b3-bbf8-d030975a3e12][Gen FSM]].
+#+begin_quote
+The ~gen_statem~ behaviour is based on the [[id:f07fb878-df6f-4f71-8a58-583eb87a3faa][Mealy State Machine]]. In versions before
+OTP 20, another behaviour called [[id:b4a73d3d-2658-45b3-bbf8-d030975a3e12][Gen FSM]] implemented a [[id:7da6a878-feda-4a8e-b002-fe7192e564e5][Moore State Machine]]. The
+Mealy machine implementation improved performance for all [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]] libraries.
+
+This behavior is built on the server behavior (~gen_server~) (...), also adding
+state management at the behavior level. The difference between the server and
+the state machine is that an event received by a server is handled in only one
+dimension, the implemented code and the only existing state data. In the state
+machine, the code that handles each request, and each event, depends on the
+internal state of the state machine.
+
+[cite:@rubio2022 chapter.5]
+#+end_quote
+
 
 * Concepts
 
