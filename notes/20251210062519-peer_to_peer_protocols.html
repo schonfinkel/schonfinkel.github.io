@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-12-11 Thu 11:04 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Peer-to-Peer Protocols</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Peer-to-Peer Protocols</h1>
+</header><p>
+Peer-to-peer processes at a given layer cooperate to provide services to the layer above
+and rely on the services of the layer below.
+</p>
+<div id="outline-container-org0a32f8d" class="outline-2">
+<h2 id="org0a32f8d">Key Concepts</h2>
+<div class="outline-text-2" id="text-org0a32f8d">
+<ul class="org-ul">
+<li>A <b>layer-(n+1)</b> peer process invokes the <b>layer-n</b> protocol.</li>
+<li>It passes <b>Service Data Units (SDUs)</b> downward for transfer.</li>
+<li><b>Layer-n</b> peers exchange <b>Protocol Data Units (PDUs)</b> horizontally to perform the transfer.</li>
+<li>Each layer provides a service interface upward and uses the service interface below.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga7e292b" class="outline-2">
+<h2 id="orga7e292b">SDU Flow</h2>
+<div class="outline-text-2" id="text-orga7e292b">
+<ul class="org-ul">
+<li>Layer-(n+1) passes SDUs down to layer-n.</li>
+<li>Layer-n peers interact.</li>
+</ul>
+
+
+<figure id="orgf5729cf">
+<img src="../static/img/notes/sdu_flow.png" alt="sdu_flow.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-orgc252d76" class="outline-2">
+<h2 id="orgc252d76">PDU Flow</h2>
+<div class="outline-text-2" id="text-orgc252d76">
+<ul class="org-ul">
+<li>Layer-n peers exchange <b>PDUs</b> horizontally.</li>
+</ul>
+
+
+<figure id="orged30381">
+<img src="../static/img/notes/pdu_flow.png" alt="pdu_flow.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-org391210c" class="outline-2">
+<h2 id="org391210c">Network Service Models and Features</h2>
+<div class="outline-text-2" id="text-org391210c">
+</div>
+<div id="outline-container-orgb760d45" class="outline-3">
+<h3 id="orgb760d45">Service Models</h3>
+<div class="outline-text-3" id="text-orgb760d45">
+<dl class="org-dl">
+<dt><b>Service Model</b></dt><dd>Specifies the information transfer service that layer-n
+provides to layer-(n+1).</dd>
+<dt><b>Key Distinction</b></dt><dd>The service is either:
+<ul class="org-ul">
+<li>Connection-oriented</li>
+<li>Connectionless</li>
+</ul></dd>
+<dt><b>Quality-of-Service (QoS)</b></dt><dd>Requirements specify a level of performance
+expected during information transfer.</dd>
+</dl>
+
+<p>
+A service model can include the following features:
+</p>
+
+<dl class="org-dl">
+<dt>Arbitrary message size or structure</dt><dd>Services restrict the size and
+structure of data (e.g., single bit, block of bytes, byte stream).
+<ul class="org-ul">
+<li>Voice Mail: 1 long message.</li>
+<li>Voice Call: Sequence of 1-byte messages (a byte stream).</li>
+</ul></dd>
+<dt>Reliability</dt><dd>Ensures transmission is reliable (no loss or corruption).
+<ul class="org-ul">
+<li>Provided by <a href="20251208100447-arq.html#ID-f23035d2-5d32-4811-af8e-9fb37793f50a">ARQ</a> protocols which combine error detection, retransmission, and
+sequence numbering.</li>
+<li><b>Examples:</b> TCP and HDLC.</li>
+</ul></dd>
+<dt>Sequencing</dt><dd>Ensures messages are delivered in the correct order, without
+duplication.</dd>
+<dt>Timing</dt><dd>Critical for temporal data (voice, video).
+<ul class="org-ul">
+<li>Network transfer introduces <b>delay</b> and <b>jitter</b>.</li>
+<li><b>Timing Recovery protocols</b> use timestamps and sequence numbering to
+control delay and jitter.</li>
+<li><b>Examples:</b> RTP (Real-time Transport Protocol).</li>
+</ul></dd>
+<dt>Flow control</dt><dd>Prevents buffer overflows at the destination.
+<ul class="org-ul">
+<li>Uses <b>backpressure mechanisms</b> to control transfer based on destination buffer
+availability.</li>
+<li><b>Examples:</b> TCP and HDLC.</li>
+</ul></dd>
+<dt>Multiplexing</dt><dd>Enables multiple layer-(n+1) users to share a single layer-n service.
+<ul class="org-ul">
+<li>Requires a <b>multiplexing tag</b> to identify specific users at the destination.</li>
+<li><b>Example:</b> IP.</li>
+</ul></dd>
+<dt>(no term)</dt><dd>Privacy, integrity, and authentication</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgc670879" class="outline-3">
+<h3 id="orgc670879">End-to-End vs. Hop-by-Hop</h3>
+<div class="outline-text-3" id="text-orgc670879">
+<p>
+A service feature can be implemented:
+</p>
+
+<dl class="org-dl">
+<dt>End-to-End</dt><dd>Across the entire path from the source to the final destination.</dd>
+<dt>Hop-by-Hop</dt><dd>Across every intermediate link/node (hop) in the network.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="outline-container-org90bd438" class="outline-2">
+<h2 id="org90bd438">References:</h2>
+<div class="outline-text-2" id="text-org90bd438">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

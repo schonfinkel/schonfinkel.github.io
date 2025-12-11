@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-24 Mon 10:20 -->
+<!-- 2025-12-11 Thu 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Relational Programming</title>
@@ -28,6 +28,38 @@
       inlineMath: [['\\(', '\\)']]
     }
   };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 </head>
 <body>
@@ -57,28 +89,197 @@
 <h1 class="title">Relational Programming</h1>
 </header><blockquote>
 <p>
-From the programmer’s point of view, relational programming extends declara-
-tive programming with a new kind of statement called a “choice.” Conceptually, the
-choice statement nondeterministically picks one among a set of alternatives. During
-execution, the choice is implemented with search, which enumerates the possible
-answers.
+From the programmer’s point of view, relational programming extends declarative
+programming with a new kind of statement called a "choice". Conceptually, the
+choice statement nondeterministically picks one among a set of
+alternatives. During execution, the choice is implemented with search, which
+enumerates the possible answers.
 </p>
 
 <p>
 (<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 621 chap.9</a>)
 </p>
 </blockquote>
-<div id="outline-container-org0c3eb77" class="outline-2">
-<h2 id="org0c3eb77">References:</h2>
-<div class="outline-text-2" id="text-org0c3eb77">
+<div id="outline-container-orgd79cec8" class="outline-2">
+<h2 id="orgd79cec8">The Relational Computation Model</h2>
+<div class="outline-text-2" id="text-orgd79cec8">
+</div>
+<div id="outline-container-org462d84d" class="outline-3">
+<h3 id="org462d84d">The <code>choice</code> and <code>fail</code> Statements</h3>
+<div class="outline-text-3" id="text-org462d84d">
+<blockquote>
+<p>
+The relational computation model extends the declarative model with two new statements, <code>choice</code> and <code>fail</code>:
+</p>
+
+<ul class="org-ul">
+<li>The <code>choice</code> statement groups together a set of alternative
+statements. Executing a choice statement provisionally picks one of these
+alternatives. If the alternative is found to be wrong later on, then another
+one is picked.</li>
+
+<li>The <code>fail</code> statement indicates that the current alternative is wrong. A <code>fail</code> is
+executed implicitly when trying to bind two incompatible values</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 623 chap.9 part.9.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgaa31574" class="outline-3">
+<h3 id="orgaa31574">Search Tree</h3>
+<div class="outline-text-3" id="text-orgaa31574">
+<ul class="org-ul">
+<li>Relational programs run sequentially.</li>
+<li>Choices are tried left to right. On failure, execution backtracks to the last
+choice point.</li>
+<li>Execution forms a search tree, with nodes as choices and subtrees as
+alternatives.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5c10f3d" class="outline-3">
+<h3 id="org5c10f3d">Encapsulated Search</h3>
+<div class="outline-text-3" id="text-org5c10f3d">
+<ul class="org-ul">
+<li>A relational program can execute in many ways, depending on the choices
+made. The search strategy can be controlled (e.g., depth-first, breadth-first)
+and so can the number of solutions (one, all, or on demand).</li>
+
+<li><p>
+Encapsulated search provides this control by running the program in a
+controlled environment, an environment decides which choices are made (and
+when), it also isolates the program’s variable bindings from the rest of the
+application.
+</p>
+
+<p>
+This allows the following properties to emerge:
+</p>
+
+<dl class="org-dl">
+<dt>Modularity</dt><dd>Multiple relational programs can run concurrently without interference.</dd>
+<dt>Compositionality</dt><dd>One encapsulated search can safely run inside another</dd>
+</dl></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcbed5e8" class="outline-3">
+<h3 id="orgcbed5e8">The <code>Solve</code> Function</h3>
+<div class="outline-text-3" id="text-orgcbed5e8">
+<blockquote>
+<p>
+We provide encapsulated search by adding one function, <code>Solve</code>, to the computation
+model. The call <code>{Solve F}</code> is given a zero-argument function <code>F</code> (or equivalently,
+a one-argument procedure) that returns a solution to a relational program. The
+call returns a lazy list of all solutions, ordered according to a depth-ﬁrst
+search strategy.
+</p>
+
+<p>
+(&#x2026;)
+</p>
+
+<p>
+Solve is compositional, i.e., it can be nested: the function <code>F</code> can contain calls
+to <code>Solve</code>. Using <code>Solve</code> as a basic operation, we can deﬁne both one solution and
+all-solutions search.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 626 chap.9 part.9.1.4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org6037ed0" class="outline-2">
+<h2 id="org6037ed0">Relation to Logic Programming</h2>
+<div class="outline-text-2" id="text-org6037ed0">
+<blockquote>
+<p>
+The advantage of logic programming is that programs have two semantics, a
+logical and an operational semantics, which can be studied separately. If the
+underlying logic is chosen well, then the logical semantics is much simpler than
+the operational. <b>However, logic programming cannot be used for all computation
+models. For example, there is no good way to design a logic for the stateful
+model</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 631–32 chap.9 part.9.3</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org93ffdf5" class="outline-3">
+<h3 id="org93ffdf5">Logic and Logic Programming</h3>
+<div class="outline-text-3" id="text-org93ffdf5">
+<blockquote>
+<p>
+<b>A logic program is a statement of logic that is given an operational semantics,
+i.e., it can be executed on a computer</b>. If the operational semantics is well
+designed, then the execution has two properties: it is correct, i.e., it
+respects the logical semantics (all consequences of the execution are valid
+logical consequences of the program considered as a set of logical axioms) and
+it is eﬃcient, i.e., it allows writing programs that execute with the expected
+time and space complexity.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 632 chap.9 part.9.3.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org0510254" class="outline-4">
+<h4 id="org0510254">Propositional Logic</h4>
+<div class="outline-text-4" id="text-org0510254">
+<blockquote>
+<p>
+Propositional formulas consist of expressions combining symbols such as p, q, r,
+and so forth together with the connectors ∧ ("and"), ∨ ("or"), ↔ ("if and only
+if"), → ("implies"), and ¬ ("not").
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 632 chap.9 part.9.3.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org5743e1f" class="outline-4">
+<h4 id="org5743e1f">First-Order Predicate Calculus</h4>
+<div class="outline-text-4" id="text-org5743e1f">
+<blockquote>
+<p>
+<a href="20251107073734-propositional_logic.html#ID-cc97e0fc-92a4-471a-885e-2a984400dd42">Propositional Logic</a> is rather weak as a base for logic programming, principally
+because it does not allow expressing data structures. First-order predicate
+calculus is much better suited for this. The Predicate Calculus generalizes
+propositional logic with variables, terms, and quantiﬁers A logical formula in
+the predicate calculus has the following grammar, where \(\left< a \right>\) is an
+atom and \(\left< f \right>\) is a formula:
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 632 chap.9 part.9.3.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org5c23175" class="outline-2">
+<h2 id="org5c23175">References:</h2>
+<div class="outline-text-2" id="text-org5c23175">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgfb54f00" class="outline-2">
-<h2 id="orgfb54f00">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgfb54f00">
+<div id="outline-container-org378d758" class="outline-2">
+<h2 id="org378d758">Backlinks:</h2>
+<div class="outline-text-2" id="text-org378d758">
 <ul class="org-ul">
 <li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
 </ul>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-24 Mon 10:20 -->
+<!-- 2025-12-11 Thu 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PostgreSQL</title>
@@ -65,9 +65,9 @@ views, materialized views, partitioned tables, foreign data wrappers, multiple
 schemas, generated columns, and so on. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 3</a>)
 </p>
 </blockquote>
-<div id="outline-container-org573f6b4" class="outline-2">
-<h2 id="org573f6b4">A brief history of PostgreSQL</h2>
-<div class="outline-text-2" id="text-org573f6b4">
+<div id="outline-container-orgd105a7f" class="outline-2">
+<h2 id="orgd105a7f">A brief history of PostgreSQL</h2>
+<div class="outline-text-2" id="text-orgd105a7f">
 <blockquote>
 <p>
 Ingres was a relational database developed by Professor Michael Stonebraker. In
@@ -93,9 +93,9 @@ Postgre95 to emphasize the difference compared to other, preceding versions.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org244300c" class="outline-2">
-<h2 id="org244300c">Terminology</h2>
-<div class="outline-text-2" id="text-org244300c">
+<div id="outline-container-orgb0c992b" class="outline-2">
+<h2 id="orgb0c992b">Terminology</h2>
+<div class="outline-text-2" id="text-orgb0c992b">
 <table>
 
 
@@ -203,26 +203,26 @@ superusers usually see the whole set of available information.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org70b55fe" class="outline-2">
-<h2 id="org70b55fe">Architecture</h2>
-<div class="outline-text-2" id="text-org70b55fe">
+<div id="outline-container-org677059b" class="outline-2">
+<h2 id="org677059b">Architecture</h2>
+<div class="outline-text-2" id="text-org677059b">
 </div>
-<div id="outline-container-org06d147c" class="outline-3">
-<h3 id="org06d147c">Client/Server</h3>
-<div class="outline-text-3" id="text-org06d147c">
+<div id="outline-container-org1eff8f0" class="outline-3">
+<h3 id="org1eff8f0">Client/Server</h3>
+<div class="outline-text-3" id="text-org1eff8f0">
 <div class="org-src-container">
 <pre class="src src-sql">  SHOW max_connections;
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf0feb9a" class="outline-3">
-<h3 id="orgf0feb9a">Memory</h3>
-<div class="outline-text-3" id="text-orgf0feb9a">
+<div id="outline-container-orgfd5d8bc" class="outline-3">
+<h3 id="orgfd5d8bc">Memory</h3>
+<div class="outline-text-3" id="text-orgfd5d8bc">
 </div>
-<div id="outline-container-orge663301" class="outline-4">
-<h4 id="orge663301">Shared Buffers</h4>
-<div class="outline-text-4" id="text-orge663301">
+<div id="outline-container-org8fcea14" class="outline-4">
+<h4 id="org8fcea14">Shared Buffers</h4>
+<div class="outline-text-4" id="text-org8fcea14">
 <ul class="org-ul">
 <li>Shared by all server processes.</li>
 <li>Keeps frequently accessed objects in memory for faster retrieval.</li>
@@ -235,9 +235,9 @@ superusers usually see the whole set of available information.
 </div>
 </div>
 </div>
-<div id="outline-container-orgeed4577" class="outline-4">
-<h4 id="orgeed4577">Local Memory</h4>
-<div class="outline-text-4" id="text-orgeed4577">
+<div id="outline-container-orga02a052" class="outline-4">
+<h4 id="orga02a052">Local Memory</h4>
+<div class="outline-text-4" id="text-orga02a052">
 <p>
 It's the memory allocated to each backend process.
 </p>
@@ -283,19 +283,20 @@ It's the memory allocated to each backend process.
 </div>
 </div>
 </div>
-<div id="outline-container-org0ba58ba" class="outline-2">
-<h2 id="org0ba58ba">References:</h2>
-<div class="outline-text-2" id="text-org0ba58ba">
+<div id="outline-container-org90ce43e" class="outline-2">
+<h2 id="org90ce43e">References:</h2>
+<div class="outline-text-2" id="text-org90ce43e">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org10c896f" class="outline-2">
-<h2 id="org10c896f">Backlinks:</h2>
-<div class="outline-text-2" id="text-org10c896f">
+<div id="outline-container-orgbcc42c8" class="outline-2">
+<h2 id="orgbcc42c8">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgbcc42c8">
 <ul class="org-ul">
 <li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
+<li><a href="./20240923110122-window_functions_postgresql.html">Window Functions (PostgreSQL)</a></li>
 <li><a href="./20250329193401-frontend_backend_protocol_postgresql.html">Frontend/Backend Protocol (PostgresSQL)</a></li>
 <li><a href="./20240921194441-functions_and_operators_postgresql.html">Functions and Operators (PostgreSQL)</a></li>
 <li><a href="./20250219153557-postgresql_repl.html">PostgreSQL REPL</a></li>
