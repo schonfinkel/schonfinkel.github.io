@@ -1,0 +1,144 @@
+:PROPERTIES:
+:ID:       188cdb6e-0be4-4197-b6d9-da0f56d39a5c
+:END:
+#+title: Peer-to-Peer Protocols
+
+Peer-to-peer processes at a given layer cooperate to provide services to the layer above
+and rely on the services of the layer below.
+
+* Key Concepts
+
+- A *layer-(n+1)* peer process invokes the *layer-n* protocol.
+- It passes *Service Data Units (SDUs)* downward for transfer.
+- *Layer-n* peers exchange *Protocol Data Units (PDUs)* horizontally to perform the transfer.
+- Each layer provides a service interface upward and uses the service interface below.
+
+* SDU Flow
+
++ Layer-(n+1) passes SDUs down to layer-n.
++ Layer-n peers interact.
+
+#+BEGIN_SRC dot :file ../static/img/notes/sdu_flow.png :cmdline -Kdot -Tpng :exports results
+  digraph SDU_Flow {
+      rankdir=LR;
+      node [shape=box, style=filled, fillcolor="#b3d9d9"];
+
+      subgraph cluster_upper {
+        label="Layer n+1";
+        style=filled; color="#e6e6ff";
+        u1[label="n+1 peer\nprocess A"];
+        u2[label="n+1 peer\nprocess B"];
+      }
+
+      subgraph cluster_middle {
+        label="Layer n\n(SDU Transfer)";
+        style=filled; color="#d6f5d6";
+        n1[label="n peer\nprocess A"];
+        n2[label="n peer\nprocess B"];
+        SDU[label="SDU", shape=note, fillcolor="#6666cc", fontcolor=white];
+      }
+
+      subgraph cluster_lower {
+        label="Layer n-1";
+        style=filled; color="#cce0ff";
+        l1[label="n-1 peer\nprocess A"];
+        l2[label="n-1 peer\nprocess B"];
+      }
+
+      u1 -> n1;
+      u2 -> n2;
+      n1 -> SDU -> n2 [style=dashed];
+      n1 -> l1;
+      n2 -> l2;
+  }
+#+end_src
+
+#+RESULTS:
+[[file:../static/img/notes/sdu_flow.png]]
+
+* PDU Flow
+
++ Layer-n peers exchange *PDUs* horizontally.
+
+#+BEGIN_SRC dot :file ../static/img/notes/pdu_flow.png :cmdline -Kdot -Tpng :exports results
+  digraph PDU_Flow {
+    rankdir=LR;
+    node [shape=box, style=filled, fillcolor="#b3d9d9"];
+
+    subgraph cluster_upper {
+        label="Layer n+1";
+        style=filled; color="#e6e6ff";
+        u1[label="n+1 peer\nprocess A"];
+        u2[label="n+1 peer\nprocess B"];
+    }
+
+    subgraph cluster_middle {
+        label="Layer n\n(PDU Exchange)";
+        style=filled; color="#d6f5d6";
+        n1[label="n peer\nprocess A"];
+        n2[label="n peer\nprocess B"];
+        PDU[label="PDU", shape=note, fillcolor="#ffeb3b"];
+    }
+
+    subgraph cluster_lower {
+        label="Layer n-1";
+        style=filled; color="#cce0ff";
+        l1[label="n-1 peer\nprocess A"];
+        l2[label="n-1 peer\nprocess B"];
+    }
+
+    u1 -> n1;
+    u2 -> n2;
+    n1 -> PDU -> n2 [style=dashed];
+    n1 -> l1;
+    n2 -> l2;
+  }
+#+end_src
+
+#+RESULTS:
+[[file:../static/img/notes/pdu_flow.png]]
+
+* Network Service Models and Features
+
+** Service Models
+
++ *Service Model* :: Specifies the information transfer service that layer-n
+  provides to layer-(n+1).
++ *Key Distinction* :: The service is either:
+    - Connection-oriented
+    - Connectionless
++ *Quality-of-Service (QoS)* :: Requirements specify a level of performance
+  expected during information transfer.
+
+A service model can include the following features:
+
++ Arbitrary message size or structure :: Services restrict the size and
+  structure of data (e.g., single bit, block of bytes, byte stream).
+  * Voice Mail: 1 long message.
+  * Voice Call: Sequence of 1-byte messages (a byte stream).
++ Reliability :: Ensures transmission is reliable (no loss or corruption).
+  * Provided by [[id:f23035d2-5d32-4811-af8e-9fb37793f50a][ARQ]] protocols which combine error detection, retransmission, and
+    sequence numbering.
+  * *Examples:* TCP and HDLC.
++ Sequencing :: Ensures messages are delivered in the correct order, without
+  duplication.
++ Timing :: Critical for temporal data (voice, video).
+  * Network transfer introduces *delay* and *jitter*.
+  * *Timing Recovery protocols* use timestamps and sequence numbering to
+    control delay and jitter.
+  * *Examples:* RTP (Real-time Transport Protocol).
++ Flow control :: Prevents buffer overflows at the destination.
+  * Uses *backpressure mechanisms* to control transfer based on destination buffer
+    availability.
+  * *Examples:* TCP and HDLC.
++ Multiplexing :: Enables multiple layer-(n+1) users to share a single layer-n service.
+  * Requires a *multiplexing tag* to identify specific users at the destination.
+  * *Example:* IP.
++ Privacy, integrity, and authentication
+
+** End-to-End vs. Hop-by-Hop
+
+A service feature can be implemented:
+
++ End-to-End :: Across the entire path from the source to the final destination.
++ Hop-by-Hop :: Across every intermediate link/node (hop) in the network.
