@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-12-11 Thu 11:04 -->
+<!-- 2025-12-15 Mon 12:52 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Shared-State Concurrency</title>
@@ -71,9 +71,9 @@ harder to program than the message-passing model</b>.
 (<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 569 chap.8</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgee34573" class="outline-2">
-<h2 id="orgee34573">Programming with Concurrency</h2>
-<div class="outline-text-2" id="text-orgee34573">
+<div id="outline-container-orgb7877af" class="outline-2">
+<h2 id="orgb7877af">Programming with Concurrency</h2>
+<div class="outline-text-2" id="text-orgb7877af">
 <blockquote>
 <p>
 Shared state is another basic programming style of the stateful concurrent
@@ -89,13 +89,13 @@ allows us to reason using invariants.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgd76ab33" class="outline-3">
-<h3 id="orgd76ab33">Overview of the Diﬀerent Approaches</h3>
+<div id="outline-container-org26f5cf4" class="outline-3">
+<h3 id="org26f5cf4">Overview of the Diﬀerent Approaches</h3>
 </div>
 
-<div id="outline-container-org9b62637" class="outline-3">
-<h3 id="org9b62637">Programming with Atomic Actions</h3>
-<div class="outline-text-3" id="text-org9b62637">
+<div id="outline-container-orgb916153" class="outline-3">
+<h3 id="orgb916153">Programming with Atomic Actions</h3>
+<div class="outline-text-3" id="text-orgb916153">
 <blockquote>
 <ul class="org-ul">
 <li>Locks allow the grouping of little atomic operations into big atomic
@@ -119,17 +119,17 @@ leaves the execution state unchanged, i.e., as it was upon entry.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb2bf150" class="outline-2">
-<h2 id="orgb2bf150">Locks</h2>
+<div id="outline-container-org1e27661" class="outline-2">
+<h2 id="org1e27661">Locks</h2>
 </div>
 
-<div id="outline-container-orgd03ac5b" class="outline-2">
-<h2 id="orgd03ac5b">Monitors</h2>
+<div id="outline-container-org4560e29" class="outline-2">
+<h2 id="org4560e29">Monitors</h2>
 </div>
 
-<div id="outline-container-orgc570d00" class="outline-2">
-<h2 id="orgc570d00">Transactions</h2>
-<div class="outline-text-2" id="text-orgc570d00">
+<div id="outline-container-orgf89a10f" class="outline-2">
+<h2 id="orgf89a10f">Transactions</h2>
+<div class="outline-text-2" id="text-orgf89a10f">
 <blockquote>
 <p>
 Transactions were introduced as a basic concept for the management of large
@@ -176,13 +176,13 @@ changes.</dd>
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgb23b512" class="outline-3">
-<h3 id="orgb23b512">Concurrency Control</h3>
-<div class="outline-text-3" id="text-orgb23b512">
+<div id="outline-container-org09cddcf" class="outline-3">
+<h3 id="org09cddcf">Concurrency Control</h3>
+<div class="outline-text-3" id="text-org09cddcf">
 </div>
-<div id="outline-container-orga854524" class="outline-4">
-<h4 id="orga854524">Locks and Timestamps</h4>
-<div class="outline-text-4" id="text-orga854524">
+<div id="outline-container-orgfddf316" class="outline-4">
+<h4 id="orgfddf316">Locks and Timestamps</h4>
+<div class="outline-text-4" id="text-orgfddf316">
 <blockquote>
 <p>
 The two most widely used approaches to concurrency control are locks and timestamps:
@@ -213,9 +213,9 @@ exact meanings of the terms "is always true" and "eventually becomes true".
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org96aed6a" class="outline-4">
-<h4 id="org96aed6a">Optimistic and Pessimistic Scheduling</h4>
-<div class="outline-text-4" id="text-org96aed6a">
+<div id="outline-container-org632d4b1" class="outline-4">
+<h4 id="org632d4b1">Optimistic and Pessimistic Scheduling</h4>
+<div class="outline-text-4" id="text-org632d4b1">
 <p>
 Algorithms for concurrency control vary on different axes, one of these axes is
 how optimistic or pessimistic they are. When a transaction requests a lock, the
@@ -235,22 +235,22 @@ no problems may occur.
 </p>
 </div>
 </div>
-<div id="outline-container-org73d392d" class="outline-4">
-<h4 id="org73d392d">Two-Phase Locking</h4>
+<div id="outline-container-orgcd74012" class="outline-4">
+<h4 id="orgcd74012">Two-Phase Locking</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd38da52" class="outline-2">
-<h2 id="orgd38da52">References:</h2>
-<div class="outline-text-2" id="text-orgd38da52">
+<div id="outline-container-orgad6a44a" class="outline-2">
+<h2 id="orgad6a44a">References:</h2>
+<div class="outline-text-2" id="text-orgad6a44a">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org3d3c298" class="outline-2">
-<h2 id="org3d3c298">Backlinks:</h2>
-<div class="outline-text-2" id="text-org3d3c298">
+<div id="outline-container-org0bae1be" class="outline-2">
+<h2 id="org0bae1be">Backlinks:</h2>
+<div class="outline-text-2" id="text-org0bae1be">
 <ul class="org-ul">
 <li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
 </ul>

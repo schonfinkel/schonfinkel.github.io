@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-12-11 Thu 11:04 -->
+<!-- 2025-12-15 Mon 12:52 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Window Functions (PostgreSQL)</title>
@@ -70,9 +70,9 @@ identities. Behind the scenes, the window function is able to access more than
 just the current row of the query result. <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
 </p>
 </blockquote>
-<div id="outline-container-orgafd2211" class="outline-2">
-<h2 id="orgafd2211"><code>PARTITION BY</code> and <code>WINDOW</code> clauses</h2>
-<div class="outline-text-2" id="text-orgafd2211">
+<div id="outline-container-org9b325a8" class="outline-2">
+<h2 id="org9b325a8"><code>PARTITION BY</code> and <code>WINDOW</code> clauses</h2>
+<div class="outline-text-2" id="text-org9b325a8">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
     category,
@@ -112,9 +112,9 @@ you can also define aliases for the window frames.
 </pre>
 </div>
 </div>
-<div id="outline-container-orgbcf21df" class="outline-3">
-<h3 id="orgbcf21df">Frames</h3>
-<div class="outline-text-3" id="text-orgbcf21df">
+<div id="outline-container-orgb1359f4" class="outline-3">
+<h3 id="orgb1359f4">Frames</h3>
+<div class="outline-text-3" id="text-orgb1359f4">
 <ul class="org-ul">
 <li>Partitions can be divided into <code>frames</code></li>
 <li><p>
@@ -197,13 +197,13 @@ the to <code>NO OTHERS</code>. This can be set to:
 </div>
 </div>
 </div>
-<div id="outline-container-org6cabf9a" class="outline-2">
-<h2 id="org6cabf9a">Introducing some useful functions</h2>
-<div class="outline-text-2" id="text-org6cabf9a">
+<div id="outline-container-org2a2186f" class="outline-2">
+<h2 id="org2a2186f">Introducing some useful functions</h2>
+<div class="outline-text-2" id="text-org2a2186f">
 </div>
-<div id="outline-container-org549378b" class="outline-3">
-<h3 id="org549378b"><code>ROW_NUMBER</code></h3>
-<div class="outline-text-3" id="text-org549378b">
+<div id="outline-container-orgc122a87" class="outline-3">
+<h3 id="orgc122a87"><code>ROW_NUMBER</code></h3>
+<div class="outline-text-3" id="text-orgc122a87">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
     category,
@@ -215,9 +215,9 @@ the to <code>NO OTHERS</code>. This can be set to:
 </div>
 </div>
 </div>
-<div id="outline-container-org464fd21" class="outline-3">
-<h3 id="org464fd21"><code>SUM</code></h3>
-<div class="outline-text-3" id="text-org464fd21">
+<div id="outline-container-org73adc5d" class="outline-3">
+<h3 id="org73adc5d"><code>SUM</code></h3>
+<div class="outline-text-3" id="text-org73adc5d">
 <div class="org-src-container">
 <pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span>
       <span style="font-weight: bold;">SUM</span>(amount) OVER w
@@ -230,9 +230,9 @@ the to <code>NO OTHERS</code>. This can be set to:
 </div>
 </div>
 </div>
-<div id="outline-container-org0722f45" class="outline-3">
-<h3 id="org0722f45"><code>LEAD</code> &amp; <code>LAG</code></h3>
-<div class="outline-text-3" id="text-org0722f45">
+<div id="outline-container-orgf6aa1f4" class="outline-3">
+<h3 id="orgf6aa1f4"><code>LEAD</code> &amp; <code>LAG</code></h3>
+<div class="outline-text-3" id="text-orgf6aa1f4">
 <blockquote>
 <p>
 The <code>LAG</code> function returns a value evaluated at the row that is offset rows before
@@ -266,9 +266,9 @@ The <code>LAG(field, N)</code> function is used to retrieve data from the previo
 </ul>
 </div>
 </div>
-<div id="outline-container-org32678e0" class="outline-3">
-<h3 id="org32678e0"><code>FIRST_VALUE()</code> and <code>LAST_VALUE()</code></h3>
-<div class="outline-text-3" id="text-org32678e0">
+<div id="outline-container-org7538c82" class="outline-3">
+<h3 id="org7538c82"><code>FIRST_VALUE()</code> and <code>LAST_VALUE()</code></h3>
+<div class="outline-text-3" id="text-org7538c82">
 <ul class="org-ul">
 <li><p>
 You can reference the beginning/end of a partition.
@@ -291,9 +291,9 @@ You can reference the beginning/end of a partition.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc6520ff" class="outline-3">
-<h3 id="orgc6520ff"><code>RANK</code> and <code>DENSE_RANK</code></h3>
-<div class="outline-text-3" id="text-orgc6520ff">
+<div id="outline-container-orgc12b653" class="outline-3">
+<h3 id="orgc12b653"><code>RANK</code> and <code>DENSE_RANK</code></h3>
+<div class="outline-text-3" id="text-orgc12b653">
 <blockquote>
 <p>
 The <code>RANK</code> function ranks the current row within its partition with gaps. If we
@@ -582,9 +582,9 @@ ranks the current row within its partition without gaps.
 </table>
 </div>
 </div>
-<div id="outline-container-orgad37cb5" class="outline-3">
-<h3 id="orgad37cb5"><code>PERCENTILE_CONT</code></h3>
-<div class="outline-text-3" id="text-orgad37cb5">
+<div id="outline-container-org1acbca1" class="outline-3">
+<h3 id="org1acbca1"><code>PERCENTILE_CONT</code></h3>
+<div class="outline-text-3" id="text-org1acbca1">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">WITH</span> test_rows <span style="font-weight: bold;">AS</span> (
     <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Generates a series of random numbers between 0 and 100, distributed
@@ -623,9 +623,9 @@ ranks the current row within its partition without gaps.
 </div>
 </div>
 </div>
-<div id="outline-container-org65521a0" class="outline-3">
-<h3 id="org65521a0"><code>PERCENTILE_DISC</code></h3>
-<div class="outline-text-3" id="text-org65521a0">
+<div id="outline-container-orgead0788" class="outline-3">
+<h3 id="orgead0788"><code>PERCENTILE_DISC</code></h3>
+<div class="outline-text-3" id="text-orgead0788">
 <ul class="org-ul">
 <li>Discrete version of <code>PERCENTILE_CONT</code>, gets the closest value, does not perform interpolation.</li>
 </ul>
@@ -668,9 +668,9 @@ ranks the current row within its partition without gaps.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc2029bc" class="outline-3">
-<h3 id="orgc2029bc"><code>CUME_DIST</code></h3>
-<div class="outline-text-3" id="text-orgc2029bc">
+<div id="outline-container-org94e3ea5" class="outline-3">
+<h3 id="org94e3ea5"><code>CUME_DIST</code></h3>
+<div class="outline-text-3" id="text-org94e3ea5">
 <blockquote>
 <p>
 The <code>CUME_DIST</code> function computes the fraction of partition rows that are less
@@ -703,9 +703,9 @@ than or equal to the current row and its peers.
 </div>
 </div>
 </div>
-<div id="outline-container-org2400ba5" class="outline-3">
-<h3 id="org2400ba5"><code>PERCENT_RANK</code></h3>
-<div class="outline-text-3" id="text-org2400ba5">
+<div id="outline-container-org7369bc9" class="outline-3">
+<h3 id="org7369bc9"><code>PERCENT_RANK</code></h3>
+<div class="outline-text-3" id="text-org7369bc9">
 <ul class="org-ul">
 <li>Calculates percent values in a current partition.</li>
 </ul>
@@ -758,9 +758,9 @@ than or equal to the current row and its peers.
 </div>
 </div>
 </div>
-<div id="outline-container-orgdd98a4a" class="outline-3">
-<h3 id="orgdd98a4a"><code>NTILE</code></h3>
-<div class="outline-text-3" id="text-orgdd98a4a">
+<div id="outline-container-orgb21e478" class="outline-3">
+<h3 id="orgb21e478"><code>NTILE</code></h3>
+<div class="outline-text-3" id="text-orgb21e478">
 <ul class="org-ul">
 <li>Divides an ordered partition into a number of ranked groups, each having
 close-to-equal size, if feasible.</li>
@@ -789,17 +789,17 @@ close-to-equal size, if feasible.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc14ab78" class="outline-2">
-<h2 id="orgc14ab78">Using Advanced Statement Window Functions</h2>
+<div id="outline-container-orgbb9e794" class="outline-2">
+<h2 id="orgbb9e794">Using Advanced Statement Window Functions</h2>
 </div>
 
-<div id="outline-container-org1ba4dc8" class="outline-2">
-<h2 id="org1ba4dc8">Value Functions</h2>
+<div id="outline-container-org9d6bbbc" class="outline-2">
+<h2 id="org9d6bbbc">Value Functions</h2>
 </div>
 
-<div id="outline-container-org336a720" class="outline-2">
-<h2 id="org336a720">References:</h2>
-<div class="outline-text-2" id="text-org336a720">
+<div id="outline-container-org06301a7" class="outline-2">
+<h2 id="org06301a7">References:</h2>
+<div class="outline-text-2" id="text-org06301a7">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
