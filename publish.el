@@ -156,6 +156,7 @@
                            "literature.bib"
                            "logic_programming.bib"
                            "math_and_logic.bib"
+                           "networking.bib"
                            "nixos.bib"
                            "philosophy.bib"
                            "software_engineering.bib"
