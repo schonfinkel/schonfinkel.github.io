@@ -30,6 +30,11 @@
     (insert-file-contents filePath)
     (buffer-string)))
 
+(defun get-bib-files-from-path (dir)
+  "Return a list of full paths for all .bib files in DIR."
+  (let ((expanded-dir (file-name-as-directory (expand-file-name dir))))
+    (directory-files expanded-dir t "\\.bib$")))
+
 (defun patch-string-with-path (str filePath n)
   "Patch a STR with FILEPATH and do so N times."
   (apply 'format str (make-list n filePath)))
@@ -143,28 +148,7 @@
 (setq-default out-notes-dir (concat out-dir "/notes"))
 
 ;;;; Fix bibliography
-(setq org-cite-refs-list '("articles.bib"
-                           "beam.bib"
-                           "blockchain.bib"
-                           "classic_studies.bib"
-                           "computer_science.bib"
-                           "databases.bib"
-                           "distributed_systems.bib"
-                           "fp_general.bib"
-                           "haskell.bib"
-                           "leadership.bib"
-                           "literature.bib"
-                           "logic_programming.bib"
-                           "math_and_logic.bib"
-                           "networking.bib"
-                           "nixos.bib"
-                           "philosophy.bib"
-                           "software_engineering.bib"
-                           "sysadmin.bib"
-                           "systems_programming.bib"
-                           "rfcs.bib"))
-(setq org-cite-refs-path (patch-list-with-prefix (concat bibtex-dir "/") org-cite-refs-list))
-(setq org-cite-global-bibliography org-cite-refs-path)
+(setq org-cite-global-bibliography (get-bib-files-from-path (concat bibtex-dir "/")))
 (setq org-cite-export-processors '((latex biblatex)
                                    (moderncv basic)
                                    (html csl)
@@ -176,7 +160,7 @@
 (message (format "SETTING OUT ORG-ROAM DB LOCATION: %s" org-roam-db-location))
 
 ;;;; Adds backlinks to the notes
-(add-hook 'org-export-before-processing-hook 'notes/add-extra-sections)
+(add-hook 'org-export-before-processing-functions 'notes/add-extra-sections)
 
 ;; RSS
 (setq org-rss-use-entry-url-as-guid nil)

@@ -112,7 +112,8 @@
                 dotnet
                 customEmacs
                 texenv
-              ] ++ tooling;
+              ]
+              ++ tooling;
               buildPhase = ''
                 just build
               '';
@@ -139,7 +140,8 @@
                 dotnet
                 customEmacs
                 texenv
-              ] ++ tooling;
+              ]
+              ++ tooling;
             };
 
             # `nix develop --impure`
@@ -155,7 +157,8 @@
                     packages = [
                       dotnet
                       texenv
-                    ] ++ tooling;
+                    ]
+                    ++ tooling;
 
                     env = {
                       ENVIRONMENT = "dev";

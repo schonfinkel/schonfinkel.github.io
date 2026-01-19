@@ -3,3 +3,22 @@
 :END:
 #+title: Mealy State Machine
 
+#+begin_quote
+Let M = (Q, 2, F) be a state machine, and suppose that \Theta is a non-empty finite
+set and G : O \times S \rightarrow \Theta is a function. The quintuple M = (Q, 2, \Theta, F, G) will be
+called a Mealy machine (after G. Mealy, 1955).
+
++ \Sigma is the input alphabet.
++ F the state transition function.
++ \Theta the output alphabet and G the output function.
+
+The machine works as follows.
+
+Suppose that the input word $a \in \Sigma$ is applied to the machine in state q,
+the machine then moves to state $q F_0$ and produces an output $G(q, a) \in \Theta$
+at the same instant. We will have, for each $\sigma \in \Sigma$, a mapping:
+
+$G_\sigma: Q \rightarrow \Theta$ defined by $q G_{\sigma} = G(q, \sigma), q \in Q$.
+
+[cite:@holcombe2004algebraic p.47-48 chap.2 part.2.5]
+#+end_quote
