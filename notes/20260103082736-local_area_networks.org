@@ -1,0 +1,340 @@
+:PROPERTIES:
+:ID:       9f95f9e0-38fa-4424-8012-07d3937c76fc
+:END:
+#+title: Local Area Networks
+
+* What is a LAN?
+
+LANs are typically owned by the same organization that uses them, allowing for
+optimized, high-speed protocols that wouldn't be feasible over public leased
+lines where regulation and interoperability with diverse hardware are stricter.
+
+** Characteristics
+
++ Private ownership
++ Freedom from regulatory constraints of WANs
++ Short distance (~1 km)
++ Low cost
++ High-speed, relatively error-free communication
++ Complex error control usually unnecessary
+
+** Operational Properties
+
++ Machines are frequently moved
++ Tracking physical location is difficult
++ Each machine is assigned a unique address
++ Broadcast communication model
++ Requires a medium access control protocol
+
+** Why is broadcasting fundamental to LAN design?
+
+Broadcasting simplifies the discovery and addressing process in a local environment. 
+In a broadcast model, a station doesn't need to know the exact physical location or 
+the intermediate routing path to reach another station on the same segment. It also 
+allows for efficient address resolution (like ARP) where one query can reach all 
+potential hosts simultaneously.
+
+* Typical LAN Structure
+
+The NIC (Network Interface Card) functions as the physical layer interface and
+performs the "handshake" between the computer's internal bus and the serial
+bitstream of the transmission medium.
+
+- Transmission Medium
+- Network Interface Card (NIC)
+- Ethernet Processor
+- ROM / RAM
+- Unique MAC (physical) address per NIC
+
+** LAN Node Architecture
+
+1. Host System (CPU/Memory)
+2. System Bus (PCIe)
+3. NIC Controller (MAC Logic, Buffer RAM, ROM with MAC Address)
+4. Transceiver (Physical Medium Attachment)
+5. Transmission Medium (RJ-45/Fiber)
+
+** Medium Access Control and LLC
+
+IEEE 802 splits the OSI Data Link Layer (Layer 2) into two sublayers:
+
++ LLC (logical)
++ MAC (hardware-specific).
+
+** MAC Sublayer
+
++ Coordinates access to the medium
++ Connectionless frame delivery
++ MAC-address-based identification
++ Broadcast support
+
+** Logical Link Control (LLC) Sublayer
+
++ Interface between Network layer and MAC
++ Defined by IEEE 802.2
+
+** TODO Compare responsibilities of MAC vs LLC
+
+| Feature      | MAC Sublayer                            | LLC Sublayer                       |
+|--------------+-----------------------------------------+------------------------------------|
+| Focus        | Access to physical medium               | Logical connection management      |
+| Addressing   | Physical (MAC) addresses                | Service Access Points (SAPs)       |
+| Functions    | Framing, Collision detection, Error CD  | Flow control, ARQ (error recovery) |
+| Dependencies | Hardware-dependent (e.g., 802.3/802.11) | Hardware-independent (802.2)       |
+
+* IEEE 802 Architecture Overview
+
+- Data Link Layer: MAC + LLC
+- Physical Layer
+
+Standards:
+
++ 802.3: Ethernet (CSMA/CD)
++ 802.5: Token Ring
++ 802.11: Wireless LAN
+
+** Why did Ethernet outcompete Token Ring?
+
+Ethernet won due to "vicious circle" economics and simplicity. It was cheaper 
+to manufacture, required no complex "token management" logic (which could 
+fail if a station crashed), and scaled to higher speeds (Fast Ethernet) 
+much faster than IBM's more complex and expensive Token Ring technology.
+
+* Logical Link Control Services
+
+  #+BEGIN_NOTES
+  Relate LLC services to HDLC modes for students with prior background.
+  #+END_NOTES
+
+- Type 1: Unacknowledged connectionless (HDLC unnumbered)
+- Type 2: Reliable connection-oriented (HDLC ABM)
+- Type 3: Acknowledged connectionless
+
+** Additional Addressing
+
++ Single MAC per workstation
++ Multiple logical connections via SAPs
+
+** When would Type 2 LLC be useful?
+
+Type 2 (Reliable Connection-Oriented) is useful when the higher-layer protocols 
+are "thin" or unreliable and require the data link layer to guarantee delivery. 
+While modern IP networks rarely use this (preferring TCP at Layer 4), it was 
+crucial for older protocols like SNA or NetBIOS.
+
+* Encapsulation of MAC Frames
+
+- MAC Header
+- LLC Header
+- Data (e.g., IP Packet)
+- Frame Check Sequence (FCS)
+
+** Trace encapsulation from IP packet to bits on the wire
+
+1. *Network Layer:* IP Packet is created.
+2. *LLC Sublayer:* IP packet is wrapped in an LLC header (DSAP/SSAP).
+3. *MAC Sublayer:* LLC PDU is wrapped in MAC Header (Dest/Src MAC) and FCS.
+4. *Physical Layer:* Frame is converted into a bitstream, preceded by a Preamble.
+
+* Ethernet: Historical Evolution
+
+- 1970: ALOHAnet
+- 1973: Ethernet invented by Metcalfe and Boggs.
+- 1979: DIX Ethernet II
+- 1985: IEEE 802.3 (10 Mbps)
+- 1995: Fast Ethernet (100 Mbps)
+- 1998: Gigabit Ethernet
+- 2002: 10 Gigabit Ethernet
+
+** Why did Ethernet scale so successfully?
+
+Maintenance of the frame format. By keeping the same Header/Data/FCS structure
+across decades, Ethernet allowed for "plug and play" compatibility between
+different generations of equipment. The move from shared hubs to switches also
+allowed it to bypass the physical limits of [[id:048fc95c-4b1d-4316-afe9-4d829a2308b5][CSMA/CD]].
+
+* IEEE 802.3 MAC Protocol (CSMA/CD)
+
+For a station to detect a collision, it must still be transmitting when the
+collision signal returns. This creates a fundamental link between frame size and
+cable length.
+
+- Carrier Sense Multiple Access with Collision Detection
+- Slot time as key parameter
+- Collision detection bound
+- Truncated binary exponential backoff
+
+Backoff rule:
+
++ For n-th retransmission: 0 ≤ r < 2^k
++ k = min(n, 10)
++ Abort after 16 attempts
+
+** Why is slot time tied to minimum frame size?
+
+The "Slot Time" is the time required for a signal to travel the maximum allowed 
+length of the network and back (2τ). If a frame is too small, a station might 
+finish sending it before it hears a collision from a distant station, 
+erroneously believing the transmission was successful.
+
+* Original Ethernet Parameters
+  #+BEGIN_NOTES
+  Highlight physical constraints imposed by propagation delay.
+  #+END_NOTES
+
+- Data rate: 10 Mbps
+- Minimum frame: 64 bytes (512 bits)
+- Max length: 2500 m + 4 repeaters
+- Slot time: 51.2 µs
+
+Scaling rule:
+
++ 10× data rate ⇒ 10× shorter distance OR 10× larger minimum frame
+
+** Slot time formula derivation
+
+$SlotTime = 2 \times \text{PropagationDelay} + \text{SafetyMargin}$
+
+In original 10 Mbps Ethernet: A 2500m path with repeaters has a round-trip 
+propagation delay of approx 45 μs. Rounding up for safety yields 51.2 μs, 
+which at 10 Mbps equals exactly 512 bits (64 bytes).
+
+* IEEE 802.3 MAC Frame Format
+  #+BEGIN_NOTES
+  Walk through each field carefully; students often confuse Length vs Type.
+  #+END_NOTES
+
+| Field              | Size (bytes) |
+|--------------------+--------------|
+| Preamble           | 7            |
+| Start Delimiter    | 1            |
+| Destination Addr   | 6            |
+| Source Addr        | 6            |
+| Length             | 2            |
+| Information        | 46–1500      |
+| Pad                | Variable     |
+| FCS                | 4            |
+
+Total frame size: 64–1518 bytes (excluding preamble and SD)
+
+** Why is padding required?
+
+To ensure the frame meets the minimum 64-byte requirement for collision
+detection (the slot time rule). If the payload is less than 46 bytes, padding is
+added to reach the 64-byte threshold.
+
+* Ethernet Addressing and Error Detection
+  #+BEGIN_NOTES
+  Clarify difference between unicast, multicast, and broadcast.
+  #+END_NOTES
+
+- Unicast, group, and broadcast addresses
+- Broadcast = all 1s
+- Local vs global addressing
+- FCS uses CCITT-32 CRC
+- Frames with CRC errors are discarded
+
+** Why is CRC preferred over checksums?
+
+CRC (Cyclic Redundancy Check) is implemented in hardware using shift registers
+and provides much stronger mathematical guarantees for detecting burst errors
+(common in electrical interference) compared to simple addition-based checksums
+used in software.
+
+* Ethernet Scalability Limits
+  #+BEGIN_NOTES
+  Introduce normalized delay-bandwidth product conceptually.
+  #+END_NOTES
+
+- Throughput depends on a = t_prop / X
+- X = frame transmission time
+- Higher bit rates reduce X
+
+To maintain efficiency:
+
++ Reduce propagation delay, or
++ Increase frame length
+
+** How does switching remove CSMA/CD limits?
+
+A switch creates a dedicated collision domain for each port. In full-duplex 
+mode, a station can send and receive simultaneously without any possibility 
+of collision, making [[id:048fc95c-4b1d-4316-afe9-4d829a2308b5][CSMA/CD]] unnecessary and allowing for much longer 
+cable distances.
+
+* Fast Ethernet (100 Mbps)
+  #+BEGIN_NOTES
+  Stress backward compatibility as a design constraint.
+  #+END_NOTES
+
+Compatibility:
+
++ Same frame format
++ Same protocols
+
+Topology:
+
++ Star with hubs
++ No coaxial bus
+
+| Standard     | Medium                  | Max Length | Topology |
+|--------------+-------------------------+------------+----------|
+| 100BaseT4    | Cat 3 UTP (4 pairs)     | 100 m      | Star     |
+| 100BaseT     | Cat 5 UTP (2 pairs)     | 100 m      | Star     |
+| 100BaseFX    | Multimode fiber         | 2 km       | Star     |
+
+** Why was bus topology abandoned?
+
+As speeds increased, the timing constraints for [[id:048fc95c-4b1d-4316-afe9-4d829a2308b5][CSMA/CD]] on a shared bus 
+became too tight (the cable would have to be incredibly short). Star 
+topologies using hubs/switches were easier to manage, troubleshoot, 
+and allowed for different physical media (UTP vs Fiber).
+
+* Gigabit Ethernet (1 Gbps)
+
+  #+BEGIN_NOTES
+  Explain why CSMA/CD becomes impractical at this scale.
+  #+END_NOTES
+
+- Slot time extended to 512 bytes
+- Frame bursting
+- Mostly switched operation
+
+| Standard      | Medium                 | Max Length | Topology |
+|---------------+------------------------+------------+----------|
+| 1000BaseSX    | Multimode fiber        | 550 m      | Star     |
+| 1000BaseLX    | Single-mode fiber      | 5 km       | Star     |
+| 1000BaseCX    | Shielded copper        | 25 m       | Star     |
+| 1000BaseT     | Cat 5 UTP              | 100 m      | Star     |
+
+** Why does frame bursting help performance?
+
+To maintain the slot time at 1 Gbps without making the cable tiny, Ethernet
+introduced "Carrier Extension". However, this wastes bandwidth. Frame bursting
+allows a station to send a "burst" of multiple small frames in one go, only
+paying the extension penalty for the first frame in the burst.
+
+* 10 Gigabit Ethernet (10 Gbps)
+
+At 10 Gbps, Ethernet is exclusively full-duplex and switched. The concept of
+"collision" no longer exists in these standards.
+
+- Frame format preserved
+- CSMA/CD abandoned
+- LAN PHY and WAN PHY options
+- Used in metro networks and data centers
+
+| Standard      | Medium                          | Max Length |
+|---------------+---------------------------------+------------|
+| 10GBaseSR     | Multimode fiber (850 nm)        | 300 m      |
+| 10GBaseLR     | Single-mode fiber (1310 nm)     | 10 km      |
+| 10GBaseEW     | Single-mode fiber (1550 nm)     | 40 km      |
+| 10GBaseLX4    | Multi/Single-mode (WDM)         | 300 m–10km |
+
+** Why is WAN PHY needed at 10 Gbps?
+
+The WAN PHY (Physical Layer) allows 10G Ethernet frames to be encapsulated 
+directly into existing SONET/SDH infrastructure. This allows ISPs to 
+transport Ethernet traffic over long-distance fiber networks without 
+needing expensive protocol conversion.
+
