@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:33 -->
+<!-- 2026-01-19 Mon 13:52 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Index (PostgreSQL)</title>
@@ -60,9 +60,9 @@ Indexes are a common way to enhance database performance. An index allows the
 <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> server to find and retrieve specific rows much faster than it could do
 without an index.
 </p>
-<div id="outline-container-org1341d3d" class="outline-2">
-<h2 id="org1341d3d">Selectivity</h2>
-<div class="outline-text-2" id="text-org1341d3d">
+<div id="outline-container-org836fd4f" class="outline-2">
+<h2 id="org836fd4f">Selectivity</h2>
+<div class="outline-text-2" id="text-org836fd4f">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> <span style="font-weight: bold;">COUNT</span>(<span style="font-weight: bold;">DISTINCT</span> <span style="font-weight: bold;">column_name</span>) / <span style="font-weight: bold;">COUNT</span>(*)
   <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table_name</span>;
@@ -82,13 +82,13 @@ if it realizes its no better than a sequential scan.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org28ba073" class="outline-2">
-<h2 id="org28ba073">Index Types</h2>
-<div class="outline-text-2" id="text-org28ba073">
+<div id="outline-container-org30e14d0" class="outline-2">
+<h2 id="org30e14d0">Index Types</h2>
+<div class="outline-text-2" id="text-org30e14d0">
 </div>
-<div id="outline-container-orgc5d9b95" class="outline-3">
-<h3 id="orgc5d9b95">B-Tree</h3>
-<div class="outline-text-3" id="text-orgc5d9b95">
+<div id="outline-container-orgdee99ae" class="outline-3">
+<h3 id="orgdee99ae">B-Tree</h3>
+<div class="outline-text-3" id="text-orgdee99ae">
 <blockquote>
 <p>
 B-trees can handle equality and range queries on data that can be sorted into
@@ -105,9 +105,9 @@ these operators: <code>&lt;   &lt;=   =   &gt;=   &gt;</code>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdc5b6e8" class="outline-3">
-<h3 id="orgdc5b6e8">Hash Index</h3>
-<div class="outline-text-3" id="text-orgdc5b6e8">
+<div id="outline-container-org8228c59" class="outline-3">
+<h3 id="org8228c59">Hash Index</h3>
+<div class="outline-text-3" id="text-org8228c59">
 <div class="org-src-container">
 <pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name
   <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> HASH(<span style="font-weight: bold;">column</span>);
@@ -120,9 +120,9 @@ equality or pertinence (<code>IN</code> clauses) checks all the time.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1730bef" class="outline-3">
-<h3 id="org1730bef">GIST</h3>
-<div class="outline-text-3" id="text-org1730bef">
+<div id="outline-container-org8793dc4" class="outline-3">
+<h3 id="org8793dc4">GIST</h3>
+<div class="outline-text-3" id="text-org8793dc4">
 <blockquote>
 <p>
 &lt;&lt;   &amp;&lt;   &amp;&gt;   &gt;&gt;   &lt;&lt;|   &amp;&lt;|   |&amp;&gt;   |&gt;&gt;   @&gt;   &lt;@   ~=   &amp;&amp;
@@ -130,19 +130,19 @@ equality or pertinence (<code>IN</code> clauses) checks all the time.</li>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org1715c66" class="outline-3">
-<h3 id="org1715c66">SP-GIST</h3>
-<div class="outline-text-3" id="text-org1715c66">
+<div id="outline-container-org56e7ec2" class="outline-3">
+<h3 id="org56e7ec2">SP-GIST</h3>
+<div class="outline-text-3" id="text-org56e7ec2">
 <blockquote>
 <p>
-&lt;&lt;   &gt;&gt;   ~=   &lt;@   <a id="orgd8750b8"></a>
+&lt;&lt;   &gt;&gt;   ~=   &lt;@   <a id="orgeddd4c8"></a>
 </p>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgc47e0fe" class="outline-3">
-<h3 id="orgc47e0fe">GIN</h3>
-<div class="outline-text-3" id="text-orgc47e0fe">
+<div id="outline-container-orgbec5974" class="outline-3">
+<h3 id="orgbec5974">GIN</h3>
+<div class="outline-text-3" id="text-orgbec5974">
 <blockquote>
 <p>
 GIN is a type of index that instead of pointing to a single tuple points to
@@ -157,9 +157,9 @@ duplicated keys that point to different places.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3eb3cc9" class="outline-3">
-<h3 id="org3eb3cc9">BRIN</h3>
-<div class="outline-text-3" id="text-org3eb3cc9">
+<div id="outline-container-orgab574d1" class="outline-3">
+<h3 id="orgab574d1">BRIN</h3>
+<div class="outline-text-3" id="text-orgab574d1">
 <blockquote>
 <p>
 Block Range Index (BRIN) is a particular type of index that is based on the
@@ -182,9 +182,9 @@ tuples in the block must be evaluated. (<a href="#citeproc_bib_item_1">Ferrari a
 </div>
 </div>
 </div>
-<div id="outline-container-orgf08792b" class="outline-2">
-<h2 id="orgf08792b">Composite/Multicolumn Indexes</h2>
-<div class="outline-text-2" id="text-orgf08792b">
+<div id="outline-container-org4cd6324" class="outline-2">
+<h2 id="org4cd6324">Composite/Multicolumn Indexes</h2>
+<div class="outline-text-2" id="text-org4cd6324">
 <blockquote>
 <p>
 Currently, only the B-tree, GiST, GIN, and BRIN index types support
@@ -209,9 +209,9 @@ while single-column indexes are more likelly to be chosen in <code>WHERE/OR</cod
 </ul>
 </div>
 </div>
-<div id="outline-container-org921ee33" class="outline-2">
-<h2 id="org921ee33">Covering Indexes (aka Index-Only Scams)</h2>
-<div class="outline-text-2" id="text-org921ee33">
+<div id="outline-container-org7efa245" class="outline-2">
+<h2 id="org7efa245">Covering Indexes (aka Index-Only Scams)</h2>
+<div class="outline-text-2" id="text-org7efa245">
 <ul class="org-ul">
 <li>In an ordinary index scan, data can be fetched both from the index and the
 heap. This heap-access portion can involve a lot of random accesses and may
@@ -236,9 +236,9 @@ others. Other index types have no support.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgd78410e" class="outline-2">
-<h2 id="orgd78410e">Partial Indexes</h2>
-<div class="outline-text-2" id="text-orgd78410e">
+<div id="outline-container-orgf1fa483" class="outline-2">
+<h2 id="orgf1fa483">Partial Indexes</h2>
+<div class="outline-text-2" id="text-orgf1fa483">
 <ul class="org-ul">
 <li>Only index a subset of the rows.</li>
 <li>Useful if you plan to have fast scan through a subset of the data anyway.</li>
@@ -254,9 +254,9 @@ will never care about.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org8f8eac2" class="outline-2">
-<h2 id="org8f8eac2">Indexes and <code>ORDER BY</code></h2>
-<div class="outline-text-2" id="text-org8f8eac2">
+<div id="outline-container-orgfc5055d" class="outline-2">
+<h2 id="orgfc5055d">Indexes and <code>ORDER BY</code></h2>
+<div class="outline-text-2" id="text-orgfc5055d">
 <blockquote>
 <p>
 In addition to simply finding the rows to be returned by a query, an index may
@@ -285,9 +285,9 @@ which will be matched with an <code>ORDER BY</code> clause if the ordering also 
 </div>
 </div>
 </div>
-<div id="outline-container-org1557708" class="outline-2">
-<h2 id="org1557708">Functional Indexes</h2>
-<div class="outline-text-2" id="text-org1557708">
+<div id="outline-container-org211cf88" class="outline-2">
+<h2 id="org211cf88">Functional Indexes</h2>
+<div class="outline-text-2" id="text-org211cf88">
 <ul class="org-ul">
 <li>An index defined on the result of applying a function<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> to one or more columns
 of a single table.</li>
@@ -300,17 +300,17 @@ of a single table.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org5221fb4" class="outline-2">
-<h2 id="org5221fb4">References:</h2>
-<div class="outline-text-2" id="text-org5221fb4">
+<div id="outline-container-org18a67f4" class="outline-2">
+<h2 id="org18a67f4">References:</h2>
+<div class="outline-text-2" id="text-org18a67f4">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org97178e5" class="outline-2">
-<h2 id="org97178e5">Backlinks:</h2>
-<div class="outline-text-2" id="text-org97178e5">
+<div id="outline-container-orgffbba87" class="outline-2">
+<h2 id="orgffbba87">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgffbba87">
 <ul class="org-ul">
 <li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
 </ul>
