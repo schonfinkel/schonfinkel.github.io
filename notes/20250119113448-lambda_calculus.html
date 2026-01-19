@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-12-15 Mon 12:52 -->
+<!-- 2026-01-19 Mon 13:33 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Lambda Calculus</title>
@@ -107,17 +107,17 @@ built-in syntactic restrictions, for example
 type-restrictions. (<a href="#citeproc_bib_item_1">Hindley and Seldin 2008, 1</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgf490e51" class="outline-2">
-<h2 id="orgf490e51">Untyped &lambda;-Calculus</h2>
-<div class="outline-text-2" id="text-orgf490e51">
+<div id="outline-container-orgb64d55d" class="outline-2">
+<h2 id="orgb64d55d">Untyped &lambda;-Calculus</h2>
+<div class="outline-text-2" id="text-orgb64d55d">
 </div>
-<div id="outline-container-orgcaaa1de" class="outline-3">
-<h3 id="orgcaaa1de">Definitions</h3>
-<div class="outline-text-3" id="text-orgcaaa1de">
+<div id="outline-container-org999cb22" class="outline-3">
+<h3 id="org999cb22">Definitions</h3>
+<div class="outline-text-3" id="text-org999cb22">
 </div>
-<div id="outline-container-org587ed2a" class="outline-4">
-<h4 id="org587ed2a">&lambda;-Term:</h4>
-<div class="outline-text-4" id="text-org587ed2a">
+<div id="outline-container-org7ca1494" class="outline-4">
+<h4 id="org7ca1494">&lambda;-Term:</h4>
+<div class="outline-text-4" id="text-org7ca1494">
 <p>
 Assume given an infinite set \(V\) of variables, the set of lambda terms is given
 by the following Backus-Naur Form:
@@ -128,18 +128,18 @@ M, N &::=  x \mid (M N) \mid (\lambda x.M)
 \end{align*}
 </div>
 </div>
-<div id="outline-container-org3e1e867" class="outline-4">
-<h4 id="org3e1e867">Scope</h4>
-<div class="outline-text-4" id="text-org3e1e867">
+<div id="outline-container-org63ec6e0" class="outline-4">
+<h4 id="org63ec6e0">Scope</h4>
+<div class="outline-text-4" id="text-org63ec6e0">
 <p>
 For a particular occurrence of \(λx.M\) in a term \(P\), the occurrence of \(M\) is
 called the scope of the occurrence of \(λx\) on the left.
 </p>
 </div>
 </div>
-<div id="outline-container-org8293386" class="outline-4">
-<h4 id="org8293386">Free and Bound Variables</h4>
-<div class="outline-text-4" id="text-org8293386">
+<div id="outline-container-orgd0308fc" class="outline-4">
+<h4 id="orgd0308fc">Free and Bound Variables</h4>
+<div class="outline-text-4" id="text-orgd0308fc">
 <p>
 An occurrence of a variable \(x\) in a term \(P\) is called:
 </p>
@@ -161,9 +161,9 @@ FV(M N) &= FV(M) \cup FV(N)
 \end{align*}
 </div>
 </div>
-<div id="outline-container-org339238c" class="outline-4">
-<h4 id="org339238c">Substitution</h4>
-<div class="outline-text-4" id="text-org339238c">
+<div id="outline-container-orgac329cc" class="outline-4">
+<h4 id="orgac329cc">Substitution</h4>
+<div class="outline-text-4" id="text-orgac329cc">
 <blockquote>
 <p>
 For any \(M, N, x\), define \([N/x]M\) to be the result of substituting \(N\) for
@@ -187,9 +187,9 @@ clashes. The precise definition is by induction on \(M\), as follows:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org851b443" class="outline-4">
-<h4 id="org851b443">&alpha;-conversion</h4>
-<div class="outline-text-4" id="text-org851b443">
+<div id="outline-container-org549562d" class="outline-4">
+<h4 id="org549562d">&alpha;-conversion</h4>
+<div class="outline-text-4" id="text-org549562d">
 <blockquote>
 <p>
 Let a term \(P\) contain an occurrence of \(\lambda x. M\), and let \(y \not\in FV(M)\). The act
@@ -208,30 +208,30 @@ we shall say <b>P is congruent to Q</b>, or <b>P α-converts to Q</b>, or \(P \e
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org9843fe0" class="outline-4">
-<h4 id="org9843fe0">&beta;-reduction</h4>
+<div id="outline-container-org8028ffa" class="outline-4">
+<h4 id="org8028ffa">&beta;-reduction</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-org68972a0" class="outline-2">
-<h2 id="org68972a0">Simply-typed &lambda;-Calculus.</h2>
-</div>
-
-<div id="outline-container-org92cc8c3" class="outline-2">
-<h2 id="org92cc8c3">Polymorphically typed &lambda;-Calculus</h2>
+<div id="outline-container-org8ccbabd" class="outline-2">
+<h2 id="org8ccbabd">Simply-typed &lambda;-Calculus.</h2>
 </div>
 
-<div id="outline-container-org2542429" class="outline-2">
-<h2 id="org2542429">References:</h2>
-<div class="outline-text-2" id="text-org2542429">
+<div id="outline-container-org807667a" class="outline-2">
+<h2 id="org807667a">Polymorphically typed &lambda;-Calculus</h2>
+</div>
+
+<div id="outline-container-org7c3cbbb" class="outline-2">
+<h2 id="org7c3cbbb">References:</h2>
+<div class="outline-text-2" id="text-org7c3cbbb">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Hindley, J Roger, and Jonathan P Seldin. 2008. <i>Lambda-Calculus and Combinators: An Introduction</i>. Cambridge University Press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org5165e56" class="outline-2">
-<h2 id="org5165e56">Backlinks:</h2>
-<div class="outline-text-2" id="text-org5165e56">
+<div id="outline-container-org0a960e0" class="outline-2">
+<h2 id="org0a960e0">Backlinks:</h2>
+<div class="outline-text-2" id="text-org0a960e0">
 <ul class="org-ul">
 <li><a href="./20250119195829-curry_howard_isomorphism.html">Curry-Howard Isomorphism</a></li>
 <li><a href="./20250120081842-combinatory_logic.html">Combinatory Logic</a></li>

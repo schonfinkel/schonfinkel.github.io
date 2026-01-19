@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-12-15 Mon 12:52 -->
+<!-- 2026-01-19 Mon 13:33 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mealy State Machine</title>
@@ -29,6 +29,38 @@
     }
   };
 </script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,16 +87,48 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Mealy State Machine</h1>
-</header><div id="outline-container-org787812f" class="outline-2">
-<h2 id="org787812f">References:</h2>
-<div class="outline-text-2" id="text-org787812f">
+</header><blockquote>
+<p>
+Let M = (Q, 2, F) be a state machine, and suppose that &Theta; is a non-empty finite
+set and G : O &times; S &rarr; &Theta; is a function. The quintuple M = (Q, 2, &Theta;, F, G) will be
+called a Mealy machine (after G. Mealy, 1955).
+</p>
+
+<ul class="org-ul">
+<li>&Sigma; is the input alphabet.</li>
+<li>F the state transition function.</li>
+<li>&Theta; the output alphabet and G the output function.</li>
+</ul>
+
+<p>
+The machine works as follows.
+</p>
+
+<p>
+Suppose that the input word \(a \in \Sigma\) is applied to the machine in state q,
+the machine then moves to state \(q F_0\) and produces an output \(G(q, a) \in \Theta\)
+at the same instant. We will have, for each \(\sigma \in \Sigma\), a mapping:
+</p>
+
+<p>
+\(G_\sigma: Q \rightarrow \Theta\) defined by \(q G_{\sigma} = G(q, \sigma), q \in Q\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Holcombe and Holcombe 2004, 47–48 chap.2 part.2.5</a>)
+</p>
+</blockquote>
+<div id="outline-container-org93b43c8" class="outline-2">
+<h2 id="org93b43c8">References:</h2>
+<div class="outline-text-2" id="text-org93b43c8">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Holcombe, Mike, and W Michael L Holcombe. 2004. <i>Algebraic Automata Theory</i>. 1. Cambridge University Press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org58450c4" class="outline-2">
-<h2 id="org58450c4">Backlinks:</h2>
-<div class="outline-text-2" id="text-org58450c4">
+<div id="outline-container-org391af2d" class="outline-2">
+<h2 id="org391af2d">Backlinks:</h2>
+<div class="outline-text-2" id="text-org391af2d">
 <ul class="org-ul">
 <li><a href="./20250124104407-gen_statem.html">Gen StateM</a></li>
 </ul>

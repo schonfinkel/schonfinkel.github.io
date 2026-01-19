@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-19 Mon 13:33 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Local Area Networks</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Local Area Networks</h1>
+</header><div id="outline-container-org28db8bc" class="outline-2">
+<h2 id="org28db8bc">What is a LAN?</h2>
+<div class="outline-text-2" id="text-org28db8bc">
+<p>
+LANs are typically owned by the same organization that uses them, allowing for
+optimized, high-speed protocols that wouldn't be feasible over public leased
+lines where regulation and interoperability with diverse hardware are stricter.
+</p>
+</div>
+<div id="outline-container-org67fa0cf" class="outline-3">
+<h3 id="org67fa0cf">Characteristics</h3>
+<div class="outline-text-3" id="text-org67fa0cf">
+<ul class="org-ul">
+<li>Private ownership</li>
+<li>Freedom from regulatory constraints of WANs</li>
+<li>Short distance (~1 km)</li>
+<li>Low cost</li>
+<li>High-speed, relatively error-free communication</li>
+<li>Complex error control usually unnecessary</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2532f76" class="outline-3">
+<h3 id="org2532f76">Operational Properties</h3>
+<div class="outline-text-3" id="text-org2532f76">
+<ul class="org-ul">
+<li>Machines are frequently moved</li>
+<li>Tracking physical location is difficult</li>
+<li>Each machine is assigned a unique address</li>
+<li>Broadcast communication model</li>
+<li>Requires a medium access control protocol</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2ed55e0" class="outline-3">
+<h3 id="org2ed55e0">Why is broadcasting fundamental to LAN design?</h3>
+<div class="outline-text-3" id="text-org2ed55e0">
+<p>
+Broadcasting simplifies the discovery and addressing process in a local environment. 
+In a broadcast model, a station doesn't need to know the exact physical location or 
+the intermediate routing path to reach another station on the same segment. It also 
+allows for efficient address resolution (like ARP) where one query can reach all 
+potential hosts simultaneously.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org3cd65f4" class="outline-2">
+<h2 id="org3cd65f4">Typical LAN Structure</h2>
+<div class="outline-text-2" id="text-org3cd65f4">
+<p>
+The NIC (Network Interface Card) functions as the physical layer interface and
+performs the "handshake" between the computer's internal bus and the serial
+bitstream of the transmission medium.
+</p>
+
+<ul class="org-ul">
+<li>Transmission Medium</li>
+<li>Network Interface Card (NIC)</li>
+<li>Ethernet Processor</li>
+<li>ROM / RAM</li>
+<li>Unique MAC (physical) address per NIC</li>
+</ul>
+</div>
+<div id="outline-container-org50d0f06" class="outline-3">
+<h3 id="org50d0f06">LAN Node Architecture</h3>
+<div class="outline-text-3" id="text-org50d0f06">
+<ol class="org-ol">
+<li>Host System (CPU/Memory)</li>
+<li>System Bus (PCIe)</li>
+<li>NIC Controller (MAC Logic, Buffer RAM, ROM with MAC Address)</li>
+<li>Transceiver (Physical Medium Attachment)</li>
+<li>Transmission Medium (RJ-45/Fiber)</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga234896" class="outline-3">
+<h3 id="orga234896">Medium Access Control and LLC</h3>
+<div class="outline-text-3" id="text-orga234896">
+<p>
+IEEE 802 splits the OSI Data Link Layer (Layer 2) into two sublayers:
+</p>
+
+<ul class="org-ul">
+<li>LLC (logical)</li>
+<li>MAC (hardware-specific).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org249e9a5" class="outline-3">
+<h3 id="org249e9a5">MAC Sublayer</h3>
+<div class="outline-text-3" id="text-org249e9a5">
+<ul class="org-ul">
+<li>Coordinates access to the medium</li>
+<li>Connectionless frame delivery</li>
+<li>MAC-address-based identification</li>
+<li>Broadcast support</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1f2b125" class="outline-3">
+<h3 id="org1f2b125">Logical Link Control (LLC) Sublayer</h3>
+<div class="outline-text-3" id="text-org1f2b125">
+<ul class="org-ul">
+<li>Interface between Network layer and MAC</li>
+<li>Defined by IEEE 802.2</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0eda81d" class="outline-3">
+<h3 id="org0eda81d"><span class="todo TODO">TODO</span> Compare responsibilities of MAC vs LLC</h3>
+<div class="outline-text-3" id="text-org0eda81d">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Feature</th>
+<th scope="col" class="org-left">MAC Sublayer</th>
+<th scope="col" class="org-left">LLC Sublayer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Focus</td>
+<td class="org-left">Access to physical medium</td>
+<td class="org-left">Logical connection management</td>
+</tr>
+
+<tr>
+<td class="org-left">Addressing</td>
+<td class="org-left">Physical (MAC) addresses</td>
+<td class="org-left">Service Access Points (SAPs)</td>
+</tr>
+
+<tr>
+<td class="org-left">Functions</td>
+<td class="org-left">Framing, Collision detection, Error CD</td>
+<td class="org-left">Flow control, ARQ (error recovery)</td>
+</tr>
+
+<tr>
+<td class="org-left">Dependencies</td>
+<td class="org-left">Hardware-dependent (e.g., 802.3/802.11)</td>
+<td class="org-left">Hardware-independent (802.2)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org12a8cf2" class="outline-2">
+<h2 id="org12a8cf2">IEEE 802 Architecture Overview</h2>
+<div class="outline-text-2" id="text-org12a8cf2">
+<ul class="org-ul">
+<li>Data Link Layer: MAC + LLC</li>
+<li>Physical Layer</li>
+</ul>
+
+<p>
+Standards:
+</p>
+
+<ul class="org-ul">
+<li>802.3: Ethernet (CSMA/CD)</li>
+<li>802.5: Token Ring</li>
+<li>802.11: Wireless LAN</li>
+</ul>
+</div>
+<div id="outline-container-org1305079" class="outline-3">
+<h3 id="org1305079">Why did Ethernet outcompete Token Ring?</h3>
+<div class="outline-text-3" id="text-org1305079">
+<p>
+Ethernet won due to "vicious circle" economics and simplicity. It was cheaper 
+to manufacture, required no complex "token management" logic (which could 
+fail if a station crashed), and scaled to higher speeds (Fast Ethernet) 
+much faster than IBM's more complex and expensive Token Ring technology.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org8f64ff9" class="outline-2">
+<h2 id="org8f64ff9">Logical Link Control Services</h2>
+<div class="outline-text-2" id="text-org8f64ff9">
+<div class="NOTES" id="org0ded8cc">
+<p>
+Relate LLC services to HDLC modes for students with prior background.
+</p>
+
+</div>
+
+<ul class="org-ul">
+<li>Type 1: Unacknowledged connectionless (HDLC unnumbered)</li>
+<li>Type 2: Reliable connection-oriented (HDLC ABM)</li>
+<li>Type 3: Acknowledged connectionless</li>
+</ul>
+</div>
+<div id="outline-container-org72fa53b" class="outline-3">
+<h3 id="org72fa53b">Additional Addressing</h3>
+<div class="outline-text-3" id="text-org72fa53b">
+<ul class="org-ul">
+<li>Single MAC per workstation</li>
+<li>Multiple logical connections via SAPs</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbc22f93" class="outline-3">
+<h3 id="orgbc22f93">When would Type 2 LLC be useful?</h3>
+<div class="outline-text-3" id="text-orgbc22f93">
+<p>
+Type 2 (Reliable Connection-Oriented) is useful when the higher-layer protocols 
+are "thin" or unreliable and require the data link layer to guarantee delivery. 
+While modern IP networks rarely use this (preferring TCP at Layer 4), it was 
+crucial for older protocols like SNA or NetBIOS.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org23d8efa" class="outline-2">
+<h2 id="org23d8efa">Encapsulation of MAC Frames</h2>
+<div class="outline-text-2" id="text-org23d8efa">
+<ul class="org-ul">
+<li>MAC Header</li>
+<li>LLC Header</li>
+<li>Data (e.g., IP Packet)</li>
+<li>Frame Check Sequence (FCS)</li>
+</ul>
+</div>
+<div id="outline-container-org8611b4c" class="outline-3">
+<h3 id="org8611b4c">Trace encapsulation from IP packet to bits on the wire</h3>
+<div class="outline-text-3" id="text-org8611b4c">
+<ol class="org-ol">
+<li><b>Network Layer:</b> IP Packet is created.</li>
+<li><b>LLC Sublayer:</b> IP packet is wrapped in an LLC header (DSAP/SSAP).</li>
+<li><b>MAC Sublayer:</b> LLC PDU is wrapped in MAC Header (Dest/Src MAC) and FCS.</li>
+<li><b>Physical Layer:</b> Frame is converted into a bitstream, preceded by a Preamble.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org1a65435" class="outline-2">
+<h2 id="org1a65435">Ethernet: Historical Evolution</h2>
+<div class="outline-text-2" id="text-org1a65435">
+<ul class="org-ul">
+<li>1970: ALOHAnet</li>
+<li>1973: Ethernet invented by Metcalfe and Boggs.</li>
+<li>1979: DIX Ethernet II</li>
+<li>1985: IEEE 802.3 (10 Mbps)</li>
+<li>1995: Fast Ethernet (100 Mbps)</li>
+<li>1998: Gigabit Ethernet</li>
+<li>2002: 10 Gigabit Ethernet</li>
+</ul>
+</div>
+<div id="outline-container-org753461d" class="outline-3">
+<h3 id="org753461d">Why did Ethernet scale so successfully?</h3>
+<div class="outline-text-3" id="text-org753461d">
+<p>
+Maintenance of the frame format. By keeping the same Header/Data/FCS structure
+across decades, Ethernet allowed for "plug and play" compatibility between
+different generations of equipment. The move from shared hubs to switches also
+allowed it to bypass the physical limits of <a href="20260103084835-csma_cd.html#ID-048fc95c-4b1d-4316-afe9-4d829a2308b5">CSMA/CD</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org15ea54e" class="outline-2">
+<h2 id="org15ea54e">IEEE 802.3 MAC Protocol (CSMA/CD)</h2>
+<div class="outline-text-2" id="text-org15ea54e">
+<p>
+For a station to detect a collision, it must still be transmitting when the
+collision signal returns. This creates a fundamental link between frame size and
+cable length.
+</p>
+
+<ul class="org-ul">
+<li>Carrier Sense Multiple Access with Collision Detection</li>
+<li>Slot time as key parameter</li>
+<li>Collision detection bound</li>
+<li>Truncated binary exponential backoff</li>
+</ul>
+
+<p>
+Backoff rule:
+</p>
+
+<ul class="org-ul">
+<li>For n-th retransmission: 0 ≤ r &lt; 2<sup>k</sup></li>
+<li>k = min(n, 10)</li>
+<li>Abort after 16 attempts</li>
+</ul>
+</div>
+<div id="outline-container-org62571f3" class="outline-3">
+<h3 id="org62571f3">Why is slot time tied to minimum frame size?</h3>
+<div class="outline-text-3" id="text-org62571f3">
+<p>
+The "Slot Time" is the time required for a signal to travel the maximum allowed 
+length of the network and back (2τ). If a frame is too small, a station might 
+finish sending it before it hears a collision from a distant station, 
+erroneously believing the transmission was successful.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfcf4eb3" class="outline-2">
+<h2 id="orgfcf4eb3">Original Ethernet Parameters</h2>
+<div class="outline-text-2" id="text-orgfcf4eb3">
+<div class="NOTES" id="org222f77d">
+<p>
+Highlight physical constraints imposed by propagation delay.
+</p>
+
+</div>
+
+<ul class="org-ul">
+<li>Data rate: 10 Mbps</li>
+<li>Minimum frame: 64 bytes (512 bits)</li>
+<li>Max length: 2500 m + 4 repeaters</li>
+<li>Slot time: 51.2 µs</li>
+</ul>
+
+<p>
+Scaling rule:
+</p>
+
+<ul class="org-ul">
+<li>10× data rate ⇒ 10× shorter distance OR 10× larger minimum frame</li>
+</ul>
+</div>
+<div id="outline-container-orge1b7976" class="outline-3">
+<h3 id="orge1b7976">Slot time formula derivation</h3>
+<div class="outline-text-3" id="text-orge1b7976">
+<p>
+\(SlotTime = 2 \times \text{PropagationDelay} + \text{SafetyMargin}\)
+</p>
+
+<p>
+In original 10 Mbps Ethernet: A 2500m path with repeaters has a round-trip 
+propagation delay of approx 45 μs. Rounding up for safety yields 51.2 μs, 
+which at 10 Mbps equals exactly 512 bits (64 bytes).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org3744a21" class="outline-2">
+<h2 id="org3744a21">IEEE 802.3 MAC Frame Format</h2>
+<div class="outline-text-2" id="text-org3744a21">
+<div class="NOTES" id="org5b2bb69">
+<p>
+Walk through each field carefully; students often confuse Length vs Type.
+</p>
+
+</div>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-right">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Field</th>
+<th scope="col" class="org-right">Size (bytes)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Preamble</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-left">Start Delimiter</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left">Destination Addr</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">Source Addr</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">Length</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left">Information</td>
+<td class="org-right">46–1500</td>
+</tr>
+
+<tr>
+<td class="org-left">Pad</td>
+<td class="org-right">Variable</td>
+</tr>
+
+<tr>
+<td class="org-left">FCS</td>
+<td class="org-right">4</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Total frame size: 64–1518 bytes (excluding preamble and SD)
+</p>
+</div>
+<div id="outline-container-org9568e75" class="outline-3">
+<h3 id="org9568e75">Why is padding required?</h3>
+<div class="outline-text-3" id="text-org9568e75">
+<p>
+To ensure the frame meets the minimum 64-byte requirement for collision
+detection (the slot time rule). If the payload is less than 46 bytes, padding is
+added to reach the 64-byte threshold.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org70180c7" class="outline-2">
+<h2 id="org70180c7">Ethernet Addressing and Error Detection</h2>
+<div class="outline-text-2" id="text-org70180c7">
+<div class="NOTES" id="org2ce08b3">
+<p>
+Clarify difference between unicast, multicast, and broadcast.
+</p>
+
+</div>
+
+<ul class="org-ul">
+<li>Unicast, group, and broadcast addresses</li>
+<li>Broadcast = all 1s</li>
+<li>Local vs global addressing</li>
+<li>FCS uses CCITT-32 CRC</li>
+<li>Frames with CRC errors are discarded</li>
+</ul>
+</div>
+<div id="outline-container-orgc510666" class="outline-3">
+<h3 id="orgc510666">Why is CRC preferred over checksums?</h3>
+<div class="outline-text-3" id="text-orgc510666">
+<p>
+CRC (Cyclic Redundancy Check) is implemented in hardware using shift registers
+and provides much stronger mathematical guarantees for detecting burst errors
+(common in electrical interference) compared to simple addition-based checksums
+used in software.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7fc7dbc" class="outline-2">
+<h2 id="org7fc7dbc">Ethernet Scalability Limits</h2>
+<div class="outline-text-2" id="text-org7fc7dbc">
+<div class="NOTES" id="orgd803a14">
+<p>
+Introduce normalized delay-bandwidth product conceptually.
+</p>
+
+</div>
+
+<ul class="org-ul">
+<li>Throughput depends on a = t<sub>prop</sub> / X</li>
+<li>X = frame transmission time</li>
+<li>Higher bit rates reduce X</li>
+</ul>
+
+<p>
+To maintain efficiency:
+</p>
+
+<ul class="org-ul">
+<li>Reduce propagation delay, or</li>
+<li>Increase frame length</li>
+</ul>
+</div>
+<div id="outline-container-org22966c4" class="outline-3">
+<h3 id="org22966c4">How does switching remove CSMA/CD limits?</h3>
+<div class="outline-text-3" id="text-org22966c4">
+<p>
+A switch creates a dedicated collision domain for each port. In full-duplex 
+mode, a station can send and receive simultaneously without any possibility 
+of collision, making <a href="20260103084835-csma_cd.html#ID-048fc95c-4b1d-4316-afe9-4d829a2308b5">CSMA/CD</a> unnecessary and allowing for much longer 
+cable distances.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org63d8923" class="outline-2">
+<h2 id="org63d8923">Fast Ethernet (100 Mbps)</h2>
+<div class="outline-text-2" id="text-org63d8923">
+<div class="NOTES" id="org5351a85">
+<p>
+Stress backward compatibility as a design constraint.
+</p>
+
+</div>
+
+<p>
+Compatibility:
+</p>
+
+<ul class="org-ul">
+<li>Same frame format</li>
+<li>Same protocols</li>
+</ul>
+
+<p>
+Topology:
+</p>
+
+<ul class="org-ul">
+<li>Star with hubs</li>
+<li>No coaxial bus</li>
+</ul>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Standard</th>
+<th scope="col" class="org-left">Medium</th>
+<th scope="col" class="org-left">Max Length</th>
+<th scope="col" class="org-left">Topology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">100BaseT4</td>
+<td class="org-left">Cat 3 UTP (4 pairs)</td>
+<td class="org-left">100 m</td>
+<td class="org-left">Star</td>
+</tr>
+
+<tr>
+<td class="org-left">100BaseT</td>
+<td class="org-left">Cat 5 UTP (2 pairs)</td>
+<td class="org-left">100 m</td>
+<td class="org-left">Star</td>
+</tr>
+
+<tr>
+<td class="org-left">100BaseFX</td>
+<td class="org-left">Multimode fiber</td>
+<td class="org-left">2 km</td>
+<td class="org-left">Star</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="outline-container-org8c8b6cf" class="outline-3">
+<h3 id="org8c8b6cf">Why was bus topology abandoned?</h3>
+<div class="outline-text-3" id="text-org8c8b6cf">
+<p>
+As speeds increased, the timing constraints for <a href="20260103084835-csma_cd.html#ID-048fc95c-4b1d-4316-afe9-4d829a2308b5">CSMA/CD</a> on a shared bus 
+became too tight (the cable would have to be incredibly short). Star 
+topologies using hubs/switches were easier to manage, troubleshoot, 
+and allowed for different physical media (UTP vs Fiber).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgca6bfb7" class="outline-2">
+<h2 id="orgca6bfb7">Gigabit Ethernet (1 Gbps)</h2>
+<div class="outline-text-2" id="text-orgca6bfb7">
+<div class="NOTES" id="orgd991c8d">
+<p>
+Explain why CSMA/CD becomes impractical at this scale.
+</p>
+
+</div>
+
+<ul class="org-ul">
+<li>Slot time extended to 512 bytes</li>
+<li>Frame bursting</li>
+<li>Mostly switched operation</li>
+</ul>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Standard</th>
+<th scope="col" class="org-left">Medium</th>
+<th scope="col" class="org-left">Max Length</th>
+<th scope="col" class="org-left">Topology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">1000BaseSX</td>
+<td class="org-left">Multimode fiber</td>
+<td class="org-left">550 m</td>
+<td class="org-left">Star</td>
+</tr>
+
+<tr>
+<td class="org-left">1000BaseLX</td>
+<td class="org-left">Single-mode fiber</td>
+<td class="org-left">5 km</td>
+<td class="org-left">Star</td>
+</tr>
+
+<tr>
+<td class="org-left">1000BaseCX</td>
+<td class="org-left">Shielded copper</td>
+<td class="org-left">25 m</td>
+<td class="org-left">Star</td>
+</tr>
+
+<tr>
+<td class="org-left">1000BaseT</td>
+<td class="org-left">Cat 5 UTP</td>
+<td class="org-left">100 m</td>
+<td class="org-left">Star</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="outline-container-orgba453af" class="outline-3">
+<h3 id="orgba453af">Why does frame bursting help performance?</h3>
+<div class="outline-text-3" id="text-orgba453af">
+<p>
+To maintain the slot time at 1 Gbps without making the cable tiny, Ethernet
+introduced "Carrier Extension". However, this wastes bandwidth. Frame bursting
+allows a station to send a "burst" of multiple small frames in one go, only
+paying the extension penalty for the first frame in the burst.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org2f11876" class="outline-2">
+<h2 id="org2f11876">10 Gigabit Ethernet (10 Gbps)</h2>
+<div class="outline-text-2" id="text-org2f11876">
+<p>
+At 10 Gbps, Ethernet is exclusively full-duplex and switched. The concept of
+"collision" no longer exists in these standards.
+</p>
+
+<ul class="org-ul">
+<li>Frame format preserved</li>
+<li>CSMA/CD abandoned</li>
+<li>LAN PHY and WAN PHY options</li>
+<li>Used in metro networks and data centers</li>
+</ul>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Standard</th>
+<th scope="col" class="org-left">Medium</th>
+<th scope="col" class="org-left">Max Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">10GBaseSR</td>
+<td class="org-left">Multimode fiber (850 nm)</td>
+<td class="org-left">300 m</td>
+</tr>
+
+<tr>
+<td class="org-left">10GBaseLR</td>
+<td class="org-left">Single-mode fiber (1310 nm)</td>
+<td class="org-left">10 km</td>
+</tr>
+
+<tr>
+<td class="org-left">10GBaseEW</td>
+<td class="org-left">Single-mode fiber (1550 nm)</td>
+<td class="org-left">40 km</td>
+</tr>
+
+<tr>
+<td class="org-left">10GBaseLX4</td>
+<td class="org-left">Multi/Single-mode (WDM)</td>
+<td class="org-left">300 m–10km</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="outline-container-org1629b38" class="outline-3">
+<h3 id="org1629b38">Why is WAN PHY needed at 10 Gbps?</h3>
+<div class="outline-text-3" id="text-org1629b38">
+<p>
+The WAN PHY (Physical Layer) allows 10G Ethernet frames to be encapsulated 
+directly into existing SONET/SDH infrastructure. This allows ISPs to 
+transport Ethernet traffic over long-distance fiber networks without 
+needing expensive protocol conversion.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0d32cae" class="outline-2">
+<h2 id="org0d32cae">References:</h2>
+<div class="outline-text-2" id="text-org0d32cae">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>
