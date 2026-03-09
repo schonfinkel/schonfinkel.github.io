@@ -1,0 +1,24 @@
+:PROPERTIES:
+:ID:       d23e6119-2f78-4378-940c-120bb9fe388f
+:END:
+#+title: Git
+
+* Cherry Pick
+
+** Multiple Commits in Sequence
+
+To cherry-pick all the commits from commit with sha ~A~ to commit with sha ~B~ (where A is older than B), run:
+
+#+begin_src shell
+  git cherry-pick A^..B
+#+end_src
+
+If you want to ignore ~A~ itself, run:
+
+#+begin_src shell
+  git cherry-pick A..B
+#+end_src
+
++ ~A~ should be older than B, or ~A~ should be from another branch.
++ On Windows, it should be ~A^^..B~ as the caret needs to be escaped, or it should
+  be ~"A^..B"~~ (with double quotes).
