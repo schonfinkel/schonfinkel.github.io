@@ -264,7 +264,11 @@
 ;; Generate CV output
 ;;; We need to keep a local copy of org-cv
 ;;; and use only "moderncv".
-(setq-default org-cv-path (concat root-dir "org-cv/"))
+(setq-default org-cv-path
+              (let ((env-path (getenv "ORG_CV_PATH")))
+                (if env-path
+                    (file-name-as-directory env-path)
+                  (concat root-dir "org-cv/"))))
 (setq-default cv-path (concat root-dir "cv.org"))
 (setq-default cv-out (concat static-dir "/" "cv.pdf"))
 
@@ -272,9 +276,8 @@
 (message (format "ORG CV PATH: %s" cv-path))
 (message (format "PDF CV PATH: %s" cv-out))
 
-(use-package ox-moderncv
-  :load-path org-cv-path
-  :init (require 'ox-moderncv))
+(add-to-list 'load-path org-cv-path)
+(require 'ox-moderncv)
 
 (cv/org-cv-publish-resume cv-path cv-out)
 
