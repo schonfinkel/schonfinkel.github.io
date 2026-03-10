@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Subqueries (SQL)</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -62,9 +63,9 @@ statement that return a set.</li>
 <li>Also know as "inner queries".</li>
 <li>Can also be inclused in a <a href="20250524111022-join_sql.html#ID-c98f5468-7655-4cf9-a649-f89d7c894be8">JOIN (SQL)</a>, <code>FROM</code>, <code>WHERE</code>, <code>HAVING</code>, etc.</li>
 </ul>
-<div id="outline-container-org5c6fa92" class="outline-2">
-<h2 id="org5c6fa92">Semi-Joins &amp; Subquery Elimination</h2>
-<div class="outline-text-2" id="text-org5c6fa92">
+<div id="outline-container-org287a39c" class="outline-2">
+<h2 id="org287a39c">Semi-Joins &amp; Subquery Elimination</h2>
+<div class="outline-text-2" id="text-org287a39c">
 <blockquote>
 <p>
 A semi-join between two tables R and S returns rows from table R for which there
@@ -81,15 +82,15 @@ is at least one row from table S with matching values in the joining columns.
 </ul>
 </div>
 </div>
-<div id="outline-container-org5ea9bf4" class="outline-2">
-<h2 id="org5ea9bf4">Conditions</h2>
-<div class="outline-text-2" id="text-org5ea9bf4">
+<div id="outline-container-org6975613" class="outline-2">
+<h2 id="org6975613">Conditions</h2>
+<div class="outline-text-2" id="text-org6975613">
 </div>
-<div id="outline-container-org5bddcd6" class="outline-3">
-<h3 id="org5bddcd6"><code>IN</code> / <code>NOT IN</code></h3>
-<div class="outline-text-3" id="text-org5bddcd6">
+<div id="outline-container-orgfafeb91" class="outline-3">
+<h3 id="orgfafeb91"><code>IN</code> / <code>NOT IN</code></h3>
+<div class="outline-text-3" id="text-orgfafeb91">
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> &lt;tbl&gt;
   <span style="font-weight: bold;">WHERE</span> &lt;col&gt; <span style="font-weight: bold;">IN</span> (A, B, ..., N);
 
@@ -98,7 +99,7 @@ is at least one row from table S with matching values in the joining columns.
   <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> &lt;tbl&gt;
   <span style="font-weight: bold;">WHERE</span> (&lt;col1&gt;, &lt;col2&gt;) <span style="font-weight: bold;">IN</span> (...);
-</pre>
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -109,7 +110,7 @@ subquery returns <code>NULL</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">To illustrate better, imagine that
+<pre class="src src-sql"><code>    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">To illustrate better, imagine that
 </span>    EXPRESSION <span style="font-weight: bold;">IN</span> (<span style="font-weight: bold;">VALUE</span> [, ...])
 
     <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Can be seem as...
@@ -120,7 +121,7 @@ subquery returns <code>NULL</code>.
     ...
 
     <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Which returns NULL, since NULL V (...) = NULL</span>
-</pre>
+</code></pre>
 </div></li>
 
 <li><p>
@@ -129,7 +130,7 @@ return <code>FALSE</code> in this situation.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">To illustrate better, imagine that
+<pre class="src src-sql"><code>    <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">To illustrate better, imagine that
 </span>    EXPRESSION <span style="font-weight: bold;">NOT</span> <span style="font-weight: bold;">IN</span> (<span style="font-weight: bold;">VALUE</span> [, ...])
 
     <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Can be seem as...
@@ -138,14 +139,14 @@ return <code>FALSE</code> in this situation.
     EXPRESSION &lt;&gt; VALUE2
     <span style="font-weight: bold;">AND</span>
     ...
-</pre>
+</code></pre>
 </div></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd6d7f06" class="outline-3">
-<h3 id="orgd6d7f06"><code>EXISTS</code> / <code>NOT EXISTS</code></h3>
-<div class="outline-text-3" id="text-orgd6d7f06">
+<div id="outline-container-org90043ac" class="outline-3">
+<h3 id="org90043ac"><code>EXISTS</code> / <code>NOT EXISTS</code></h3>
+<div class="outline-text-3" id="text-org90043ac">
 <ul class="org-ul">
 <li><code>EXISTS (subquery)</code> evaluates and determines wheter the <code>subquery</code> produces a
 result (<b>at least one</b> result is enough to make the predicate return <code>TRUE</code>, thus
@@ -154,20 +155,20 @@ making it a Semi-Join).</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> &lt;tbl&gt;
   <span style="font-weight: bold;">WHERE</span> &lt;col&gt; <span style="font-weight: bold;">IN</span> (A, B, ..., N);
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8494272" class="outline-3">
-<h3 id="org8494272"><code>ANY</code> / <code>SOME</code></h3>
-<div class="outline-text-3" id="text-org8494272">
+<div id="outline-container-org27eb4f6" class="outline-3">
+<h3 id="org27eb4f6"><code>ANY</code> / <code>SOME</code></h3>
+<div class="outline-text-3" id="text-org27eb4f6">
 <div class="org-src-container">
-<pre class="src src-sql">  EXPRESSION OPERATOR <span style="font-weight: bold;">ANY</span> (<span style="font-weight: bold; text-decoration: underline;">ARRAY</span> EXPRESSION)
+<pre class="src src-sql"><code>  EXPRESSION OPERATOR <span style="font-weight: bold;">ANY</span> (<span style="font-weight: bold; text-decoration: underline;">ARRAY</span> EXPRESSION)
   EXPRESSION OPERATOR <span style="font-weight: bold;">SOME</span> (<span style="font-weight: bold; text-decoration: underline;">ARRAY</span> EXPRESSION)
-</pre>
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -180,10 +181,10 @@ an <code>ARRAY</code>) using an boolean operator.</li>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">    <span style="font-weight: bold;">SELECT</span> *
+<pre class="src src-sql"><code>    <span style="font-weight: bold;">SELECT</span> *
     <span style="font-weight: bold;">FROM</span> &lt;tbl&gt;
     <span style="font-weight: bold;">WHERE</span> &lt;col&gt; <span style="font-weight: bold;">IN</span> (A, B, ..., N);
-</pre>
+</code></pre>
 </div></li>
 </ul>
 
@@ -200,12 +201,12 @@ rules for Boolean combinations of null values.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org57dd354" class="outline-3">
-<h3 id="org57dd354"><code>ALL</code></h3>
-<div class="outline-text-3" id="text-org57dd354">
+<div id="outline-container-orgbdc3349" class="outline-3">
+<h3 id="orgbdc3349"><code>ALL</code></h3>
+<div class="outline-text-3" id="text-orgbdc3349">
 <div class="org-src-container">
-<pre class="src src-sql">  EXPRESSION OPERATOR <span style="font-weight: bold;">ALL</span> (<span style="font-weight: bold; text-decoration: underline;">ARRAY</span> EXPRESSION)
-</pre>
+<pre class="src src-sql"><code>  EXPRESSION OPERATOR <span style="font-weight: bold;">ALL</span> (<span style="font-weight: bold; text-decoration: underline;">ARRAY</span> EXPRESSION)
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -228,75 +229,75 @@ rules for Boolean combinations of null values.
 </div>
 </div>
 </div>
-<div id="outline-container-org382ec50" class="outline-2">
-<h2 id="org382ec50">Subqueries as Expressions</h2>
-<div class="outline-text-2" id="text-org382ec50">
+<div id="outline-container-org7f0c974" class="outline-2">
+<h2 id="org7f0c974">Subqueries as Expressions</h2>
+<div class="outline-text-2" id="text-org7f0c974">
 </div>
-<div id="outline-container-org59ec5c9" class="outline-3">
-<h3 id="org59ec5c9">Scalar Subquery</h3>
-<div class="outline-text-3" id="text-org59ec5c9">
+<div id="outline-container-org6bf3aa2" class="outline-3">
+<h3 id="org6bf3aa2">Scalar Subquery</h3>
+<div class="outline-text-3" id="text-org6bf3aa2">
 <p>
 Results in a single row.
 </p>
 </div>
 </div>
-<div id="outline-container-org59ace1e" class="outline-3">
-<h3 id="org59ace1e">Multi-Row Subquery</h3>
-<div class="outline-text-3" id="text-org59ace1e">
+<div id="outline-container-orgd87acdc" class="outline-3">
+<h3 id="orgd87acdc">Multi-Row Subquery</h3>
+<div class="outline-text-3" id="text-orgd87acdc">
 <p>
 Results in multiple rows, tipically used in the where clause with operators such
 as <code>IN</code>, <code>NOT</code>, <code>EXISTS</code>, <code>ANY</code> and <code>ALL</code>.
 </p>
 </div>
-<div id="outline-container-orgaea63e8" class="outline-4">
-<h4 id="orgaea63e8">Correlated Subquery</h4>
-<div class="outline-text-4" id="text-orgaea63e8">
+<div id="outline-container-org3b1cbce" class="outline-4">
+<h4 id="org3b1cbce">Correlated Subquery</h4>
+<div class="outline-text-4" id="text-org3b1cbce">
 <p>
 A uncorrelated sub-query is a type of sub-query where the inner query doesn’t
 depend upon the outer query for its execution.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     foo,
     (<span style="font-weight: bold;">SELECT</span>
       <span style="font-weight: bold;">AVG</span>(...)
      <span style="font-weight: bold;">FROM</span> B
      <span style="font-weight: bold;">WHERE</span> B.foo = A.foo) <span style="font-weight: bold;">AS</span> bar
   <span style="font-weight: bold;">FROM</span> A;
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb189a4e" class="outline-4">
-<h4 id="orgb189a4e">Uncorrelated Subquery</h4>
-<div class="outline-text-4" id="text-orgb189a4e">
+<div id="outline-container-orge5762c5" class="outline-4">
+<h4 id="orge5762c5">Uncorrelated Subquery</h4>
+<div class="outline-text-4" id="text-orge5762c5">
 <p>
 A correlated sub-query is a type of query where the inner query depends upon the
 outcome of the outer query in order to perform its execution.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     foo,
     (<span style="font-weight: bold;">SELECT</span>
       <span style="font-weight: bold;">AVG</span>(...)
      <span style="font-weight: bold;">FROM</span> B) <span style="font-weight: bold;">AS</span> bar
   <span style="font-weight: bold;">FROM</span> A;
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org68b767d" class="outline-2">
-<h2 id="org68b767d">Subqueries as Tables</h2>
+<div id="outline-container-orgcdf42d1" class="outline-2">
+<h2 id="orgcdf42d1">Subqueries as Tables</h2>
 </div>
 
-<div id="outline-container-org43075f2" class="outline-2">
-<h2 id="org43075f2">References:</h2>
-<div class="outline-text-2" id="text-org43075f2">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org3944a02" class="outline-2">
+<h2 id="org3944a02">References:</h2>
+<div class="outline-text-2" id="text-org3944a02">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Dombrovskaya, Henrietta, Boris Novikov, and Anna Bailliekova. 2021. <i>Postgresql Query Optimization</i>. Springer.</div>
 </div>
 </div>

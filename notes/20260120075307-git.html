@@ -4,7 +4,7 @@
 <!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>sys Module (OTP)</title>
+<title>Git</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -55,15 +55,43 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">sys Module (OTP)</h1>
-</header><div id="outline-container-orgad5c84d" class="outline-2">
-<h2 id="orgad5c84d">Statistics, Status, and State</h2>
+<h1 class="title">Git</h1>
+</header><div id="outline-container-orgdbd7938" class="outline-2">
+<h2 id="orgdbd7938">Cherry Pick</h2>
+<div class="outline-text-2" id="text-orgdbd7938">
+</div>
+<div id="outline-container-orgb7cbb3d" class="outline-3">
+<h3 id="orgb7cbb3d">Multiple Commits in Sequence</h3>
+<div class="outline-text-3" id="text-orgb7cbb3d">
+<p>
+To cherry-pick all the commits from commit with sha <code>A</code> to commit with sha <code>B</code> (where A is older than B), run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>  git cherry-pick A^..B
+</code></pre>
 </div>
 
+<p>
+If you want to ignore <code>A</code> itself, run:
+</p>
 
-<div id="outline-container-org1aa8276" class="outline-2">
-<h2 id="org1aa8276">References:</h2>
-<div class="outline-text-2" id="text-org1aa8276">
+<div class="org-src-container">
+<pre class="src src-shell"><code>  git cherry-pick A..B
+</code></pre>
+</div>
+
+<ul class="org-ul">
+<li><code>A</code> should be older than B, or <code>A</code> should be from another branch.</li>
+<li>On Windows, it should be <code>A^^..B</code> as the caret needs to be escaped, or it should
+be <code>"A^..B"~</code> (with double quotes).</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org883fd55" class="outline-2">
+<h2 id="org883fd55">References:</h2>
+<div class="outline-text-2" id="text-org883fd55">
 <div class="csl-bib-body">
 </div>
 </div>

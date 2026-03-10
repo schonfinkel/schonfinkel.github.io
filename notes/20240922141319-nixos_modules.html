@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NixOS Modules</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -62,9 +63,9 @@ declares options for other modules to define (give a value). It processes them
 and defines options declared in other modules.
 </p>
 </blockquote>
-<div id="outline-container-org31643a6" class="outline-2">
-<h2 id="org31643a6">Basics</h2>
-<div class="outline-text-2" id="text-org31643a6">
+<div id="outline-container-org2bad834" class="outline-2">
+<h2 id="org2bad834">Basics</h2>
+<div class="outline-text-2" id="text-org2bad834">
 <ul class="org-ul">
 <li>A module is a function that takes an <code>attrset</code> and returns an <code>attrset</code>.</li>
 <li>It may declare <code>options</code>.</li>
@@ -73,38 +74,38 @@ and defines options declared in other modules.
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-nix">  {lib, ...}: {
+<pre class="src src-nix"><code>  {lib, ...}: {
     options = {
       name = lib.mkOption {
         type = lib.types.str;
       };
     };
   }
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcaebde5" class="outline-2">
-<h2 id="orgcaebde5">Lib Utilities</h2>
-<div class="outline-text-2" id="text-orgcaebde5">
+<div id="outline-container-org1175782" class="outline-2">
+<h2 id="org1175782">Lib Utilities</h2>
+<div class="outline-text-2" id="text-org1175782">
 </div>
-<div id="outline-container-org2322f89" class="outline-3">
-<h3 id="org2322f89">mkMerge</h3>
+<div id="outline-container-orgd697003" class="outline-3">
+<h3 id="orgd697003">mkMerge</h3>
 </div>
-<div id="outline-container-org6cb8d41" class="outline-3">
-<h3 id="org6cb8d41">mkOverride</h3>
+<div id="outline-container-org2061d9f" class="outline-3">
+<h3 id="org2061d9f">mkOverride</h3>
 </div>
-<div id="outline-container-org9be35f1" class="outline-3">
-<h3 id="org9be35f1">mkIf</h3>
+<div id="outline-container-org1d72818" class="outline-3">
+<h3 id="org1d72818">mkIf</h3>
 </div>
-<div id="outline-container-org4a14f9a" class="outline-3">
-<h3 id="org4a14f9a">mkOrder</h3>
+<div id="outline-container-org11b1a40" class="outline-3">
+<h3 id="org11b1a40">mkOrder</h3>
 </div>
 </div>
-<div id="outline-container-orga871a4a" class="outline-2">
-<h2 id="orga871a4a">References:</h2>
-<div class="outline-text-2" id="text-orga871a4a">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org44401f3" class="outline-2">
+<h2 id="org44401f3">References:</h2>
+<div class="outline-text-2" id="text-org44401f3">
+<div class="csl-bib-body">
 </div>
 </div>
 </div>

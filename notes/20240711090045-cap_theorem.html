@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CAP Theorem</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -59,9 +60,9 @@
 The CAP Theorem is a classic problem in <a href="20211202213813-distributed_systems.html#ID-d7efb05f-fb8f-438c-b09d-ea91dc24ebc3">Distributed Systems</a>, first postulated by
 Eric Brewer in (<a href="#citeproc_bib_item_1">Brewer 2000</a>), and formally proved in (<a href="#citeproc_bib_item_2">Gilbert and Lynch 2002</a>).
 </p>
-<div id="outline-container-orga9523b6" class="outline-2">
-<h2 id="orga9523b6">Definitions</h2>
-<div class="outline-text-2" id="text-orga9523b6">
+<div id="outline-container-orgc6d6ce5" class="outline-2">
+<h2 id="orgc6d6ce5">Definitions</h2>
+<div class="outline-text-2" id="text-orgc6d6ce5">
 <p>
 For (<a href="#citeproc_bib_item_1">Brewer 2000</a>), a distributed system has some very specific properties
 and behaviour, being a collected set of Nodes that all share data. A limitation
@@ -69,7 +70,7 @@ of such systems happens when a write request is followed by a read request.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil">       ┌────────┐
+<pre class="src src-nil"><code>       ┌────────┐
        │ Client │
        └────────┘
      [R] ^    | [W]
@@ -88,7 +89,7 @@ of such systems happens when a write request is followed by a read request.
 ╎              │ a2 │──┘  ╎
 ╎              └────┘     ╎
 └−−−−−−−−−−−−−−−−−−−−−−−−−┘
-</pre>
+</code></pre>
 </div>
 
 <table>
@@ -127,16 +128,16 @@ only guarantee two out of three properties:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgc70478c" class="outline-2">
-<h2 id="orgc70478c">Idea of the Proof</h2>
-<div class="outline-text-2" id="text-orgc70478c">
+<div id="outline-container-org355b539" class="outline-2">
+<h2 id="org355b539">Idea of the Proof</h2>
+<div class="outline-text-2" id="text-org355b539">
 <p>
 Here is a sketch of the proof provided in (<a href="#citeproc_bib_item_2">Gilbert and Lynch 2002</a>), consider the same
 system as before, but focus on a pair of requests (R/W) and two nodes.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil">                [W]
+<pre class="src src-nil"><code>                [W]
     ┌──────────────────────────┐
     v                          │
 ┌−−−−−−−−−−−−−−−−−−−−−−┐       │
@@ -147,7 +148,7 @@ system as before, but focus on a pair of requests (R/W) and two nodes.
 ╎ └────┘        └────┘ ╎     └──────┘
 ╎                      ╎
 └−−−−−−−−−−−−−−−−−−−−−−┘
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -156,7 +157,7 @@ properties. Given a network partition between <code>a0</code> and <code>a1</code
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil">                [W]
+<pre class="src src-nil"><code>                [W]
     ┌──────────────────────────┐
     v                          │
 ┌−−−−−−−−−−−−−−−−−−−−−−┐       │
@@ -167,7 +168,7 @@ properties. Given a network partition between <code>a0</code> and <code>a1</code
 ╎ └────┘        └────┘ ╎     └──────┘
 ╎                      ╎
 └−−−−−−−−−−−−−−−−−−−−−−┘
-</pre>
+</code></pre>
 </div>
 
 <ol class="org-ol">
@@ -176,10 +177,10 @@ properties. Given a network partition between <code>a0</code> and <code>a1</code
 </ol>
 </div>
 </div>
-<div id="outline-container-orgd11c894" class="outline-2">
-<h2 id="orgd11c894">References:</h2>
-<div class="outline-text-2" id="text-orgd11c894">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org56d48a4" class="outline-2">
+<h2 id="org56d48a4">References:</h2>
+<div class="outline-text-2" id="text-org56d48a4">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Brewer, Eric A. 2000. “Towards Robust Distributed Systems.” In <i>Podc</i>, 7:343–477. 10.1145. Portland, OR.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Gilbert, Seth, and Nancy Lynch. 2002. “Brewer’s Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services.” <i>Acm Sigact News</i> 33 (2): 51–59.</div>
 </div>

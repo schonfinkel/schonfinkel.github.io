@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>kubectl</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,27 +56,27 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">kubectl</h1>
-</header><div id="outline-container-org9a9dad5" class="outline-2">
-<h2 id="org9a9dad5">Commands</h2>
-<div class="outline-text-2" id="text-org9a9dad5">
+</header><div id="outline-container-org23def99" class="outline-2">
+<h2 id="org23def99">Commands</h2>
+<div class="outline-text-2" id="text-org23def99">
 <ul class="org-ul">
 <li>View cluster information</li>
 </ul>
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl cluster-info
-</pre>
+<pre class="src src-shell"><code>  kubectl cluster-info
+</code></pre>
 </div>
 </div>
-<div id="outline-container-org3778247" class="outline-3">
-<h3 id="org3778247">Apply &amp; Create</h3>
-<div class="outline-text-3" id="text-org3778247">
+<div id="outline-container-org7d6f5ae" class="outline-3">
+<h3 id="org7d6f5ae">Apply &amp; Create</h3>
+<div class="outline-text-3" id="text-org7d6f5ae">
 <ul class="org-ul">
 <li>Just creates a resource</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl create ...
-</pre>
+<pre class="src src-shell"><code>  kubectl create ...
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -83,95 +84,95 @@
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl apply -f pod.yml
-</pre>
+<pre class="src src-shell"><code>  kubectl apply -f pod.yml
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4fd5d30" class="outline-3">
-<h3 id="org4fd5d30">Delete</h3>
-<div class="outline-text-3" id="text-org4fd5d30">
+<div id="outline-container-org2b0704f" class="outline-3">
+<h3 id="org2b0704f">Delete</h3>
+<div class="outline-text-3" id="text-org2b0704f">
 <p>
 Deleting a pod won't prevent it from being recreated.
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl delete pod [pod-name]
-</pre>
+<pre class="src src-shell"><code>  kubectl delete pod [pod-name]
+</code></pre>
 </div>
 <p>
 you need to delete it's <code>deployment</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl delete deployment [deployment-name]
-</pre>
+<pre class="src src-shell"><code>  kubectl delete deployment [deployment-name]
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org156840d" class="outline-3">
-<h3 id="org156840d">Describe</h3>
-<div class="outline-text-3" id="text-org156840d">
+<div id="outline-container-org7b7d3c6" class="outline-3">
+<h3 id="org7b7d3c6">Describe</h3>
+<div class="outline-text-3" id="text-org7b7d3c6">
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl describe pods &lt;...&gt;
-</pre>
+<pre class="src src-shell"><code>  kubectl describe pods &lt;...&gt;
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf613d40" class="outline-3">
-<h3 id="orgf613d40">Get</h3>
-<div class="outline-text-3" id="text-orgf613d40">
+<div id="outline-container-orgffc16a9" class="outline-3">
+<h3 id="orgffc16a9">Get</h3>
+<div class="outline-text-3" id="text-orgffc16a9">
 <ul class="org-ul">
 <li>View all the resources</li>
 </ul>
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl get all
-</pre>
+<pre class="src src-shell"><code>  kubectl get all
+</code></pre>
 </div>
 
 <ul class="org-ul">
 <li>Get information about the pods</li>
 </ul>
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl get pods --watch
+<pre class="src src-shell"><code>  kubectl get pods --watch
   kubectl get pods -o wide
-</pre>
+</code></pre>
 </div>
 
 <ul class="org-ul">
 <li>Get information about deployments</li>
 </ul>
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Lists deployments and their labels
+<pre class="src src-shell"><code>  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Lists deployments and their labels
 </span>  kubectl get deployment --show-labels
   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Get deployments with a specific label
 </span>  kubectl get deployment -l <span style="font-weight: bold; font-style: italic;">app</span>=nginx
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3e286c6" class="outline-3">
-<h3 id="org3e286c6">Port-forward</h3>
-<div class="outline-text-3" id="text-org3e286c6">
+<div id="outline-container-orgd41bdb7" class="outline-3">
+<h3 id="orgd41bdb7">Port-forward</h3>
+<div class="outline-text-3" id="text-orgd41bdb7">
 <ul class="org-ul">
 <li>Forward port to enables external calls</li>
 </ul>
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl port-forward [pod-name] [external-port]:[internal-port]
+<pre class="src src-shell"><code>  kubectl port-forward [pod-name] [external-port]:[internal-port]
   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">For instance...
 </span>  kubectl port-forward [pod-name] 8080:80
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org39fdb55" class="outline-2">
-<h2 id="org39fdb55">YAML</h2>
-<div class="outline-text-2" id="text-org39fdb55">
+<div id="outline-container-orgdd7f112" class="outline-2">
+<h2 id="orgdd7f112">YAML</h2>
+<div class="outline-text-2" id="text-orgdd7f112">
 </div>
-<div id="outline-container-orgb93882d" class="outline-3">
-<h3 id="orgb93882d">Pod</h3>
-<div class="outline-text-3" id="text-orgb93882d">
+<div id="outline-container-orgeda8477" class="outline-3">
+<h3 id="orgeda8477">Pod</h3>
+<div class="outline-text-3" id="text-orgeda8477">
 <div class="org-src-container">
-<pre class="src src-yaml">  apiVersion: v1
+<pre class="src src-yaml"><code>  apiVersion: v1
   kind: Pod
   metadata:
     name: nginx
@@ -184,12 +185,12 @@ you need to delete it's <code>deployment</code>.
       image: nginx:alpine
       ports:
       - containerPort: 80
-</pre>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-org160af06" class="outline-4">
-<h4 id="org160af06">Pod Healthchecks</h4>
-<div class="outline-text-4" id="text-org160af06">
+<div id="outline-container-orgf2874fa" class="outline-4">
+<h4 id="orgf2874fa">Pod Healthchecks</h4>
+<div class="outline-text-4" id="text-orgf2874fa">
 <ul class="org-ul">
 <li>Probe Types
 <ul class="org-ul">
@@ -207,7 +208,7 @@ therefore, be restarted.</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-yaml">  apiVersion: v1
+<pre class="src src-yaml"><code>  apiVersion: v1
   kind: Pod
   metadata:
     name: nginx
@@ -239,22 +240,22 @@ therefore, be restarted.</li>
         limits:
           memory: "128Mi" # 128 Mb
           cpu: "200m"     # 200 milicpu, i.e, 0.2 cpu or 20% cpu
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf2c4253" class="outline-2">
-<h2 id="orgf2c4253">References:</h2>
-<div class="outline-text-2" id="text-orgf2c4253">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-orge1eb6e0" class="outline-2">
+<h2 id="orge1eb6e0">References:</h2>
+<div class="outline-text-2" id="text-orge1eb6e0">
+<div class="csl-bib-body">
 </div>
 </div>
 </div>
-<div id="outline-container-org48813b4" class="outline-2">
-<h2 id="org48813b4">Backlinks:</h2>
-<div class="outline-text-2" id="text-org48813b4">
+<div id="outline-container-orgef7c179" class="outline-2">
+<h2 id="orgef7c179">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgef7c179">
 <ul class="org-ul">
 <li><a href="./20211201115324-gitops.html">GitOps</a></li>
 </ul>

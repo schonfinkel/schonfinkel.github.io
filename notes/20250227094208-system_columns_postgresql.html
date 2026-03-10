@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>System Columns (PostgreSQL)</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -59,25 +60,25 @@
 Every table in <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> has several columns that are implicitly
 defined (and managed) by the system.
 </p>
-<div id="outline-container-org512c2f4" class="outline-2">
-<h2 id="org512c2f4">CTID</h2>
-<div class="outline-text-2" id="text-org512c2f4">
+<div id="outline-container-org479afc9" class="outline-2">
+<h2 id="org479afc9">CTID</h2>
+<div class="outline-text-2" id="text-org479afc9">
 <p>
 <code>ctid</code> is a system column that points to the physical location of a row, by saving
 a tuple representing the <code>(block/page number, offset)</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *, ctid
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> *, ctid
   <span style="font-weight: bold;">FROM</span> &lt;<span style="font-weight: bold;">table</span>&gt;
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgfaf7e90" class="outline-2">
-<h2 id="orgfaf7e90">References:</h2>
-<div class="outline-text-2" id="text-orgfaf7e90">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org4996b1a" class="outline-2">
+<h2 id="org4996b1a">References:</h2>
+<div class="outline-text-2" id="text-org4996b1a">
+<div class="csl-bib-body">
 </div>
 </div>
 </div>

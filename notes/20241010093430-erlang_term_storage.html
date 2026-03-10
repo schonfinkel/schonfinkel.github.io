@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Erlang Term Storage</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -77,9 +78,9 @@ a single entry.</li>
 with a given key, but also lets you store multiple entries with identical
 values.</li>
 </ol>
-<div id="outline-container-orgc94b804" class="outline-2">
-<h2 id="orgc94b804">Creating and populating a table</h2>
-<div class="outline-text-2" id="text-orgc94b804">
+<div id="outline-container-org3b41863" class="outline-2">
+<h2 id="org3b41863">Creating and populating a table</h2>
+<div class="outline-text-2" id="text-org3b41863">
 <ul class="org-ul">
 <li>The <code>ets:new/2</code> function lets you create a table.</li>
 <li>If you do specify <code>named_table</code>, processes can reach the table as long as they
@@ -89,10 +90,10 @@ Using the <code>keypos</code> tuple lets you specify which record value should b
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">    rd(food, {name, calories, price, group}).
+<pre class="src src-erlang"><code>    rd(food, {name, calories, price, group}).
     ets:new(food, [ordered_set, {keypos,#food.name}, named_table]).
     %% or dets:open_file, if you want to use dts
-</pre>
+</code></pre>
 </div></li>
 
 <li><p>
@@ -100,33 +101,33 @@ To dispose of a table:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">    ets:delete(TableId)
+<pre class="src src-erlang"><code>    ets:delete(TableId)
     % or
     dets:close(TableId)
-</pre>
+</code></pre>
 </div></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgba19568" class="outline-2">
-<h2 id="orgba19568">Simple Queries</h2>
-<div class="outline-text-2" id="text-orgba19568">
+<div id="outline-container-orgb055904" class="outline-2">
+<h2 id="orgb055904">Simple Queries</h2>
+<div class="outline-text-2" id="text-orgb055904">
 <ul class="org-ul">
 <li><code>ets:lookup/2</code>: Which is defined for both ETS and DTS.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8ebaec7" class="outline-2">
-<h2 id="org8ebaec7">References:</h2>
-<div class="outline-text-2" id="text-org8ebaec7">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org6796bf2" class="outline-2">
+<h2 id="org6796bf2">References:</h2>
+<div class="outline-text-2" id="text-org6796bf2">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org13efcbb" class="outline-2">
-<h2 id="org13efcbb">Backlinks:</h2>
-<div class="outline-text-2" id="text-org13efcbb">
+<div id="outline-container-orga091d8b" class="outline-2">
+<h2 id="orga091d8b">Backlinks:</h2>
+<div class="outline-text-2" id="text-orga091d8b">
 <ul class="org-ul">
 <li><a href="./20241217132913-mnesia.html">MNESIA</a></li>
 </ul>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Full Text Search (PostgreSQL)</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,16 +56,16 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Full Text Search (PostgreSQL)</h1>
-</header><div id="outline-container-orgcf11533" class="outline-2">
-<h2 id="orgcf11533">Parsing Documents</h2>
-<div class="outline-text-2" id="text-orgcf11533">
+</header><div id="outline-container-org43ff611" class="outline-2">
+<h2 id="org43ff611">Parsing Documents</h2>
+<div class="outline-text-2" id="text-org43ff611">
 <p>
 <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> provides the function <code>to_tsvector</code> for converting a document to the
 <code>tsvector</code> data type. A <code>ts_vector</code> is a sorted list of distinct lexemes:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> <span style="font-style: italic;">'a fat cat sat on a mat and ate a fat rat'</span>::tsvector;
+<pre class="src src-sql"><code>  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> <span style="font-style: italic;">'a fat cat sat on a mat and ate a fat rat'</span>::tsvector;
                       tsvector                      
   <span style="font-weight: bold; font-style: italic;">----------------------------------------------------</span><span style="font-weight: bold; font-style: italic;">
 </span>  <span style="font-style: italic;">'a'</span> <span style="font-style: italic;">'and'</span> <span style="font-style: italic;">'ate'</span> <span style="font-style: italic;">'cat'</span> <span style="font-style: italic;">'fat'</span> <span style="font-style: italic;">'mat'</span> <span style="font-style: italic;">'on'</span> <span style="font-style: italic;">'rat'</span> <span style="font-style: italic;">'sat'</span>
@@ -80,7 +81,7 @@
                                 to_tsvector                                
   <span style="font-weight: bold; font-style: italic;">---------------------------------------------------------------------------</span><span style="font-weight: bold; font-style: italic;">
 </span>  <span style="font-style: italic;">'brown'</span>:3 <span style="font-style: italic;">'dog'</span>:9 <span style="font-style: italic;">'fox'</span>:4 <span style="font-style: italic;">'jumps'</span>:5 <span style="font-style: italic;">'lazy'</span>:8 <span style="font-style: italic;">'over'</span>:6 <span style="font-style: italic;">'quick'</span>:2 <span style="font-style: italic;">'the'</span>:1,7
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -100,7 +101,7 @@ else where a Boolean expression is expected.
 </blockquote>
 
 <div class="org-src-container">
-<pre class="src src-sql">  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> <span style="font-style: italic;">'fat &amp; rat'</span>::tsquery;
+<pre class="src src-sql"><code>  &lt;database&gt;#= <span style="font-weight: bold;">SELECT</span> <span style="font-style: italic;">'fat &amp; rat'</span>::tsquery;
       tsquery    
   <span style="font-weight: bold; font-style: italic;">---------------</span><span style="font-weight: bold; font-style: italic;">
 </span>   <span style="font-style: italic;">'fat'</span> &amp; <span style="font-style: italic;">'rat'</span>
@@ -112,7 +113,7 @@ else where a Boolean expression is expected.
    <span style="font-weight: bold;">result</span> 
   <span style="font-weight: bold; font-style: italic;">--------</span><span style="font-weight: bold; font-style: italic;">
 </span>   f
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -120,12 +121,12 @@ you can leverage generated columns when creating tables with searchable content.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">user_comment</span> (
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">user_comment</span> (
     id BIGINT <span style="font-weight: bold;">GENERATED</span> ALWAYS <span style="font-weight: bold;">AS</span> <span style="font-weight: bold;">IDENTITY</span> <span style="font-weight: bold;">PRIMARY</span> <span style="font-weight: bold;">KEY</span>,
     content TEXT <span style="font-weight: bold;">NOT</span> <span style="font-weight: bold;">NULL</span>,
     search_vector_en TSVECTOR <span style="font-weight: bold;">GENERATED</span> ALWAYS <span style="font-weight: bold;">AS</span> (to_tsvector(<span style="font-style: italic;">'english'</span>, content)) STORED
   );
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -133,15 +134,15 @@ The following query picks all the movies whose titles contain "star" immediately
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> title
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> title
   <span style="font-weight: bold;">FROM</span> movies
   <span style="font-weight: bold;">WHERE</span> to_tsvector(title) @@ to_tsquery(<span style="font-style: italic;">'star &lt;-&gt; (wars | trek)'</span>);
-</pre>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-orgb651190" class="outline-3">
-<h3 id="orgb651190">Highlights</h3>
-<div class="outline-text-3" id="text-orgb651190">
+<div id="outline-container-org813f079" class="outline-3">
+<h3 id="org813f079">Highlights</h3>
+<div class="outline-text-3" id="text-org813f079">
 <blockquote>
 <p>
 To present search results it is ideal to show a part of each document and how it
@@ -153,11 +154,11 @@ implements this functionality.
 </div>
 </div>
 </div>
-<div id="outline-container-org60978c2" class="outline-2">
-<h2 id="org60978c2">Websearch</h2>
-<div class="outline-text-2" id="text-org60978c2">
+<div id="outline-container-org29eac02" class="outline-2">
+<h2 id="org29eac02">Websearch</h2>
+<div class="outline-text-2" id="text-org29eac02">
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     plainto_tsquery(<span style="font-style: italic;">'star trek'</span>) <span style="font-weight: bold;">as</span> plain,
     phraseto_tsquery(<span style="font-style: italic;">'star trek'</span>) <span style="font-weight: bold;">as</span> phrase,
     websearch_to_tsquery(<span style="font-style: italic;">'star trek -khan'</span>) <span style="font-weight: bold;">as</span> websearch;
@@ -165,15 +166,15 @@ implements this functionality.
 </span>        plain      |      phrase       |    websearch    
   <span style="font-weight: bold; font-style: italic;">-----------------</span><span style="font-weight: bold; font-style: italic;">+-------------------+-----------------
 </span>   <span style="font-style: italic;">'star'</span> &amp; <span style="font-style: italic;">'trek'</span> | <span style="font-style: italic;">'star'</span> &lt;-&gt; <span style="font-style: italic;">'trek'</span> | <span style="font-style: italic;">'star'</span> &amp; <span style="font-style: italic;">'trek'</span> &amp; !<span style="font-style: italic;">'khan'</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4c89b12" class="outline-2">
-<h2 id="org4c89b12">Ranking</h2>
-<div class="outline-text-2" id="text-org4c89b12">
+<div id="outline-container-orga4b6333" class="outline-2">
+<h2 id="orga4b6333">Ranking</h2>
+<div class="outline-text-2" id="text-orga4b6333">
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     *,
     ts_rank(
       <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">base
@@ -187,33 +188,33 @@ implements this functionality.
     ) <span style="font-weight: bold;">AS</span> rank
   <span style="font-weight: bold;">FROM</span> bookmarks
   <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> rank <span style="font-weight: bold;">DESC</span>;
-</pre>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-orge049065" class="outline-3">
-<h3 id="orge049065">Setting weights</h3>
-<div class="outline-text-3" id="text-orge049065">
+<div id="outline-container-org79a9d20" class="outline-3">
+<h3 id="org79a9d20">Setting weights</h3>
+<div class="outline-text-3" id="text-org79a9d20">
 <p>
 <code>setweight</code>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orga0844d3" class="outline-2">
-<h2 id="orga0844d3">Indexing</h2>
+<div id="outline-container-orgcdbb10b" class="outline-2">
+<h2 id="orgcdbb10b">Indexing</h2>
 </div>
 
-<div id="outline-container-org23da879" class="outline-2">
-<h2 id="org23da879">References:</h2>
-<div class="outline-text-2" id="text-org23da879">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org42fcdc1" class="outline-2">
+<h2 id="org42fcdc1">References:</h2>
+<div class="outline-text-2" id="text-org42fcdc1">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Dombrovskaya, Henrietta, Boris Novikov, and Anna Bailliekova. 2021. <i>Postgresql Query Optimization</i>. Springer.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org39d9ceb" class="outline-2">
-<h2 id="org39d9ceb">Backlinks:</h2>
-<div class="outline-text-2" id="text-org39d9ceb">
+<div id="outline-container-orgb7688ec" class="outline-2">
+<h2 id="orgb7688ec">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgb7688ec">
 <ul class="org-ul">
 <li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
 </ul>

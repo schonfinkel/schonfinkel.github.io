@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Distributed Erlang</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -72,16 +73,16 @@ make this possible:
 </blockquote>
 
 
-<figure id="org597f683">
+<figure id="org3a894d9">
 <img src="../static/img/notes/distributed_erlang.png" alt="distributed_erlang.png">
 
 </figure>
-<div id="outline-container-org47e414e" class="outline-2">
-<h2 id="org47e414e">Nodes and Clustering</h2>
-<div class="outline-text-2" id="text-org47e414e">
+<div id="outline-container-org90971fe" class="outline-2">
+<h2 id="org90971fe">Nodes and Clustering</h2>
+<div class="outline-text-2" id="text-org90971fe">
 <blockquote>
 <p>
-An Erlang node consists of several loosely coupled applications, (&#x2026;) combined
+An Erlang node consists of several loosely coupled applications, (&hellip;) combined
 with other third-party applications and applications you write specifically for
 the system you are trying to implement. These applications could be independent
 of each other or rely on the services and APIs of other
@@ -89,19 +90,19 @@ applications. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 11</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org85cfb1c" class="outline-3">
-<h3 id="org85cfb1c">Starting a Node</h3>
-<div class="outline-text-3" id="text-org85cfb1c">
+<div id="outline-container-orgcfe0f71" class="outline-3">
+<h3 id="orgcfe0f71">Starting a Node</h3>
+<div class="outline-text-3" id="text-orgcfe0f71">
 <p>
 To start an Erlang node in distributed mode, you run <code>erl</code> with one of the flags
 <code>-name</code> or <code>-sname</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Used in normal environments with FQDN
+<pre class="src src-shell"><code>  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Used in normal environments with FQDN
 </span>  erl &#8211;name node_name
   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Used when FQDNs don't work
 </span>  erl &#8211;sname node_name
-</pre>
+</code></pre>
 </div>
 
 <blockquote>
@@ -117,7 +118,7 @@ Now, to connect multiple nodes:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">shell #1
+<pre class="src src-shell"><code>  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">shell #1
 </span>  erl &#8211;name a
 
   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">shell #2
@@ -130,13 +131,13 @@ Now, to connect multiple nodes:
   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">On shell #2
 </span>  &gt; nodes()<span style="font-weight: bold;">.</span> 
   &gt; [<span style="font-style: italic;">'a@here.net'</span>]
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org781922c" class="outline-3">
-<h3 id="org781922c">Naming and Communication</h3>
-<div class="outline-text-3" id="text-org781922c">
+<div id="outline-container-orgb536336" class="outline-3">
+<h3 id="orgb536336">Naming and Communication</h3>
+<div class="outline-text-3" id="text-orgb536336">
 <blockquote>
 <p>
 You can <code>spawn</code> and <code>link</code> to processes on any node in the system, not just locally,
@@ -147,13 +148,13 @@ process on the remote host. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org2bd947d" class="outline-3">
-<h3 id="org2bd947d">Connecting Nodes</h3>
-<div class="outline-text-3" id="text-org2bd947d">
+<div id="outline-container-orge851f1f" class="outline-3">
+<h3 id="orge851f1f">Connecting Nodes</h3>
+<div class="outline-text-3" id="text-orge851f1f">
 </div>
-<div id="outline-container-orgf037fa8" class="outline-4">
-<h4 id="orgf037fa8">Hidden Nodes</h4>
-<div class="outline-text-4" id="text-orgf037fa8">
+<div id="outline-container-org4332d11" class="outline-4">
+<h4 id="org4332d11">Hidden Nodes</h4>
+<div class="outline-text-4" id="text-org4332d11">
 <blockquote>
 <p>
 It's possible to connect clusters via special nodes to form a larger, not fully
@@ -164,9 +165,9 @@ nonintrusive inspection of a cluster. (<a href="#citeproc_bib_item_2">Logan, Mer
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5cc9c80" class="outline-4">
-<h4 id="org5cc9c80">EPMD</h4>
-<div class="outline-text-4" id="text-org5cc9c80">
+<div id="outline-container-org950c609" class="outline-4">
+<h4 id="org950c609">EPMD</h4>
+<div class="outline-text-4" id="text-org950c609">
 <blockquote>
 <p>
 EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
@@ -184,9 +185,9 @@ another. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 197 
 </div>
 </div>
 </div>
-<div id="outline-container-org2229973" class="outline-3">
-<h3 id="org2229973">The Cookie Protection System</h3>
-<div class="outline-text-3" id="text-org2229973">
+<div id="outline-container-orgac2e77f" class="outline-3">
+<h3 id="orgac2e77f">The Cookie Protection System</h3>
+<div class="outline-text-3" id="text-orgac2e77f">
 <p>
 For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
 </p>
@@ -195,26 +196,26 @@ For two distributed Erlang nodes to communicate, they must have the same magic c
 <li>Using the <code>-setcookie C</code> command line argument:</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-shell">  erl -setcookie &lt;cookie&gt;
-</pre>
+<pre class="src src-shell"><code>  erl -setcookie &lt;cookie&gt;
+</code></pre>
 </div>
 <ol class="org-ol">
 <li>The BIF <code>erlang:set_cookie(node(), C)</code> sets the cookie of the local node to the atom <code>C</code>.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org74ceafd" class="outline-3">
-<h3 id="org74ceafd">Sending messages between connected nodes</h3>
+<div id="outline-container-org3e23590" class="outline-3">
+<h3 id="org3e23590">Sending messages between connected nodes</h3>
 </div>
 </div>
-<div id="outline-container-orge19b643" class="outline-2">
-<h2 id="orge19b643">Socket-Based Distribution</h2>
+<div id="outline-container-orgf3ec31b" class="outline-2">
+<h2 id="orgf3ec31b">Socket-Based Distribution</h2>
 </div>
 
-<div id="outline-container-org6e346af" class="outline-2">
-<h2 id="org6e346af">References:</h2>
-<div class="outline-text-2" id="text-org6e346af">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org96b1292" class="outline-2">
+<h2 id="org96b1292">References:</h2>
+<div class="outline-text-2" id="text-org96b1292">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>

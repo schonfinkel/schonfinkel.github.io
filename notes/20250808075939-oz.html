@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Oz</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,13 +56,13 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Oz</h1>
-</header><div id="outline-container-orgd8e9dcb" class="outline-2">
-<h2 id="orgd8e9dcb">Introduction to Programming Concepts</h2>
-<div class="outline-text-2" id="text-orgd8e9dcb">
+</header><div id="outline-container-org7defe99" class="outline-2">
+<h2 id="org7defe99">Introduction to Programming Concepts</h2>
+<div class="outline-text-2" id="text-org7defe99">
 </div>
-<div id="outline-container-org8b1159d" class="outline-3">
-<h3 id="org8b1159d">Variables</h3>
-<div class="outline-text-3" id="text-org8b1159d">
+<div id="outline-container-org11347c4" class="outline-3">
+<h3 id="org11347c4">Variables</h3>
+<div class="outline-text-3" id="text-org11347c4">
 <blockquote>
 <p>
 The declare statement creates a new store variable and makes the variable
@@ -75,15 +76,15 @@ changed because the identifier refers to another store variable.
 </blockquote>
 
 <div class="org-src-container">
-<pre class="src src-oz">  declare
+<pre class="src src-oz"><code>  declare
   V=9999*9999
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org07f7671" class="outline-3">
-<h3 id="org07f7671">Functions</h3>
-<div class="outline-text-3" id="text-org07f7671">
+<div id="outline-container-org2806018" class="outline-3">
+<h3 id="org2806018">Functions</h3>
+<div class="outline-text-3" id="text-org2806018">
 <blockquote>
 <p>
 The declare statement creates the new variable Fact.The fun statement defines a
@@ -99,54 +100,54 @@ function body. Each time we call the function a new local variable is created.
 
 
 <div class="org-src-container">
-<pre class="src src-oz">  declare
+<pre class="src src-oz"><code>  declare
   fun {Fact N}
     if N==0 then 1 else N*{Fact N-1} end
   end
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org94d8990" class="outline-3">
-<h3 id="org94d8990">Recursion</h3>
-<div class="outline-text-3" id="text-org94d8990">
+<div id="outline-container-orga12d601" class="outline-3">
+<h3 id="orga12d601">Recursion</h3>
+<div class="outline-text-3" id="text-orga12d601">
 </div>
-<div id="outline-container-org3c2daff" class="outline-4">
-<h4 id="org3c2daff">Combinations</h4>
-<div class="outline-text-4" id="text-org3c2daff">
+<div id="outline-container-org51d0cb0" class="outline-4">
+<h4 id="org51d0cb0">Combinations</h4>
+<div class="outline-text-4" id="text-org51d0cb0">
 <div class="org-src-container">
-<pre class="src src-oz">  declare
+<pre class="src src-oz"><code>  declare
   fun {Comb N K}
     {Fact N} div ({Fact K}*{Fact N-K})
   end
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd199e03" class="outline-3">
-<h3 id="orgd199e03">Lists</h3>
-<div class="outline-text-3" id="text-orgd199e03">
+<div id="outline-container-orgb296be9" class="outline-3">
+<h3 id="orgb296be9">Lists</h3>
+<div class="outline-text-3" id="text-orgb296be9">
 </div>
-<div id="outline-container-org221d77d" class="outline-4">
-<h4 id="org221d77d">Pattern Matching</h4>
-<div class="outline-text-4" id="text-org221d77d">
+<div id="outline-container-orgc1e27d1" class="outline-4">
+<h4 id="orgc1e27d1">Pattern Matching</h4>
+<div class="outline-text-4" id="text-orgc1e27d1">
 <div class="org-src-container">
-<pre class="src src-oz">declare
+<pre class="src src-oz"><code>declare
 L=[5 6 7 8]
 case L of H|T then {Browse H} {Browse T} end
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd2ce750" class="outline-3">
-<h3 id="orgd2ce750">Functions over Lists</h3>
+<div id="outline-container-orga1c98fa" class="outline-3">
+<h3 id="orga1c98fa">Functions over Lists</h3>
 </div>
 
-<div id="outline-container-org975f761" class="outline-3">
-<h3 id="org975f761">Correctness</h3>
-<div class="outline-text-3" id="text-org975f761">
+<div id="outline-container-org6661a92" class="outline-3">
+<h3 id="org6661a92">Correctness</h3>
+<div class="outline-text-3" id="text-org6661a92">
 <blockquote>
 <p>
 To prove correctness in general, we have to reason about the program. This means
@@ -175,42 +176,42 @@ on which it runs is incorrectly implemented.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5ef3f21" class="outline-3">
-<h3 id="org5ef3f21">Complexity</h3>
+<div id="outline-container-org55a9e94" class="outline-3">
+<h3 id="org55a9e94">Complexity</h3>
 </div>
 
 
-<div id="outline-container-orgd4bdab4" class="outline-3">
-<h3 id="orgd4bdab4">Lazy Evaluation</h3>
-<div class="outline-text-3" id="text-orgd4bdab4">
+<div id="outline-container-org0383755" class="outline-3">
+<h3 id="org0383755">Lazy Evaluation</h3>
+<div class="outline-text-3" id="text-org0383755">
 <div class="org-src-container">
-<pre class="src src-oz">  fun lazy {Ints N}
+<pre class="src src-oz"><code>  fun lazy {Ints N}
     N|{Ints N+1}
   end
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5ee88e1" class="outline-3">
-<h3 id="org5ee88e1">Higher-Order Programming</h3>
+<div id="outline-container-orgce3b89e" class="outline-3">
+<h3 id="orgce3b89e">Higher-Order Programming</h3>
 </div>
 
-<div id="outline-container-orgaeda5f2" class="outline-3">
-<h3 id="orgaeda5f2">Concurrency</h3>
-<div class="outline-text-3" id="text-orgaeda5f2">
+<div id="outline-container-orgebf7f8c" class="outline-3">
+<h3 id="orgebf7f8c">Concurrency</h3>
+<div class="outline-text-3" id="text-orgebf7f8c">
 <div class="org-src-container">
-<pre class="src src-oz">  thread P in
+<pre class="src src-oz"><code>  thread P in
     P={Pascal 30}
     {Browse P}
   end
   {Browse 99*99}
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7a4058e" class="outline-3">
-<h3 id="org7a4058e">Dataflow</h3>
-<div class="outline-text-3" id="text-org7a4058e">
+<div id="outline-container-orge52fa76" class="outline-3">
+<h3 id="orge52fa76">Dataflow</h3>
+<div class="outline-text-3" id="text-orge52fa76">
 <blockquote>
 <p>
 What happens if an operation tries to use a variable that is not yet bound? From
@@ -220,7 +221,7 @@ can continue.This civilized behavior is known as dataflow.
 </p>
 
 <p>
-(&#x2026;)
+(&hellip;)
 </p>
 
 <p>
@@ -238,20 +239,20 @@ associated with it.
 </blockquote>
 
 <div class="org-src-container">
-<pre class="src src-oz">declare X in
+<pre class="src src-oz"><code>declare X in
 thread {Delay 10000} X=99 end
 {Browse start} {Browse X*X}
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc9659be" class="outline-3">
-<h3 id="orgc9659be">Explicit state</h3>
-<div class="outline-text-3" id="text-orgc9659be">
+<div id="outline-container-org737bc6e" class="outline-3">
+<h3 id="org737bc6e">Explicit state</h3>
+<div class="outline-text-3" id="text-org737bc6e">
 </div>
-<div id="outline-container-orga6ab913" class="outline-4">
-<h4 id="orga6ab913">Memory Cell</h4>
-<div class="outline-text-4" id="text-orga6ab913">
+<div id="outline-container-orgc0d38b3" class="outline-4">
+<h4 id="orgc0d38b3">Memory Cell</h4>
+<div class="outline-text-4" id="text-orgc0d38b3">
 <blockquote>
 <p>
 There are lots of ways to define explicit state.The simplest way is to define a
@@ -267,20 +268,20 @@ variables, i.e., just shortcuts for values.
 </blockquote>
 
 <div class="org-src-container">
-<pre class="src src-oz">declare
+<pre class="src src-oz"><code>declare
 C={NewCell 0}
 C:=@C+1
 {Browse @C}
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org7db018a" class="outline-3">
-<h3 id="org7db018a">Object</h3>
-<div class="outline-text-3" id="text-org7db018a">
+<div id="outline-container-org59c4883" class="outline-3">
+<h3 id="org59c4883">Object</h3>
+<div class="outline-text-3" id="text-org59c4883">
 <div class="org-src-container">
-<pre class="src src-oz">declare
+<pre class="src src-oz"><code>declare
 local C in
   C={NewCell 0}
   fun {Bump}
@@ -291,15 +292,15 @@ local C in
     @C
   end
 end
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgee56eb4" class="outline-3">
-<h3 id="orgee56eb4">Classes</h3>
-<div class="outline-text-3" id="text-orgee56eb4">
+<div id="outline-container-orgaac5f30" class="outline-3">
+<h3 id="orgaac5f30">Classes</h3>
+<div class="outline-text-3" id="text-orgaac5f30">
 <div class="org-src-container">
-<pre class="src src-oz">declare
+<pre class="src src-oz"><code>declare
 fun {NewCounter}
   C Bump Read in
   C={NewCell 0}
@@ -315,15 +316,15 @@ fun {NewCounter}
 
   counter(bump:Bump read:Read)
 end
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd143049" class="outline-3">
-<h3 id="orgd143049">Atomicity</h3>
-<div class="outline-text-3" id="text-orgd143049">
+<div id="outline-container-org1f73e69" class="outline-3">
+<h3 id="org1f73e69">Atomicity</h3>
+<div class="outline-text-3" id="text-org1f73e69">
 <div class="org-src-container">
-<pre class="src src-oz">declare
+<pre class="src src-oz"><code>declare
 C={NewCell 0}
 L={NewLock}
 
@@ -340,22 +341,22 @@ thread
     C:=J+1
   end
 end
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org5e63265" class="outline-2">
-<h2 id="org5e63265">References:</h2>
-<div class="outline-text-2" id="text-org5e63265">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org238326a" class="outline-2">
+<h2 id="org238326a">References:</h2>
+<div class="outline-text-2" id="text-org238326a">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org9ee2e50" class="outline-2">
-<h2 id="org9ee2e50">Backlinks:</h2>
-<div class="outline-text-2" id="text-org9ee2e50">
+<div id="outline-container-orgbecf912" class="outline-2">
+<h2 id="orgbecf912">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgbecf912">
 <ul class="org-ul">
 <li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
 </ul>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SCRAM</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -77,11 +78,11 @@ client.</li>
 <li>Longer nonces defeat replay attacks</li>
 <li>More resistant to dictionary attacks, configurable iteration counts.</li>
 </ul>
-<div id="outline-container-org7dbb71a" class="outline-2">
-<h2 id="org7dbb71a">Notation</h2>
-<div class="outline-text-2" id="text-org7dbb71a">
+<div id="outline-container-org31f4e81" class="outline-2">
+<h2 id="org31f4e81">Notation</h2>
+<div class="outline-text-2" id="text-org31f4e81">
 <div class="org-src-container">
-<pre class="src src-nil">  Hi(str, salt, i):
+<pre class="src src-nil"><code>  Hi(str, salt, i):
     U1   := HMAC(str, salt + INT(1))
     U2   := HMAC(str, U1)
     ...
@@ -89,36 +90,36 @@ client.</li>
     Ui   := HMAC(str, Ui-1)
    
     Hi := U1 XOR U2 XOR ... XOR Ui
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7f5fcf7" class="outline-2">
-<h2 id="org7f5fcf7">SCRAM Algorithm Overview</h2>
-<div class="outline-text-2" id="text-org7f5fcf7">
+<div id="outline-container-org28eaf0b" class="outline-2">
+<h2 id="org28eaf0b">SCRAM Algorithm Overview</h2>
+<div class="outline-text-2" id="text-org28eaf0b">
 </div>
-<div id="outline-container-orge43950b" class="outline-3">
-<h3 id="orge43950b">Client Final</h3>
-<div class="outline-text-3" id="text-orge43950b">
+<div id="outline-container-org985f679" class="outline-3">
+<h3 id="org985f679">Client Final</h3>
+<div class="outline-text-3" id="text-org985f679">
 <div class="org-src-container">
-<pre class="src src-nil"># auth message - n=$USER,r=$CLIENT_NONCE,r=$NONCE,s=$SALT,i=$ITER,c=$CHANNE_BINDING,r=$NONCE
+<pre class="src src-nil"><code># auth message - n=$USER,r=$CLIENT_NONCE,r=$NONCE,s=$SALT,i=$ITER,c=$CHANNE_BINDING,r=$NONCE
 n=user,r=fyko+d2lbbFgONRv9qkxdawL,r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j,s=QSXCR+Q6sek8bf92,i=4096,c=biws,r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd6957b6" class="outline-2">
-<h2 id="orgd6957b6">References:</h2>
-<div class="outline-text-2" id="text-orgd6957b6">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org5de9b6d" class="outline-2">
+<h2 id="org5de9b6d">References:</h2>
+<div class="outline-text-2" id="text-org5de9b6d">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Newman, C, A Menon-Sen, A Melnikov, and N Williams. 2010. “Rfc 5802: Salted Challenge Response Authentication Mechanism (Scram) Sasl and Gss-Api Mechanisms.” RFC Editor. <a href="https://www.ietf.org/rfc/rfc5802.html">https://www.ietf.org/rfc/rfc5802.html</a>.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org6c9d6df" class="outline-2">
-<h2 id="org6c9d6df">Backlinks:</h2>
-<div class="outline-text-2" id="text-org6c9d6df">
+<div id="outline-container-org9ac0b13" class="outline-2">
+<h2 id="org9ac0b13">Backlinks:</h2>
+<div class="outline-text-2" id="text-org9ac0b13">
 <ul class="org-ul">
 <li><a href="./20250329193401-frontend_backend_protocol_postgresql.html">Frontend/Backend Protocol (PostgresSQL)</a></li>
 </ul>

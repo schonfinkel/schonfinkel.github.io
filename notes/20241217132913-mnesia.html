@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MNESIA</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -60,9 +61,9 @@ Mnesia is a database management system (DBMS) that comes with <a href="202406191
 the <a href="20241010093430-erlang_term_storage.html#ID-37c6ea44-0c80-4c57-a36e-98d37e8a3413">Erlang Term Storage</a> and DETS underneath, but provides many more features
 than those components.
 </p>
-<div id="outline-container-org285fd49" class="outline-2">
-<h2 id="org285fd49">Creating the initial Database</h2>
-<div class="outline-text-2" id="text-org285fd49">
+<div id="outline-container-org6820ed5" class="outline-2">
+<h2 id="org6820ed5">Creating the initial Database</h2>
+<div class="outline-text-2" id="text-org6820ed5">
 <p>
 During the course of creating this database, you’ll do the following:
 </p>
@@ -72,22 +73,22 @@ During the course of creating this database, you’ll do the following:
 Create a Schema
 </p>
 <div class="org-src-container">
-<pre class="src src-erlang">      mnesia:create_schema([node()])
-</pre>
+<pre class="src src-erlang"><code>      mnesia:create_schema([node()])
+</code></pre>
 </div></li>
 <li><p>
 Initialize MNESIA
 </p>
 <div class="org-src-container">
-<pre class="src src-erlang">      mnesia:start()
-</pre>
+<pre class="src src-erlang"><code>      mnesia:start()
+</code></pre>
 </div></li>
 <li><p>
 Create the DB Tables
 </p>
 <div class="org-src-container">
-<pre class="src src-erlang">      mnesia:create_table(record_name, [{attributes, record_info(fields, record_name)}])
-</pre>
+<pre class="src src-erlang"><code>      mnesia:create_table(record_name, [{attributes, record_info(fields, record_name)}])
+</code></pre>
 </div></li>
 <li>Populate Tables</li>
 </ol>
@@ -98,7 +99,7 @@ By default, Mnesia will store your table in RAM only (<code>ram_copies</code>) o
 node. This is speedy, but it means the data vanishes if the node crashes. If you
 specify <code>disc_copies</code> (note the spelling), Mnesia will keep a copy of the database
 on disk, but still use RAM for speed. You can also specify <code>disc_only_copies</code>,
-which will be slow. (&#x2026;) . By combining these options and (eventually) multiple
+which will be slow. (&hellip;) . By combining these options and (eventually) multiple
 nodes, you should be able to create fast and resilient
 systems. (<a href="#citeproc_bib_item_2">Laurent 2017, 152</a>)
 </p>
@@ -114,27 +115,27 @@ period. (<a href="#citeproc_bib_item_2">Laurent 2017, 155</a>)
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgf868142" class="outline-2">
-<h2 id="orgf868142">Queries</h2>
-<div class="outline-text-2" id="text-orgf868142">
+<div id="outline-container-orgaf91403" class="outline-2">
+<h2 id="orgaf91403">Queries</h2>
+<div class="outline-text-2" id="text-orgaf91403">
 <ul class="org-ul">
 <li>Selecting All Data in a Table:</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-erlang">  %% sql equivalent
+<pre class="src src-erlang"><code>  %% sql equivalent
   %% select * from &lt;table&gt;
   select_all(from) -&gt; do(qlc:q([x || x &lt;- mnesia:table(from)]));
-</pre>
+</code></pre>
 </div>
 
 <ul class="org-ul">
 <li>Joins</li>
 </ul>
 </div>
-<div id="outline-container-org3367369" class="outline-3">
-<h3 id="org3367369">Transactions</h3>
-<div class="outline-text-3" id="text-org3367369">
+<div id="outline-container-org4e57a02" class="outline-3">
+<h3 id="org4e57a02">Transactions</h3>
+<div class="outline-text-3" id="text-org4e57a02">
 <blockquote>
 <p>
 This is exactly the guarantee that <code>mnesia:transaction/1</code> provides. Either all the
@@ -153,7 +154,7 @@ undoes any changes it has made. (<a href="#citeproc_bib_item_1">Armstrong 2013, 
 </blockquote>
 
 <div class="org-src-container">
-<pre class="src src-erlang">something(...) -&gt;
+<pre class="src src-erlang"><code>something(...) -&gt;
   F = fun() -&gt;
     % To add a Row
     mnesia:write(Row)
@@ -163,23 +164,23 @@ undoes any changes it has made. (<a href="#citeproc_bib_item_1">Armstrong 2013, 
     qlc:e(Q)
     end,
   mnesia:transaction(F).
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc73ddbd" class="outline-2">
-<h2 id="orgc73ddbd">References:</h2>
-<div class="outline-text-2" id="text-orgc73ddbd">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org6dcdbe6" class="outline-2">
+<h2 id="org6dcdbe6">References:</h2>
+<div class="outline-text-2" id="text-org6dcdbe6">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Laurent, Simon St. 2017. <i>Introducing Erlang: Getting Started in Functional Programming</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org159818f" class="outline-2">
-<h2 id="org159818f">Backlinks:</h2>
-<div class="outline-text-2" id="text-org159818f">
+<div id="outline-container-orgd4b1345" class="outline-2">
+<h2 id="orgd4b1345">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgd4b1345">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>

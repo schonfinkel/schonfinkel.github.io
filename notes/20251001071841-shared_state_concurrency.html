@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Shared-State Concurrency</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -60,8 +61,8 @@
 The shared-state concurrent model is a simple extension to the declarative
 concurrent model that adds explicit state in the form of cells, which are a kind
 of mutable variable. This model is equivalent in expressiveness to the
-message-passing concurrent model (&#x2026;), because cells can be eﬃciently
-implemented with ports and vice versa. (&#x2026;). The shared-state model encourages
+message-passing concurrent model (&hellip;), because cells can be eﬃciently
+implemented with ports and vice versa. (&hellip;). The shared-state model encourages
 programs where threads concurrently access a shared data repository. The
 message-passing model encourages multi-agent programs. <b>The shared-state model is
 harder to program than the message-passing model</b>.
@@ -71,13 +72,13 @@ harder to program than the message-passing model</b>.
 (<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 569 chap.8</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgfa62df3" class="outline-2">
-<h2 id="orgfa62df3">Programming with Concurrency</h2>
-<div class="outline-text-2" id="text-orgfa62df3">
+<div id="outline-container-org35c5e23" class="outline-2">
+<h2 id="org35c5e23">Programming with Concurrency</h2>
+<div class="outline-text-2" id="text-org35c5e23">
 <blockquote>
 <p>
 Shared state is another basic programming style of the stateful concurrent
-model. (&#x2026;). It consists of a set of threads accessing a set of shared passive
+model. (&hellip;). It consists of a set of threads accessing a set of shared passive
 objects. The threads coordinate among each other when accessing the shared
 objects. They do this by means of coarse-grained atomic actions, e.g., locks,
 monitors, or transactions. Again, this limits the possible interleavings and
@@ -89,13 +90,13 @@ allows us to reason using invariants.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org08160e3" class="outline-3">
-<h3 id="org08160e3">Overview of the Diﬀerent Approaches</h3>
+<div id="outline-container-org82bc663" class="outline-3">
+<h3 id="org82bc663">Overview of the Diﬀerent Approaches</h3>
 </div>
 
-<div id="outline-container-org36cfdb2" class="outline-3">
-<h3 id="org36cfdb2">Programming with Atomic Actions</h3>
-<div class="outline-text-3" id="text-org36cfdb2">
+<div id="outline-container-orgb2b617b" class="outline-3">
+<h3 id="orgb2b617b">Programming with Atomic Actions</h3>
+<div class="outline-text-3" id="text-orgb2b617b">
 <blockquote>
 <ul class="org-ul">
 <li>Locks allow the grouping of little atomic operations into big atomic
@@ -119,17 +120,17 @@ leaves the execution state unchanged, i.e., as it was upon entry.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org0d7078a" class="outline-2">
-<h2 id="org0d7078a">Locks</h2>
+<div id="outline-container-orgf0ed166" class="outline-2">
+<h2 id="orgf0ed166">Locks</h2>
 </div>
 
-<div id="outline-container-orgca2e41e" class="outline-2">
-<h2 id="orgca2e41e">Monitors</h2>
+<div id="outline-container-org574b7e9" class="outline-2">
+<h2 id="org574b7e9">Monitors</h2>
 </div>
 
-<div id="outline-container-orga41683a" class="outline-2">
-<h2 id="orga41683a">Transactions</h2>
-<div class="outline-text-2" id="text-orga41683a">
+<div id="outline-container-orgc715adb" class="outline-2">
+<h2 id="orgc715adb">Transactions</h2>
+<div class="outline-text-2" id="text-orgc715adb">
 <blockquote>
 <p>
 Transactions were introduced as a basic concept for the management of large
@@ -139,7 +140,7 @@ not an easy problem to solve</b>.
 </p>
 
 <p>
-(&#x2026;)
+(&hellip;)
 </p>
 
 <p>
@@ -176,13 +177,13 @@ changes.</dd>
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org04553fd" class="outline-3">
-<h3 id="org04553fd">Concurrency Control</h3>
-<div class="outline-text-3" id="text-org04553fd">
+<div id="outline-container-orgda0c1f5" class="outline-3">
+<h3 id="orgda0c1f5">Concurrency Control</h3>
+<div class="outline-text-3" id="text-orgda0c1f5">
 </div>
-<div id="outline-container-org5608736" class="outline-4">
-<h4 id="org5608736">Locks and Timestamps</h4>
-<div class="outline-text-4" id="text-org5608736">
+<div id="outline-container-org5bbb7f0" class="outline-4">
+<h4 id="org5bbb7f0">Locks and Timestamps</h4>
+<div class="outline-text-4" id="text-org5bbb7f0">
 <blockquote>
 <p>
 The two most widely used approaches to concurrency control are locks and timestamps:
@@ -190,14 +191,14 @@ The two most widely used approaches to concurrency control are locks and timesta
 
 <dl class="org-dl">
 <dt>Lock-based concurrency control</dt><dd>Each stateful entity has a lock that
-controls access to the entity. (&#x2026;). Locks are important to enforce
+controls access to the entity. (&hellip;). Locks are important to enforce
 serializability. This is a safety property, i.e., an assertion that is always
 true during execution.</dd>
 
 <dt>Timestamp-based concurrency control</dt><dd>Each transaction is given a timestamp
 that gives it a priority. The timestamps are taken from an ordered set,
 something like the numbered tickets used in shops to ensure that customers are
-served in order. (&#x2026;). This is a liveness property, i.e., an assertion that
+served in order. (&hellip;). This is a liveness property, i.e., an assertion that
 always eventually becomes true.</dd>
 </dl>
 
@@ -213,9 +214,9 @@ exact meanings of the terms "is always true" and "eventually becomes true".
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org329688d" class="outline-4">
-<h4 id="org329688d">Optimistic and Pessimistic Scheduling</h4>
-<div class="outline-text-4" id="text-org329688d">
+<div id="outline-container-orgd71fdb4" class="outline-4">
+<h4 id="orgd71fdb4">Optimistic and Pessimistic Scheduling</h4>
+<div class="outline-text-4" id="text-orgd71fdb4">
 <p>
 Algorithms for concurrency control vary on different axes, one of these axes is
 how optimistic or pessimistic they are. When a transaction requests a lock, the
@@ -235,22 +236,22 @@ no problems may occur.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdfaad18" class="outline-4">
-<h4 id="orgdfaad18">Two-Phase Locking</h4>
+<div id="outline-container-org5f5c079" class="outline-4">
+<h4 id="org5f5c079">Two-Phase Locking</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb8df02a" class="outline-2">
-<h2 id="orgb8df02a">References:</h2>
-<div class="outline-text-2" id="text-orgb8df02a">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org1a79915" class="outline-2">
+<h2 id="org1a79915">References:</h2>
+<div class="outline-text-2" id="text-org1a79915">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orge856212" class="outline-2">
-<h2 id="orge856212">Backlinks:</h2>
-<div class="outline-text-2" id="text-orge856212">
+<div id="outline-container-org4710356" class="outline-2">
+<h2 id="org4710356">Backlinks:</h2>
+<div class="outline-text-2" id="text-org4710356">
 <ul class="org-ul">
 <li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
 </ul>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Performance Optimization (PostgreSQL)</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -58,9 +59,9 @@
 </header><ul class="org-ul">
 <li><a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a></li>
 </ul>
-<div id="outline-container-org97eb140" class="outline-2">
-<h2 id="org97eb140">The <code>EXPLAIN</code> Statement</h2>
-<div class="outline-text-2" id="text-org97eb140">
+<div id="outline-container-orgbde80ee" class="outline-2">
+<h2 id="orgbde80ee">The <code>EXPLAIN</code> Statement</h2>
+<div class="outline-text-2" id="text-orgbde80ee">
 <blockquote>
 <p>
 There are a few important things to know before using <code>EXPLAIN</code>:
@@ -80,9 +81,9 @@ provide you with the dataset.</li>
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org4c3bdd0" class="outline-3">
-<h3 id="org4c3bdd0">Scan Types</h3>
-<div class="outline-text-3" id="text-org4c3bdd0">
+<div id="outline-container-orgc4e8f1c" class="outline-3">
+<h3 id="orgc4e8f1c">Scan Types</h3>
+<div class="outline-text-3" id="text-orgc4e8f1c">
 <table>
 
 
@@ -100,22 +101,22 @@ provide you with the dataset.</li>
 <tbody>
 <tr>
 <td class="org-left">Sequential</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left">Bitmap Heap Scan</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left">Bitmap Index Scan</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left">Index Scan</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
@@ -127,14 +128,14 @@ provide you with the dataset.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org0d6224d" class="outline-2">
-<h2 id="org0d6224d">Advanced statistics with <code>pg_stat_statements</code></h2>
-<div class="outline-text-2" id="text-org0d6224d">
+<div id="outline-container-orgc5274b2" class="outline-2">
+<h2 id="orgc5274b2">Advanced statistics with <code>pg_stat_statements</code></h2>
+<div class="outline-text-2" id="text-orgc5274b2">
 <blockquote>
 <p>
 While the <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> statistics collector is rich and mature, having to monitor
 connection activity can be a little tricky since the <code>pg_stat_activity</code> catalog
-does not provide historical information. (&#x2026;)
+does not provide historical information. (&hellip;)
 </p>
 
 <p>
@@ -154,8 +155,8 @@ do is to enable it in a database cluster. You can do it by editing the
 </p>
 
 <div class="org-src-container">
-<pre class="src src-text">  shared_preload_libraries = 'pg_stat_statements'
-</pre>
+<pre class="src src-text"><code>  shared_preload_libraries = 'pg_stat_statements'
+</code></pre>
 </div>
 
 <p>
@@ -163,8 +164,8 @@ or add it like this (it requires a restart of the database cluster).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">SYSTEM</span> <span style="font-weight: bold;">SET</span> shared_preload_libraries = <span style="font-style: italic;">'pg_stat_statements'</span>;
-</pre>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">SYSTEM</span> <span style="font-weight: bold;">SET</span> shared_preload_libraries = <span style="font-style: italic;">'pg_stat_statements'</span>;
+</code></pre>
 </div>
 
 <p>
@@ -172,24 +173,24 @@ then verify if it works and enable the extension in your database.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Check if pg_stat_statements shows up
+<pre class="src src-sql"><code>  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Check if pg_stat_statements shows up
 </span>  SHOW shared_preload_libraries;
 
   <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Then enable it
 </span>  <span style="font-weight: bold;">CREATE</span> extension pg_stat_statements;
-</pre>
+</code></pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-sql">
-</pre>
+<pre class="src src-sql"><code>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-orgc1bc2a2" class="outline-3">
-<h3 id="orgc1bc2a2">Usage</h3>
-<div class="outline-text-3" id="text-orgc1bc2a2">
+<div id="outline-container-orgbda0ead" class="outline-3">
+<h3 id="orgbda0ead">Usage</h3>
+<div class="outline-text-3" id="text-orgbda0ead">
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     auth.rolname,
     query,
     db.datname,
@@ -200,7 +201,7 @@ then verify if it works and enable the extension in your database.
   <span style="font-weight: bold;">JOIN</span> pg_authid auth <span style="font-weight: bold;">ON</span> auth.oid = userid
   <span style="font-weight: bold;">JOIN</span> pg_database db <span style="font-weight: bold;">ON</span> db.oid = dbid
   <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> calls <span style="font-weight: bold;">DESC</span>;
-</pre>
+</code></pre>
 </div>
 
 <table>
@@ -255,12 +256,12 @@ then verify if it works and enable the extension in your database.
 
 <tr>
 <td class="org-left"><code>shared_blks_hit</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>shared_blks_read</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
@@ -272,10 +273,10 @@ then verify if it works and enable the extension in your database.
 </div>
 </div>
 </div>
-<div id="outline-container-org6e1913f" class="outline-2">
-<h2 id="org6e1913f">References:</h2>
-<div class="outline-text-2" id="text-org6e1913f">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-orgf0eb055" class="outline-2">
+<h2 id="orgf0eb055">References:</h2>
+<div class="outline-text-2" id="text-orgf0eb055">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>

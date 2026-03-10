@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kubernetes-ConfigMaps</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,9 +56,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Kubernetes-ConfigMaps</h1>
-</header><div id="outline-container-org9dd0bd4" class="outline-2">
-<h2 id="org9dd0bd4">ConfigMaps</h2>
-<div class="outline-text-2" id="text-org9dd0bd4">
+</header><div id="outline-container-org9454ed7" class="outline-2">
+<h2 id="org9454ed7">ConfigMaps</h2>
+<div class="outline-text-2" id="text-org9454ed7">
 <p>
 A ConfigMap is a <a href="20211012215602-kubernetes.html#ID-dd924a84-7d6f-41ec-98c2-aa16582c0d89">Kubernetes</a> API object used to store non-confidential data in
 key-value pairs. Pods can consume ConfigMaps as environment variables,
@@ -65,7 +66,7 @@ command-line arguments, or as configuration files in a volume.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml">  apiVersion: v1
+<pre class="src src-yaml"><code>  apiVersion: v1
   kind: ConfigMap
   metadata:
     name: game-demo
@@ -84,19 +85,19 @@ command-line arguments, or as configuration files in a volume.
       color.good=purple
       color.bad=yellow
       allow.textmode=true   
-</pre>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-org74040e2" class="outline-3">
-<h3 id="org74040e2">Creating a ConfigMap</h3>
-<div class="outline-text-3" id="text-org74040e2">
+<div id="outline-container-org415c23f" class="outline-3">
+<h3 id="org415c23f">Creating a ConfigMap</h3>
+<div class="outline-text-3" id="text-org415c23f">
 <ul class="org-ul">
 <li>From files</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl create configmap [name] --from-file=[filepath]
-</pre>
+<pre class="src src-shell"><code>  kubectl create configmap [name] --from-file=[filepath]
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -104,16 +105,16 @@ command-line arguments, or as configuration files in a volume.
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-shell">  kubectl create configmap [name] --from-env-file=[filepath]
-</pre>
+<pre class="src src-shell"><code>  kubectl create configmap [name] --from-env-file=[filepath]
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb7c59c0" class="outline-3">
-<h3 id="orgb7c59c0">Using ConfigMaps in Pods</h3>
-<div class="outline-text-3" id="text-orgb7c59c0">
+<div id="outline-container-orgb4adab8" class="outline-3">
+<h3 id="orgb4adab8">Using ConfigMaps in Pods</h3>
+<div class="outline-text-3" id="text-orgb4adab8">
 <div class="org-src-container">
-<pre class="src src-yaml">apiVersion: v1
+<pre class="src src-yaml"><code>apiVersion: v1
 kind: Pod
 metadata:
   name: configmap-demo-pod
@@ -151,15 +152,15 @@ spec:
           path: "game.properties"
         - key: "user-interface.properties"
           path: "user-interface.properties"
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orge5d4a07" class="outline-2">
-<h2 id="orge5d4a07">References:</h2>
-<div class="outline-text-2" id="text-orge5d4a07">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org62f59d9" class="outline-2">
+<h2 id="org62f59d9">References:</h2>
+<div class="outline-text-2" id="text-org62f59d9">
+<div class="csl-bib-body">
 </div>
 </div>
 </div>

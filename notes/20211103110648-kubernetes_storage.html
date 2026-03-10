@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kubernetes-Storage</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,19 +56,19 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Kubernetes-Storage</h1>
-</header><div id="outline-container-org55ad0ab" class="outline-2">
-<h2 id="org55ad0ab">Volume Types</h2>
-<div class="outline-text-2" id="text-org55ad0ab">
+</header><div id="outline-container-org734f22d" class="outline-2">
+<h2 id="org734f22d">Volume Types</h2>
+<div class="outline-text-2" id="text-org734f22d">
 </div>
-<div id="outline-container-org2225374" class="outline-3">
-<h3 id="org2225374">emptyDir</h3>
-<div class="outline-text-3" id="text-org2225374">
+<div id="outline-container-org236d9c2" class="outline-3">
+<h3 id="org236d9c2">emptyDir</h3>
+<div class="outline-text-3" id="text-org236d9c2">
 <p>
 Empty directory for storing data ephemeral data from the Pods
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml">  apiVersion: v1
+<pre class="src src-yaml"><code>  apiVersion: v1
   kind: Pod
   spec:
     volumes:
@@ -90,37 +91,37 @@ Empty directory for storing data ephemeral data from the Pods
           - name: html
             mountPath: /html
             readOnly: false
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgabee5b1" class="outline-3">
-<h3 id="orgabee5b1">hostPath</h3>
-<div class="outline-text-3" id="text-orgabee5b1">
+<div id="outline-container-org8d4e5f6" class="outline-3">
+<h3 id="org8d4e5f6">hostPath</h3>
+<div class="outline-text-3" id="text-org8d4e5f6">
 <p>
 A volume that's mounted in the Node's filesystem and is shared with a Pod
 </p>
 </div>
 </div>
-<div id="outline-container-org53a06a5" class="outline-3">
-<h3 id="org53a06a5">nfs</h3>
-<div class="outline-text-3" id="text-org53a06a5">
+<div id="outline-container-orgcb5357e" class="outline-3">
+<h3 id="orgcb5357e">nfs</h3>
+<div class="outline-text-3" id="text-orgcb5357e">
 <p>
 A NFS share mounted into the Pod
 </p>
 </div>
 </div>
-<div id="outline-container-org07e5cfa" class="outline-3">
-<h3 id="org07e5cfa">configMap/secret</h3>
-<div class="outline-text-3" id="text-org07e5cfa">
+<div id="outline-container-orgd241910" class="outline-3">
+<h3 id="orgd241910">configMap/secret</h3>
+<div class="outline-text-3" id="text-orgd241910">
 <p>
 Provides access to <a href="20211012215602-kubernetes.html#ID-dd924a84-7d6f-41ec-98c2-aa16582c0d89">Kubernetes</a> resources
 </p>
 </div>
 </div>
-<div id="outline-container-orgf0af36c" class="outline-3">
-<h3 id="orgf0af36c">persistentVolumeClaim</h3>
-<div class="outline-text-3" id="text-orgf0af36c">
+<div id="outline-container-org9cf2c7c" class="outline-3">
+<h3 id="org9cf2c7c">persistentVolumeClaim</h3>
+<div class="outline-text-3" id="text-org9cf2c7c">
 <p>
 A <code>persistentVolume</code> is a cluster-wide storage resource that relies on
 network-attached storage. It's abstracted and associated to a Pod via a
@@ -132,7 +133,7 @@ network-attached storage. It's abstracted and associated to a Pod via a
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-yaml">  apiVersion: v1
+<pre class="src src-yaml"><code>  apiVersion: v1
   kind: PersistentVolume
   metadata:
     name: pv-1
@@ -147,7 +148,7 @@ network-attached storage. It's abstracted and associated to a Pod via a
       secretName: &lt;azure-secret&gt;
       shareName: &lt;azure-fileshare&gt;
       readOnly: false
-</pre>
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -155,7 +156,7 @@ network-attached storage. It's abstracted and associated to a Pod via a
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-yaml">  apiVersion: v1
+<pre class="src src-yaml"><code>  apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
     name: pv-demo
@@ -168,13 +169,13 @@ network-attached storage. It's abstracted and associated to a Pod via a
       requests:
         storage: 5Gi
     storageClassName: cdk-cinder
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org163d6b0" class="outline-3">
-<h3 id="org163d6b0">Cloud</h3>
-<div class="outline-text-3" id="text-org163d6b0">
+<div id="outline-container-org986296e" class="outline-3">
+<h3 id="org986296e">Cloud</h3>
+<div class="outline-text-3" id="text-org986296e">
 <p>
 Cluster-wide storage, which varies depending on the cloud provider
 </p>
@@ -197,10 +198,10 @@ Cluster-wide storage, which varies depending on the cloud provider
 </div>
 </div>
 </div>
-<div id="outline-container-org2b7bb1b" class="outline-2">
-<h2 id="org2b7bb1b">References:</h2>
-<div class="outline-text-2" id="text-org2b7bb1b">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org563dc0a" class="outline-2">
+<h2 id="org563dc0a">References:</h2>
+<div class="outline-text-2" id="text-org563dc0a">
+<div class="csl-bib-body">
 </div>
 </div>
 </div>

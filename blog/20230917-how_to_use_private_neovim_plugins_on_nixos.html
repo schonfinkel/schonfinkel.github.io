@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>How to use private NeoVim plugins on NixOS</title>
@@ -64,7 +64,7 @@ fully nixified.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  dotfiles
+<pre class="src src-shell"><code>  dotfiles
   &#9500;&#9472;&#9472; (...)
   &#9500;&#9472;&#9472; nvim
   &#9474;   &#9500;&#9472;&#9472; files.lua
@@ -76,7 +76,7 @@ fully nixified.
   &#9500;&#9472;&#9472; (...)
   &#9492;&#9472;&#9472; zsh
   &#9492;&#9472;&#9472; zshrc
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -84,7 +84,7 @@ I do it by having a simple directory where all my Neovim derivations stand.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  home
+<pre class="src src-shell"><code>  home
   &#9500;&#9472;&#9472; (...)
   &#9500;&#9472;&#9472; development
   &#9474;   &#9500;&#9472;&#9472; cloud.nix
@@ -101,7 +101,7 @@ I do it by having a simple directory where all my Neovim derivations stand.
   &#9474;   &#9492;&#9472;&#9472; private.nix
   &#9500;&#9472;&#9472; (...)
   &#9492;&#9472;&#9472; zshell.nix
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -110,7 +110,7 @@ when you want to use some package that's not available yet into <a href="https:/
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nix">  { pkgs, config }:
+<pre class="src src-nix"><code>  { pkgs, config }:
 
   let
     plugin = pkgs.vimUtils.buildVimPlugin;
@@ -126,13 +126,13 @@ when you want to use some package that's not available yet into <a href="https:/
       };
     };
   }
-</pre>
+</code></pre>
 </div>
 <p>
 then you can just import it from other files:
 </p>
 <div class="org-src-container">
-<pre class="src src-nix">  { pkgs, config, lib, ... }:
+<pre class="src src-nix"><code>  { pkgs, config, lib, ... }:
 
   let
     plugins = pkgs.vimPlugins;
@@ -199,20 +199,20 @@ then you can just import it from other files:
       vim-terraform
     ];
   }
-</pre>
+</code></pre>
 </div>
 
 <p>
 and <a href="https://nix-community.github.io/home-manager/options.html#opt-programs.neovim.enable">since Neovim has an awesome module in home-manager</a>, make sure to use it:
 </p>
 <div class="org-src-container">
-<pre class="src src-nix">  programs.neovim = {
+<pre class="src src-nix"><code>  programs.neovim = {
     enable = true;
 
     # (...)
     plugins = vimPlugins.base ++ vimPlugins.eyecandy ++ vimPlugins.ui ++ vimPlugins.lsp ++ vimPlugins.tooling;
   };
-</pre>
+</code></pre>
 </div>
 
 <p>

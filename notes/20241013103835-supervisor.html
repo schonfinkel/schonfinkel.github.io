@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Supervisor</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -64,9 +65,9 @@ supervision trees allows you to create highly fault-tolerant systems.
 (<a href="#citeproc_bib_item_3">Logan, Merritt, and Carlsson 2010</a>)
 </p>
 </blockquote>
-<div id="outline-container-org52a103d" class="outline-2">
-<h2 id="org52a103d">The Supervision Tree</h2>
-<div class="outline-text-2" id="text-org52a103d">
+<div id="outline-container-org0d2449e" class="outline-2">
+<h2 id="org0d2449e">The Supervision Tree</h2>
+<div class="outline-text-2" id="text-org0d2449e">
 <blockquote>
 <p>
 A supervision tree is a tree of processes. The upper processes (supervisors) in
@@ -84,7 +85,7 @@ There are two types of supervision trees:
 </dl>
 
 
-<figure id="orga982d28">
+<figure id="orgcb2f80a">
 <img src="../static/img/notes/erlang_supervisor_o4o.png" alt="erlang_supervisor_o4o.png">
 
 </figure>
@@ -94,7 +95,7 @@ There are two types of supervision trees:
 </dl>
 
 
-<figure id="org1a1a543">
+<figure id="org648d598">
 <img src="../static/img/notes/erlang_supervisor_o4a.png" alt="erlang_supervisor_o4a.png">
 
 </figure>
@@ -111,15 +112,15 @@ supposed to be started and restarted.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org9ff49cc" class="outline-2">
-<h2 id="org9ff49cc">Robust Systems</h2>
-<div class="outline-text-2" id="text-org9ff49cc">
+<div id="outline-container-org9d9b0a4" class="outline-2">
+<h2 id="org9d9b0a4">Robust Systems</h2>
+<div class="outline-text-2" id="text-org9d9b0a4">
 <blockquote>
 <p>
 In Erlang, you build robust systems by layering. Using processes, you create a
 tree in which the leaves consist of the application layer that handles the
 operational tasks while the interior nodes monitor the leaves and other nodes
-below them, (&#x2026;). Processes at any level will trap errors occurring at a level
+below them, (&hellip;). Processes at any level will trap errors occurring at a level
 immediately below them. A process whose only task is to supervise children—in
 our case the nodes of the tree—is called a supervisor. A leaf process performing
 operational tasks is called a worker. When we refer to child processes, we mean
@@ -132,19 +133,19 @@ both supervisors and workers belonging to a particular supervisor.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5bbcc0c" class="outline-2">
-<h2 id="org5bbcc0c">References:</h2>
-<div class="outline-text-2" id="text-org5bbcc0c">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org40b4df2" class="outline-2">
+<h2 id="org40b4df2">References:</h2>
+<div class="outline-text-2" id="text-org40b4df2">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Simon Thompson. 2009. <i>Erlang Programming: A Concurrent Approach to Software Development</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_3"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org00e2e67" class="outline-2">
-<h2 id="org00e2e67">Backlinks:</h2>
-<div class="outline-text-2" id="text-org00e2e67">
+<div id="outline-container-org6e72088" class="outline-2">
+<h2 id="org6e72088">Backlinks:</h2>
+<div class="outline-text-2" id="text-org6e72088">
 <ul class="org-ul">
 <li><a href="./20250102194431-application_otp.html">Application (OTP)</a></li>
 <li><a href="./20240928181517-otp.html">OTP</a></li>

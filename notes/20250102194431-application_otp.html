@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Application (OTP)</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -66,12 +67,12 @@ multiple running instances, and some are limited to one instance at a
 time. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 119</a>)
 </p>
 </blockquote>
-<div id="outline-container-org2dde4b6" class="outline-2">
-<h2 id="org2dde4b6">Active Applications</h2>
-<div class="outline-text-2" id="text-org2dde4b6">
+<div id="outline-container-org1c3c05b" class="outline-2">
+<h2 id="org1c3c05b">Active Applications</h2>
+<div class="outline-text-2" id="text-org1c3c05b">
 <blockquote>
 <p>
-All applications have the same basic structure (&#x2026;). The application behaviour
+All applications have the same basic structure (&hellip;). The application behaviour
 encapsulates starting and stopping the application. When started, a running
 application has a root <a href="20241013103835-supervisor.html#ID-2daf1307-afb4-49e4-98cb-66ac7eb27cf0">Supervisor</a>, which directly or indirectly manages all the
 other processes of the application (including any subsystem
@@ -84,14 +85,14 @@ Active Applications have a life cycle and must be started in order to be useful.
 </p>
 
 
-<figure id="orge2525ed">
+<figure id="orged4054d">
 <img src="../static/img/notes/erlang_application_structure.png" alt="erlang_application_structure.png">
 
 </figure>
 </div>
-<div id="outline-container-org1da4e2d" class="outline-3">
-<h3 id="org1da4e2d">Metadata</h3>
-<div class="outline-text-3" id="text-org1da4e2d">
+<div id="outline-container-orgbdac852" class="outline-3">
+<h3 id="orgbdac852">Metadata</h3>
+<div class="outline-text-3" id="text-orgbdac852">
 <p>
 OTP needs a certain amount of information to make sense of active applications,
 like what to <code>start/stop</code> (provided you implement the <code>application</code> behaviour) in
@@ -102,37 +103,37 @@ context of release management.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-erlang">{application, example,
+<pre class="src src-erlang"><code>{application, example,
   [{description, "Description Example"},
    {vsn, "0.0.1"},
    {modules, [example, example_sup, example_module]},
    {registered, [example, example_sup]},
    {applications, [kernel,stdlib]},
    {mod, {example_app,[]} }]}.
-</pre>
+</code></pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-erlang">  1&gt; application:loaded_applications().
-</pre>
+<pre class="src src-erlang"><code>  1&gt; application:loaded_applications().
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org6d4866d" class="outline-3">
-<h3 id="org6d4866d">The Application Controller</h3>
-<div class="outline-text-3" id="text-org6d4866d">
+<div id="outline-container-org4b73657" class="outline-3">
+<h3 id="org4b73657">The Application Controller</h3>
+<div class="outline-text-3" id="text-org4b73657">
 <blockquote>
 <p>
 There is only one application controller per runtime system, registered under
-the name <code>application_controller</code>. (&#x2026;) The controller is also responsible for
+the name <code>application_controller</code>. (&hellip;) The controller is also responsible for
 loading the <code>.app</code> file for the application and checking that all the applications
 it depends on have been started first. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 245</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org3638e36" class="outline-4">
-<h4 id="org3638e36">Start Types</h4>
-<div class="outline-text-4" id="text-org3638e36">
+<div id="outline-container-orgd3272ab" class="outline-4">
+<h4 id="orgd3272ab">Start Types</h4>
+<div class="outline-text-4" id="text-orgd3272ab">
 <ul class="org-ul">
 <li><code>permanent</code></li>
 <li><code>temporary</code></li>
@@ -141,18 +142,18 @@ it depends on have been started first. (<a href="#citeproc_bib_item_1">Logan, Me
 </div>
 </div>
 </div>
-<div id="outline-container-org6733c27" class="outline-2">
-<h2 id="org6733c27">Library Applications</h2>
-<div class="outline-text-2" id="text-org6733c27">
+<div id="outline-container-orga8bb202" class="outline-2">
+<h2 id="orga8bb202">Library Applications</h2>
+<div class="outline-text-2" id="text-orga8bb202">
 <p>
 Library applications are a passive collection of modules to be used by other
 applications, and they don't need to be started or stopped.
 </p>
 </div>
 </div>
-<div id="outline-container-org1b63d36" class="outline-2">
-<h2 id="org1b63d36">Making a Release</h2>
-<div class="outline-text-2" id="text-org1b63d36">
+<div id="outline-container-org66a5181" class="outline-2">
+<h2 id="org66a5181">Making a Release</h2>
+<div class="outline-text-2" id="text-org66a5181">
 <blockquote>
 <p>
 Packaging of functionality in Erlang/OTP can be viewed as a hierarchy. At the
@@ -163,9 +164,9 @@ releases. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 245
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org6c852e0" class="outline-3">
-<h3 id="org6c852e0">Releases</h3>
-<div class="outline-text-3" id="text-org6c852e0">
+<div id="outline-container-org301f396" class="outline-3">
+<h3 id="org301f396">Releases</h3>
+<div class="outline-text-3" id="text-org301f396">
 <blockquote>
 <p>
 A release consists of a set of applications together with some metadata
@@ -176,7 +177,7 @@ applications.
 </p>
 
 <p>
-(&#x2026;)
+(&hellip;)
 </p>
 
 <p>
@@ -196,18 +197,18 @@ how to manage the system.</li>
 </blockquote>
 
 
-<figure id="org7bf0426">
+<figure id="org737b109">
 <img src="../static/img/notes/erlang_release_structure.png" alt="erlang_release_structure.png">
 
 </figure>
 </div>
-<div id="outline-container-org77f11a8" class="outline-4">
-<h4 id="org77f11a8">Metadata</h4>
+<div id="outline-container-org870be0b" class="outline-4">
+<h4 id="org870be0b">Metadata</h4>
 </div>
 </div>
-<div id="outline-container-orgf0960c2" class="outline-3">
-<h3 id="orgf0960c2">System Configuration</h3>
-<div class="outline-text-3" id="text-orgf0960c2">
+<div id="outline-container-org2ed38ae" class="outline-3">
+<h3 id="org2ed38ae">System Configuration</h3>
+<div class="outline-text-3" id="text-org2ed38ae">
 <blockquote>
 <p>
 The standard name for a configuration file is <code>sys.config</code>. The name can be
@@ -219,17 +220,17 @@ period. (<a href="#citeproc_bib_item_1">Logan, Merritt, and Carlsson 2010, 250</
 </div>
 </div>
 </div>
-<div id="outline-container-orgaeb2815" class="outline-2">
-<h2 id="orgaeb2815">References:</h2>
-<div class="outline-text-2" id="text-orgaeb2815">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org2c922dd" class="outline-2">
+<h2 id="org2c922dd">References:</h2>
+<div class="outline-text-2" id="text-org2c922dd">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org186067c" class="outline-2">
-<h2 id="org186067c">Backlinks:</h2>
-<div class="outline-text-2" id="text-org186067c">
+<div id="outline-container-org2fb9f31" class="outline-2">
+<h2 id="org2fb9f31">Backlinks:</h2>
+<div class="outline-text-2" id="text-org2fb9f31">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>

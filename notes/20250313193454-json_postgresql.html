@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JSON (PostgreSQL)</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -93,19 +94,19 @@ data type, also supports the <code>JSONB</code> data type.
 </tr>
 </tbody>
 </table>
-<div id="outline-container-org6e4aa5e" class="outline-2">
-<h2 id="org6e4aa5e">Validation</h2>
+<div id="outline-container-orga6f437d" class="outline-2">
+<h2 id="orga6f437d">Validation</h2>
 </div>
 
-<div id="outline-container-org7f0997d" class="outline-2">
-<h2 id="org7f0997d">Functions &amp; Operators</h2>
-<div class="outline-text-2" id="text-org7f0997d">
+<div id="outline-container-org34680fb" class="outline-2">
+<h2 id="org34680fb">Functions &amp; Operators</h2>
+<div class="outline-text-2" id="text-org34680fb">
 </div>
-<div id="outline-container-orgf409d49" class="outline-3">
-<h3 id="orgf409d49">Creating JSON data</h3>
-<div class="outline-text-3" id="text-orgf409d49">
+<div id="outline-container-org869acff" class="outline-3">
+<h3 id="org869acff">Creating JSON data</h3>
+<div class="outline-text-3" id="text-org869acff">
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> json_build_object(
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> json_build_object(
     <span style="font-style: italic;">'id'</span>, 1,
     <span style="font-style: italic;">'username'</span>, <span style="font-style: italic;">'bene'</span>,
     <span style="font-style: italic;">'roles'</span>, <span style="font-weight: bold; text-decoration: underline;">array</span>[<span style="font-style: italic;">'admin'</span>]
@@ -114,7 +115,7 @@ data type, also supports the <code>JSONB</code> data type.
 </span>                         json_obj                       
   <span style="font-weight: bold; font-style: italic;">------------------------------------------------------</span><span style="font-weight: bold; font-style: italic;">
 </span>   {"id" : 1, "username" : "bene", "roles" : ["<span style="font-weight: bold;">admin</span>"]}
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -123,14 +124,14 @@ Similar functions like <code>to_json</code> and <code>json_build_array</code> al
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     row_to_json(v) <span style="font-weight: bold;">AS</span> value_json
   <span style="font-weight: bold;">FROM</span> (
     <span style="font-weight: bold;">SELECT</span> col_1, ..., col_n
     <span style="font-weight: bold;">FROM</span> tablename
     <span style="font-weight: bold;">WHERE</span> predicate
   ) <span style="font-weight: bold;">AS</span> v;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -139,20 +140,20 @@ every json object in its own row:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     json_agg(row_to_json(v)) <span style="font-weight: bold;">AS</span> json
   <span style="font-weight: bold;">FROM</span> (
     <span style="font-weight: bold;">SELECT</span> col_1, ..., col_n
     <span style="font-weight: bold;">FROM</span> tablename
     <span style="font-weight: bold;">WHERE</span> predicate
   ) <span style="font-weight: bold;">AS</span> v;
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org852465e" class="outline-3">
-<h3 id="org852465e">Extraction Operators</h3>
-<div class="outline-text-3" id="text-org852465e">
+<div id="outline-container-orgdd20050" class="outline-3">
+<h3 id="orgdd20050">Extraction Operators</h3>
+<div class="outline-text-3" id="text-orgdd20050">
 <table>
 
 
@@ -219,9 +220,9 @@ every json object in its own row:
 </table>
 </div>
 </div>
-<div id="outline-container-orgf4a6230" class="outline-3">
-<h3 id="orgf4a6230">Containment Operators</h3>
-<div class="outline-text-3" id="text-orgf4a6230">
+<div id="outline-container-org95e6470" class="outline-3">
+<h3 id="org95e6470">Containment Operators</h3>
+<div class="outline-text-3" id="text-org95e6470">
 <table>
 
 
@@ -260,9 +261,9 @@ every json object in its own row:
 </table>
 </div>
 </div>
-<div id="outline-container-org6ca8de8" class="outline-3">
-<h3 id="org6ca8de8">Existence Operators</h3>
-<div class="outline-text-3" id="text-org6ca8de8">
+<div id="outline-container-orgb9c4aa4" class="outline-3">
+<h3 id="orgb9c4aa4">Existence Operators</h3>
+<div class="outline-text-3" id="text-orgb9c4aa4">
 <p>
 You can also use the following operators to check if one or more values are
 contained inside a <code>JSONB</code> object:
@@ -275,13 +276,13 @@ yields <code>t</code>.</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     <span style="font-style: italic;">'{"a":1, "b":2, "c":3}'</span>::jsonb ?| <span style="font-weight: bold; text-decoration: underline;">array</span>[<span style="font-style: italic;">'b'</span>, <span style="font-style: italic;">'c'</span>] <span style="font-weight: bold;">as</span> <span style="font-weight: bold;">result</span>;
   <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs
 </span>   <span style="font-weight: bold;">result</span> 
   <span style="font-weight: bold; font-style: italic;">--------</span><span style="font-weight: bold; font-style: italic;">
 </span>   t
-</pre>
+</code></pre>
 </div>
 
 <ul class="org-ul">
@@ -289,9 +290,9 @@ yields <code>t</code>.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdc9d2b2" class="outline-3">
-<h3 id="orgdc9d2b2">JSON Path Operators</h3>
-<div class="outline-text-3" id="text-orgdc9d2b2">
+<div id="outline-container-org273e591" class="outline-3">
+<h3 id="org273e591">JSON Path Operators</h3>
+<div class="outline-text-3" id="text-org273e591">
 <table>
 
 
@@ -330,9 +331,9 @@ yields <code>t</code>.</li>
 </table>
 </div>
 </div>
-<div id="outline-container-org7b58fea" class="outline-3">
-<h3 id="org7b58fea">Deletion Operators</h3>
-<div class="outline-text-3" id="text-org7b58fea">
+<div id="outline-container-org35a2e6d" class="outline-3">
+<h3 id="org35a2e6d">Deletion Operators</h3>
+<div class="outline-text-3" id="text-org35a2e6d">
 <table>
 
 
@@ -385,20 +386,20 @@ yields <code>t</code>.</li>
 </table>
 </div>
 </div>
-<div id="outline-container-org3a161ef" class="outline-3">
-<h3 id="org3a161ef">Update Functions</h3>
-<div class="outline-text-3" id="text-org3a161ef">
+<div id="outline-container-org5f39a28" class="outline-3">
+<h3 id="org5f39a28">Update Functions</h3>
+<div class="outline-text-3" id="text-org5f39a28">
 <p>
 <code>jsonb_set</code>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orge0c4b5a" class="outline-2">
-<h2 id="orge0c4b5a">JSON Record Sets</h2>
-<div class="outline-text-2" id="text-orge0c4b5a">
+<div id="outline-container-org2d5ab63" class="outline-2">
+<h2 id="org2d5ab63">JSON Record Sets</h2>
+<div class="outline-text-2" id="text-org2d5ab63">
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> jsonb_each(<span style="font-style: italic;">'{"a": 1, "b": "something", "c": {"d": 1}}'</span>);
   <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs
 </span>   <span style="font-weight: bold;">key</span> |    <span style="font-weight: bold;">value</span>    
@@ -406,7 +407,7 @@ yields <code>t</code>.</li>
 </span>   a   | 1
    b   | "something"
    c   | {"d": 1}
-</pre>
+</code></pre>
 </div>
 <p>
 this function also has a <code>TEXT</code>-only variant, <code>jsonb_each_text</code>. You can also use
@@ -415,28 +416,28 @@ raw JSON data:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> *
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> jsonb_to_recordset(jsonb_build_array(<span style="font-style: italic;">'{"a": 1, "b": "something", "c": {"d": 1}}'</span>::jsonb))
   <span style="font-weight: bold;">AS</span> t(a <span style="font-weight: bold; text-decoration: underline;">INT</span>, b TEXT, c JSONB);
   <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs
 </span>   a |     b     |    c     
   <span style="font-weight: bold; font-style: italic;">---</span><span style="font-weight: bold; font-style: italic;">+-----------+----------
 </span>   1 | something | {"d": 1}
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7af1d08" class="outline-2">
-<h2 id="org7af1d08">Indexing</h2>
-<div class="outline-text-2" id="text-org7af1d08">
+<div id="outline-container-org97f9516" class="outline-2">
+<h2 id="org97f9516">Indexing</h2>
+<div class="outline-text-2" id="text-org97f9516">
 </div>
-<div id="outline-container-org1b23bcc" class="outline-3">
-<h3 id="org1b23bcc">Functional Indexes and Generated Columns</h3>
+<div id="outline-container-orgc2d2af8" class="outline-3">
+<h3 id="orgc2d2af8">Functional Indexes and Generated Columns</h3>
 </div>
 
-<div id="outline-container-org80bab36" class="outline-3">
-<h3 id="org80bab36">GIN Indexes</h3>
-<div class="outline-text-3" id="text-org80bab36">
+<div id="outline-container-orgf60ae24" class="outline-3">
+<h3 id="orgf60ae24">GIN Indexes</h3>
+<div class="outline-text-3" id="text-orgf60ae24">
 <blockquote>
 <p>
 <code>GIN</code> indexes can be used to efficiently search for keys or key/value pairs
@@ -451,9 +452,9 @@ trade-offs.
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">CREATE</span> INDEX index_name_idx
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> INDEX index_name_idx
   <span style="font-weight: bold;">ON</span> tablename <span style="font-weight: bold;">USING</span> GIN (jsondata &lt;operator_class&gt;);
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -467,17 +468,17 @@ For <code>JSONB</code>, <code>GIN</code> supports two operator classes:
 </div>
 </div>
 </div>
-<div id="outline-container-orgdd35811" class="outline-2">
-<h2 id="orgdd35811">References:</h2>
-<div class="outline-text-2" id="text-orgdd35811">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-orgc082ef9" class="outline-2">
+<h2 id="orgc082ef9">References:</h2>
+<div class="outline-text-2" id="text-orgc082ef9">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org7566f7b" class="outline-2">
-<h2 id="org7566f7b">Backlinks:</h2>
-<div class="outline-text-2" id="text-org7566f7b">
+<div id="outline-container-org663b02d" class="outline-2">
+<h2 id="org663b02d">Backlinks:</h2>
+<div class="outline-text-2" id="text-org663b02d">
 <ul class="org-ul">
 <li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
 </ul>

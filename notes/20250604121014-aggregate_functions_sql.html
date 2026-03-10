@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Aggregate Functions (SQL)</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -58,9 +59,9 @@
 </header><ul class="org-ul">
 <li><a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a></li>
 </ul>
-<div id="outline-container-org03ace6a" class="outline-2">
-<h2 id="org03ace6a"><code>GROUP BY</code></h2>
-<div class="outline-text-2" id="text-org03ace6a">
+<div id="outline-container-org1cdcd48" class="outline-2">
+<h2 id="org1cdcd48"><code>GROUP BY</code></h2>
+<div class="outline-text-2" id="text-org1cdcd48">
 <blockquote>
 <p>
 Aggregate functions are used in conjunction with the group by clause. A group by
@@ -86,53 +87,53 @@ calculations on them. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 
 <tbody>
 <tr>
 <td class="org-left"><code>AVG()</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>COUNT()</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>MAX()</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>MIN()</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>SUM()</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>ARRAY_AGG</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>JSON_AGG</code> or <code>JSONB_AGG</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>BOOL_AND(Predicate)</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>BOOL_OR(Predicate)</code></td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">&nbsp;</td>
 </tr>
 </tbody>
 </table>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
   <span style="font-weight: bold;">FROM</span> posts
   <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category;
   <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Outputs:
@@ -140,7 +141,7 @@ calculations on them. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 
   <span style="font-weight: bold; font-style: italic;">----------</span><span style="font-weight: bold; font-style: italic;">+-------
 </span>          3 | 1
           1 | 2
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -148,11 +149,11 @@ You can also filter the result of a <code>GROUP BY</code> by using <code>HAVING<
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> category, <span style="font-weight: bold;">COUNT</span>(*)
   <span style="font-weight: bold;">FROM</span> posts
   <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category
   <span style="font-weight: bold;">HAVING</span> <span style="font-weight: bold;">COUNT</span>(*) &gt; 1;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -160,19 +161,19 @@ and also pack multiple aggregations in a single <code>SELECT</code> statement:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sql">  <span style="font-weight: bold;">SELECT</span>
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     category,
     <span style="font-weight: bold;">COUNT</span>(*),
     <span style="font-weight: bold;">COUNT</span>(*) FILTER (<span style="font-weight: bold;">WHERE</span> replies &gt; 2) <span style="font-weight: bold;">as</span> number_of_replies
   <span style="font-weight: bold;">FROM</span> posts
   <span style="font-weight: bold;">GROUP</span> <span style="font-weight: bold;">BY</span> category
   <span style="font-weight: bold;">HAVING</span> <span style="font-weight: bold;">COUNT</span>(*) &gt; 1;
-</pre>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-orgf258dc6" class="outline-3">
-<h3 id="orgf258dc6"><code>GROUPING SETS</code>, <code>CUBE</code>, and <code>ROLLUP</code></h3>
-<div class="outline-text-3" id="text-orgf258dc6">
+<div id="outline-container-org9303504" class="outline-3">
+<h3 id="org9303504"><code>GROUPING SETS</code>, <code>CUBE</code>, and <code>ROLLUP</code></h3>
+<div class="outline-text-3" id="text-org9303504">
 <blockquote>
 <p>
 More complex grouping operations than those described above are possible using
@@ -184,10 +185,10 @@ group just as for simple GROUP BY clauses, and then the results returned.
 </div>
 </div>
 </div>
-<div id="outline-container-orgaaf0db2" class="outline-2">
-<h2 id="orgaaf0db2">References:</h2>
-<div class="outline-text-2" id="text-orgaaf0db2">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org9ec158d" class="outline-2">
+<h2 id="org9ec158d">References:</h2>
+<div class="outline-text-2" id="text-org9ec158d">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>

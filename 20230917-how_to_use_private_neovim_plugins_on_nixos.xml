@@ -14,10 +14,10 @@
   <link>https://schonfinkel.github.io/blog</link>
   <description><![CDATA[]]></description>
   <language>en</language>
-  <pubDate>Mon, 19 Jan 2026 13:52:24 +0000</pubDate>
-  <lastBuildDate>Mon, 19 Jan 2026 13:52:24 +0000</lastBuildDate>
-  <generator>Emacs 30.2 Org-mode 9.7.34</generator>
-  <webMaster>runner@runnervmmtnos (Marcos Benevides)</webMaster>
+  <pubDate>Tue, 10 Mar 2026 12:15:31 +0000</pubDate>
+  <lastBuildDate>Tue, 10 Mar 2026 12:15:31 +0000</lastBuildDate>
+  <generator>Emacs 30.2 Org-mode 9.8</generator>
+  <webMaster>runner@runnervm0kj6c (Marcos Benevides)</webMaster>
   <image>
     <url>https://orgmode.org/img/org-mode-unicorn-logo.png</url>
     <title>How to use private NeoVim plugins on NixOS</title>
@@ -32,7 +32,7 @@
   </p>
 
   <div class="org-src-container">
-    <pre class="src src-shell">  dotfiles
+    <pre class="src src-shell"><code>  dotfiles
     &#9500;&#9472;&#9472; (...)
     &#9500;&#9472;&#9472; nvim
     &#9474;   &#9500;&#9472;&#9472; files.lua
@@ -44,7 +44,7 @@
     &#9500;&#9472;&#9472; (...)
     &#9492;&#9472;&#9472; zsh
     &#9492;&#9472;&#9472; zshrc
-    </pre>
+    </code></pre>
   </div>
 
   <p>
@@ -52,7 +52,7 @@
   </p>
 
   <div class="org-src-container">
-    <pre class="src src-shell">  home
+    <pre class="src src-shell"><code>  home
     &#9500;&#9472;&#9472; (...)
     &#9500;&#9472;&#9472; development
     &#9474;   &#9500;&#9472;&#9472; cloud.nix
@@ -69,7 +69,7 @@
     &#9474;   &#9492;&#9472;&#9472; private.nix
     &#9500;&#9472;&#9472; (...)
     &#9492;&#9472;&#9472; zshell.nix
-    </pre>
+    </code></pre>
   </div>
 
   <p>
@@ -78,7 +78,7 @@
   </p>
 
   <div class="org-src-container">
-    <pre class="src src-nix">  { pkgs, config }:
+    <pre class="src src-nix"><code>  { pkgs, config }:
 
     let
     plugin = pkgs.vimUtils.buildVimPlugin;
@@ -94,13 +94,13 @@
     };
     };
     }
-    </pre>
+    </code></pre>
   </div>
   <p>
     then you can just import it from other files:
   </p>
   <div class="org-src-container">
-    <pre class="src src-nix">  { pkgs, config, lib, ... }:
+    <pre class="src src-nix"><code>  { pkgs, config, lib, ... }:
 
     let
     plugins = pkgs.vimPlugins;
@@ -167,20 +167,20 @@
     vim-terraform
     ];
     }
-    </pre>
+    </code></pre>
   </div>
 
   <p>
     and <a href="https://nix-community.github.io/home-manager/options.html#opt-programs.neovim.enable">since Neovim has an awesome module in home-manager</a>, make sure to use it:
   </p>
   <div class="org-src-container">
-    <pre class="src src-nix">  programs.neovim = {
+    <pre class="src src-nix"><code>  programs.neovim = {
     enable = true;
 
     # (...)
     plugins = vimPlugins.base ++ vimPlugins.eyecandy ++ vimPlugins.ui ++ vimPlugins.lsp ++ vimPlugins.tooling;
     };
-    </pre>
+    </code></pre>
   </div>
 
   <p>

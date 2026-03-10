@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-19 Mon 13:52 -->
+<!-- 2026-03-10 Tue 12:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LUKS</title>
@@ -29,6 +29,7 @@
     }
   };
 </script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -80,21 +81,21 @@ The <a href="20240924092617-linux.html#ID-8a427ee7-2ef1-489b-af82-91de7be8a3ba">
 (<a href="#citeproc_bib_item_1">Tevault 2023, 178</a>)
 </p>
 </blockquote>
-<div id="outline-container-org6c5664f" class="outline-2">
-<h2 id="org6c5664f">Partition Encryption</h2>
-<div class="outline-text-2" id="text-org6c5664f">
+<div id="outline-container-org36b52be" class="outline-2">
+<h2 id="org36b52be">Partition Encryption</h2>
+<div class="outline-text-2" id="text-org36b52be">
 <p>
 One needs to use the <code>cryptsetup</code> command to interact with <code>LUKS</code> partitions.
 </p>
 </div>
-<div id="outline-container-orgfdd1e91" class="outline-3">
-<h3 id="orgfdd1e91">Configure a LUKS partition</h3>
-<div class="outline-text-3" id="text-orgfdd1e91">
+<div id="outline-container-org01df3e1" class="outline-3">
+<h3 id="org01df3e1">Configure a LUKS partition</h3>
+<div class="outline-text-3" id="text-org01df3e1">
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">-v stands for verbose mode
+<pre class="src src-shell"><code>  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">-v stands for verbose mode
 </span>  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">-y asks for password confirmation
 </span>  sudo cryptsetup -y -v luksFormat /dev/&lt;...&gt;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -102,8 +103,8 @@ If you need to get some metadata about the partition that just got encrypted, ru
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  sudo cryptsetup luksDump /dev/&lt;...&gt;
-</pre>
+<pre class="src src-shell"><code>  sudo cryptsetup luksDump /dev/&lt;...&gt;
+</code></pre>
 </div>
 
 <p>
@@ -111,9 +112,9 @@ Next, you map the newly created partition to a device name:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">device name can be anything, like "crypt", "supasekrit", etc
+<pre class="src src-shell"><code>  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">device name can be anything, like "crypt", "supasekrit", etc
 </span>  sudo cryptsetup luksOpen /dev/&lt;...&gt; &lt;device-name&gt;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -121,10 +122,10 @@ Check the symlink created in the <code>/dev/mapper</code> directory:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  ls -l /dev/mapper/&lt;device-name&gt;
+<pre class="src src-shell"><code>  ls -l /dev/mapper/&lt;device-name&gt;
   <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">you can also fetch information via dmsetup
 </span>  sudo dmsetup info &lt;device-name&gt;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -132,19 +133,19 @@ Another useful trick is to fill the new partition with zeros before formatting:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">  pv -tpreb /dev/zero | dd <span style="font-weight: bold; font-style: italic;">of</span>=/dev/mapper/&lt;device-name&gt; <span style="font-weight: bold; font-style: italic;">bs</span>=128M
-</pre>
+<pre class="src src-shell"><code>  pv -tpreb /dev/zero | dd <span style="font-weight: bold; font-style: italic;">of</span>=/dev/mapper/&lt;device-name&gt; <span style="font-weight: bold; font-style: italic;">bs</span>=128M
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4074aba" class="outline-3">
-<h3 id="org4074aba"></h3>
+<div id="outline-container-org877a044" class="outline-3">
+<h3 id="org877a044"></h3>
 </div>
 </div>
-<div id="outline-container-org79b2357" class="outline-2">
-<h2 id="org79b2357">References:</h2>
-<div class="outline-text-2" id="text-org79b2357">
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<div id="outline-container-org5aefae3" class="outline-2">
+<h2 id="org5aefae3">References:</h2>
+<div class="outline-text-2" id="text-org5aefae3">
+<div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Tevault, Donald A. 2023. <i>Mastering Linux Security and Hardening: A Practical Guide to Protecting Your Linux System from Cyber Attacks</i>. Packt Publishing Ltd.</div>
 </div>
 </div>
