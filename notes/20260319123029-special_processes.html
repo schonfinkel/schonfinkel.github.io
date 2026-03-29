@@ -4,7 +4,7 @@
 <!-- 2026-03-29 Sun 20:20 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Formal Methods</title>
+<title>Special Processes (OTP)</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -55,57 +55,30 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Formal Methods</h1>
+<h1 class="title">Special Processes (OTP)</h1>
 </header><blockquote>
 <p>
-The term "formal methods" refers to various mathematical techniques used for the
-formal specification and development of software. They consist of a formal
-specification language and employ a collection of tools to support the syntax
-checking of the specification, as well as the proof of properties of the
-specification. They allow questions to be asked about what the system does
-independently of the implementation.
+OTP behaviors, in the vast majority of cases, provide you with the concurrency
+design patterns you need in your projects. There might, however, be occasions
+where you want to create an <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a>-compliant application while attaching processes
+that are not standard behaviors to your supervision tree. (&hellip;). You may want to
+write new behaviors after separating your code into generic and specific
+modules. Or you might want to do something as simple as adding pure Erlang
+processes to a supervision tree, making your release OTP compliant beyond the
+capabilities provided by supervision bridges.
 </p>
 
 <p>
-The use of mathematical notation avoids speculation about the meaning of phrases
-in an imprecisely worded natural language description of a system. Natural
-language is inherently ambiguous, whereas mathematics employs a precise rigorous notation.
-</p>
-
-<p>
-(<a href="#citeproc_bib_item_1">O’Regan 2017, 39</a>)
+We refer to a process that can be added to an OTP supervision tree and packaged
+in an application as a special process. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 241 chap.10</a>)
 </p>
 </blockquote>
-<div id="outline-container-org0a27594" class="outline-2">
-<h2 id="org0a27594">Industrial Applications</h2>
-<div class="outline-text-2" id="text-org0a27594">
-</div>
-<div id="outline-container-org2fb8f0e" class="outline-3">
-<h3 id="org2fb8f0e">CICS project (IBM)</h3>
-</div>
-</div>
-<div id="outline-container-orgeac9431" class="outline-2">
-<h2 id="orgeac9431">Formalisms</h2>
-<div class="outline-text-2" id="text-orgeac9431">
-<ul class="org-ul">
-<li><a href="20250220114651-program_graph.html#ID-808559c1-3472-46c7-8f5c-aac840e6f038">Program Graph</a></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org2f33bf6" class="outline-2">
-<h2 id="org2f33bf6">References:</h2>
-<div class="outline-text-2" id="text-org2f33bf6">
+<div id="outline-container-orge8fb8d5" class="outline-2">
+<h2 id="orge8fb8d5">References:</h2>
+<div class="outline-text-2" id="text-orge8fb8d5">
 <div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>O’Regan, Gerard. 2017. “Concise Guide to Formal Methods.” <i>Undergraduate Topics in Computer Science, Springer International Publishing Ag</i>.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
 </div>
-</div>
-</div>
-<div id="outline-container-org9039595" class="outline-2">
-<h2 id="org9039595">Backlinks:</h2>
-<div class="outline-text-2" id="text-org9039595">
-<ul class="org-ul">
-<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
-</ul>
 </div>
 </div>
 </main>

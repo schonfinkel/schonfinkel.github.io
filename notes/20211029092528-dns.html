@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-10 Tue 12:15 -->
+<!-- 2026-03-29 Sun 20:21 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>DNS</title>
@@ -108,9 +108,9 @@ to a nameserver. (<a href="#citeproc_bib_item_1">Liu and Albitz 2006, chap. 1 p.
 </tr>
 </tbody>
 </table>
-<div id="outline-container-org841fdbb" class="outline-2">
-<h2 id="org841fdbb">The Domain Namespace</h2>
-<div class="outline-text-2" id="text-org841fdbb">
+<div id="outline-container-org2ef01d5" class="outline-2">
+<h2 id="org2ef01d5">The Domain Namespace</h2>
+<div class="outline-text-2" id="text-org2ef01d5">
 <blockquote>
 <p>
 Each <b>node</b> in the tree has a text label (without dots) that can be up to 63
@@ -126,14 +126,14 @@ that <b>node</b> to the <b>root</b>. <b>Domain names</b> are always read from th
 </blockquote>
 
 
-<figure id="orgaf14a3c">
+<figure id="org2ec2ff2">
 <img src="../static/img/notes/dns_structure.png" alt="dns_structure.png">
 
 </figure>
 </div>
-<div id="outline-container-org926dd1b" class="outline-3">
-<h3 id="org926dd1b">Domains and Subdomains</h3>
-<div class="outline-text-3" id="text-org926dd1b">
+<div id="outline-container-orgdb714fb" class="outline-3">
+<h3 id="orgdb714fb">Domains and Subdomains</h3>
+<div class="outline-text-3" id="text-orgdb714fb">
 <blockquote>
 <p>
 A <b>domain</b> may have several subtrees of its own, called <b>subdomains</b>.
@@ -221,9 +221,9 @@ where TLD is an abbreviation for "Top Level Domain".
 </p>
 </div>
 </div>
-<div id="outline-container-org5af12ab" class="outline-3">
-<h3 id="org5af12ab">Resource Records</h3>
-<div class="outline-text-3" id="text-org5af12ab">
+<div id="outline-container-org5e12fda" class="outline-3">
+<h3 id="org5e12fda">Resource Records</h3>
+<div class="outline-text-3" id="text-org5e12fda">
 <blockquote>
 <p>
 The data associated with domain names is contained in resource records, or RRs.
@@ -238,9 +238,9 @@ software.
 </div>
 </div>
 </div>
-<div id="outline-container-orga82ede4" class="outline-2">
-<h2 id="orga82ede4">Delegation</h2>
-<div class="outline-text-2" id="text-orga82ede4">
+<div id="outline-container-orgcbffbdb" class="outline-2">
+<h2 id="orgcbffbdb">Delegation</h2>
+<div class="outline-text-2" id="text-orgcbffbdb">
 <blockquote>
 <p>
 In DNS, each <b>domain</b> can be broken into a number of <b>subdomains</b>, and
@@ -260,10 +260,64 @@ to U.C. Berkeley.
 organization.</li>
 <li><i>Zones</i> are the administrative unit in DNS.</li>
 </ul>
+
+<p>
+We can see all the delegation zones when running <code>dig</code> with the <code>+trace</code> option.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>  &gt; dig +trace guix.gnu.org  
+
+  ; &lt;&lt;&gt;&gt; DiG 9.20.18 &lt;&lt;&gt;&gt; +trace guix.gnu.org
+  ;; global options: +cmd
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      c.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      d.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      g.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      j.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      i.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      k.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      m.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      e.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      f.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      h.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      l.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      b.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      NS      a.root-servers.net.
+  <span style="font-weight: bold;">.</span>                     86400   IN      RRSIG   NS 8 0 518400 20260330170000 20260317160000 21831 . UvAJnsA3HINQiVD0um+pXMe4GgX0HA1xPbdQhxImQ2bt9HDuiv9MGHnb W1t9c+hyZ8T/kSbJCjvQljr2kdnEAx2EnZD/ipT0tIxvVIV0fLcdH2w9 q9UCUV1JhThdrDlNzFzxSnVA+6WN/UwMWO4tXiTZIyJz2ORDwMzhI6fR 3ve2D6xvikAhBdlsMs0LimbACtdxdPHSBU0JkOWOCdwH0N3hUdyKjQVw Ce6uKI4bbXp3MbFqgN/II+01Cx4IsLOSQzwTjEHHgHnJDNdFAQ9LYD9s uVval+ihCkpOlfjSNrEGPK3Db+YM7reCmK61V0do8KFyi/YfyjA9mXmJ <span style="font-weight: bold; font-style: italic;">v6pUnA</span>==
+  ;; Received 1097 bytes from 192.168.2.1#53(192.168.2.1) <span style="font-weight: bold;">in</span> 42 ms
+  
+  org.                  172800  IN      NS      b0.org.afilias-nst.org.
+  org.                  172800  IN      NS      a0.org.afilias-nst.info.
+  org.                  172800  IN      NS      a2.org.afilias-nst.info.
+  org.                  172800  IN      NS      d0.org.afilias-nst.org.
+  org.                  172800  IN      NS      c0.org.afilias-nst.info.
+  org.                  172800  IN      NS      b2.org.afilias-nst.org.
+  org.                  86400   IN      DS      26974 8 2 4FEDE294C53F438A158C41D39489CD78A86BEB0D8A0AEAFF14745C0D 16E1DE32
+  org.                  86400   IN      RRSIG   DS 8 1 86400 20260330170000 20260317160000 21831 . qWBRze3LuB6CEKzX/hrdbFeveEBjZqWPe63z/xLmDE325xqPkAAj/IvI DQrCxmnIPeFHTFDFWq17iHPCo42bO715tg2DuwEg/QG58a1k1ZQRmMov FgXdmHQP/vPixFG+3KkWKT1P3gNTZpvKypla0AgT57IANq6y+AxUjcMO UuGEyp9PGrp+zdpnhlDEbK1juzU4zBwQVUD5+b+cpr7PAt3grBLgkKbp VOV9yp/8Y01MruDnVQ+ufKQ+TIa61eGjQ+RusJokiiCQ/ZQNjtvcp09l /LIFSQFjgK8tMX75Bced1xxbxRo5nQuRnL9qk42wyMUvKW9tPo0P/Bp0 XHD+<span style="font-weight: bold; font-style: italic;">sw</span>==
+  ;; Received 806 bytes from 192.36.148.17#53(i.root-servers.net) <span style="font-weight: bold;">in</span> 31 ms
+  
+  gnu.org.              3600    IN      NS      ns1.gnu.org.
+  gnu.org.              3600    IN      NS      ns2.gnu.org.
+  gnu.org.              3600    IN      NS      ns4.gnu.org.
+  gdtpongmpok61u9lvnipqor8lra9l4t0.org. 3600 IN NSEC3 1 1 0 332539EE7F95C32A GDTREA8KMJ2RNEQEN4M2OGJ26KFSUKJ7 NS SOA RRSIG DNSKEY NSEC3PARAM
+  gdtpongmpok61u9lvnipqor8lra9l4t0.org. 3600 IN RRSIG NSEC3 8 2 3600 20260407195629 20260317185629 29805 org. FLEM6HTzpn+NuTpE245V/ebV6V7GSOTITM9mNir/kFsA+pbbcPvPIf9R oz15PFRQcZljD7TrXU86sL4ufSFq4neYbWuXqB/9RHUjDV5yBb01wzfy C7oJdAJuIgWqTkMXQXRqOAjq4imMGQrzbqlEX6f745UOG/YfiRVOUrlq <span style="font-weight: bold; font-style: italic;">atU</span>=
+  75u43m27modtpregu0d0merldse1krqf.org. 3600 IN NSEC3 1 1 0 332539EE7F95C32A 75U4T5QDUA8DUFCDA7PB5HRA87F07G6N NS DS RRSIG
+  75u43m27modtpregu0d0merldse1krqf.org. 3600 IN RRSIG NSEC3 8 2 3600 20260407152334 20260317142334 29805 org. a5+0aYDeY3x+YSdpOC2WzEQRByhI82fAPZSnLW2VQIaJlDrOn6HOowqj IPeJ3wutqmIlGFmmyVKcvIZMVlXo4ghFJxjZcxS05MReJRFQOT6ZB0qJ tA3jmhWdjW0u0zzuoA2/SUyhV978gK+bT9fBGJoArJgWa057IOlXnir3 <span style="font-weight: bold; font-style: italic;">j0A</span>=
+  ;; Received 728 bytes from 199.19.56.1#53(a0.org.afilias-nst.info) <span style="font-weight: bold;">in</span> 327 ms
+  
+  ;; UDP setup with 2607:5300:60:4a62::1#53(2607:5300:60:4a62::1) <span style="font-weight: bold;">for</span> guix.gnu.org failed: network unreachable.
+  guix.gnu.org.         3600    IN      A       46.224.9.33
+  guix.gnu.org.         3600    IN      NS      ns1.gnu.org.
+  guix.gnu.org.         3600    IN      NS      ns3.gnu.org.
+  guix.gnu.org.         3600    IN      NS      ns2.gnu.org.
+  guix.gnu.org.         3600    IN      NS      ns4.gnu.org.
+  ;; Received 163 bytes from 188.165.235.157#53(ns4.gnu.org) <span style="font-weight: bold;">in</span> 249 ms
+</code></pre>
 </div>
-<div id="outline-container-orga5792af" class="outline-3">
-<h3 id="orga5792af">Root Servers</h3>
-<div class="outline-text-3" id="text-orga5792af">
+</div>
+<div id="outline-container-orgec26b79" class="outline-3">
+<h3 id="orgec26b79">Root Servers</h3>
+<div class="outline-text-3" id="text-orgec26b79">
 <p>
 The root zone is overseen by<a href="https://www.icann.org/"> ICANN</a> (Internet Corporation for Assigned Names and
 Numbers) and its name servers are hosted by a total of 12 organizations, this
@@ -290,11 +344,11 @@ can be verified on the list <a href="https://www.iana.org/domains/root/servers">
 </div>
 </div>
 </div>
-<div id="outline-container-org584d7f5" class="outline-2">
-<h2 id="org584d7f5">Name Servers and Resolvers</h2>
-<div class="outline-text-2" id="text-org584d7f5">
+<div id="outline-container-org4588398" class="outline-2">
+<h2 id="org4588398">Name Servers and Resolvers</h2>
+<div class="outline-text-2" id="text-org4588398">
 
-<figure id="org45b1bbe">
+<figure id="orgc2a4d3c">
 <img src="../static/img/notes/dns_servers_and_resolvers.png" alt="dns_servers_and_resolvers.png">
 
 </figure>
@@ -353,27 +407,117 @@ match occurs or no more referrals are found.</dd>
 </code></pre>
 </div>
 </div>
-<div id="outline-container-org0912b0f" class="outline-4">
-<h4 id="org0912b0f">Caching</h4>
-<div class="outline-text-4" id="text-org0912b0f">
+<div id="outline-container-orgae3505a" class="outline-4">
+<h4 id="orgae3505a">Caching</h4>
+<div class="outline-text-4" id="text-orgae3505a">
 <ul class="org-ul">
 <li>TTLs can range from seconds to hours to days.</li>
 <li>The administrator of a zones are the ones decidings the values for the TTLs.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org415d154" class="outline-3">
-<h3 id="org415d154">Zone Transfer</h3>
-<div class="outline-text-3" id="text-org415d154">
+<div id="outline-container-org3d984ae" class="outline-3">
+<h3 id="org3d984ae">Zone Transfer</h3>
+<div class="outline-text-3" id="text-org3d984ae">
+<p>
+DNS servers stay in sync using a Leader/Follower (Primary/Secondary) architecture. Instead of manual updates, they use a process called Zone Transfer to ensure every server has the same information.
+</p>
 </div>
-<div id="outline-container-orgfda1dbb" class="outline-4">
-<h4 id="orgfda1dbb">The SOA Record</h4>
+<div id="outline-container-org68bc7e7" class="outline-4">
+<h4 id="org68bc7e7">The SOA Record</h4>
+<div class="outline-text-4" id="text-org68bc7e7">
+<p>
+Before any data moves, the secondary server checks the Start of Authority (SOA) record. This record acts as the "version control" and configuration manual for the zone.
+</p>
+
+<dl class="org-dl">
+<dt>Serial Number</dt><dd>If the secondary server sees a higher number on the primary,
+it knows it's time to update.</dd>
+<dt>Refresh/Retry/Expire</dt><dd>Timers that tell the follower how often to check for
+updates, how long to wait if a connection fails, and when to give up and stop
+serving old data.</dd>
+<dt>Admin Contact</dt><dd>An email for the zone administrator.</dd>
+</dl>
+
+<p>
+When a follower realizes its data is outdated, it initiates one of two types of
+transfers over <a href="20241016180340-tcp_ip.html#ID-3bdcfa3b-8fb6-4c4f-97d9-9abaf4aa4a8b">TCP/IP</a>:
+</p>
+
+<ul class="org-ul">
+<li><code>AXFR</code> (Full Zone Transfer): The follower requests everything. The primary sends
+the entire database for that zone.</li>
+<li><code>IXFR</code> (Incremental Zone Transfer): A more efficient "patch" update. The
+follower only requests changes that happened since a specific serial number.</li>
+<li>DNS Notify: To prevent long delays, the primary can proactively "ping"
+followers to tell them an update is ready, rather than waiting for the next
+refresh cycle.</li>
+</ul>
+
+<p>
+While zone transfers are the "classic" way to sync, the landscape has changed:
+</p>
+
+<ul class="org-ul">
+<li>Security Risks: If a server allows anyone to perform an AXFR, hackers can
+download a complete map of every sub-domain and IP address in a
+network. Therefore, transfers should be restricted to trusted IPs.</li>
+
+<li>Cloud Providers: Many modern services ignore zone transfers entirely.</li>
+</ul>
 </div>
 </div>
 </div>
-<div id="outline-container-org6f6b725" class="outline-2">
-<h2 id="org6f6b725">Records</h2>
-<div class="outline-text-2" id="text-org6f6b725">
+</div>
+<div id="outline-container-orgaf53f18" class="outline-2">
+<h2 id="orgaf53f18">Top-Level Domains</h2>
+<div class="outline-text-2" id="text-orgaf53f18">
+</div>
+<div id="outline-container-org59820a6" class="outline-3">
+<h3 id="org59820a6">Types</h3>
+<div class="outline-text-3" id="text-org59820a6">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-right">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Length</th>
+<th scope="col" class="org-right">Quantity (Approximated)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>ccTLD</code></td>
+<td class="org-left">Managed by a country</td>
+<td class="org-left">2 characters</td>
+<td class="org-right">250</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>gTLD</code></td>
+<td class="org-left">Generic, managed by commercial or non-profit organizations</td>
+<td class="org-left">3+ characters</td>
+<td class="org-right">1250</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org17fc10a" class="outline-2">
+<h2 id="org17fc10a">Records</h2>
+<div class="outline-text-2" id="text-org17fc10a">
 <table>
 
 
@@ -413,17 +557,17 @@ match occurs or no more referrals are found.</dd>
 </table>
 </div>
 </div>
-<div id="outline-container-org2d52bbc" class="outline-2">
-<h2 id="org2d52bbc">References:</h2>
-<div class="outline-text-2" id="text-org2d52bbc">
+<div id="outline-container-orge9acb78" class="outline-2">
+<h2 id="orge9acb78">References:</h2>
+<div class="outline-text-2" id="text-orge9acb78">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Liu, Cricket, and Paul Albitz. 2006. <i>Dns and Bind</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf3f114a" class="outline-2">
-<h2 id="orgf3f114a">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgf3f114a">
+<div id="outline-container-org877dd79" class="outline-2">
+<h2 id="org877dd79">Backlinks:</h2>
+<div class="outline-text-2" id="text-org877dd79">
 <ul class="org-ul">
 <li><a href="./20250319103806-hosts_txt.html">HOSTS.TXT</a></li>
 </ul>

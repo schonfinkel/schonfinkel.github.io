@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-10 Tue 12:15 -->
+<!-- 2026-03-29 Sun 20:20 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Transition Systems</title>
@@ -134,9 +134,9 @@ names are irrelevant, a special symbol (\(\tau\)) is often used.</li>
 <li>The set of propositions \(\texttt{AP}\) often is not explicitly indicated and it
 is assumed that \(\texttt{AP} \subseteq \texttt{S}\) and \(\texttt{L}(s) = { s } \cap \texttt{AP}\).</li>
 </ul>
-<div id="outline-container-org9fdfdca" class="outline-2">
-<h2 id="org9fdfdca">Direct Predecessors and Successors</h2>
-<div class="outline-text-2" id="text-org9fdfdca">
+<div id="outline-container-orgeb497c0" class="outline-2">
+<h2 id="orgeb497c0">Direct Predecessors and Successors</h2>
+<div class="outline-text-2" id="text-orgeb497c0">
 <p>
 Given \(\texttt{TS} = (\texttt{S}, \texttt{Act},
 \longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})\) , the sets of direct &alpha;-successors and &alpha;-predessors are defined as:
@@ -169,17 +169,17 @@ Analogously, given a set \(\texttt{C} \subseteq \texttt{S}\), we can define:
 \end{align*}
 </div>
 </div>
-<div id="outline-container-orgda24e2e" class="outline-2">
-<h2 id="orgda24e2e">Terminal States</h2>
-<div class="outline-text-2" id="text-orgda24e2e">
+<div id="outline-container-org85bbb0a" class="outline-2">
+<h2 id="org85bbb0a">Terminal States</h2>
+<div class="outline-text-2" id="text-org85bbb0a">
 <p>
 A state \(s\) is called <b>terminal</b> if and only if, \(\texttt{Post}(s) = \emptyset\).
 </p>
 </div>
 </div>
-<div id="outline-container-org1cf92cf" class="outline-2">
-<h2 id="org1cf92cf">Deterministic Transition Systems</h2>
-<div class="outline-text-2" id="text-org1cf92cf">
+<div id="outline-container-orgd4a8f78" class="outline-2">
+<h2 id="orgd4a8f78">Deterministic Transition Systems</h2>
+<div class="outline-text-2" id="text-orgd4a8f78">
 <blockquote>
 <p>
 Let \(\texttt{TS} = (\texttt{S}, \texttt{Act},
@@ -219,9 +219,9 @@ which means that no more than one successor state has the same labeling.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org222c360" class="outline-4">
-<h4 id="org222c360">Non-Determinism</h4>
-<div class="outline-text-4" id="text-org222c360">
+<div id="outline-container-org957cb43" class="outline-4">
+<h4 id="org957cb43">Non-Determinism</h4>
+<div class="outline-text-4" id="text-org957cb43">
 <ul class="org-ul">
 <li>Used to model <b>concurrency by interleaving</b>.</li>
 <li>Also useful to model <b>implementation freedom</b>, i.e., one should only care about
@@ -231,16 +231,16 @@ what a system shold do, not how.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org2df8084" class="outline-2">
-<h2 id="org2df8084">Executions</h2>
-<div class="outline-text-2" id="text-org2df8084">
+<div id="outline-container-org4897586" class="outline-2">
+<h2 id="org4897586">Executions</h2>
+<div class="outline-text-2" id="text-org4897586">
 <ul class="org-ul">
 <li>An execution (also known as "run") describes a possible behavior of the transition system.</li>
 </ul>
 </div>
-<div id="outline-container-orgc910372" class="outline-3">
-<h3 id="orgc910372">Execution Fragment</h3>
-<div class="outline-text-3" id="text-orgc910372">
+<div id="outline-container-orgdececb7" class="outline-3">
+<h3 id="orgdececb7">Execution Fragment</h3>
+<div class="outline-text-3" id="text-orgdececb7">
 <blockquote>
 <p>
 Let \(\texttt{TS} = (\texttt{S}, \texttt{Act}, \longrightarrow, \texttt{I},
@@ -260,9 +260,9 @@ ending with a state:
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgb780022" class="outline-3">
-<h3 id="orgb780022">Maximal and Initial Execution Fragment</h3>
-<div class="outline-text-3" id="text-orgb780022">
+<div id="outline-container-org961d897" class="outline-3">
+<h3 id="org961d897">Maximal and Initial Execution Fragment</h3>
+<div class="outline-text-3" id="text-org961d897">
 <blockquote>
 <p>
 A maximal execution fragment is either a finite execution fragment that ends in
@@ -276,9 +276,9 @@ in an initial state, i.e., if \(s_0 \in \texttt{I}\).
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orged78b23" class="outline-3">
-<h3 id="orged78b23">Formal Definition of Execution</h3>
-<div class="outline-text-3" id="text-orged78b23">
+<div id="outline-container-org84bed16" class="outline-3">
+<h3 id="org84bed16">Formal Definition of Execution</h3>
+<div class="outline-text-3" id="text-org84bed16">
 <blockquote>
 <p>
 An execution of transition system <b>TS</b> is an <b>initial</b>, <b>maximal execution fragment</b>.
@@ -290,9 +290,9 @@ An execution of transition system <b>TS</b> is an <b>initial</b>, <b>maximal exe
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org29b3bad" class="outline-3">
-<h3 id="org29b3bad">Reachable States</h3>
-<div class="outline-text-3" id="text-org29b3bad">
+<div id="outline-container-org3f0bc99" class="outline-3">
+<h3 id="org3f0bc99">Reachable States</h3>
+<div class="outline-text-3" id="text-org3f0bc99">
 <blockquote>
 <p>
 Let \(\texttt{TS} = (\texttt{S}, \texttt{Act}, \longrightarrow, \texttt{I},
@@ -316,17 +316,17 @@ fragment</b>.
 </div>
 </div>
 </div>
-<div id="outline-container-org55b7c5f" class="outline-2">
-<h2 id="org55b7c5f">References:</h2>
-<div class="outline-text-2" id="text-org55b7c5f">
+<div id="outline-container-orgb6a82c3" class="outline-2">
+<h2 id="orgb6a82c3">References:</h2>
+<div class="outline-text-2" id="text-orgb6a82c3">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org078b7c5" class="outline-2">
-<h2 id="org078b7c5">Backlinks:</h2>
-<div class="outline-text-2" id="text-org078b7c5">
+<div id="outline-container-org0325588" class="outline-2">
+<h2 id="org0325588">Backlinks:</h2>
+<div class="outline-text-2" id="text-org0325588">
 <ul class="org-ul">
 <li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
 </ul>

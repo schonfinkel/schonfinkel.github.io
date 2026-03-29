@@ -4,7 +4,7 @@
 <!-- 2026-03-29 Sun 20:20 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Formal Methods</title>
+<title>Rebar</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -55,57 +55,57 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Formal Methods</h1>
+<h1 class="title">Rebar</h1>
 </header><blockquote>
 <p>
-The term "formal methods" refers to various mathematical techniques used for the
-formal specification and development of software. They consist of a formal
-specification language and employ a collection of tools to support the syntax
-checking of the specification, as well as the proof of properties of the
-specification. They allow questions to be asked about what the system does
-independently of the implementation.
+The <code>rebar3</code> tool is the second generation of <code>rebar</code>, one of the most widely used
+<a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> build tools and one that originated in the Erlang community. Rebar3 is a
+comprehensive tool that addresses a number of project management needs,
+including dependency management, compilation, and release generation. You can
+also enhance or extend its functionality via plugins.
 </p>
 
 <p>
-The use of mathematical notation avoids speculation about the meaning of phrases
-in an imprecisely worded natural language description of a system. Natural
-language is inherently ambiguous, whereas mathematics employs a precise rigorous notation.
-</p>
-
-<p>
-(<a href="#citeproc_bib_item_1">O’Regan 2017, 39</a>)
+(<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 303 chap.11</a>)
 </p>
 </blockquote>
-<div id="outline-container-org0a27594" class="outline-2">
-<h2 id="org0a27594">Industrial Applications</h2>
-<div class="outline-text-2" id="text-org0a27594">
+<div id="outline-container-orgb1042af" class="outline-2">
+<h2 id="orgb1042af">Creating a Release with Rebar3</h2>
+<div class="outline-text-2" id="text-orgb1042af">
+<blockquote>
+<p>
+The <code>rebar3</code> tool uses <code>relx</code>, rather than the standard Erlang/OTP <code>reltool</code> facility,
+in an effort to make it easier for developers to create releases, due to reltool
+being widely viewed as being difficult to configure and use correctly.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+(&hellip;) building a production release is easy, even with these default settings in
+place, thanks to <code>rebar3</code> profiles. The profiles tuple in <code>rebar.config</code> includes a
+profile named prod that sets <code>dev_mode</code> to <code>false</code> and <code>include_erts</code> to <code>true</code>. To use the <code>prod</code> profile, we just specify it using the
+<code>rebar3 as</code> directive on the command line:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>$ rebar3 as prod release
+</code></pre>
 </div>
-<div id="outline-container-org2fb8f0e" class="outline-3">
-<h3 id="org2fb8f0e">CICS project (IBM)</h3>
+<p>
+(<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 308 chap.11</a>)
+</p>
+</blockquote>
 </div>
 </div>
-<div id="outline-container-orgeac9431" class="outline-2">
-<h2 id="orgeac9431">Formalisms</h2>
-<div class="outline-text-2" id="text-orgeac9431">
-<ul class="org-ul">
-<li><a href="20250220114651-program_graph.html#ID-808559c1-3472-46c7-8f5c-aac840e6f038">Program Graph</a></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org2f33bf6" class="outline-2">
-<h2 id="org2f33bf6">References:</h2>
-<div class="outline-text-2" id="text-org2f33bf6">
+<div id="outline-container-orgeecfe06" class="outline-2">
+<h2 id="orgeecfe06">References:</h2>
+<div class="outline-text-2" id="text-orgeecfe06">
 <div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>O’Regan, Gerard. 2017. “Concise Guide to Formal Methods.” <i>Undergraduate Topics in Computer Science, Springer International Publishing Ag</i>.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
 </div>
-</div>
-</div>
-<div id="outline-container-org9039595" class="outline-2">
-<h2 id="org9039595">Backlinks:</h2>
-<div class="outline-text-2" id="text-org9039595">
-<ul class="org-ul">
-<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
-</ul>
 </div>
 </div>
 </main>
