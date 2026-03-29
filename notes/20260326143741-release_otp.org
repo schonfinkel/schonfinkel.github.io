@@ -1,0 +1,73 @@
+:PROPERTIES:
+:ID:       6c01e436-53fc-47f1-878f-f996fc3eeb38
+:END:
+#+title: Release (OTP)
+#+filetags: :erlang: :otp:
+
+#+begin_quote
+An [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] release is defined as a standalone node consisting of:
+
++ A set of [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]] applications written or reused as part of the project, typically
+  containing the system's business logic. The applications can be proprietary,
+  open source, or a combination thereof.
++ The OTP applications from the standard distribution that the aforementioned applications depend on.
++ A set of configuration and boot files, together with a start script.
++ The Erlang runtime system ([[id:d47afd83-8f59-44ea-a237-b6eafaa3662e][ERTS]]), including a copy of the virtual machine.
+
+[cite:@cesarini2016designing p.246]
+#+end_quote
+
+#+NAME: erlang-release-structure
+#+BEGIN_SRC dot :file ../static/img/notes/erlang_release_structure.png :cmdline -Kdot -Tpng :exports results
+  digraph release {
+    node [
+      shape=box,
+      xlabel=""
+    ];
+
+    release [xlabel="Release", label="0.0.X", pos="1,1"]
+    k [label="kernel A.B.C", pos="0,0"]
+    stdlib [label="stdlib D.E.F", pos="0,1"]
+    app [label="some_app W.X.Y", pos="0,2"]
+
+    release -> k
+    release -> stdlib
+    release -> app
+  }
+#+END_SRC
+
+#+RESULTS: erlang-release-structure
+[[file:../static/img/notes/erlang_release_structure.png]]
+
+* System Principles
+
+#+begin_quote
+The simplest way to start an Erlang node is using the erl command. You can start
+your program from the Erlang shell itself by typing in the module and function name or by passing the ~-s~ flag to ~erl~:
+
+#+begin_src shell
+$ erl -s module function arg1 arg2 ...
+#+end_src
+
+The function and arguments are optional. If only the module is listed, the
+command will invoke ~module:start()~. If the module and function are listed, the
+command will invoke ~module:function()~. We refer to this method of starting your
+node as a basic target system, where you create a Unix shell script that
+initializes your state and calls the ~erl -s command~.
+
+[cite:@cesarini2016designing p.246]
+#+end_quote
+
+** Release Directory Structure
+
+** Metadata
+
+* System Configuration
+
+#+begin_quote
+The standard name for a configuration file is ~sys.config~. The name can be
+anything as long as it ends with the extension ~.config~. Just like the ~.app~ file
+and the ~.rel~ file, the ~.config~ file contains a single Erlang term followed by a
+period. [cite:@logan2010erlang p.250]
+#+end_quote
+

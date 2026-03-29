@@ -296,9 +296,9 @@ Before any data moves, the secondary server checks the Start of Authority (SOA) 
 When a follower realizes its data is outdated, it initiates one of two types of
 transfers over [[id:3bdcfa3b-8fb6-4c4f-97d9-9abaf4aa4a8b][TCP/IP]]:
 
-+ AXFR (Full Zone Transfer): The follower requests everything. The primary sends
++ ~AXFR~ (Full Zone Transfer): The follower requests everything. The primary sends
   the entire database for that zone.
-+ IXFR (Incremental Zone Transfer): A more efficient "patch" update. The
++ ~IXFR~ (Incremental Zone Transfer): A more efficient "patch" update. The
   follower only requests changes that happened since a specific serial number.
 + DNS Notify: To prevent long delays, the primary can proactively "ping"
   followers to tell them an update is ready, rather than waiting for the next
@@ -310,8 +310,18 @@ While zone transfers are the "classic" way to sync, the landscape has changed:
   download a complete map of every sub-domain and IP address in a
   network. Therefore, transfers should be restricted to trusted IPs.
 
-+ Cloud Providers: Many modern services (like AWS Route 53 or Cloudflare) ignore
-  zone transfers entirely, opting for faster, proprietary database replication methods.
++ Cloud Providers: Many modern services ignore zone transfers entirely.
+ 
+
+* Top-Level Domains
+
+** Types
+
+| Name  | Description                                                | Length        | Quantity (Approximated) |
+|-------+------------------------------------------------------------+---------------+-------------------------|
+| ~ccTLD~ | Managed by a country                                       | 2 characters  |                     250 |
+| ~gTLD~  | Generic, managed by commercial or non-profit organizations | 3+ characters |                    1250 |
+
 
 * Records
 
