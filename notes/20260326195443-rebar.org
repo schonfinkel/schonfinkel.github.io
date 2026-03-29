@@ -1,0 +1,35 @@
+:PROPERTIES:
+:ID:       75faf079-a061-4f10-871b-4191e3a43bbd
+:END:
+#+title: Rebar
+#+filetags: :erlang: :otp:
+
+#+begin_quote
+The ~rebar3~ tool is the second generation of ~rebar~, one of the most widely used
+[[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] build tools and one that originated in the Erlang community. Rebar3 is a
+comprehensive tool that addresses a number of project management needs,
+including dependency management, compilation, and release generation. You can
+also enhance or extend its functionality via plugins.
+
+[cite:@cesarini2016designing p.303 chap.11]
+#+end_quote
+
+* Creating a Release with Rebar3
+
+#+begin_quote
+The ~rebar3~ tool uses ~relx~, rather than the standard Erlang/OTP ~reltool~ facility,
+in an effort to make it easier for developers to create releases, due to reltool
+being widely viewed as being difficult to configure and use correctly.
+
+(...)
+
+(...) building a production release is easy, even with these default settings in
+place, thanks to ~rebar3~ profiles. The profiles tuple in ~rebar.config~ includes a
+profile named prod that sets ~dev_mode~ to ~false~ and ~include_erts~ to ~true~. To use the ~prod~ profile, we just specify it using the
+~rebar3 as~ directive on the command line:
+
+#+begin_src shell
+$ rebar3 as prod release
+#+end_src
+[cite:@cesarini2016designing p.308 chap.11]
+#+end_quote

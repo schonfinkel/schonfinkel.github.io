@@ -2,7 +2,7 @@
 :ID:       04a44951-985d-4b5b-bd52-f1893ea29ae7
 :END:
 #+title: Application (OTP)
-#+filetags: Erlang OTP
+#+filetags: :erlang: :otp:
 
 #+BEGIN_QUOTE
 Applications are the way you package related modules in Erlang. The focus here
@@ -70,7 +70,7 @@ like what to ~start/stop~ (provided you implement the ~application~ behaviour) i
 your module and which dependencies are require to do so. This sort of
 information is contained within the ~.app~ file. All this metadata is needed to
 proper manage the application, the ~vsn~ tuple is particularly importante in the
-context of release management.
+context of [[id:6c01e436-53fc-47f1-878f-f996fc3eeb38][Release (OTP)]] management.
 
 #+begin_src erlang
 {application, example,
@@ -116,56 +116,3 @@ functionality. Finally, applications are grouped into
 releases. [cite:@logan2010erlang p.245]
 #+end_quote
 
-** Releases
-
-#+begin_quote
-A release consists of a set of applications together with some metadata
-specifying how to start and manage those applications as a system. The
-applications in a release execute together in the same Erlang runtime system: a
-*target system*, stripped down to run only these
-applications.
-
-(...)
-
-To summarize:
-+ A release describes a running Erlang runtime system.
-+ A release has a version.
-+ A release aggregates a number of versioned applications along with metadata on
-  how to manage the system.
-+ Installing a release on a host machine produces a *target system*.
-
-[cite:@logan2010erlang p.246]
-#+end_quote
-
-#+NAME: erlang-release-structure
-#+BEGIN_SRC dot :file ../static/img/notes/erlang_release_structure.png :cmdline -Kdot -Tpng :exports results
-  digraph release {
-    node [
-      shape=box,
-      xlabel=""
-    ];
-
-    release [xlabel="Release", label="0.0.X", pos="1,1"]
-    k [label="kernel A.B.C", pos="0,0"]
-    stdlib [label="stdlib D.E.F", pos="0,1"]
-    app [label="some_app W.X.Y", pos="0,2"]
-
-    release -> k
-    release -> stdlib
-    release -> app
-  }
-#+END_SRC
-
-#+RESULTS: erlang-release-structure
-[[file:../static/img/notes/erlang_release_structure.png]]
-
-*** Metadata
-
-** System Configuration
-
-#+begin_quote
-The standard name for a configuration file is ~sys.config~. The name can be
-anything as long as it ends with the extension ~.config~. Just like the ~.app~ file
-and the ~.rel~ file, the ~.config~ file contains a single Erlang term followed by a
-period. [cite:@logan2010erlang p.250]
-#+end_quote
