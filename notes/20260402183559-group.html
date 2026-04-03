@@ -4,7 +4,7 @@
 <!-- 2026-04-03 Fri 02:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kripke Structures</title>
+<title>Group</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -87,54 +87,74 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Kripke Structures</h1>
+<h1 class="title">Group</h1>
 </header><blockquote>
 <p>
-A Kripke structure over a set of atomic propositions \(\texttt{AP}\) is a 4-tuple
+A non-empty set \(G\) is called a group when \(G\) is endowed with a binary
+operation * subject to some possibly familiar conditions. This binary operation
+is a mapping:
+</p>
+
+\begin{equation*}
+\star : G \times G \rightarrow G
+\end{equation*}
+
+<p>
+which assigns to every pair \((x,y)\), in the Cartesian product G × G, an element
+x ⋆ y in G called the composite of x with y. This x ⋆ y is also known as the
+product of x with y in G.
 </p>
 
 <p>
-\[ \texttt{K} = (S, I, \rightarrow, \lambda) \]
+The binary operation of composition must follow three laws.
 </p>
 
 <p>
-where:
+• The associative law:
 </p>
 
-<ul class="org-ul">
-<li>\(S\) is a finite set of states.</li>
-<li>\(I \subseteq S\) is the non-empty set of initial states.</li>
-<li><p>
-\(\rightarrow \subseteq S \times S\) is a transition relation, such that \(\rightarrow\) is <i>left-total</i>,
-i.e.
+\begin{equation*}
+(x \star y) \star z = x \star (y \star z), \forall x,y,z \in G
+\end{equation*}
+
+<p>
+• The neutral element requirement:
+</p>
+
+\begin{equation*}
+
+\exists e \in G : e \star x = x \star e = x, \forall x \in G
+
+\end{equation*}
+
+<p>
+Such an \(e\) is called a neutral element of \(G\).
 </p>
 
 <p>
-\[\forall s \in S. \exists s^\prime \in S. (s, s^\prime) \in \rightarrow \]
-</p></li>
+• The inverse element requirement:
+</p>
 
-<li>\(\lambda: S \rightarrow 2^{AP}\) is an interpretation (or labelling) function that maps each state
-to its set of valid atomic propositions.</li>
-</ul>
+\begin{equation*}
+
+\forall x \in G, \exists y \in G : x \star y = y \star x = e
+
+\end{equation*}
 
 <p>
-(<a href="#citeproc_bib_item_1">Huisman and Wijs 2023, 45</a>)
+Such a \(y\) is called an inverse for \(x\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Toller 2023, 21 chap.2</a>)
 </p>
 </blockquote>
-<div id="outline-container-org2949514" class="outline-2">
-<h2 id="org2949514">References:</h2>
-<div class="outline-text-2" id="text-org2949514">
+<div id="outline-container-org0a9ad4c" class="outline-2">
+<h2 id="org0a9ad4c">References:</h2>
+<div class="outline-text-2" id="text-org0a9ad4c">
 <div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Huisman, Marieke, and Anton Wijs. 2023. <i>Concise Guide to Software Verification: From Model Checking to Annotation Checking</i>. Springer Nature.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Toller, Owen. 2023. “Abstract Algebra, a Comprehensive Introduction by John W. Lawrence and Frank a. Zorzitto, Pp. 619, 64.99 (Hard), Isbn 978-1-10883-665-4, Cambridge University Press (2021).” <i>The Mathematical Gazette</i> 107 (569): 372–73.</div>
 </div>
-</div>
-</div>
-<div id="outline-container-org74ed248" class="outline-2">
-<h2 id="org74ed248">Backlinks:</h2>
-<div class="outline-text-2" id="text-org74ed248">
-<ul class="org-ul">
-<li><a href="./20250220114651-program_graph.html">Program Graph</a></li>
-</ul>
 </div>
 </div>
 </main>
