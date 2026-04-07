@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-04-03 Fri 02:04 -->
+<!-- 2026-04-07 Tue 10:17 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gen StateM</title>
@@ -73,66 +73,182 @@ internal state of the state machine.
 </p>
 
 <p>
-(<a href="#citeproc_bib_item_1">Rubio 2022, chap. .5</a>)
+(<a href="#citeproc_bib_item_1">Rubio 2022, 62 chap.5</a>)
 </p>
 </blockquote>
-<div id="outline-container-org2b4f71b" class="outline-2">
-<h2 id="org2b4f71b">Concepts</h2>
-<div class="outline-text-2" id="text-org2b4f71b">
+<div id="outline-container-orgee87849" class="outline-2">
+<h2 id="orgee87849">Building Blocks</h2>
+<div class="outline-text-2" id="text-orgee87849">
 </div>
-<div id="outline-container-org3e27d80" class="outline-3">
-<h3 id="org3e27d80">Event Handlers</h3>
-<div class="outline-text-3" id="text-org3e27d80">
-<div class="org-src-container">
-<pre class="src src-erlang"><code>  handle_event(Type, Content, State, Data) -&gt;
-     {next_state, NextState, NewData, Actions}
-   | {stop, Reason, NewData}.
-   | {keep_state, ...}
-   | {keep_state_and_data, ...}
-   | {repeat_state, ...}
-   | {stop_and_reply, ...}
+<div id="outline-container-org6b40dd6" class="outline-3">
+<h3 id="org6b40dd6">Callback Mode</h3>
+<div class="outline-text-3" id="text-org6b40dd6">
+<blockquote>
+<p>
+The way to use <code>gen_statem</code> differs depending on the way to handle the events that
+we decide to use. We can choose between state functions or the event handler
+function.
+</p>
 
-  where
+<p>
+The choice is made through the definition of the callback <code>callback_mode/0</code>.
+</p>
 
-    Type :: cast | {call, From} | info | timeout | ...
+<p>
+(<a href="#citeproc_bib_item_1">Rubio 2022, 65 chap.5</a>)
+</p>
+</blockquote>
 
-  and you take Actions to mean "a list of Action" with
-  the following signanture:
+<p>
+The <code>callback_mode</code> choice is essentially a choice between specialization and centralization.
+</p>
 
-    Action ::
-      % enter_action()
-      %% reply_action()
-      {reply, From :: from(), Reply :: term()}
+<table>
 
-      %% timeout_action()
-    | {Time :: event_timeout()}
-    | {timeout, Time :: event_timeout(), EventContent :: event_content()}
-    | {timeout, Time :: event_timeout(), EventContent :: event_content(), Options :: timeout_options() }
-    | (...)
 
-      %% Others kinds of enter_action()
-    | hibernate
-    | {hibernate, Hibernate :: hibernate()}
+<colgroup>
+<col  class="org-left">
 
-      % Other kinds of Actions
-    | postpone
-    | {postpone, Postpone :: postpone()}
-    | {next_event, EventType :: event_type(), EventContent :: event_content() }
-    | {change_callback_module, NewModule :: module(), EventContent :: event_content() }
-    | {push_callback_module, NewModule :: module()} 
-    | pop_callback_module
-    | ...
-</code></pre>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Feature</th>
+<th scope="col" class="org-left"><code>state_functions</code></th>
+<th scope="col" class="org-left"><code>handle_event_function</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Logic Structure</td>
+<td class="org-left">One function per state.</td>
+<td class="org-left">One single function for everything.</td>
+</tr>
+
+<tr>
+<td class="org-left">Argument Flow</td>
+<td class="org-left">The state name is the function name.</td>
+<td class="org-left">The state name is passed as an argument.</td>
+</tr>
+</tbody>
+</table>
 </div>
-</div>
-</div>
-<div id="outline-container-org77615b7" class="outline-3">
-<h3 id="org77615b7">Event Types</h3>
-<div class="outline-text-3" id="text-org77615b7">
+<div id="outline-container-org7dedc84" class="outline-4">
+<h4 id="org7dedc84">State Functions</h4>
+<div class="outline-text-4" id="text-org7dedc84">
+<p>
+This basically a way to write a dedicated specialist function for every
+state. When you are in the red state, only the <code>red/3</code> (or <code>red/4</code>) function is
+called.
+</p>
+
 <ul class="org-ul">
-<li>External</li>
-</ul>
+<li><p>
+You define a function that matches the name of your current state.
+</p>
 
+<div class="org-src-container">
+<pre class="src src-nil"><code>    red(event) -&gt; {next_state, green, NewData}.
+</code></pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8a7323d" class="outline-4">
+<h4 id="org8a7323d">Event Handlers</h4>
+<div class="outline-text-4" id="text-org8a7323d">
+<p>
+This is the "generalist" approach. One function (<code>handle_event/4</code>) answers the
+phone regardless of what is happening.
+</p>
+
+<ul class="org-ul">
+<li>Every event, regardless of state, goes to the same block of code.</li>
+<li>Good for state machines where most events are handled the same way regardless
+of the state, or for very small machines where separate functions would feel
+like overkill.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org755f975" class="outline-3">
+<h3 id="org755f975">State Enter</h3>
+</div>
+</div>
+<div id="outline-container-org87ee0c0" class="outline-2">
+<h2 id="org87ee0c0">The Event/Action Life Cycle</h2>
+<div class="outline-text-2" id="text-org87ee0c0">
+<blockquote>
+<p>
+The life cycle of a state machine is defined by its transitions, and each
+transition happens when an event is received. Lets see in detail what happens in
+the state machine when receiving a step event. Regardless of the event, the
+steps are as follows:
+</p>
+
+<ol class="org-ol">
+<li>We receive an event. The event is decomposed to indicate in the callback the
+type of request and the data. We add the state data and state name and
+execute the function.</li>
+
+<li>We receive the return from the function. The callback executed and gave us
+what to do next:
+
+<ul class="org-ul">
+<li>We keep (<code>keep_state</code>). There is no change of state.</li>
+<li>We change or repeat state (<code>next_state</code> or <code>repeat_state</code>). We change the
+state, it implies the following tasks:
+
+<ul class="org-ul">
+<li>All state timers are stopped.</li>
+<li>If <code>state_enter</code> was configured, the execution of an <code>enter</code> event with the
+event data of the previous state is added as an action.</li>
+<li>Check if there are postponed events to repeat them.</li>
+</ul></li>
+
+<li>We stop the state machine (<code>stop</code>).</li>
+</ul></li>
+
+<li>We execute the actions defined in the return of the callback:
+
+<ul class="org-ul">
+<li>Postpone. The current event enters the queue of postponed events to be relaunched when we change the state.</li>
+<li>Timers. Configure the timers indicated in the actions.</li>
+<li>Add the events (<code>next_event</code>) to be fired immediately.</li>
+</ul></li>
+</ol>
+
+<p>
+Throughout the flow, we see how new events can occur from the processing of the
+state change or actions of the <code>next_event</code> type. These new events will be
+executed before going back to the cycle of listening for new incoming events.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Rubio 2022, 67–68 chap.5</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org813ec52" class="outline-3">
+<h3 id="org813ec52">Event Types</h3>
+<div class="outline-text-3" id="text-org813ec52">
+<blockquote>
+<p>
+As events we receive not only information from timers or messages but also
+structured information such as <code>call</code> (synchronous calls) and <code>cast</code> (asynchronous
+calls) as we saw in <a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44ea-8b7a-d803e9b491af">Gen Server</a>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Rubio 2022, 72 chap.5</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org1ece786" class="outline-4">
+<h4 id="org1ece786">External</h4>
+<div class="outline-text-4" id="text-org1ece786">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>-type external_event_type() :: {call, From :: from()} | cast | info.
 </code></pre>
@@ -170,11 +286,18 @@ internal state of the state machine.
 </tbody>
 </table>
 
-
 <ul class="org-ul">
-<li>Timeout</li>
+<li><code>cast</code>: Asynchronous call sent to the state machine, sent from
+<code>gen_statem:cast/2</code>.</li>
+<li><code>{call, from()}</code>: Synchronous call, comes either from <code>gen_statem:call/2</code> or
+<code>gen_statem:send_request/2</code>.</li>
+<li><code>info</code>: Sent via <code>erlang:send/2</code> or with the <code>!</code> syntax, no specific format.</li>
 </ul>
-
+</div>
+</div>
+<div id="outline-container-org68f2551" class="outline-4">
+<h4 id="org68f2551">Timeout</h4>
+<div class="outline-text-4" id="text-org68f2551">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>-type timeout_event_type() :: timeout | {timeout, Name :: term()} | state_timeout.
 </code></pre>
@@ -211,11 +334,11 @@ internal state of the state machine.
 </tr>
 </tbody>
 </table>
-
-<ul class="org-ul">
-<li>Internal</li>
-</ul>
-
+</div>
+</div>
+<div id="outline-container-org83eb962" class="outline-4">
+<h4 id="org83eb962">Internal</h4>
+<div class="outline-text-4" id="text-org83eb962">
 <blockquote>
 <p>
 internal events can only be generated by the state machine itself through the transition action <code>next_event</code>.
@@ -246,17 +369,242 @@ internal events can only be generated by the state machine itself through the tr
 </div>
 </div>
 </div>
-<div id="outline-container-org8e07494" class="outline-2">
-<h2 id="org8e07494">References:</h2>
-<div class="outline-text-2" id="text-org8e07494">
+<div id="outline-container-org0a23001" class="outline-3">
+<h3 id="org0a23001">Return Tuples / "Commands"</h3>
+<div class="outline-text-3" id="text-org0a23001">
+<p>
+In <code>gen_statem</code>, your callback functions communicate their intent back to the
+behavior engine using specific return tuples. Think of these as the "commands"
+you give the state machine after handling an event.
+</p>
+</div>
+<div id="outline-container-orge5eb48e" class="outline-4">
+<h4 id="orge5eb48e">Changing State</h4>
+<div class="outline-text-4" id="text-orge5eb48e">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tuple</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>{next_state, State, Data, [Actions]}</code></td>
+<td class="org-left">Transitions to a new state. Use when the machine's "mode" changes.</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-center">
+<p>
+If you aren't changing states, use <code>keep_state</code> rather than <code>next_state</code>. It’s more
+idiomatic and better for documentation.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb204671" class="outline-4">
+<h4 id="orgb204671">Staying Put / Continuations</h4>
+<div class="outline-text-4" id="text-orgb204671">
+<p>
+Use these when you want to handle an event without leaving the current state.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tuple</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>{keep_state, Data, [Actions]}</code></td>
+<td class="org-left">Keeps the current state name, but update the internal <code>Data</code>.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>keep_state_and_data</code></td>
+<td class="org-left">Everything stays exactly as it was. Can also be used as <code>{keep_state_and_data, Actions}</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org2a64fd4" class="outline-4">
+<h4 id="org2a64fd4">Re-entering / Reset</h4>
+<div class="outline-text-4" id="text-org2a64fd4">
+<p>
+These are special because they trigger state entry events. If you have logic
+that needs to run every time you "arrive" at a state, these returns will trigger
+it again.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tuple</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>{repeat_state, Data, [Actions]}</code></td>
+<td class="org-left">Stays in the same state but executes the "enter" logic.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>repeat_state_and_data</code></td>
+<td class="org-left">Re-enters the state without changing the data.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org37706c7" class="outline-4">
+<h4 id="org37706c7">Terminating / Stopping</h4>
+<div class="outline-text-4" id="text-org37706c7">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tuple</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>stop</code> / <code>{stop, Reason, Data}</code></td>
+<td class="org-left">Ends the process and moves to the <code>terminate/3</code> callback.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>{stop_and_reply, Reason, Reply, Data}</code></td>
+<td class="org-left">Similar to <code>stop</code>, but it sends a synchronous response back to a waiting caller before the process terminates.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org535f560" class="outline-3">
+<h3 id="org535f560">Actions</h3>
+<div class="outline-text-3" id="text-org535f560">
+<blockquote>
+<p>
+We can organize the actions in groups. These groups are not exclusive. We can
+add each action to none or several groups. We will also see actions not
+belonging to any group. The groups are:
+</p>
+
+<dl class="org-dl">
+<dt>Input actions</dt><dd>These actions include hibernation, timeout, and response actions.</dd>
+<dt>Timing actions</dt><dd>These actions include event, generic and state timers.</dd>
+<dt>Transition actions</dt><dd>These actions include postponing an event, hibernation,
+event timer, generic timer and state timer.</dd>
+</dl>
+
+<p>
+(<a href="#citeproc_bib_item_1">Rubio 2022, 75 chap.5</a>)
+</p>
+</blockquote>
+
+<p>
+Actions are instructions returned alongside a state transition. They are grouped
+in a list, and while most "conflicting" actions follow a "last one wins" rule,
+others (like <code>next_event</code>) can be stacked.
+</p>
+
+<dl class="org-dl">
+<dt><code>postpone | {postpone, boolean()}</code></dt><dd>Buffers the current event in a separate
+queue. It is automatically retried only when the machine transitions to a new
+state. Essential for handling events that arrive "out of order."</dd>
+
+<dt><code>{next_event, event_type(), event_content()}</code></dt><dd>Injects a new event into the
+engine's internal queue. Unlike most actions, these are additive (you can
+trigger multiple). Use <code>internal</code> as the type to distinguish self-generated
+events from external <code>call</code> or <code>cast</code> signals.</dd>
+
+<dt><code>hibernate | {hibernate, boolean()}</code></dt><dd>Forces the process into a sleep. The
+process wakes up instantly upon receiving the next event.</dd>
+
+<dt><code>timeout() | {timeout, timeout(), event_content(), options()}</code></dt><dd>A nameless
+"event timer", if it expires, it delivers a <code>timeout</code> event. Starting a new
+nameless timer cancels the previous one.</dd>
+
+<dt><code>{{timeout, name()}, timeout(), event_content(), options()}</code></dt><dd>A "named timer",
+allows multiple concurrent timers to run. Setting a timer with the same <code>Name</code>
+replaces the existing one.</dd>
+
+<dt><code>{state_timeout, timeout(), event_content(), options()}</code></dt><dd>A timer strictly
+tied to the current state. If the state changes, this timer is automatically
+cancelled unless the transition uses <code>keep_state</code>.</dd>
+
+<dt><code>{reply, from(), term()}</code></dt><dd>Sends a synchronous response back to a client
+waiting on a <code>gen_statem:call/2</code>. Usually paired with <code>From</code> data extracted from
+the event content.</dd>
+
+<dt><code>{change_callback_module, module()}</code></dt><dd>Hot-swaps the logic. All future events
+will be handled by <code>NewMod</code>.</dd>
+
+<dt><code>{push_callback_module, module()}</code></dt><dd>Pushes the current module onto a stack and
+switches to <code>NewMod</code>. Perfect for creating "sub-modes" or hierarchical state
+machines.</dd>
+
+<dt><code>pop_callback_module</code></dt><dd>The "return" key. Drops the current module and reverts
+to the one previously on the stack.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org7cd2e5f" class="outline-3">
+<h3 id="org7cd2e5f">Timers</h3>
+</div>
+</div>
+<div id="outline-container-orgd6d2685" class="outline-2">
+<h2 id="orgd6d2685">State Groups</h2>
+</div>
+
+
+
+<div id="outline-container-org4f4230c" class="outline-2">
+<h2 id="org4f4230c">References:</h2>
+<div class="outline-text-2" id="text-org4f4230c">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Rubio, Manuel. 2022. “Erlang/Otp: The Otp Basics” 2.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org23dd4f7" class="outline-2">
-<h2 id="org23dd4f7">Backlinks:</h2>
-<div class="outline-text-2" id="text-org23dd4f7">
+<div id="outline-container-orga5b4eee" class="outline-2">
+<h2 id="orga5b4eee">Backlinks:</h2>
+<div class="outline-text-2" id="text-orga5b4eee">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>
