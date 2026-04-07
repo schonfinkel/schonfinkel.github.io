@@ -16,58 +16,105 @@ dimension, the implemented code and the only existing state data. In the state
 machine, the code that handles each request, and each event, depends on the
 internal state of the state machine.
 
-[cite:@rubio2022 chapter.5]
+[cite:@rubio2022 p.62 chap.5]
 #+end_quote
 
+* Building Blocks
 
-* Concepts
+** Callback Mode
 
-** Event Handlers
+#+begin_quote
+The way to use ~gen_statem~ differs depending on the way to handle the events that
+we decide to use. We can choose between state functions or the event handler
+function.
 
-#+begin_src erlang
-  handle_event(Type, Content, State, Data) ->
-     {next_state, NextState, NewData, Actions}
-   | {stop, Reason, NewData}.
-   | {keep_state, ...}
-   | {keep_state_and_data, ...}
-   | {repeat_state, ...}
-   | {stop_and_reply, ...}
+The choice is made through the definition of the callback ~callback_mode/0~.
 
-  where
+[cite:@rubio2022 p.65 chap.5]
+#+end_quote
 
-    Type :: cast | {call, From} | info | timeout | ...
+The ~callback_mode~ choice is essentially a choice between specialization and centralization.
 
-  and you take Actions to mean "a list of Action" with
-  the following signanture:
+| Feature         | ~state_functions~                           | ~handle_event_function~                    |
+|-----------------+-------------------------------------------+------------------------------------------|
+| Logic Structure | One function per state.                   | One single function for everything.      |
+| Argument Flow   | The state name is the function name.      | The state name is passed as an argument. |
 
-    Action ::
-      % enter_action()
-      %% reply_action()
-      {reply, From :: from(), Reply :: term()}
 
-      %% timeout_action()
-    | {Time :: event_timeout()}
-    | {timeout, Time :: event_timeout(), EventContent :: event_content()}
-    | {timeout, Time :: event_timeout(), EventContent :: event_content(), Options :: timeout_options() }
-    | (...)
+*** State Functions
 
-      %% Others kinds of enter_action()
-    | hibernate
-    | {hibernate, Hibernate :: hibernate()}
+This basically a way to write a dedicated specialist function for every
+state. When you are in the red state, only the ~red/3~ (or ~red/4~) function is
+called.
 
-      % Other kinds of Actions
-    | postpone
-    | {postpone, Postpone :: postpone()}
-    | {next_event, EventType :: event_type(), EventContent :: event_content() }
-    | {change_callback_module, NewModule :: module(), EventContent :: event_content() }
-    | {push_callback_module, NewModule :: module()} 
-    | pop_callback_module
-    | ...
-#+end_src
++ You define a function that matches the name of your current state.
+
+    #+begin_src
+    red(event) -> {next_state, green, NewData}.
+    #+end_src
+
+*** Event Handlers
+
+This is the "generalist" approach. One function (~handle_event/4~) answers the
+phone regardless of what is happening.
+
++ Every event, regardless of state, goes to the same block of code.
++ Good for state machines where most events are handled the same way regardless
+  of the state, or for very small machines where separate functions would feel
+  like overkill.
+
+** State Enter
+
+* The Event/Action Life Cycle
+
+#+begin_quote
+The life cycle of a state machine is defined by its transitions, and each
+transition happens when an event is received. Lets see in detail what happens in
+the state machine when receiving a step event. Regardless of the event, the
+steps are as follows:
+
+1. We receive an event. The event is decomposed to indicate in the callback the
+   type of request and the data. We add the state data and state name and
+   execute the function.
+
+2. We receive the return from the function. The callback executed and gave us
+   what to do next:
+
+   + We keep (~keep_state~). There is no change of state.
+   + We change or repeat state (~next_state~ or ~repeat_state~). We change the
+     state, it implies the following tasks:
+
+     - All state timers are stopped.
+     - If ~state_enter~ was configured, the execution of an ~enter~ event with the
+       event data of the previous state is added as an action.
+     - Check if there are postponed events to repeat them.
+
+   + We stop the state machine (~stop~).
+
+3. We execute the actions defined in the return of the callback:
+
+   + Postpone. The current event enters the queue of postponed events to be relaunched when we change the state.
+   + Timers. Configure the timers indicated in the actions.
+   + Add the events (~next_event~) to be fired immediately.
+
+Throughout the flow, we see how new events can occur from the processing of the
+state change or actions of the ~next_event~ type. These new events will be
+executed before going back to the cycle of listening for new incoming events.
+
+[cite:@rubio2022 p.67-68 chap.5]
+#+end_quote
 
 ** Event Types
 
-+ External
+#+begin_quote
+As events we receive not only information from timers or messages but also
+structured information such as ~call~ (synchronous calls) and ~cast~ (asynchronous
+calls) as we saw in [[id:1cd8fd81-a7c4-44ea-8b7a-d803e9b491af][Gen Server]].
+
+[cite:@rubio2022 p.72 chap.5]
+#+end_quote
+
+*** External
 
 #+begin_src erlang
 -type external_event_type() :: {call, From :: from()} | cast | info.
@@ -79,8 +126,13 @@ internal state of the state machine.
 | ~gen_statem:call(Server, Req)~ | ~Mod:StateName({call, From}, Req, Data)~ |
 | ~Server ! Msg~                 | ~Mod:StateName(info, Msg, Data)~         |
 
++ ~cast~: Asynchronous call sent to the state machine, sent from
+  ~gen_statem:cast/2~.
++ ~{call, from()}~: Synchronous call, comes either from ~gen_statem:call/2~ or
+  ~gen_statem:send_request/2~.
++ ~info~: Sent via ~erlang:send/2~ or with the ~!~ syntax, no specific format.
 
-+ Timeout
+*** Timeout
 
 #+begin_src erlang
 -type timeout_event_type() :: timeout | {timeout, Name :: term()} | state_timeout.
@@ -92,7 +144,7 @@ internal state of the state machine.
 | ~{{timeout, Name}, Msg, Data}~ | ~Mod:StateName({timeout, Name}, Msg, Data)~ |
 | ~{state_timeout, Msg, Data}~   | ~Mod:StateName(state_timeout, Msg, Data)~   |
 
-+ Internal
+*** Internal
 
 #+begin_quote
 internal events can only be generated by the state machine itself through the transition action ~next_event~.
@@ -101,3 +153,110 @@ internal events can only be generated by the state machine itself through the tr
 | Message                     | Callback                             |
 |-----------------------------+--------------------------------------|
 | ~{next_event, internal, Msg}~ | ~Mod:StateName(internal, Msg, Data)~ |
+
+** Return Tuples / "Commands"
+
+In ~gen_statem~, your callback functions communicate their intent back to the
+behavior engine using specific return tuples. Think of these as the "commands"
+you give the state machine after handling an event.
+
+*** Changing State
+
+| Tuple                                | Description                                                        |
+|--------------------------------------+--------------------------------------------------------------------|
+| ~{next_state, State, Data, [Actions]}~ | Transitions to a new state. Use when the machine's "mode" changes. |
+
+#+begin_center
+If you aren't changing states, use ~keep_state~ rather than ~next_state~. It’s more
+idiomatic and better for documentation.
+#+end_center
+
+*** Staying Put / Continuations
+
+Use these when you want to handle an event without leaving the current state.
+
+| Tuple                         | Description                                                                            |
+|-------------------------------+----------------------------------------------------------------------------------------|
+| ~{keep_state, Data, [Actions]}~ | Keeps the current state name, but update the internal ~Data~.                            |
+| ~keep_state_and_data~           | Everything stays exactly as it was. Can also be used as ~{keep_state_and_data, Actions}~ |
+
+*** Re-entering / Reset
+
+These are special because they trigger state entry events. If you have logic
+that needs to run every time you "arrive" at a state, these returns will trigger
+it again.
+
+| Tuple                           | Description                                             |
+|---------------------------------+---------------------------------------------------------|
+| ~{repeat_state, Data, [Actions]}~ | Stays in the same state but executes the "enter" logic. |
+| ~repeat_state_and_data~           | Re-enters the state without changing the data.          |
+
+*** Terminating / Stopping
+
+| Tuple                                 | Description                                                                                                  |
+|---------------------------------------+--------------------------------------------------------------------------------------------------------------|
+| ~stop~ / ~{stop, Reason, Data}~           | Ends the process and moves to the ~terminate/3~ callback.                                                      |
+| ~{stop_and_reply, Reason, Reply, Data}~ | Similar to ~stop~, but it sends a synchronous response back to a waiting caller before the process terminates. |
+
+** Actions
+
+#+begin_quote
+We can organize the actions in groups. These groups are not exclusive. We can
+add each action to none or several groups. We will also see actions not
+belonging to any group. The groups are:
+
++ Input actions :: These actions include hibernation, timeout, and response actions.
++ Timing actions :: These actions include event, generic and state timers.
++ Transition actions :: These actions include postponing an event, hibernation,
+  event timer, generic timer and state timer.
+
+[cite:@rubio2022 p.75 chap.5]
+#+end_quote
+
+Actions are instructions returned alongside a state transition. They are grouped
+in a list, and while most "conflicting" actions follow a "last one wins" rule,
+others (like ~next_event~) can be stacked.
+
++ ~postpone | {postpone, boolean()}~ :: Buffers the current event in a separate
+  queue. It is automatically retried only when the machine transitions to a new
+  state. Essential for handling events that arrive "out of order."
+
++ ~{next_event, event_type(), event_content()}~ :: Injects a new event into the
+  engine's internal queue. Unlike most actions, these are additive (you can
+  trigger multiple). Use ~internal~ as the type to distinguish self-generated
+  events from external ~call~ or ~cast~ signals.
+
++ ~hibernate | {hibernate, boolean()}~ :: Forces the process into a sleep. The
+  process wakes up instantly upon receiving the next event.
+
++ ~timeout() | {timeout, timeout(), event_content(), options()}~ :: A nameless
+  "event timer", if it expires, it delivers a ~timeout~ event. Starting a new
+  nameless timer cancels the previous one.
+
++ ~{{timeout, name()}, timeout(), event_content(), options()}~ :: A "named timer",
+  allows multiple concurrent timers to run. Setting a timer with the same ~Name~
+  replaces the existing one.
+
++ ~{state_timeout, timeout(), event_content(), options()}~ :: A timer strictly
+  tied to the current state. If the state changes, this timer is automatically
+  cancelled unless the transition uses ~keep_state~.
+
++ ~{reply, from(), term()}~ :: Sends a synchronous response back to a client
+  waiting on a ~gen_statem:call/2~. Usually paired with ~From~ data extracted from
+  the event content.
+
++ ~{change_callback_module, module()}~ :: Hot-swaps the logic. All future events
+  will be handled by ~NewMod~.
+
++ ~{push_callback_module, module()}~ :: Pushes the current module onto a stack and
+  switches to ~NewMod~. Perfect for creating "sub-modes" or hierarchical state
+  machines.
+
++ ~pop_callback_module~ :: The "return" key. Drops the current module and reverts
+  to the one previously on the stack.
+
+** Timers
+
+* State Groups
+
+
