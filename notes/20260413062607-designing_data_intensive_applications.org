@@ -1,0 +1,27 @@
+:PROPERTIES:
+:ID:       bf73a9c4-09d2-4777-8c1f-f503f7a4ae35
+:END:
+#+title: Designing Data-Intensive Applications
+
+#+begin_quote
+We call an application data-intensive if data management is one of the primary
+challenges in developing the application [1]. While in compute-intensive systems
+the challenge is parallelizing a very large computation, in data-intensive
+applications we usually worry more about things like storing and processing
+large data volumes, managing changes to data, ensuring consistency in the face
+of failures and concurrency, and making sure services are highly available.
+
+Such applications are typically built from standard building blocks that provide
+commonly needed functionality. For example, many applications need to do the
+following:
+
++ Store data so that they, or another application, can find it again later
+  (databases).
++ Remember the result of an expensive operation, to speed up reads (caches)
++ Allow users to search data by keyword or filter it in various ways (search
+  indexes)
++ Handle events and data changes as soon as they occur (stream processing)
++ Periodically crunch a large amount of accumulated data (batch processing)
+#+end_quote
+
+* Operational Versus Analytical Systems
