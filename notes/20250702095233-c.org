@@ -28,3 +28,20 @@ Five kinds of portability issues are enumerated in Annex J of the C standard doc
 
 [cite:@seacord2024effective p.9 chapter.1]
 #+end_quote
+
+** Data Types
+
+| Data Type          | Signed/Unsigned | Bit Length    | Minimum Value              | Maximum Value              |
+|--------------------+-----------------+---------------+----------------------------+----------------------------|
+| ~char~               | Signed          | 8 bits        | -128                       | 127                        |
+| ~unsigned char~      | Unsigned        | 8 bits        | 0                          | 255                        |
+| ~short~              | Signed          | 16 bits       | -32,768                    | 32,767                     |
+| ~unsigned short~     | Unsigned        | 16 bits       | 0                          | 65,535                     |
+| ~int~                | Signed          | 16 or 32 bits | -2,147,483,648 (32-bit)    | 2,147,483,647 (32-bit)     |
+| ~unsigned int~       | Unsigned        | 16 or 32 bits | 0                          | 4,294,967,295 (32-bit)     |
+| ~long~               | Signed          | 32 bits       | -2,147,483,648             | 2,147,483,647              |
+| ~unsigned long~      | Unsigned        | 32 bits       | 0                          | 4,294,967,295              |
+| ~long long~          | Signed          | 64 bits       | -9,223,372,036,854,775,808 | 9,223,372,036,854,775,807  |
+| ~unsigned long long~ | Unsigned        | 64 bits       | 0                          | 18,446,744,073,709,551,615 |
+| ~float~              | N/A             | 32 bits       | ~ -3.4 x 10^38              | ~ 3.4 x 10^38               |
+| ~double~           | N/A             | 64 bits       | ~ -1.7 x 10^308             | ~ 1.7 x 10^308              |
