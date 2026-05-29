@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-05-29 Fri 10:35 -->
+<!-- 2026-05-29 Fri 10:50 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Index (PostgreSQL)</title>
@@ -56,14 +56,36 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Index (PostgreSQL)</h1>
-</header><p>
-Indexes are a common way to enhance database performance. An index allows the
-<a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> server to find and retrieve specific rows much faster than it could do
-without an index.
+</header><blockquote>
+<p>
+An index is a data structure that allows faster access to the underlying table
+so that specific tuples can be found quickly. (&hellip;). <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> supports
+different types of indexes, and not all types are optimal for every scenario and
+workload. (&hellip;)
 </p>
-<div id="outline-container-org3220f72" class="outline-2">
-<h2 id="org3220f72">Selectivity</h2>
-<div class="outline-text-2" id="text-org3220f72">
+
+<p>
+An index in PostgreSQL can be built on a single column or multiple columns at
+once; <b>PostgreSQL supports indexes with up to 32 columns</b>. An index can cover all
+the data in the underlying table, or can index specific values only - in that
+case, the index is known as "partial". For example, you can decide to index only
+those values of certain columns that you are going to use the most.
+</p>
+
+<p>
+An index can also be unique, meaning that it is used to ensure the uniqueness of
+the values it indexes, such as, for example, the primary keys of a
+table. Moreover, an index can be built on top of a user-defined function, which
+means the index is going to index the return values of those functions.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 462 chap.13</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgc63c1d3" class="outline-2">
+<h2 id="orgc63c1d3">Selectivity</h2>
+<div class="outline-text-2" id="text-orgc63c1d3">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> <span style="font-weight: bold;">COUNT</span>(<span style="font-weight: bold;">DISTINCT</span> <span style="font-weight: bold;">column_name</span>) / <span style="font-weight: bold;">COUNT</span>(*)
   <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table_name</span>;
@@ -83,19 +105,31 @@ if it realizes its no better than a sequential scan.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0f25a34" class="outline-2">
-<h2 id="org0f25a34">Index Types</h2>
-<div class="outline-text-2" id="text-org0f25a34">
+<div id="outline-container-org49454ec" class="outline-2">
+<h2 id="org49454ec">Index Types</h2>
+<div class="outline-text-2" id="text-org49454ec">
 </div>
-<div id="outline-container-orge8d909e" class="outline-3">
-<h3 id="orge8d909e">B-Tree</h3>
-<div class="outline-text-3" id="text-orge8d909e">
+<div id="outline-container-org49b0022" class="outline-3">
+<h3 id="org49b0022">B-Tree</h3>
+<div class="outline-text-3" id="text-org49b0022">
 <blockquote>
 <p>
 B-trees can handle equality and range queries on data that can be sorted into
 some ordering. In particular, the PostgreSQL query planner will consider using a
 B-tree index whenever an indexed column is involved in a comparison using one of
 these operators: <code>&lt;   &lt;=   =   &gt;=   &gt;</code>
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+One drawback of the B-Tree index is that it copies the whole column's values
+into the tree structure; therefore, if you use a B-Tree to index large values
+(for example, long strings), the index will rapidly grow in size and space.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463 chap.13</a>)
 </p>
 </blockquote>
 
@@ -106,9 +140,24 @@ these operators: <code>&lt;   &lt;=   =   &gt;=   &gt;</code>
 </div>
 </div>
 </div>
-<div id="outline-container-org86d821a" class="outline-3">
-<h3 id="org86d821a">Hash Index</h3>
-<div class="outline-text-3" id="text-org86d821a">
+<div id="outline-container-org05a9d1e" class="outline-3">
+<h3 id="org05a9d1e">Hash Index</h3>
+<div class="outline-text-3" id="text-org05a9d1e">
+<blockquote>
+<p>
+Another type of index that PostgreSQL provides is the hash index: this index is
+built on the result of a hash function for the value of the column(s). It is
+important to note that the hash index can be used only for equality operators,
+not for range nor disequality operators. In fact, being an index built on a hash
+function, the index cannot compare two hash values to understand their ordering;
+only the equality (which produces the very same hash value) can be evaluated.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463 chap.13</a>)
+</p>
+</blockquote>
+
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> INDEX index_name
   <span style="font-weight: bold;">ON</span> <span style="font-weight: bold;">table_name</span> <span style="font-weight: bold;">USING</span> HASH(<span style="font-weight: bold;">column</span>);
@@ -121,34 +170,51 @@ equality or pertinence (<code>IN</code> clauses) checks all the time.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org55ed4c7" class="outline-3">
-<h3 id="org55ed4c7">GIST</h3>
-<div class="outline-text-3" id="text-org55ed4c7">
+<div id="outline-container-org04ba8d6" class="outline-3">
+<h3 id="org04ba8d6">GIST</h3>
+<div class="outline-text-3" id="text-org04ba8d6">
+<blockquote>
+<p>
+Then comes <b>Generalized Index Search Tree (GIST)</b>, which is a platform on top of
+which new index types can be built. The idea is to provide a pluggable
+infrastructure where you can define operators and features that can index a data
+structure. An example is SP-GIST, a spatial index used in geographical
+applications.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463 chap.13</a>)
+</p>
+</blockquote>
+
 <blockquote>
 <p>
 &lt;&lt;   &amp;&lt;   &amp;&gt;   &gt;&gt;   &lt;&lt;|   &amp;&lt;|   |&amp;&gt;   |&gt;&gt;   @&gt;   &lt;@   ~=   &amp;&amp;
 </p>
 </blockquote>
 </div>
-</div>
-<div id="outline-container-org862eedb" class="outline-3">
-<h3 id="org862eedb">SP-GIST</h3>
-<div class="outline-text-3" id="text-org862eedb">
+<div id="outline-container-orge31daf8" class="outline-4">
+<h4 id="orge31daf8">SP-GIST</h4>
+<div class="outline-text-4" id="text-orge31daf8">
 <blockquote>
 <p>
-&lt;&lt;   &gt;&gt;   ~=   &lt;@   <a id="orgcde9886"></a>
+&lt;&lt;   &gt;&gt;   ~=   &lt;@   <a id="org15e9fa8"></a>
 </p>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org2eb1ceb" class="outline-3">
-<h3 id="org2eb1ceb">GIN</h3>
-<div class="outline-text-3" id="text-org2eb1ceb">
+</div>
+<div id="outline-container-org79f1e3e" class="outline-3">
+<h3 id="org79f1e3e">GIN</h3>
+<div class="outline-text-3" id="text-org79f1e3e">
 <blockquote>
 <p>
-GIN is a type of index that instead of pointing to a single tuple points to
-multiple values, and to some extent, to an array of values.
-(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463</a>)
+<b>GIN</b> is a type of index that instead of pointing to a single tuple points to
+multiple values, and to some extent, to an array of values. 
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463 chap.13</a>)
 </p>
 </blockquote>
 
@@ -158,17 +224,28 @@ duplicated keys that point to different places.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org63eabf3" class="outline-3">
-<h3 id="org63eabf3">BRIN</h3>
-<div class="outline-text-3" id="text-org63eabf3">
+<div id="outline-container-org06cd460" class="outline-3">
+<h3 id="org06cd460">BRIN</h3>
+<div class="outline-text-3" id="text-org06cd460">
 <blockquote>
 <p>
-Block Range Index (BRIN) is a particular type of index that is based on the
+<b>Block Range Index (BRIN)</b> is a particular type of index that is based on the
 range of values in data blocks on storage. The idea is that every block has a
 minimal and maximal value, and the index then stores a couple of values for
 every data block on the storage. When a particular value is searched from a
 query, the index knows in which data block the values can be found, but all the
-tuples in the block must be evaluated. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463</a>)
+tuples in the block must be evaluated.
+</p>
+
+<p>
+Therefore, this type of index is not as accurate as a B-Tree and is called lossy
+(to emphasize it is not exact; i.e., it can have losses), but it is much smaller
+in size with respect to all the other types of indexes since it only stores a
+couple of values for every data block.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 463 chap.13</a>)
 </p>
 </blockquote>
 
@@ -183,12 +260,12 @@ tuples in the block must be evaluated. (<a href="#citeproc_bib_item_1">Ferrari a
 </div>
 </div>
 </div>
-<div id="outline-container-org351bec0" class="outline-2">
-<h2 id="org351bec0">Composite/Multicolumn Indexes</h2>
-<div class="outline-text-2" id="text-org351bec0">
+<div id="outline-container-org0a86511" class="outline-2">
+<h2 id="org0a86511">Composite/Multicolumn Indexes</h2>
+<div class="outline-text-2" id="text-org0a86511">
 <blockquote>
 <p>
-Currently, only the B-tree, GiST, GIN, and BRIN index types support
+Currently, only the <code>B-Tree</code>, <code>GiST</code>, <code>GIN</code>, and <code>BRIN</code> index types support
 multiple-key-column indexes. Whether there can be multiple key columns is
 independent of whether <code>INCLUDE</code> columns can be added to the index. Indexes can
 have up to 32 columns, including <code>INCLUDE</code> columns.
@@ -210,9 +287,9 @@ while single-column indexes are more likelly to be chosen in <code>WHERE/OR</cod
 </ul>
 </div>
 </div>
-<div id="outline-container-org157b695" class="outline-2">
-<h2 id="org157b695">Covering Indexes (aka Index-Only Scams)</h2>
-<div class="outline-text-2" id="text-org157b695">
+<div id="outline-container-org874b5be" class="outline-2">
+<h2 id="org874b5be">Covering Indexes (aka Index-Only Scams)</h2>
+<div class="outline-text-2" id="text-org874b5be">
 <ul class="org-ul">
 <li>In an ordinary index scan, data can be fetched both from the index and the
 heap. This heap-access portion can involve a lot of random accesses and may
@@ -237,9 +314,9 @@ others. Other index types have no support.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org9d512d0" class="outline-2">
-<h2 id="org9d512d0">Partial Indexes</h2>
-<div class="outline-text-2" id="text-org9d512d0">
+<div id="outline-container-orgbd80fe0" class="outline-2">
+<h2 id="orgbd80fe0">Partial Indexes</h2>
+<div class="outline-text-2" id="text-orgbd80fe0">
 <ul class="org-ul">
 <li>Only index a subset of the rows.</li>
 <li>Useful if you plan to have fast scan through a subset of the data anyway.</li>
@@ -255,9 +332,9 @@ will never care about.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org5076522" class="outline-2">
-<h2 id="org5076522">Indexes and <code>ORDER BY</code></h2>
-<div class="outline-text-2" id="text-org5076522">
+<div id="outline-container-org2124fe8" class="outline-2">
+<h2 id="org2124fe8">Indexes and <code>ORDER BY</code></h2>
+<div class="outline-text-2" id="text-org2124fe8">
 <blockquote>
 <p>
 In addition to simply finding the rows to be returned by a query, an index may
@@ -286,9 +363,9 @@ which will be matched with an <code>ORDER BY</code> clause if the ordering also 
 </div>
 </div>
 </div>
-<div id="outline-container-org25465a6" class="outline-2">
-<h2 id="org25465a6">Functional Indexes</h2>
-<div class="outline-text-2" id="text-org25465a6">
+<div id="outline-container-orgd4f8da0" class="outline-2">
+<h2 id="orgd4f8da0">Functional Indexes</h2>
+<div class="outline-text-2" id="text-orgd4f8da0">
 <ul class="org-ul">
 <li>An index defined on the result of applying a function<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> to one or more columns
 of a single table.</li>
@@ -301,17 +378,17 @@ of a single table.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org4e7bebc" class="outline-2">
-<h2 id="org4e7bebc">References:</h2>
-<div class="outline-text-2" id="text-org4e7bebc">
+<div id="outline-container-org81e615a" class="outline-2">
+<h2 id="org81e615a">References:</h2>
+<div class="outline-text-2" id="text-org81e615a">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgadce096" class="outline-2">
-<h2 id="orgadce096">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgadce096">
+<div id="outline-container-org42264d8" class="outline-2">
+<h2 id="org42264d8">Backlinks:</h2>
+<div class="outline-text-2" id="text-org42264d8">
 <ul class="org-ul">
 <li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
 </ul>

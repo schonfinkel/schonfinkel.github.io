@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-05-29 Fri 10:35 -->
+<!-- 2026-05-29 Fri 10:50 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Performance Optimization (PostgreSQL)</title>
@@ -58,10 +58,11 @@
 <h1 class="title">Performance Optimization (PostgreSQL)</h1>
 </header><ul class="org-ul">
 <li><a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a></li>
+<li><a href="20260410101945-pg_stat_statements.html#ID-e96c3bdf-e6a5-405c-900b-ad7fc1404ab4">pg<sub>stat</sub><sub>statements</sub></a></li>
 </ul>
-<div id="outline-container-orga8b9667" class="outline-2">
-<h2 id="orga8b9667">The <code>EXPLAIN</code> Statement</h2>
-<div class="outline-text-2" id="text-orga8b9667">
+<div id="outline-container-org0bf23d7" class="outline-2">
+<h2 id="org0bf23d7">The <code>EXPLAIN</code> Statement</h2>
+<div class="outline-text-2" id="text-org0bf23d7">
 <blockquote>
 <p>
 There are a few important things to know before using <code>EXPLAIN</code>:
@@ -81,9 +82,9 @@ provide you with the dataset.</li>
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orge26b252" class="outline-3">
-<h3 id="orge26b252">Scan Types</h3>
-<div class="outline-text-3" id="text-orge26b252">
+<div id="outline-container-orgf97b249" class="outline-3">
+<h3 id="orgf97b249">Scan Types</h3>
+<div class="outline-text-3" id="text-orgf97b249">
 <table>
 
 
@@ -128,154 +129,9 @@ provide you with the dataset.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org6a6796d" class="outline-2">
-<h2 id="org6a6796d">Advanced statistics with <code>pg_stat_statements</code></h2>
-<div class="outline-text-2" id="text-org6a6796d">
-<blockquote>
-<p>
-While the <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> statistics collector is rich and mature, having to monitor
-connection activity can be a little tricky since the <code>pg_stat_activity</code> catalog
-does not provide historical information. (&hellip;)
-</p>
-
-<p>
-The <code>pg_stat_statements</code> extension solves this problem by providing a single view
-that gives you a full history of executed statements, timing, and other little
-details that can come in very handy when doing introspection. Moreover,
-<code>pg_stat_statements</code> provides a count of how many times the same statement has
-been executed, resulting in important information that queries might need to pay
-attention to for optimization purposes. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 600</a>)
-</p>
-</blockquote>
-
-<p>
-Since the extension is already shipped, the only thing an administrator needs to
-do is to enable it in a database cluster. You can do it by editing the
-<code>postgresql.conf</code> file and adding the following line:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-text"><code>  shared_preload_libraries = 'pg_stat_statements'
-</code></pre>
-</div>
-
-<p>
-or add it like this (it requires a restart of the database cluster).
-</p>
-
-<div class="org-src-container">
-<pre class="src src-sql"><code>  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">SYSTEM</span> <span style="font-weight: bold;">SET</span> shared_preload_libraries = <span style="font-style: italic;">'pg_stat_statements'</span>;
-</code></pre>
-</div>
-
-<p>
-then verify if it works and enable the extension in your database.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-sql"><code>  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Check if pg_stat_statements shows up
-</span>  SHOW shared_preload_libraries;
-
-  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Then enable it
-</span>  <span style="font-weight: bold;">CREATE</span> extension pg_stat_statements;
-</code></pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-sql"><code>
-</code></pre>
-</div>
-</div>
-<div id="outline-container-org47604d1" class="outline-3">
-<h3 id="org47604d1">Usage</h3>
-<div class="outline-text-3" id="text-org47604d1">
-<div class="org-src-container">
-<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
-    auth.rolname,
-    query,
-    db.datname,
-    calls,
-    min_exec_time,
-    max_exec_time
-  <span style="font-weight: bold;">FROM</span> pg_stat_statements
-  <span style="font-weight: bold;">JOIN</span> pg_authid auth <span style="font-weight: bold;">ON</span> auth.oid = userid
-  <span style="font-weight: bold;">JOIN</span> pg_database db <span style="font-weight: bold;">ON</span> db.oid = dbid
-  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> calls <span style="font-weight: bold;">DESC</span>;
-</code></pre>
-</div>
-
-<table>
-
-
-<colgroup>
-<col  class="org-left">
-
-<col  class="org-left">
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Column Name</th>
-<th scope="col" class="org-left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left"><code>query</code></td>
-<td class="org-left">Text of a representative statement in a parametrized form</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>query_id</code></td>
-<td class="org-left">Hashcode to identity identical queries</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>calls</code></td>
-<td class="org-left">Amount of times a statement has been called</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>total_exec_time</code></td>
-<td class="org-left">Total execution time of all statements, in ms</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>mean_exec_time</code></td>
-<td class="org-left">Mean execution time in ms</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>total_plan_time</code></td>
-<td class="org-left">Total time spent planning the statement, in milliseconds</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>mean_plan_time</code></td>
-<td class="org-left">Mean planning time, in ms</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>shared_blks_hit</code></td>
-<td class="org-left">&nbsp;</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>shared_blks_read</code></td>
-<td class="org-left">&nbsp;</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>dbid</code></td>
-<td class="org-left">Useful in environments with multiple replicas</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="outline-container-orgd7a897f" class="outline-2">
-<h2 id="orgd7a897f">References:</h2>
-<div class="outline-text-2" id="text-orgd7a897f">
+<div id="outline-container-orga7d49b3" class="outline-2">
+<h2 id="orga7d49b3">References:</h2>
+<div class="outline-text-2" id="text-orga7d49b3">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>

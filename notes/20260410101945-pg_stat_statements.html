@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-05-29 Fri 10:50 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>pg_stat_statements</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">pg<sub>stat</sub><sub>statements</sub></h1>
+</header><div id="outline-container-orgaeecc14" class="outline-2">
+<h2 id="orgaeecc14">Advanced statistics</h2>
+<div class="outline-text-2" id="text-orgaeecc14">
+<blockquote>
+<p>
+While the <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> statistics collector is rich and mature, having to monitor
+connection activity can be a little tricky since the <code>pg_stat_activity</code> catalog
+does not provide historical information. (&hellip;)
+</p>
+
+<p>
+The <code>pg_stat_statements</code> extension solves this problem by providing a single view
+that gives you a full history of executed statements, timing, and other little
+details that can come in very handy when doing introspection. Moreover,
+<code>pg_stat_statements</code> provides a count of how many times the same statement has
+been executed, resulting in important information that queries might need to pay
+attention to for optimization purposes. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 600</a>)
+</p>
+</blockquote>
+
+<p>
+Since the extension is already shipped, the only thing an administrator needs to
+do is to enable it in a database cluster. You can do it by editing the
+<code>postgresql.conf</code> file and adding the following line:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text"><code>  shared_preload_libraries = 'pg_stat_statements'
+</code></pre>
+</div>
+
+<p>
+or add it like this (it requires a restart of the database cluster).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">ALTER</span> <span style="font-weight: bold;">SYSTEM</span> <span style="font-weight: bold;">SET</span> shared_preload_libraries = <span style="font-style: italic;">'pg_stat_statements'</span>;
+</code></pre>
+</div>
+
+<p>
+then verify if it works and enable the extension in your database.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql"><code>  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Check if pg_stat_statements shows up
+</span>  SHOW shared_preload_libraries;
+
+  <span style="font-weight: bold; font-style: italic;">-- </span><span style="font-weight: bold; font-style: italic;">Then enable it
+</span>  <span style="font-weight: bold;">CREATE</span> extension pg_stat_statements;
+</code></pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sql"><code>  show seq_page_cost;
+  show cpu_tuple_cost;
+</code></pre>
+</div>
+</div>
+<div id="outline-container-org2a64fa0" class="outline-3">
+<h3 id="org2a64fa0">Usage</h3>
+<div class="outline-text-3" id="text-org2a64fa0">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Column Name</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>query</code></td>
+<td class="org-left">Text of a representative statement in a parametrized form</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>query_id</code></td>
+<td class="org-left">Hashcode to identity identical queries</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>calls</code></td>
+<td class="org-left">Amount of times a statement has been called</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>total_exec_time</code></td>
+<td class="org-left">Total execution time of all statements, in ms</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>mean_exec_time</code></td>
+<td class="org-left">Mean execution time in ms</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>total_plan_time</code></td>
+<td class="org-left">Total time spent planning the statement, in milliseconds</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>mean_plan_time</code></td>
+<td class="org-left">Mean planning time, in ms</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>shared_blks_hit</code></td>
+<td class="org-left">Blocks hit in the shared buffers</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>shared_blks_read</code></td>
+<td class="org-left">Blocks read into the shared buffers</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>dbid</code></td>
+<td class="org-left">Useful in environments with multiple replicas</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="outline-container-orgcee1493" class="outline-4">
+<h4 id="orgcee1493">Useful Queries</h4>
+<div class="outline-text-4" id="text-orgcee1493">
+<div class="org-src-container">
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> 
+    calls, 
+    mean_exec_time, 
+    total_exec_time,
+    100.0 * shared_blks_hit / <span style="font-weight: bold;">nullif</span>(shared_blks_hit + shared_blks_read, 0) <span style="font-weight: bold;">AS</span> hit_percent, 
+    queryid, 
+    regexp_replace(query, <span style="font-style: italic;">'[\n\r]+'</span>, <span style="font-style: italic;">' '</span>, <span style="font-style: italic;">'g'</span>) <span style="font-weight: bold;">as</span> formatted_query 
+  <span style="font-weight: bold;">FROM</span> pg_stat_statements 
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> total_exec_time <span style="font-weight: bold;">DESC</span> 
+  <span style="font-weight: bold;">LIMIT</span> 10;
+</code></pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
+    auth.rolname,
+    query,
+    db.datname,
+    calls,
+    min_exec_time,
+    max_exec_time
+  <span style="font-weight: bold;">FROM</span> pg_stat_statements
+  <span style="font-weight: bold;">JOIN</span> pg_authid auth <span style="font-weight: bold;">ON</span> auth.oid = userid
+  <span style="font-weight: bold;">JOIN</span> pg_database db <span style="font-weight: bold;">ON</span> db.oid = dbid
+  <span style="font-weight: bold;">ORDER</span> <span style="font-weight: bold;">BY</span> calls <span style="font-weight: bold;">DESC</span>;
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org506774f" class="outline-2">
+<h2 id="org506774f">References:</h2>
+<div class="outline-text-2" id="text-org506774f">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaadbcae" class="outline-2">
+<h2 id="orgaadbcae">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgaadbcae">
+<ul class="org-ul">
+<li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

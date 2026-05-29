@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-05-29 Fri 10:49 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linear-Time Behavior</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Linear-Time Behavior</h1>
+</header><blockquote>
+<p>
+To analyze a computer system represented by a transition system <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, either
+an action-based or a state-based approach can be followed. The state-based
+approach abstracts from actions; instead, only labels in the state sequences are
+taken into consideration. In contrast, the action-based view abstracts from
+states and refers only to the action labels of the transitions.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 94 chap.3 part.3.2</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgb208abf" class="outline-2">
+<h2 id="orgb208abf">Paths and State Graph</h2>
+<div class="outline-text-2" id="text-orgb208abf">
+<p>
+Let \(\texttt{TS} = (\texttt{S}, \texttt{Act}, \rightarrow, \texttt{I}, \texttt{AP},
+\texttt{L})\) be a transition system. The <i>State Graph</i> of TS, notation
+\(\texttt{G}(\texttt{TS})\), is the <a href="20250203083031-digraph.html#ID-44404704-0ed0-4832-8d4e-97347802f5ea">Digraph</a> (V, E) with vertices V = S and
+edges \(E = \{(s, s^\prime) \in \texttt{S} \times \texttt{S} \mid s^\prime \in \texttt{Post}(s)\}\).
+</p>
+
+<ul class="org-ul">
+<li>The <i>state graph</i> of TS has a vertex for each state in TS and an edge between
+vertices s and s^&prime; whenever s^&prime; is a direct successor of s in TS for some action
+α.</li>
+<li><p>
+Let \(\texttt{Post}^\ast(s)\) denote the states that are reachable in state graph
+G(TS) from s, then for any \(\texttt{C} \subseteq \texttt{S}\):
+</p>
+
+<p>
+\(\texttt{Post}^\ast(C) = \bigcup\limits_{s \in C} \texttt{Post}^\ast(s)\)
+</p></li>
+</ul>
+</div>
+<div id="outline-container-org3de61be" class="outline-4">
+<h4 id="org3de61be">Path-Fragment</h4>
+<div class="outline-text-4" id="text-org3de61be">
+<blockquote>
+<p>
+A ﬁnite path fragment \(\hat{\pi}\) of TS is a ﬁnite state sequence \(s_0 s_1 \dots s_n\)
+such that \(s_i \in \texttt{Post}(s_{i-1}), \forall 0 < i \leq n, n \geq 0\). An <i>inﬁnite path</i>
+fragment π is an inﬁnite state sequence \(s_0 s_1 s_2 \ldots\) such that \(s_i \in
+\texttt{Post}(s_{i-1}), \forall i > 0\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 95 chap.3 part.3.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org59ba107" class="outline-4">
+<h4 id="org59ba107">Maximal and Initial Path Fragment</h4>
+<div class="outline-text-4" id="text-org59ba107">
+<blockquote>
+<p>
+A maximal path fragment is either a ﬁnite path fragment that ends in a terminal
+state, or an inﬁnite path fragment. A path fragment is called initial if it
+starts in an initial state, i.e., if s<sub>0</sub> ∈ I.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 96 chap.3 part.3.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgc711c7b" class="outline-4">
+<h4 id="orgc711c7b">Path</h4>
+<div class="outline-text-4" id="text-orgc711c7b">
+<blockquote>
+<p>
+A path of transition system TS is an initial, maximal path fragment.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 96 chap.3 part.3.2.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgd234b5c" class="outline-3">
+<h3 id="orgd234b5c">Traces</h3>
+<div class="outline-text-3" id="text-orgd234b5c">
+<blockquote>
+<p>
+Executions (&hellip;) are alternating sequences consisting of states and
+actions. Actions are mainly used to model the (possibility of) interaction, be
+it synchronous or asynchronous communication. (&hellip;). Thus, rather than having an
+execution of the form \(s_0 \overset{\alpha_0}{\longrightarrow} s_1
+\overset{\alpha_1}{\longrightarrow} s_2 \ldots\) we consider sequences of the form L(s<sub>0</sub>)
+L(s<sub>1</sub>) L(s<sub>2</sub>) &hellip; that register the (set of) atomic propositions that are valid
+along the execution. <b>Such sequences are called traces</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 97 chap.3 part.3.2.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf47f5ef" class="outline-2">
+<h2 id="orgf47f5ef">References:</h2>
+<div class="outline-text-2" id="text-orgf47f5ef">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org4ddcbb3" class="outline-2">
+<h2 id="org4ddcbb3">Backlinks:</h2>
+<div class="outline-text-2" id="text-org4ddcbb3">
+<ul class="org-ul">
+<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
+</ul>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20251010142516-transition_systems.html#ID-fbe5a587-ce97-40c3-9748-a459c3b89b9a">Transition Systems</a>
+</p></div></div>
+
+
+</div>
+</div></main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

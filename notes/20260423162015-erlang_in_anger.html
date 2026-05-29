@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-05-29 Fri 10:50 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Erlang in Anger</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Erlang in Anger</h1>
+</header><div id="outline-container-org4081b37" class="outline-2">
+<h2 id="org4081b37">How to Dive into a Code Base</h2>
+<div class="outline-text-2" id="text-org4081b37">
+<blockquote>
+<p>
+There are three main types of Erlang code bases you’ll encounter in the wild:
+raw <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> code bases, <a href="20240928181517-otp.html#ID-6ed3a191-0128-453e-b0b6-37c48593a6f0">OTP</a> applications, and OTP releases <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. 
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 5 chap.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org90f4b4b" class="outline-3">
+<h3 id="org90f4b4b">Raw Erlang</h3>
+<div class="outline-text-3" id="text-org90f4b4b">
+<blockquote>
+<p>
+If you encounter a raw Erlang code base, you’re pretty much on your own. These
+rarely follow any specific standard, and you have to dive in the old way to
+figure out whatever happens in there.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 5 chap.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org2cca6b7" class="outline-3">
+<h3 id="org2cca6b7">OTP Applications</h3>
+<div class="outline-text-3" id="text-org2cca6b7">
+<blockquote>
+<p>
+Figuring out OTP applications <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> is usually rather simple. They usually all
+share a directory structure that looks like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><code>doc/
+ebin/
+src/
+test/
+LICENSE.txt
+README.md
+rebar.config
+</code></pre>
+</div>
+
+<p>
+There might be slight differences, but the general structure will be the same.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 6 chap.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org8903893" class="outline-4">
+<h4 id="org8903893">Library Applications</h4>
+<div class="outline-text-4" id="text-org8903893">
+<blockquote>
+<p>
+Library applications will usually have modules named <code>appname_something</code>, and one
+module named <code>appname</code>. This will usually be the interface module that's central
+to the library and contains a quick way into most of the functionality provided.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 7 chap.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgd5f245e" class="outline-4">
+<h4 id="orgd5f245e">Regular Applications</h4>
+<div class="outline-text-4" id="text-orgd5f245e">
+<blockquote>
+<p>
+The higher a process resides in the tree, the more likely it is to be vital to
+the survival of the application. You can also estimate how important a process
+is by the order it is started (all children in the supervision tree are started
+in order, depth-first). <b>If a process is started later in the supervision tree,
+it probably depends on processes that were started earlier</b>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 7 chap.1</a>)
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+The supervisor restart strategy reflects the relationship between processes
+under a supervisor:
+</p>
+<ul class="org-ul">
+<li><code>one_for_one</code> and <code>simple_one_for_one</code> are used for processes that are not
+dependent upon each other directly, although their failures will collectively
+be counted towards total application shutdown.</li>
+<li><code>rest_for_one</code> will be used to represent processes that depend on each other in
+a linear manner.</li>
+<li><code>one_for_all</code> is used for processes that entirely depend on each other.</li>
+</ul>
+
+<p>
+This structure means it is easiest to navigate OTP applications in a top-down manner
+by exploring supervision subtrees.
+</p>
+
+<p>
+For each worker process supervised, the behaviour it implements will give a good clue
+about its purpose:
+</p>
+
+<ul class="org-ul">
+<li>a <code>gen_server</code> holds resources and tends to follow client/server patterns (or
+more generally, request/response patterns).</li>
+<li>a <code>gen_fsm</code> will deal with a sequence of events or inputs and react depending on
+them, as a Finite State Machine. It will often be used to implement protocols.</li>
+<li>a <code>gen_event</code> will act as an event hub for callbacks, or as a way to deal with
+notifications of some sort.</li>
+</ul>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 8 chap.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org7cc0fa9" class="outline-4">
+<h4 id="org7cc0fa9">Dependencies</h4>
+<div class="outline-text-4" id="text-org7cc0fa9">
+<blockquote>
+<p>
+All applications have dependencies, and these dependencies will have their own
+dependencies. OTP applications usually share no state between them, so it's
+possible to know what bits of code depend on what other bits of code by looking
+at the app file only, assuming the developer wrote them in a mostly correct manner. 
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 8 chap.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf8cce54" class="outline-3">
+<h3 id="orgf8cce54">OTP Releases</h3>
+<div class="outline-text-3" id="text-orgf8cce54">
+<blockquote>
+<p>
+OTP releases are not a lot harder to understand than most OTP applications
+you'll encounter in the wild. A release is a set of OTP applications packaged in
+a production-ready manner so it boots and shuts down without needing to manually
+call <code>application:start/2</code> for any app. Compiled releases may contain their own
+copy of the Erlang virtual machine with more or less libraries than the default
+distribution, and can be ready to run standalone. Of course there’s a bit more
+to releases than that, but generally, the same discovery process used for
+individual OTP applications will be applicable here.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 10 chap.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org65c962a" class="outline-2">
+<h2 id="org65c962a">Building Open Source Erlang Software</h2>
+<div class="outline-text-2" id="text-org65c962a">
+<blockquote>
+<p>
+OTP applications are the vast majority of the open source code people will
+encounter. In fact, many people who would need to build an OTP release would do
+so as one umbrella OTP application.
+</p>
+
+<p>
+If what you're writing is a stand-alone piece of code that could be used by
+someone building a product, it's likely an OTP application. If what you're
+building is a product that stands on its own and should be deployed by users
+as-is (or with a little configuration), what you should be building is an OTP
+release.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 12 chap.2</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org2d3fc9f" class="outline-3">
+<h3 id="org2d3fc9f">Project Structure</h3>
+<div class="outline-text-3" id="text-org2d3fc9f">
+</div>
+<div id="outline-container-org4a3fc14" class="outline-4">
+<h4 id="org4a3fc14">OTP Releases</h4>
+<div class="outline-text-4" id="text-org4a3fc14">
+<blockquote>
+<p>
+For releases, the structure can a bit different. Releases are collections of
+applications, and their structures may reflect that.
+</p>
+
+<p>
+Instead of having a top-level app alone in src, applications can be nested one
+level deeper in a apps or lib directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text"><code>_build/
+apps/
+  - myapp1/
+    - src/
+  - myapp2/
+    - src/
+doc/
+LICENSE.txt
+README.md
+rebar.config
+rebar.lock
+</code></pre>
+</div>
+
+<p>
+This structure lends itself to generating releases where multiple OTP
+applications under your control under a single code repository. Both <code>rebar3</code> and
+<code>erlang.mk</code> rely on the <code>relx</code> library to assemble releases.
+</p>
+
+<p>
+A <code>relx</code> configuration tuple (within <code>rebar.config</code>) for the directory structure
+above would look like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text"><code>{relx, [
+ {release, {demo, "1.0.0"},
+ [myapp1, myapp2, ..., recon]},
+ {include_erts, false} % will use local Erlang install
+]}
+</code></pre>
+</div>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 14–15 chap.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org1c28489" class="outline-3">
+<h3 id="org1c28489">Supervisors and <code>start_link</code> Semantics</h3>
+<div class="outline-text-3" id="text-org1c28489">
+<blockquote>
+<p>
+In complex production systems, most faults and errors are transient, and
+retrying an operation is a good way to do things - Jim Gray's paper quotes Mean
+Times Between Failures (MTBF) of systems handling transient bugs being better by a factor of 4 when doing this.
+Still, <b>supervisors aren’t just about restarting</b>.
+</p>
+
+<p>
+One very important part of Erlang supervisors and their supervision trees is that their
+start phases are synchronous. <b>Each OTP process has the potential to prevent its
+siblings and cousins from booting. If the process dies, it’s retried again, and
+again, until it works, or fails too often.</b>
+</p>
+
+<p>
+<b>Many Erlang developers end up arguing in favor of a supervisor that has a
+cooldown period. I strongly oppose the sentiment for one simple reason: it’s all
+about the guarantees.</b>
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 15 chap.2</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgb6f1db5" class="outline-4">
+<h4 id="orgb6f1db5">It's About the Guarantees</h4>
+<div class="outline-text-4" id="text-orgb6f1db5">
+<blockquote>
+<p>
+Restarting a process is about bringing it back to a stable, known state. From
+there, things can be retried. When the initialization isn’t stable, supervision
+is worth very little. An initialized process should be stable no matter what
+happens. That way, when its siblings and cousins get started later on, they can
+be booted fully knowing that the rest of the system that came up before them is healthy.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+Supervised processes provide guarantees in their initialization phase, not a
+best effort. This means that when you're writing a client for a database or
+service, you shouldn't need a connection to be established as part of the initialization phase unless you’re ready to say
+it will always be available no matter what happens.
+</p>
+
+<p>
+You could force a connection during initialization if you know the database is on the
+same host and should be booted before your Erlang system, for example. Then a restart
+should work. In case of something incomprehensible and unexpected that breaks these
+guarantees, the node will end up crashing, which is desirable: a pre-condition to starting
+your system hasn’t been met. It’s a system-wide assertion that failed.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+In this case, the only guarantee you can make in the client process is that your
+client will be able to handle requests, but not that it will communicate to the
+database. It could return <code>{error, not_connected}</code> on all calls during a net
+split, for example.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+If you expect failure to happen on an external service, do not make its presence
+a guarantee of your system. <b>We're dealing with the real world here, and failure
+of external dependencies is always an option.</b>
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 15–16 chap.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgd95ecf4" class="outline-4">
+<h4 id="orgd95ecf4">Side Effects</h4>
+<div class="outline-text-4" id="text-orgd95ecf4">
+<blockquote>
+<p>
+Of course, the libraries and processes that call such a client will then error
+out if they don't expect to work without a database. That's an entirely
+different issue in a different problem space, one that depends on your business
+rules and what you can or can’t do to a client, but one that is possible to work
+around. (&hellip;)
+</p>
+
+<p>
+The difference in both initialization and supervision approaches is that the
+client's callers make the decision about how much failure they can tolerate, not
+the client itself. That's a very important distinction when it comes to
+designing fault-tolerant systems. Yes, supervisors are about restarts, but they
+should be about restarts to a stable known state.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 16 chap.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgde8ebea" class="outline-4">
+<h4 id="orgde8ebea">Example: Initializing without guaranteeing connections</h4>
+<div class="outline-text-4" id="text-orgde8ebea">
+<blockquote>
+<p>
+The following code attempts to guarantee a connection as part of the process’
+state:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>init(Args) -&gt;
+  Opts = parse_args(Args),
+  {ok, Port} = connect(Opts),
+  {ok, #state{sock=Port, opts=Opts}}.
+
+  [...]
+
+handle_info(reconnect, S = #state{sock=undefined, opts=Opts}) -&gt;
+  %% try reconnecting in a loop
+  case connect(Opts) of
+    {ok, New} -&gt; {noreply, S#state{sock=New}};
+    _ -&gt; self() ! reconnect, {noreply, S}
+  end;
+
+</code></pre>
+</div>
+
+<p>
+Instead, consider rewriting it as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>init(Args) -&gt;
+  Opts = parse_args(Args),
+  %% you could try connecting here anyway, for a best
+  %% effort thing, but be ready to not have a connection.
+  self() ! reconnect,
+  {ok, #state{sock=undefined, opts=Opts}}.
+
+ [...]
+
+handle_info(reconnect, S = #state{sock=undefined, opts=Opts}) -&gt;
+  %% try reconnecting in a loop
+  case connect(Opts) of
+    {ok, New} -&gt; {noreply, S#state{sock=New}};
+    _ -&gt; self() ! reconnect, {noreply, S}
+  end;
+
+</code></pre>
+</div>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 16–17 chap.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3279bbe" class="outline-2">
+<h2 id="org3279bbe">Planning for Overload</h2>
+<div class="outline-text-2" id="text-org3279bbe">
+<blockquote>
+<p>
+By far, the most common cause of failure I've encountered in real-world
+scenarios is due to the node running out of memory. Furthermore, it is usually
+related to message queues going out of bounds. There are plenty of ways to deal
+with this, but knowing which one to use will require a decent understanding of
+the system you’re working on.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+Determining what queue blew up is not necessarily hard. This is information that
+can be found in a crash dump. Finding out why it blew up is trickier. Based on
+the role of the process or run-time inspection, it’s possible to figure out
+whether causes include fast flooding, blocked processes that won’t process
+messages fast enough, and so on.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Frederic 2016, 20–21 chap.3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org138e771" class="outline-2">
+<h2 id="org138e771">References:</h2>
+<div class="outline-text-2" id="text-org138e771">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Frederic, Trottier-Hebert. 2016. “Stuff Goes Bad: Erlang in Anger.”</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20260326143741-release_otp.html#ID-6c01e436-53fc-47f1-878f-f996fc3eeb38">Release (OTP)</a>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20250102194431-application_otp.html#ID-04a44951-985d-4b5b-bd52-f1893ea29ae7">Application (OTP)</a>.
+</p></div></div>
+
+
+</div>
+</div></main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>
