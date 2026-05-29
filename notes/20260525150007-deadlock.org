@@ -1,0 +1,21 @@
+:PROPERTIES:
+:ID:       b81db7e4-ff48-4c0d-9910-a1a3e8296e40
+:END:
+#+title: Deadlock
+#+filetags: :computer-science: :formal-methods:
+
+#+begin_quote
+Sequential programs that are not subject to divergence (i.e., endless loops)
+have a terminal state, a state without any outgoing transitions. For parallel
+systems, however, computations typically do not terminate (...). *In such
+systems, terminal states are undesirable and mostly represent a design
+error*. Apart from "trivial" design errors where it has been forgotten to
+indicate certain activities, in most cases such terminal states indicate a
+/deadlock/. A /deadlock/ occurs if the complete system is in a terminal state,
+although at least one component is in a (local) nonterminal state. The entire
+system has thus come to a halt, whereas at least one component has the
+possibility to continue to operate. A typical deadlock scenario occurs when
+components mutually wait for each other to progress.
+
+[cite:@baier2008principles p.89 chap.3 part.3.1]
+#+end_quote

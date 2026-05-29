@@ -1,0 +1,327 @@
+:PROPERTIES:
+:ID:       34cfc0c0-dbd9-46b9-915b-c693506c0881
+:END:
+#+title: Erlang in Anger
+#+filetags: :functional-programming: :erlang:
+
+* How to Dive into a Code Base
+
+#+begin_quote
+There are three main types of Erlang code bases you’ll encounter in the wild:
+raw [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] code bases, [[id:6ed3a191-0128-453e-b0b6-37c48593a6f0][OTP]] applications, and OTP releases [fn:1]. 
+
+[cite: @frederic2016stuff p.5 chap.1]
+#+end_quote
+
+** Raw Erlang
+
+#+begin_quote
+If you encounter a raw Erlang code base, you’re pretty much on your own. These
+rarely follow any specific standard, and you have to dive in the old way to
+figure out whatever happens in there.
+
+[cite: @frederic2016stuff p.5 chap.1]
+#+end_quote
+
+** OTP Applications
+
+#+begin_quote
+Figuring out OTP applications [fn:2] is usually rather simple. They usually all
+share a directory structure that looks like:
+
+#+begin_src shell
+doc/
+ebin/
+src/
+test/
+LICENSE.txt
+README.md
+rebar.config
+#+end_src
+
+There might be slight differences, but the general structure will be the same.
+
+[cite: @frederic2016stuff p.6 chap.1]
+#+end_quote
+
+*** Library Applications
+
+#+begin_quote
+Library applications will usually have modules named ~appname_something~, and one
+module named ~appname~. This will usually be the interface module that's central
+to the library and contains a quick way into most of the functionality provided.
+
+[cite: @frederic2016stuff p.7 chap.1]
+#+end_quote
+
+*** Regular Applications
+
+#+begin_quote
+The higher a process resides in the tree, the more likely it is to be vital to
+the survival of the application. You can also estimate how important a process
+is by the order it is started (all children in the supervision tree are started
+in order, depth-first). *If a process is started later in the supervision tree,
+it probably depends on processes that were started earlier*.
+
+[cite: @frederic2016stuff p.7 chap.1]
+#+end_quote
+
+#+begin_quote
+The supervisor restart strategy reflects the relationship between processes
+under a supervisor:
++ ~one_for_one~ and ~simple_one_for_one~ are used for processes that are not
+  dependent upon each other directly, although their failures will collectively
+  be counted towards total application shutdown.
++ ~rest_for_one~ will be used to represent processes that depend on each other in
+  a linear manner.
++ ~one_for_all~ is used for processes that entirely depend on each other.
+  
+This structure means it is easiest to navigate OTP applications in a top-down manner
+by exploring supervision subtrees.
+
+For each worker process supervised, the behaviour it implements will give a good clue
+about its purpose:
+
++ a ~gen_server~ holds resources and tends to follow client/server patterns (or
+  more generally, request/response patterns).
++ a ~gen_fsm~ will deal with a sequence of events or inputs and react depending on
+  them, as a Finite State Machine. It will often be used to implement protocols.
++ a ~gen_event~ will act as an event hub for callbacks, or as a way to deal with
+  notifications of some sort.
+
+[cite: @frederic2016stuff p.8 chap.1]
+#+end_quote
+
+*** Dependencies
+
+#+begin_quote
+All applications have dependencies, and these dependencies will have their own
+dependencies. OTP applications usually share no state between them, so it's
+possible to know what bits of code depend on what other bits of code by looking
+at the app file only, assuming the developer wrote them in a mostly correct manner. 
+
+[cite: @frederic2016stuff p.8 chap.1]
+#+end_quote
+
+** OTP Releases
+
+#+begin_quote
+OTP releases are not a lot harder to understand than most OTP applications
+you'll encounter in the wild. A release is a set of OTP applications packaged in
+a production-ready manner so it boots and shuts down without needing to manually
+call ~application:start/2~ for any app. Compiled releases may contain their own
+copy of the Erlang virtual machine with more or less libraries than the default
+distribution, and can be ready to run standalone. Of course there’s a bit more
+to releases than that, but generally, the same discovery process used for
+individual OTP applications will be applicable here.
+
+[cite: @frederic2016stuff p.10 chap.1]
+#+end_quote
+
+* Building Open Source Erlang Software
+
+#+begin_quote
+OTP applications are the vast majority of the open source code people will
+encounter. In fact, many people who would need to build an OTP release would do
+so as one umbrella OTP application.
+
+If what you're writing is a stand-alone piece of code that could be used by
+someone building a product, it's likely an OTP application. If what you're
+building is a product that stands on its own and should be deployed by users
+as-is (or with a little configuration), what you should be building is an OTP
+release.
+
+[cite: @frederic2016stuff p.12 chap.2]
+#+end_quote
+
+** Project Structure
+
+*** OTP Releases
+
+#+begin_quote
+For releases, the structure can a bit different. Releases are collections of
+applications, and their structures may reflect that.
+
+Instead of having a top-level app alone in src, applications can be nested one
+level deeper in a apps or lib directory:
+
+#+begin_src text
+_build/
+apps/
+  - myapp1/
+    - src/
+  - myapp2/
+    - src/
+doc/
+LICENSE.txt
+README.md
+rebar.config
+rebar.lock
+#+end_src
+
+This structure lends itself to generating releases where multiple OTP
+applications under your control under a single code repository. Both ~rebar3~ and
+~erlang.mk~ rely on the ~relx~ library to assemble releases.
+
+A ~relx~ configuration tuple (within ~rebar.config~) for the directory structure
+above would look like:
+
+#+begin_src text
+{relx, [
+ {release, {demo, "1.0.0"},
+ [myapp1, myapp2, ..., recon]},
+ {include_erts, false} % will use local Erlang install
+]}
+#+end_src
+
+[cite: @frederic2016stuff p.14-15 chap.2]
+#+end_quote
+
+** Supervisors and ~start_link~ Semantics
+
+#+begin_quote
+In complex production systems, most faults and errors are transient, and
+retrying an operation is a good way to do things - Jim Gray's paper quotes Mean
+Times Between Failures (MTBF) of systems handling transient bugs being better by a factor of 4 when doing this.
+Still, *supervisors aren’t just about restarting*.
+
+One very important part of Erlang supervisors and their supervision trees is that their
+start phases are synchronous. *Each OTP process has the potential to prevent its
+siblings and cousins from booting. If the process dies, it’s retried again, and
+again, until it works, or fails too often.*
+
+*Many Erlang developers end up arguing in favor of a supervisor that has a
+cooldown period. I strongly oppose the sentiment for one simple reason: it’s all
+about the guarantees.*
+
+[cite: @frederic2016stuff p.15 chap.2]
+#+end_quote
+
+*** It's About the Guarantees
+
+#+begin_quote
+Restarting a process is about bringing it back to a stable, known state. From
+there, things can be retried. When the initialization isn’t stable, supervision
+is worth very little. An initialized process should be stable no matter what
+happens. That way, when its siblings and cousins get started later on, they can
+be booted fully knowing that the rest of the system that came up before them is healthy.
+
+(...)
+
+Supervised processes provide guarantees in their initialization phase, not a
+best effort. This means that when you're writing a client for a database or
+service, you shouldn't need a connection to be established as part of the initialization phase unless you’re ready to say
+it will always be available no matter what happens.
+
+You could force a connection during initialization if you know the database is on the
+same host and should be booted before your Erlang system, for example. Then a restart
+should work. In case of something incomprehensible and unexpected that breaks these
+guarantees, the node will end up crashing, which is desirable: a pre-condition to starting
+your system hasn’t been met. It’s a system-wide assertion that failed.
+
+(...)
+
+In this case, the only guarantee you can make in the client process is that your
+client will be able to handle requests, but not that it will communicate to the
+database. It could return ~{error, not_connected}~ on all calls during a net
+split, for example.
+
+(...)
+
+If you expect failure to happen on an external service, do not make its presence
+a guarantee of your system. *We're dealing with the real world here, and failure
+of external dependencies is always an option.*
+
+[cite: @frederic2016stuff p.15-16 chap.2]
+#+end_quote
+
+*** Side Effects
+
+#+begin_quote
+Of course, the libraries and processes that call such a client will then error
+out if they don't expect to work without a database. That's an entirely
+different issue in a different problem space, one that depends on your business
+rules and what you can or can’t do to a client, but one that is possible to work
+around. (...)
+
+The difference in both initialization and supervision approaches is that the
+client's callers make the decision about how much failure they can tolerate, not
+the client itself. That's a very important distinction when it comes to
+designing fault-tolerant systems. Yes, supervisors are about restarts, but they
+should be about restarts to a stable known state.
+
+[cite: @frederic2016stuff p.16 chap.2]
+#+end_quote
+
+*** Example: Initializing without guaranteeing connections
+
+#+begin_quote
+The following code attempts to guarantee a connection as part of the process’
+state:
+
+#+begin_src erlang
+init(Args) ->
+  Opts = parse_args(Args),
+  {ok, Port} = connect(Opts),
+  {ok, #state{sock=Port, opts=Opts}}.
+
+  [...]
+
+handle_info(reconnect, S = #state{sock=undefined, opts=Opts}) ->
+  %% try reconnecting in a loop
+  case connect(Opts) of
+    {ok, New} -> {noreply, S#state{sock=New}};
+    _ -> self() ! reconnect, {noreply, S}
+  end;
+
+#+end_src
+
+Instead, consider rewriting it as:
+
+#+begin_src erlang
+init(Args) ->
+  Opts = parse_args(Args),
+  %% you could try connecting here anyway, for a best
+  %% effort thing, but be ready to not have a connection.
+  self() ! reconnect,
+  {ok, #state{sock=undefined, opts=Opts}}.
+
+ [...]
+
+handle_info(reconnect, S = #state{sock=undefined, opts=Opts}) ->
+  %% try reconnecting in a loop
+  case connect(Opts) of
+    {ok, New} -> {noreply, S#state{sock=New}};
+    _ -> self() ! reconnect, {noreply, S}
+  end;
+
+#+end_src
+
+[cite: @frederic2016stuff p.16-17 chap.2]
+#+end_quote
+
+* Planning for Overload
+
+#+begin_quote
+By far, the most common cause of failure I've encountered in real-world
+scenarios is due to the node running out of memory. Furthermore, it is usually
+related to message queues going out of bounds. There are plenty of ways to deal
+with this, but knowing which one to use will require a decent understanding of
+the system you’re working on.
+
+(...)
+
+Determining what queue blew up is not necessarily hard. This is information that
+can be found in a crash dump. Finding out why it blew up is trickier. Based on
+the role of the process or run-time inspection, it’s possible to figure out
+whether causes include fast flooding, blocked processes that won’t process
+messages fast enough, and so on.
+
+[cite: @frederic2016stuff p.20-21 chap.3]
+#+end_quote
+
+* Footnotes
+
+[fn:2] See [[id:04a44951-985d-4b5b-bd52-f1893ea29ae7][Application (OTP)]].
+
+[fn:1] See [[id:6c01e436-53fc-47f1-878f-f996fc3eeb38][Release (OTP)]].
