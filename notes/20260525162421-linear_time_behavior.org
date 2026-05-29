@@ -1,0 +1,79 @@
+:PROPERTIES:
+:ID:       08c4f259-888f-4553-8cfe-7da7ed77a2da
+:END:
+#+title: Linear-Time Behavior
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science: :formal-methods: :model-checking:
+
+#+begin_quote
+To analyze a computer system represented by a transition system [fn:1], either
+an action-based or a state-based approach can be followed. The state-based
+approach abstracts from actions; instead, only labels in the state sequences are
+taken into consideration. In contrast, the action-based view abstracts from
+states and refers only to the action labels of the transitions.
+
+[cite:@baier2008principles p.94 chap.3 part.3.2]
+#+end_quote
+
+* Paths and State Graph
+Let $\texttt{TS} = (\texttt{S}, \texttt{Act}, \rightarrow, \texttt{I}, \texttt{AP},
+\texttt{L})$ be a transition system. The /State Graph/ of TS, notation
+$\texttt{G}(\texttt{TS})$, is the [[id:44404704-0ed0-4832-8d4e-97347802f5ea][Digraph]] (V, E) with vertices V = S and
+edges $E = \{(s, s^\prime) \in \texttt{S} \times \texttt{S} \mid s^\prime \in \texttt{Post}(s)\}$.
+
++ The /state graph/ of TS has a vertex for each state in TS and an edge between
+  vertices s and s^\prime whenever s^\prime is a direct successor of s in TS for some action
+  α.
++ Let $\texttt{Post}^\ast(s)$ denote the states that are reachable in state graph
+  G(TS) from s, then for any $\texttt{C} \subseteq \texttt{S}$:
+
+  $\texttt{Post}^\ast(C) = \bigcup\limits_{s \in C} \texttt{Post}^\ast(s)$
+
+*** Path-Fragment
+
+#+begin_quote
+A ﬁnite path fragment $\hat{\pi}$ of TS is a ﬁnite state sequence $s_0 s_1 \dots s_n$
+such that $s_i \in \texttt{Post}(s_{i-1}), \forall 0 < i \leq n, n \geq 0$. An /inﬁnite path/
+fragment π is an inﬁnite state sequence $s_0 s_1 s_2 \ldots$ such that $s_i \in
+\texttt{Post}(s_{i-1}), \forall i > 0$.
+
+[cite:@baier2008principles p.95 chap.3 part.3.2.1]
+#+end_quote
+
+*** Maximal and Initial Path Fragment
+
+#+begin_quote
+A maximal path fragment is either a ﬁnite path fragment that ends in a terminal
+state, or an inﬁnite path fragment. A path fragment is called initial if it
+starts in an initial state, i.e., if s_0 ∈ I.
+
+[cite:@baier2008principles p.96 chap.3 part.3.2.1]
+#+end_quote
+
+*** Path
+
+#+begin_quote
+A path of transition system TS is an initial, maximal path fragment.
+
+[cite:@baier2008principles p.96 chap.3 part.3.2.1]
+#+end_quote
+
+** Traces
+
+#+begin_quote
+Executions (...) are alternating sequences consisting of states and
+actions. Actions are mainly used to model the (possibility of) interaction, be
+it synchronous or asynchronous communication. (...). Thus, rather than having an
+execution of the form $s_0 \overset{\alpha_0}{\longrightarrow} s_1
+\overset{\alpha_1}{\longrightarrow} s_2 \ldots$ we consider sequences of the form L(s_0)
+L(s_1) L(s_2) \dots that register the (set of) atomic propositions that are valid
+along the execution. *Such sequences are called traces*.
+
+[cite:@baier2008principles p.97 chap.3 part.3.2.2]
+#+end_quote
+
+
+* Footnotes
+
+[fn:1] See [[id:fbe5a587-ce97-40c3-9748-a459c3b89b9a][Transition Systems]]
