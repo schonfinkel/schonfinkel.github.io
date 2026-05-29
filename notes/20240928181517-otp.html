@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-04-07 Tue 10:17 -->
+<!-- 2026-05-29 Fri 10:35 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OTP</title>
@@ -71,21 +71,21 @@ domain we’ve just described. They are <a href="20240619114451-erlang.html#ID-d
 set of design principles. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 4</a>)
 </p>
 </blockquote>
-<div id="outline-container-org969c1f4" class="outline-2">
-<h2 id="org969c1f4">The Tripartite Structure of OTP</h2>
-<div class="outline-text-2" id="text-org969c1f4">
+<div id="outline-container-orgf815960" class="outline-2">
+<h2 id="orgf815960">The Tripartite Structure of OTP</h2>
+<div class="outline-text-2" id="text-orgf815960">
 </div>
-<div id="outline-container-org799554e" class="outline-3">
-<h3 id="org799554e">Erlang</h3>
+<div id="outline-container-org1045ab3" class="outline-3">
+<h3 id="org1045ab3">Erlang</h3>
 </div>
 
-<div id="outline-container-org7f2b4a3" class="outline-3">
-<h3 id="org7f2b4a3">Tools and Libraries</h3>
-<div class="outline-text-3" id="text-org7f2b4a3">
+<div id="outline-container-org98b3405" class="outline-3">
+<h3 id="org98b3405">Tools and Libraries</h3>
+<div class="outline-text-3" id="text-org98b3405">
 </div>
-<div id="outline-container-org4d70f21" class="outline-4">
-<h4 id="org4d70f21">Basic Applications</h4>
-<div class="outline-text-4" id="text-org4d70f21">
+<div id="outline-container-org01cdc84" class="outline-4">
+<h4 id="org01cdc84">Basic Applications</h4>
+<div class="outline-text-4" id="text-org01cdc84">
 <blockquote>
 <p>
 Together with the compiler, these are the minimal subset of applications
@@ -102,18 +102,18 @@ meaningful. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 8</a>)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgceea73b" class="outline-4">
-<h4 id="orgceea73b">Database Applications</h4>
-<div class="outline-text-4" id="text-orgceea73b">
+<div id="outline-container-orgd565891" class="outline-4">
+<h4 id="orgd565891">Database Applications</h4>
+<div class="outline-text-4" id="text-orgd565891">
 <ul class="org-ul">
 <li><a href="20241217132913-mnesia.html#ID-568e0595-4bf0-40b5-981f-fd0aa9312785">MNESIA</a></li>
 <li><code>odbc</code></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org6c460bf" class="outline-4">
-<h4 id="org6c460bf">Operations and Maintenance Applications</h4>
-<div class="outline-text-4" id="text-org6c460bf">
+<div id="outline-container-orgf486e62" class="outline-4">
+<h4 id="orgf486e62">Operations and Maintenance Applications</h4>
+<div class="outline-text-4" id="text-orgf486e62">
 <ul class="org-ul">
 <li><code>os_mon</code></li>
 <li><code>snmp</code></li>
@@ -121,9 +121,9 @@ meaningful. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 8</a>)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbfdb846" class="outline-4">
-<h4 id="orgbfdb846">Interface and Communication Applications</h4>
-<div class="outline-text-4" id="text-orgbfdb846">
+<div id="outline-container-orged96b60" class="outline-4">
+<h4 id="orged96b60">Interface and Communication Applications</h4>
+<div class="outline-text-4" id="text-orged96b60">
 <ul class="org-ul">
 <li><code>ei</code></li>
 <li><code>erl_interface</code></li>
@@ -131,9 +131,9 @@ meaningful. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 8</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-org2b2983b" class="outline-3">
-<h3 id="org2b2983b">System Design Principles</h3>
-<div class="outline-text-3" id="text-org2b2983b">
+<div id="outline-container-org305e66f" class="outline-3">
+<h3 id="org305e66f">System Design Principles</h3>
+<div class="outline-text-3" id="text-org305e66f">
 <blockquote>
 <p>
 The third building block of OTP consists of a set of abstract principles, design
@@ -154,9 +154,9 @@ upgrades. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 10</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org51e6554" class="outline-4">
-<h4 id="org51e6554">Behaviors</h4>
-<div class="outline-text-4" id="text-org51e6554">
+<div id="outline-container-orgd78fb22" class="outline-4">
+<h4 id="orgd78fb22">Behaviors</h4>
+<div class="outline-text-4" id="text-orgd78fb22">
 <blockquote>
 <p>
 Behaviours are a way of formalizing common patterns in process-oriented
@@ -174,14 +174,14 @@ communicate via a simple, well-defined interface. (<a href="#citeproc_bib_item_2
 </blockquote>
 
 
-<figure id="org6b9b106">
+<figure id="orgf86ad96">
 <img src="../static/img/notes/erlang_behaviour.png" alt="erlang_behaviour.png">
 
 </figure>
 </div>
-<div id="outline-container-orga2b39a1" class="outline-5">
-<h5 id="orga2b39a1">Components of a Behaviour</h5>
-<div class="outline-text-5" id="text-orga2b39a1">
+<div id="outline-container-orgca2be10" class="outline-5">
+<h5 id="orgca2be10">Components of a Behaviour</h5>
+<div class="outline-text-5" id="text-orgca2be10">
 <blockquote>
 <p>
 The idea behind OTP behaviors is to split up the code into two modules: one for
@@ -206,9 +206,9 @@ to return when its callback functions are invoked.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgde7a631" class="outline-5">
-<h5 id="orgde7a631">Behavior Types</h5>
-<div class="outline-text-5" id="text-orgde7a631">
+<div id="outline-container-org0512171" class="outline-5">
+<h5 id="org0512171">Behavior Types</h5>
+<div class="outline-text-5" id="text-org0512171">
 <p>
 OTP provides six behaviors that cover the majority of all cases:
 </p>
@@ -234,33 +234,33 @@ held together and monitored by <code>supervisors</code>, which themselves are pa
 </div>
 </div>
 </div>
-<div id="outline-container-orgd692dda" class="outline-2">
-<h2 id="orgd692dda">Distribution, Infrastructure, and Multicore</h2>
+<div id="outline-container-org7dcae27" class="outline-2">
+<h2 id="org7dcae27">Distribution, Infrastructure, and Multicore</h2>
 </div>
 
-<div id="outline-container-org6a7de79" class="outline-2">
-<h2 id="org6a7de79">References:</h2>
-<div class="outline-text-2" id="text-org6a7de79">
+<div id="outline-container-org1ec18a5" class="outline-2">
+<h2 id="org1ec18a5">References:</h2>
+<div class="outline-text-2" id="text-org1ec18a5">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org2d6db26" class="outline-2">
-<h2 id="org2d6db26">Backlinks:</h2>
-<div class="outline-text-2" id="text-org2d6db26">
+<div id="outline-container-org2b07e84" class="outline-2">
+<h2 id="org2b07e84">Backlinks:</h2>
+<div class="outline-text-2" id="text-org2b07e84">
 <ul class="org-ul">
-<li><a href="./20241013103835-supervisor.html">Supervisor</a></li>
-<li><a href="./20241010093430-erlang_term_storage.html">Erlang Term Storage</a></li>
-<li><a href="./20250124104407-gen_statem.html">Gen StateM</a></li>
-<li><a href="./20260326143741-release_otp.html">Release (OTP)</a></li>
-<li><a href="./20241219210226-otp_logging.html">OTP Logging</a></li>
 <li><a href="./20241219134317-gen_event.html">Gen Event</a></li>
+<li><a href="./20250124104407-gen_statem.html">Gen StateM</a></li>
 <li><a href="./20250102194431-application_otp.html">Application (OTP)</a></li>
-<li><a href="./20241010094109-gen_server.html">Gen Server</a></li>
+<li><a href="./20241219210226-otp_logging.html">OTP Logging</a></li>
 <li><a href="./20250407171238-gen_fsm.html">Gen FSM</a></li>
+<li><a href="./20241010093430-erlang_term_storage.html">Erlang Term Storage</a></li>
+<li><a href="./20241010094109-gen_server.html">Gen Server</a></li>
 <li><a href="./20260319123029-special_processes.html">Special Processes (OTP)</a></li>
+<li><a href="./20260326143741-release_otp.html">Release (OTP)</a></li>
+<li><a href="./20241013103835-supervisor.html">Supervisor</a></li>
 </ul>
 </div>
 </div>
