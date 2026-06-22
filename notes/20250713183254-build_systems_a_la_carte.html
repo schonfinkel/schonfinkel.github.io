@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-05-29 Fri 10:50 -->
+<!-- 2026-06-22 Mon 09:55 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Build Systems à la Carte</title>
@@ -56,9 +56,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Build Systems à la Carte</h1>
-</header><div id="outline-container-org6485623" class="outline-2">
-<h2 id="org6485623">Introduction</h2>
-<div class="outline-text-2" id="text-org6485623">
+</header><div id="outline-container-org31392a9" class="outline-2">
+<h2 id="org31392a9">Introduction</h2>
+<div class="outline-text-2" id="text-org31392a9">
 <blockquote>
 <p>
 In this paper we offer a general framework in which to understand and compare
@@ -109,9 +109,9 @@ classification of the design space.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org56c6e48" class="outline-2">
-<h2 id="org56c6e48">Background</h2>
-<div class="outline-text-2" id="text-org56c6e48">
+<div id="outline-container-org96b72ae" class="outline-2">
+<h2 id="org96b72ae">Background</h2>
+<div class="outline-text-2" id="text-org96b72ae">
 <blockquote>
 <p>
 Build systems automate the execution of repeatable tasks for individual users
@@ -136,9 +136,9 @@ discuss many other notable examples of build systems, and their relationships (&
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org8ea73bf" class="outline-3">
-<h3 id="org8ea73bf">Make: Static Dependencies and File Modification Times</h3>
-<div class="outline-text-3" id="text-org8ea73bf">
+<div id="outline-container-org97d26a5" class="outline-3">
+<h3 id="org97d26a5">Make: Static Dependencies and File Modification Times</h3>
+<div class="outline-text-3" id="text-org97d26a5">
 <div class="org-src-container">
 <pre class="src src-makefile"><code><span style="font-weight: bold;">util.o</span>: util.h util.c
         gcc -c util.c
@@ -166,13 +166,13 @@ makefile and executes tasks in a topological order.</li>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org75db163" class="outline-3">
-<h3 id="org75db163">Excel: Dynamic Dependencies at the Cost of Minimality</h3>
+<div id="outline-container-org155a008" class="outline-3">
+<h3 id="org155a008">Excel: Dynamic Dependencies at the Cost of Minimality</h3>
 </div>
 
-<div id="outline-container-org4d8119d" class="outline-3">
-<h3 id="org4d8119d">Shake: Dynamic Dependencies with No Remorse</h3>
-<div class="outline-text-3" id="text-org4d8119d">
+<div id="outline-container-orgb1f6e16" class="outline-3">
+<h3 id="orgb1f6e16">Shake: Dynamic Dependencies with No Remorse</h3>
+<div class="outline-text-3" id="text-orgb1f6e16">
 <ul class="org-ul">
 <li>Developed to solve the issue of dynamic dependencies without sacrificing the
 minimality requirement.</li>
@@ -199,9 +199,9 @@ execution until the dependencies are brought up to date (&hellip;)
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org75e0cae" class="outline-3">
-<h3 id="org75e0cae">Bazel: A Cloud Build System</h3>
-<div class="outline-text-3" id="text-org75e0cae">
+<div id="outline-container-org3e2e6ef" class="outline-3">
+<h3 id="org3e2e6ef">Bazel: A Cloud Build System</h3>
+<div class="outline-text-3" id="text-org3e2e6ef">
 <ul class="org-ul">
 <li>As of the time of the article's writing, it is <b>not possible</b> to express <b>dynamic
 dependencies</b> in <b>user-defined build rules</b>.</li>
@@ -234,9 +234,9 @@ subsequently download the result from the cache.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org25ef204" class="outline-3">
-<h3 id="org25ef204">Summary</h3>
-<div class="outline-text-3" id="text-org25ef204">
+<div id="outline-container-orgded3a4a" class="outline-3">
+<h3 id="orgded3a4a">Summary</h3>
+<div class="outline-text-3" id="text-orgded3a4a">
 <table>
 
 
@@ -311,13 +311,13 @@ subsequently download the result from the cache.
 </div>
 </div>
 </div>
-<div id="outline-container-orgbe27846" class="outline-2">
-<h2 id="orgbe27846">Build Systems, Abstractly</h2>
-<div class="outline-text-2" id="text-orgbe27846">
+<div id="outline-container-orge2e7432" class="outline-2">
+<h2 id="orge2e7432">Build Systems, Abstractly</h2>
+<div class="outline-text-2" id="text-orge2e7432">
 </div>
-<div id="outline-container-orgcb431db" class="outline-3">
-<h3 id="orgcb431db">Common Vocabulary</h3>
-<div class="outline-text-3" id="text-orgcb431db">
+<div id="outline-container-orgdaf4a5c" class="outline-3">
+<h3 id="orgdaf4a5c">Common Vocabulary</h3>
+<div class="outline-text-3" id="text-orgdaf4a5c">
 <blockquote>
 <dl class="org-dl">
 <dt><i>Keys</i>, <i>Values</i>, and the <i>Store</i></dt><dd>The goal of any build system is to bring up to
@@ -464,9 +464,9 @@ instance Monoid m =&gt; Applicative (Const m) where
 </div>
 </div>
 </div>
-<div id="outline-container-orgf20aa56" class="outline-3">
-<h3 id="orgf20aa56">The Task Abstraction</h3>
-<div class="outline-text-3" id="text-orgf20aa56">
+<div id="outline-container-orgadc9eb9" class="outline-3">
+<h3 id="orgadc9eb9">The Task Abstraction</h3>
+<div class="outline-text-3" id="text-orgadc9eb9">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 8 pt.3.2</a>)</label><pre class="src src-haskell"><code>  -- Build tasks 
   newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
@@ -483,9 +483,9 @@ example.
 </p>
 </div>
 </div>
-<div id="outline-container-org272c28d" class="outline-3">
-<h3 id="org272c28d">The Build Abstraction</h3>
-<div class="outline-text-3" id="text-org272c28d">
+<div id="outline-container-orgc4905c7" class="outline-3">
+<h3 id="orgc4905c7">The Build Abstraction</h3>
+<div class="outline-text-3" id="text-orgc4905c7">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 3: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 9 pt.3.3</a>)</label><pre class="src src-haskell"><code>  -- Build system
   type Build c i k v = Tasks c k v -&gt; k -&gt; Store i k v -&gt; Store i k v
@@ -498,22 +498,22 @@ new store in which the value of the target key is up to date.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbfaad4c" class="outline-3">
-<h3 id="orgbfaad4c">The Need for Polymorphism in Task</h3>
-<div class="outline-text-3" id="text-orgbfaad4c">
+<div id="outline-container-org1213d2e" class="outline-3">
+<h3 id="org1213d2e">The Need for Polymorphism in Task</h3>
+<div class="outline-text-3" id="text-org1213d2e">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 4: </span>(<a href="#citeproc_bib_item_1">Mokhov, Mitchell, and Peyton Jones 2018, 10 pt.3.4</a>)</label><pre class="src src-haskell"><code>  newtype Task c k v = Task { run :: forall f. c f =&gt; (k -&gt; f v) -&gt; f v }
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga6b9b73" class="outline-3">
-<h3 id="orga6b9b73">Extracting Static Dependencies</h3>
+<div id="outline-container-org80de0e5" class="outline-3">
+<h3 id="org80de0e5">Extracting Static Dependencies</h3>
 </div>
 
-<div id="outline-container-org28a65c8" class="outline-3">
-<h3 id="org28a65c8">Classifying Tasks</h3>
-<div class="outline-text-3" id="text-org28a65c8">
+<div id="outline-container-orgcc8a641" class="outline-3">
+<h3 id="orgcc8a641">Classifying Tasks</h3>
+<div class="outline-text-3" id="text-orgcc8a641">
 <table>
 
 
@@ -572,9 +572,9 @@ new store in which the value of the target key is up to date.
 </div>
 </div>
 </div>
-<div id="outline-container-org192d59a" class="outline-2">
-<h2 id="org192d59a">References:</h2>
-<div class="outline-text-2" id="text-org192d59a">
+<div id="outline-container-orgd2a69d6" class="outline-2">
+<h2 id="orgd2a69d6">References:</h2>
+<div class="outline-text-2" id="text-orgd2a69d6">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Mokhov, Andrey, Neil Mitchell, and Simon Peyton Jones. 2018. “Build Systems À La Carte.” <i>Proceedings of the Acm on Programming Languages</i> 2 (ICFP): 1–29.</div>
 </div>

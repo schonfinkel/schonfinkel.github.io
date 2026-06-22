@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-05-29 Fri 10:50 -->
+<!-- 2026-06-22 Mon 09:55 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Message-Passing Concurrency</title>
@@ -68,9 +68,9 @@ first studied by Carl Hewitt in the <a href="20250828150412-actor_model.html#ID-
 (<a href="#citeproc_bib_item_1">Van Roy and Haridi 2004, 346 chap.5</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgb9156e6" class="outline-2">
-<h2 id="orgb9156e6">The Message-Passing Concurrent Model</h2>
-<div class="outline-text-2" id="text-orgb9156e6">
+<div id="outline-container-org8a2c78b" class="outline-2">
+<h2 id="org8a2c78b">The Message-Passing Concurrent Model</h2>
+<div class="outline-text-2" id="text-org8a2c78b">
 <blockquote>
 <p>
 The message-passing concurrent model extends the declarative concurrent model by
@@ -87,9 +87,9 @@ declarative concurrent model.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgf01ded5" class="outline-3">
-<h3 id="orgf01ded5">Ports</h3>
-<div class="outline-text-3" id="text-orgf01ded5">
+<div id="outline-container-orge7703f4" class="outline-3">
+<h3 id="orge7703f4">Ports</h3>
+<div class="outline-text-3" id="text-orge7703f4">
 <p>
 A <code>port</code> is an asynchronous FIFO communication channel that supports two
 operations:
@@ -102,9 +102,9 @@ operations:
 </div>
 </div>
 </div>
-<div id="outline-container-orgf26d4d1" class="outline-2">
-<h2 id="orgf26d4d1">Port Objects</h2>
-<div class="outline-text-2" id="text-orgf26d4d1">
+<div id="outline-container-org64851c5" class="outline-2">
+<h2 id="org64851c5">Port Objects</h2>
+<div class="outline-text-2" id="text-org64851c5">
 <blockquote>
 <p>
 A port object is a combination of one or more ports and a stream object. This
@@ -141,9 +141,9 @@ end
 </div>
 </div>
 </div>
-<div id="outline-container-orga0d9281" class="outline-2">
-<h2 id="orga0d9281">Simple Message Protocols</h2>
-<div class="outline-text-2" id="text-orga0d9281">
+<div id="outline-container-orgb44e437" class="outline-2">
+<h2 id="orgb44e437">Simple Message Protocols</h2>
+<div class="outline-text-2" id="text-orgb44e437">
 <blockquote>
 <p>
 Port objects work together by exchanging messages in coordinated ways. It is
@@ -157,26 +157,26 @@ be understood at a higher level of abstraction than just its individual messages
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org733facf" class="outline-3">
-<h3 id="org733facf">RMI (Remote Method Invocation)</h3>
-<div class="outline-text-3" id="text-org733facf">
+<div id="outline-container-orgdef7b0f" class="outline-3">
+<h3 id="orgdef7b0f">RMI (Remote Method Invocation)</h3>
+<div class="outline-text-3" id="text-orgdef7b0f">
 <ul class="org-ul">
 <li>Client sends a request for the server and then waits for reply.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org32fe94b" class="outline-3">
-<h3 id="org32fe94b">Asynchronous RMI</h3>
-<div class="outline-text-3" id="text-org32fe94b">
+<div id="outline-container-org9e7251b" class="outline-3">
+<h3 id="org9e7251b">Asynchronous RMI</h3>
+<div class="outline-text-3" id="text-org9e7251b">
 <ul class="org-ul">
 <li>Similar to RMI, but the client continues its execution after sending the
 request.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org429f26b" class="outline-3">
-<h3 id="org429f26b">RMI with Callback (Using a Thread)</h3>
-<div class="outline-text-3" id="text-org429f26b">
+<div id="outline-container-org371b5d9" class="outline-3">
+<h3 id="org371b5d9">RMI with Callback (Using a Thread)</h3>
+<div class="outline-text-3" id="text-org371b5d9">
 <ul class="org-ul">
 <li>Like RMI, but the server calls the client in order to fullfill a request.</li>
 <li>The server knows the client's reference because it's part of the message.</li>
@@ -184,9 +184,9 @@ request.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge21cd4a" class="outline-3">
-<h3 id="orge21cd4a">RMI with Callback (Using Record Continuation)</h3>
-<div class="outline-text-3" id="text-orge21cd4a">
+<div id="outline-container-org92c650d" class="outline-3">
+<h3 id="org92c650d">RMI with Callback (Using Record Continuation)</h3>
+<div class="outline-text-3" id="text-org92c650d">
 <blockquote>
 <p>
 The solution of the previous example creates a new thread for each client
@@ -232,9 +232,9 @@ Client={NewPortObject2 ClientProc}
 </div>
 </div>
 </div>
-<div id="outline-container-orgaebbd7a" class="outline-3">
-<h3 id="orgaebbd7a">RMI with Callback (Using Procedure Continuation)</h3>
-<div class="outline-text-3" id="text-orgaebbd7a">
+<div id="outline-container-org7550463" class="outline-3">
+<h3 id="org7550463">RMI with Callback (Using Procedure Continuation)</h3>
+<div class="outline-text-3" id="text-org7550463">
 <ul class="org-ul">
 <li>Same as the previous method, but uses a procedure instead of a record.</li>
 </ul>
@@ -258,17 +258,17 @@ Client={NewPortObject2 ClientProc}
 </div>
 </div>
 </div>
-<div id="outline-container-org040f503" class="outline-3">
-<h3 id="org040f503">Error Reporting</h3>
+<div id="outline-container-orgf8f140d" class="outline-3">
+<h3 id="orgf8f140d">Error Reporting</h3>
 </div>
 
-<div id="outline-container-org8f933d0" class="outline-3">
-<h3 id="org8f933d0">Asynchronous RMI with Callback</h3>
+<div id="outline-container-org0cdbc96" class="outline-3">
+<h3 id="org0cdbc96">Asynchronous RMI with Callback</h3>
 </div>
 </div>
-<div id="outline-container-org4de4c9f" class="outline-2">
-<h2 id="org4de4c9f">Program Design for Concurrency</h2>
-<div class="outline-text-2" id="text-org4de4c9f">
+<div id="outline-container-org48036ca" class="outline-2">
+<h2 id="org48036ca">Program Design for Concurrency</h2>
+<div class="outline-text-2" id="text-org48036ca">
 <blockquote>
 <p>
 To design a concurrent application, the ﬁrst step is to model it as a set of
@@ -293,9 +293,9 @@ community, agents are usually considered as doing some kind of reasoning.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org37b247e" class="outline-3">
-<h3 id="org37b247e">Concurrent Component</h3>
-<div class="outline-text-3" id="text-org37b247e">
+<div id="outline-container-org952daf0" class="outline-3">
+<h3 id="org952daf0">Concurrent Component</h3>
+<div class="outline-text-3" id="text-org952daf0">
 <blockquote>
 <p>
 In this model, a concurrent component is a procedure with inputs and
@@ -310,9 +310,9 @@ is a port to which the component can send.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org440c1c8" class="outline-3">
-<h3 id="org440c1c8">Interface</h3>
-<div class="outline-text-3" id="text-org440c1c8">
+<div id="outline-container-org7dcf28b" class="outline-3">
+<h3 id="org7dcf28b">Interface</h3>
+<div class="outline-text-3" id="text-org7dcf28b">
 <ul class="org-ul">
 <li>Concurrent Components interact with their environment via interfaces, which
 consists as a set of inputs/outputs (collectivelly know as <i>wires</i>).</li>
@@ -324,9 +324,9 @@ consists as a set of inputs/outputs (collectivelly know as <i>wires</i>).</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5f69b43" class="outline-3">
-<h3 id="org5f69b43">Basic Operations</h3>
-<div class="outline-text-3" id="text-org5f69b43">
+<div id="outline-container-org31bf4fd" class="outline-3">
+<h3 id="org31bf4fd">Basic Operations</h3>
+<div class="outline-text-3" id="text-org31bf4fd">
 <ul class="org-ul">
 <li><i>Instantiation</i>: Creates an instance of an component.</li>
 <li><i>Composition</i>: Builds a new component out of other components.</li>
@@ -336,9 +336,9 @@ together.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5cfe0a4" class="outline-3">
-<h3 id="org5cfe0a4">Design Methodology</h3>
-<div class="outline-text-3" id="text-org5cfe0a4">
+<div id="outline-container-org0c4a305" class="outline-3">
+<h3 id="org0c4a305">Design Methodology</h3>
+<div class="outline-text-3" id="text-org0c4a305">
 <p>
 The following set ofdesign rules makes developing concurrent programs easier:
 </p>
@@ -356,33 +356,33 @@ send and their protocols.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdd3570f" class="outline-2">
-<h2 id="orgdd3570f">Using the Message-Passing Model Directly</h2>
-<div class="outline-text-2" id="text-orgdd3570f">
+<div id="outline-container-orga196603" class="outline-2">
+<h2 id="orga196603">Using the Message-Passing Model Directly</h2>
+<div class="outline-text-2" id="text-orga196603">
 </div>
-<div id="outline-container-orgad70017" class="outline-3">
-<h3 id="orgad70017">Port Objects that Share One Thread</h3>
-</div>
-
-<div id="outline-container-orgcf8479d" class="outline-3">
-<h3 id="orgcf8479d">A Thread Abstraction with Termination Detection</h3>
+<div id="outline-container-org5021c61" class="outline-3">
+<h3 id="org5021c61">Port Objects that Share One Thread</h3>
 </div>
 
-<div id="outline-container-org1727de1" class="outline-3">
-<h3 id="org1727de1">Eliminating Sequential Dependencies</h3>
-</div>
-</div>
-<div id="outline-container-orgd09b748" class="outline-2">
-<h2 id="orgd09b748">The Erlang Language</h2>
+<div id="outline-container-org58da485" class="outline-3">
+<h3 id="org58da485">A Thread Abstraction with Termination Detection</h3>
 </div>
 
-<div id="outline-container-orgc4bb343" class="outline-2">
-<h2 id="orgc4bb343">Advanced Topics</h2>
-<div class="outline-text-2" id="text-orgc4bb343">
+<div id="outline-container-org5329c3d" class="outline-3">
+<h3 id="org5329c3d">Eliminating Sequential Dependencies</h3>
 </div>
-<div id="outline-container-org297f0c7" class="outline-3">
-<h3 id="org297f0c7">The Nondeterministic Concurrent Model</h3>
-<div class="outline-text-3" id="text-org297f0c7">
+</div>
+<div id="outline-container-org5f0a48e" class="outline-2">
+<h2 id="org5f0a48e">The Erlang Language</h2>
+</div>
+
+<div id="outline-container-orgec7d55c" class="outline-2">
+<h2 id="orgec7d55c">Advanced Topics</h2>
+<div class="outline-text-2" id="text-orgec7d55c">
+</div>
+<div id="outline-container-org495a39f" class="outline-3">
+<h3 id="org495a39f">The Nondeterministic Concurrent Model</h3>
+<div class="outline-text-3" id="text-org495a39f">
 <blockquote>
 <p>
 The nondeterministic concurrent model is the model used by concurrent logic
@@ -396,21 +396,21 @@ since it models predicates as concurrent computations.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org49e54e9" class="outline-3">
-<h3 id="org49e54e9">Limitation of the Declarative Concurrent Model</h3>
+<div id="outline-container-orgedcbd12" class="outline-3">
+<h3 id="orgedcbd12">Limitation of the Declarative Concurrent Model</h3>
 </div>
 </div>
-<div id="outline-container-org0b6fb81" class="outline-2">
-<h2 id="org0b6fb81">References:</h2>
-<div class="outline-text-2" id="text-org0b6fb81">
+<div id="outline-container-org0c9b034" class="outline-2">
+<h2 id="org0c9b034">References:</h2>
+<div class="outline-text-2" id="text-org0c9b034">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Roy, Peter, and Seif Haridi. 2004. <i>Concepts, Techniques, and Models of Computer Programming</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orga82d0cf" class="outline-2">
-<h2 id="orga82d0cf">Backlinks:</h2>
-<div class="outline-text-2" id="text-orga82d0cf">
+<div id="outline-container-orgc19bc14" class="outline-2">
+<h2 id="orgc19bc14">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgc19bc14">
 <ul class="org-ul">
 <li><a href="./20250620073729-concepts_techniques_and_models_of_computer_programming.html">Concepts, Techniques, and Models of Computer Programming</a></li>
 </ul>
