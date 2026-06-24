@@ -4,7 +4,7 @@
 <!-- 2026-06-24 Wed 22:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Monad</title>
+<title>GNU/Guile</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -55,88 +55,23 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Monad</h1>
-</header><div id="outline-container-org1e3bab0" class="outline-3">
-<h3 id="org1e3bab0">Haskell</h3>
-<div class="outline-text-3" id="text-org1e3bab0">
+<h1 class="title">GNU/Guile</h1>
+</header><div id="outline-container-org80d5772" class="outline-2">
+<h2 id="org80d5772">REPL</h2>
+<div class="outline-text-2" id="text-org80d5772">
+</div>
+<div id="outline-container-orgb642804" class="outline-3">
+<h3 id="orgb642804">On Emacs</h3>
+<div class="outline-text-3" id="text-orgb642804">
 <p>
-In <a href="20241008121957-haskell.html#ID-a74d6aac-dbe9-48a6-83ca-648cd6ea933e">Haskell</a>, monads are defined as:
+The REPL can be used from inside <a href="20260614124022-emacs.html#ID-861c0cd0-be48-45a6-bea4-2c9039155290">Emacs</a> by running <code>M-x geiser-guile</code>.
 </p>
-
-<div class="org-src-container">
-<pre class="src src-haskell"><code>    class Monad m where
-        (&gt;&gt;=)  :: m a -&gt; (  a -&gt; m b) -&gt; m b
-        (&gt;&gt;)   :: m a -&gt;  m b         -&gt; m b
-        return ::   a                 -&gt; m a
-</code></pre>
-</div>
-
-<table>
-
-
-<colgroup>
-<col  class="org-left">
-
-<col  class="org-left">
-
-<col  class="org-left">
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Name</th>
-<th scope="col" class="org-left">Handles</th>
-<th scope="col" class="org-left">Signature</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Result</td>
-<td class="org-left">Errors</td>
-<td class="org-left"><code>Either e a -&gt; (a -&gt; Either e b) -&gt; Either e b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Maybe</td>
-<td class="org-left">Absent values</td>
-<td class="org-left"><code>Maybe a -&gt; (a -&gt; Maybe b) -&gt; Maybe b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">IO</td>
-<td class="org-left">Pure/Impure separation</td>
-<td class="org-left"><code>IO a -&gt; (a -&gt; IO b) -&gt; IO b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">State</td>
-<td class="org-left">Monadic State</td>
-<td class="org-left"><code>State a -&gt; (a -&gt; State b) -&gt; State b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Reader</td>
-<td class="org-left">Environment Data</td>
-<td class="org-left"><code>Reader a -&gt; (a -&gt; Reader b) -&gt; Reader b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Writer</td>
-<td class="org-left">Writer-Only Data</td>
-<td class="org-left"><code>Writer a -&gt; (a -&gt; Writer b) -&gt; Writer b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Parser</td>
-<td class="org-left">Composing Parsers</td>
-<td class="org-left"><code>Parser a -&gt; (a -&gt; Parser b) -&gt; Parser b</code></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
-<div id="outline-container-orga4813b8" class="outline-2">
-<h2 id="orga4813b8">References:</h2>
-<div class="outline-text-2" id="text-orga4813b8">
+</div>
+<div id="outline-container-orgdca88b8" class="outline-2">
+<h2 id="orgdca88b8">References:</h2>
+<div class="outline-text-2" id="text-orgdca88b8">
 <div class="csl-bib-body">
 </div>
 </div>

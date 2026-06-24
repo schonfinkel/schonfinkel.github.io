@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-06-24 Wed 22:05 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Emacs</h1>
+</header><blockquote>
+<p>
+Emacs is a tinkerer's editor. Plain and simple. People who hack on Emacs do it
+because almost every facet of it is extensible. It is the original extensible,
+customizable, self-documenting editor. (&hellip;)
+</p>
+
+<p>
+Emacs pulls you in. Once you start using Emacs for the editing, you realize that
+using Emacs for IrC, email, database access, organizing your thoughts,
+command-line shells, compiling your code or surfing the Internet is just as easy
+as editing text - and you get to keep your key bindings, theme and all the power
+of Emacs and elisp to configure or alter the behavior of everything.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Petersen 2022, 19–20 chap.2</a>)
+</p>
+</blockquote>
+<div id="outline-container-org03b5167" class="outline-2">
+<h2 id="org03b5167">Terminology</h2>
+<div class="outline-text-2" id="text-org03b5167">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Term</th>
+<th scope="col" class="org-left">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>buffer</code></td>
+<td class="org-left">A buffer of text usually containing the contents of a file, but possibly interactive in a useful way (like a command prompt).</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>region</code></td>
+<td class="org-left">A selection of text in the current buffer, in other words "the selected region"</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>cursor</code></td>
+<td class="org-left">The location of the text cursor in the buffer, also called the "point"</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>frame</code></td>
+<td class="org-left">The entire Emacs window in terms of the operating system’s desktop environment</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>window</code></td>
+<td class="org-left">A viewable area inside of the Emacs frame</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>minibuffer</code></td>
+<td class="org-left">The prompt that shows up at the bottom of the Emacs frame when you perform certain actions like opening files or executing commands by name</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>echo area</code></td>
+<td class="org-left">A status area at the very bottom of the Emacs frame that displays messages when certain actions occur</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="outline-container-orgedd73e4" class="outline-3">
+<h3 id="orgedd73e4">Basic Key Bindings</h3>
+<div class="outline-text-3" id="text-orgedd73e4">
+</div>
+<div id="outline-container-org0d7d2b3" class="outline-4">
+<h4 id="org0d7d2b3">Opening and Saving Files</h4>
+<div class="outline-text-4" id="text-org0d7d2b3">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Action</th>
+<th scope="col" class="org-left">Keybinding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Open a file</td>
+<td class="org-left"><code>C-x C-f</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Save the current buffer</td>
+<td class="org-left"><code>C-x C-s</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orga634683" class="outline-4">
+<h4 id="orga634683">Default Movement and Editing</h4>
+</div>
+
+<div id="outline-container-orgb5234a1" class="outline-4">
+<h4 id="orgb5234a1">Basic Window Management</h4>
+<div class="outline-text-4" id="text-orgb5234a1">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Action</th>
+<th scope="col" class="org-left">Keybinding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Split window horizontally</td>
+<td class="org-left"><code>C-x 2</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Split window vertically</td>
+<td class="org-left"><code>C-x 3</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Close all current windows</td>
+<td class="org-left"><code>C-x 0</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Close all other windows</td>
+<td class="org-left"><code>C-x 1</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Switch to the next visible window</td>
+<td class="org-left"><code>C-x o</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orga04ecf1" class="outline-2">
+<h2 id="orga04ecf1">References:</h2>
+<div class="outline-text-2" id="text-orga04ecf1">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Petersen, Mickey. 2022. <i>Mastering Emacs</i>. Emacs 29 Edition. Mickey Petersen. <a href="https://www.masteringemacs.org/book">https://www.masteringemacs.org/book</a>.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd6355aa" class="outline-2">
+<h2 id="orgd6355aa">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgd6355aa">
+<ul class="org-ul">
+<li><a href="./20260614154635-gnu_guile.html">GNU/Guile</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

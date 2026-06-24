@@ -4,7 +4,7 @@
 <!-- 2026-06-24 Wed 22:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Monad</title>
+<title>Ring</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -30,6 +30,38 @@
   };
 </script>
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,89 +87,53 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">Monad</h1>
-</header><div id="outline-container-org1e3bab0" class="outline-3">
-<h3 id="org1e3bab0">Haskell</h3>
-<div class="outline-text-3" id="text-org1e3bab0">
+<h1 class="title">Ring</h1>
+</header><blockquote>
 <p>
-In <a href="20241008121957-haskell.html#ID-a74d6aac-dbe9-48a6-83ca-648cd6ea933e">Haskell</a>, monads are defined as:
+A ring is a set \(\mathds{R}\) with two binary operations defined on it: addition
+, denoted by +, and multiplication, denoted by &sdot;, or just by juxtaposition,
+satisfying the following six axioms:
 </p>
 
-<div class="org-src-container">
-<pre class="src src-haskell"><code>    class Monad m where
-        (&gt;&gt;=)  :: m a -&gt; (  a -&gt; m b) -&gt; m b
-        (&gt;&gt;)   :: m a -&gt;  m b         -&gt; m b
-        return ::   a                 -&gt; m a
-</code></pre>
-</div>
+<ol class="org-ol">
+<li>Addition is commutative: a + b = b + a for each pair a, b in R.</li>
+<li>Addition is associative: a + (b + c) = (a + b) + c for a, b, c ∈ R.</li>
+<li>There exists an additive identity, denoted by 0, such that a + 0 = a for each a ∈ R.</li>
+<li>For each a ∈ R, there exists an additive inverse, denoted by −a, such that
+a + (−a) = 0.</li>
+<li>Multiplication is associative: a(bc) = (ab)c for a, b, c ∈ R.</li>
+<li>Multiplication is left and right distributive over addition: a(b + c) = ab +
+ac, and (b + c)a = ba + ca for a, b, c ∈ R.</li>
+</ol>
 
-<table>
+<p>
+The ring R is commutative if
+</p>
+<ol class="org-ol">
+<li>Multiplication is commutative: ab = ba for a, b in R.</li>
+</ol>
 
+<p>
+We call R a ring with identity if
+</p>
+<ol class="org-ol">
+<li>There exists a multiplicative identity denoted by 1 such that a ⋅ 1 = a and 1
+⋅ a = a for each a in R.</li>
+</ol>
 
-<colgroup>
-<col  class="org-left">
+<p>
+If R satisfies (1) through (8), then R is a commutative ring with identity.
+</p>
 
-<col  class="org-left">
-
-<col  class="org-left">
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Name</th>
-<th scope="col" class="org-left">Handles</th>
-<th scope="col" class="org-left">Signature</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Result</td>
-<td class="org-left">Errors</td>
-<td class="org-left"><code>Either e a -&gt; (a -&gt; Either e b) -&gt; Either e b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Maybe</td>
-<td class="org-left">Absent values</td>
-<td class="org-left"><code>Maybe a -&gt; (a -&gt; Maybe b) -&gt; Maybe b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">IO</td>
-<td class="org-left">Pure/Impure separation</td>
-<td class="org-left"><code>IO a -&gt; (a -&gt; IO b) -&gt; IO b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">State</td>
-<td class="org-left">Monadic State</td>
-<td class="org-left"><code>State a -&gt; (a -&gt; State b) -&gt; State b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Reader</td>
-<td class="org-left">Environment Data</td>
-<td class="org-left"><code>Reader a -&gt; (a -&gt; Reader b) -&gt; Reader b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Writer</td>
-<td class="org-left">Writer-Only Data</td>
-<td class="org-left"><code>Writer a -&gt; (a -&gt; Writer b) -&gt; Writer b</code></td>
-</tr>
-
-<tr>
-<td class="org-left">Parser</td>
-<td class="org-left">Composing Parsers</td>
-<td class="org-left"><code>Parser a -&gt; (a -&gt; Parser b) -&gt; Parser b</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-orga4813b8" class="outline-2">
-<h2 id="orga4813b8">References:</h2>
-<div class="outline-text-2" id="text-orga4813b8">
+<p>
+(<a href="#citeproc_bib_item_1">Rosenberger, Schürenberg, and Wienke 2024, 2 chap.1</a>)
+</p>
+</blockquote>
+<div id="outline-container-org9a1dc41" class="outline-2">
+<h2 id="org9a1dc41">References:</h2>
+<div class="outline-text-2" id="text-org9a1dc41">
 <div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Rosenberger, Gerhard, Annika Schürenberg, and Leonard Wienke. 2024. <i>Abstract Algebra: With Applications to Galois Theory, Algebraic Geometry, Representation Theory and Cryptography</i>. Walter de Gruyter GmbH &#38; Co KG.</div>
 </div>
 </div>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-06-22 Mon 09:55 -->
+<!-- 2026-06-24 Wed 22:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JSON (PostgreSQL)</title>
@@ -94,17 +94,17 @@ data type, also supports the <code>JSONB</code> data type.
 </tr>
 </tbody>
 </table>
-<div id="outline-container-org51e7efe" class="outline-2">
-<h2 id="org51e7efe">Validation</h2>
+<div id="outline-container-org0101c3a" class="outline-2">
+<h2 id="org0101c3a">Validation</h2>
 </div>
 
-<div id="outline-container-org2084d19" class="outline-2">
-<h2 id="org2084d19">Functions &amp; Operators</h2>
-<div class="outline-text-2" id="text-org2084d19">
+<div id="outline-container-org9ae652f" class="outline-2">
+<h2 id="org9ae652f">Functions &amp; Operators</h2>
+<div class="outline-text-2" id="text-org9ae652f">
 </div>
-<div id="outline-container-orgb123d0a" class="outline-3">
-<h3 id="orgb123d0a">Creating JSON data</h3>
-<div class="outline-text-3" id="text-orgb123d0a">
+<div id="outline-container-orge4cc41b" class="outline-3">
+<h3 id="orge4cc41b">Creating JSON data</h3>
+<div class="outline-text-3" id="text-orge4cc41b">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> json_build_object(
     <span style="font-style: italic;">'id'</span>, 1,
@@ -151,9 +151,9 @@ every json object in its own row:
 </div>
 </div>
 </div>
-<div id="outline-container-org8b2a15c" class="outline-3">
-<h3 id="org8b2a15c">Extraction Operators</h3>
-<div class="outline-text-3" id="text-org8b2a15c">
+<div id="outline-container-orgd6bcb35" class="outline-3">
+<h3 id="orgd6bcb35">Extraction Operators</h3>
+<div class="outline-text-3" id="text-orgd6bcb35">
 <table>
 
 
@@ -220,9 +220,9 @@ every json object in its own row:
 </table>
 </div>
 </div>
-<div id="outline-container-org1e26816" class="outline-3">
-<h3 id="org1e26816">Containment Operators</h3>
-<div class="outline-text-3" id="text-org1e26816">
+<div id="outline-container-org507c1d2" class="outline-3">
+<h3 id="org507c1d2">Containment Operators</h3>
+<div class="outline-text-3" id="text-org507c1d2">
 <table>
 
 
@@ -261,9 +261,9 @@ every json object in its own row:
 </table>
 </div>
 </div>
-<div id="outline-container-org7492081" class="outline-3">
-<h3 id="org7492081">Existence Operators</h3>
-<div class="outline-text-3" id="text-org7492081">
+<div id="outline-container-orgc1aee25" class="outline-3">
+<h3 id="orgc1aee25">Existence Operators</h3>
+<div class="outline-text-3" id="text-orgc1aee25">
 <p>
 You can also use the following operators to check if one or more values are
 contained inside a <code>JSONB</code> object:
@@ -290,9 +290,9 @@ yields <code>t</code>.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0461f8f" class="outline-3">
-<h3 id="org0461f8f">JSON Path Operators</h3>
-<div class="outline-text-3" id="text-org0461f8f">
+<div id="outline-container-org613e8a4" class="outline-3">
+<h3 id="org613e8a4">JSON Path Operators</h3>
+<div class="outline-text-3" id="text-org613e8a4">
 <table>
 
 
@@ -331,9 +331,9 @@ yields <code>t</code>.</li>
 </table>
 </div>
 </div>
-<div id="outline-container-orgc5c21a8" class="outline-3">
-<h3 id="orgc5c21a8">Deletion Operators</h3>
-<div class="outline-text-3" id="text-orgc5c21a8">
+<div id="outline-container-org91dd321" class="outline-3">
+<h3 id="org91dd321">Deletion Operators</h3>
+<div class="outline-text-3" id="text-org91dd321">
 <table>
 
 
@@ -386,18 +386,18 @@ yields <code>t</code>.</li>
 </table>
 </div>
 </div>
-<div id="outline-container-orge192f3b" class="outline-3">
-<h3 id="orge192f3b">Update Functions</h3>
-<div class="outline-text-3" id="text-orge192f3b">
+<div id="outline-container-org53b9852" class="outline-3">
+<h3 id="org53b9852">Update Functions</h3>
+<div class="outline-text-3" id="text-org53b9852">
 <p>
 <code>jsonb_set</code>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org9d2e806" class="outline-2">
-<h2 id="org9d2e806">JSON Record Sets</h2>
-<div class="outline-text-2" id="text-org9d2e806">
+<div id="outline-container-org7b5747b" class="outline-2">
+<h2 id="org7b5747b">JSON Record Sets</h2>
+<div class="outline-text-2" id="text-org7b5747b">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> *
   <span style="font-weight: bold;">FROM</span> jsonb_each(<span style="font-style: italic;">'{"a": 1, "b": "something", "c": {"d": 1}}'</span>);
@@ -427,17 +427,17 @@ raw JSON data:
 </div>
 </div>
 </div>
-<div id="outline-container-org7d51416" class="outline-2">
-<h2 id="org7d51416">Indexing</h2>
-<div class="outline-text-2" id="text-org7d51416">
+<div id="outline-container-orgf4de1ba" class="outline-2">
+<h2 id="orgf4de1ba">Indexing</h2>
+<div class="outline-text-2" id="text-orgf4de1ba">
 </div>
-<div id="outline-container-orgcafbe61" class="outline-3">
-<h3 id="orgcafbe61">Functional Indexes and Generated Columns</h3>
+<div id="outline-container-org6ac5e27" class="outline-3">
+<h3 id="org6ac5e27">Functional Indexes and Generated Columns</h3>
 </div>
 
-<div id="outline-container-orgcfef338" class="outline-3">
-<h3 id="orgcfef338">GIN Indexes</h3>
-<div class="outline-text-3" id="text-orgcfef338">
+<div id="outline-container-orgbbcaeac" class="outline-3">
+<h3 id="orgbbcaeac">GIN Indexes</h3>
+<div class="outline-text-3" id="text-orgbbcaeac">
 <blockquote>
 <p>
 <code>GIN</code> indexes can be used to efficiently search for keys or key/value pairs
@@ -468,17 +468,17 @@ For <code>JSONB</code>, <code>GIN</code> supports two operator classes:
 </div>
 </div>
 </div>
-<div id="outline-container-org93e7a13" class="outline-2">
-<h2 id="org93e7a13">References:</h2>
-<div class="outline-text-2" id="text-org93e7a13">
+<div id="outline-container-org2264886" class="outline-2">
+<h2 id="org2264886">References:</h2>
+<div class="outline-text-2" id="text-org2264886">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org8328d08" class="outline-2">
-<h2 id="org8328d08">Backlinks:</h2>
-<div class="outline-text-2" id="text-org8328d08">
+<div id="outline-container-org8462813" class="outline-2">
+<h2 id="org8462813">Backlinks:</h2>
+<div class="outline-text-2" id="text-org8462813">
 <ul class="org-ul">
 <li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
 </ul>

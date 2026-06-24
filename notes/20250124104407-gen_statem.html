@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-06-22 Mon 09:55 -->
+<!-- 2026-06-24 Wed 22:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gen StateM</title>
@@ -76,13 +76,13 @@ internal state of the state machine.
 (<a href="#citeproc_bib_item_1">Rubio 2022, 62 chap.5</a>)
 </p>
 </blockquote>
-<div id="outline-container-org9c27e30" class="outline-2">
-<h2 id="org9c27e30">Building Blocks</h2>
-<div class="outline-text-2" id="text-org9c27e30">
+<div id="outline-container-org0cbe1ec" class="outline-2">
+<h2 id="org0cbe1ec">Building Blocks</h2>
+<div class="outline-text-2" id="text-org0cbe1ec">
 </div>
-<div id="outline-container-org70ea17f" class="outline-3">
-<h3 id="org70ea17f">Callback Mode</h3>
-<div class="outline-text-3" id="text-org70ea17f">
+<div id="outline-container-org13df0ce" class="outline-3">
+<h3 id="org13df0ce">Callback Mode</h3>
+<div class="outline-text-3" id="text-org13df0ce">
 <blockquote>
 <p>
 The way to use <code>gen_statem</code> differs depending on the way to handle the events that
@@ -135,9 +135,9 @@ The <code>callback_mode</code> choice is essentially a choice between specializa
 </tbody>
 </table>
 </div>
-<div id="outline-container-org3732e49" class="outline-4">
-<h4 id="org3732e49">State Functions</h4>
-<div class="outline-text-4" id="text-org3732e49">
+<div id="outline-container-org9cd276f" class="outline-4">
+<h4 id="org9cd276f">State Functions</h4>
+<div class="outline-text-4" id="text-org9cd276f">
 <p>
 This basically a way to write a dedicated specialist function for every
 state. When you are in the red state, only the <code>red/3</code> (or <code>red/4</code>) function is
@@ -156,9 +156,9 @@ You define a function that matches the name of your current state.
 </ul>
 </div>
 </div>
-<div id="outline-container-org45a5e96" class="outline-4">
-<h4 id="org45a5e96">Event Handlers</h4>
-<div class="outline-text-4" id="text-org45a5e96">
+<div id="outline-container-org7870148" class="outline-4">
+<h4 id="org7870148">Event Handlers</h4>
+<div class="outline-text-4" id="text-org7870148">
 <p>
 This is the "generalist" approach. One function (<code>handle_event/4</code>) answers the
 phone regardless of what is happening.
@@ -173,13 +173,13 @@ like overkill.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org3bf6f09" class="outline-3">
-<h3 id="org3bf6f09">State Enter</h3>
+<div id="outline-container-org0eb232d" class="outline-3">
+<h3 id="org0eb232d">State Enter</h3>
 </div>
 </div>
-<div id="outline-container-orge1d20a9" class="outline-2">
-<h2 id="orge1d20a9">The Event/Action Life Cycle</h2>
-<div class="outline-text-2" id="text-orge1d20a9">
+<div id="outline-container-orgd073b7e" class="outline-2">
+<h2 id="orgd073b7e">The Event/Action Life Cycle</h2>
+<div class="outline-text-2" id="text-orgd073b7e">
 <blockquote>
 <p>
 The life cycle of a state machine is defined by its transitions, and each
@@ -231,9 +231,9 @@ executed before going back to the cycle of listening for new incoming events.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org47a381f" class="outline-3">
-<h3 id="org47a381f">Event Types</h3>
-<div class="outline-text-3" id="text-org47a381f">
+<div id="outline-container-org4f6f70c" class="outline-3">
+<h3 id="org4f6f70c">Event Types</h3>
+<div class="outline-text-3" id="text-org4f6f70c">
 <blockquote>
 <p>
 As events we receive not only information from timers or messages but also
@@ -246,9 +246,9 @@ calls) as we saw in <a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44e
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orga5a8430" class="outline-4">
-<h4 id="orga5a8430">External</h4>
-<div class="outline-text-4" id="text-orga5a8430">
+<div id="outline-container-orgb10efa4" class="outline-4">
+<h4 id="orgb10efa4">External</h4>
+<div class="outline-text-4" id="text-orgb10efa4">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>-type external_event_type() :: {call, From :: from()} | cast | info.
 </code></pre>
@@ -295,9 +295,9 @@ calls) as we saw in <a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44e
 </ul>
 </div>
 </div>
-<div id="outline-container-org1f7130a" class="outline-4">
-<h4 id="org1f7130a">Timeout</h4>
-<div class="outline-text-4" id="text-org1f7130a">
+<div id="outline-container-orgc75be99" class="outline-4">
+<h4 id="orgc75be99">Timeout</h4>
+<div class="outline-text-4" id="text-orgc75be99">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>-type timeout_event_type() :: timeout | {timeout, Name :: term()} | state_timeout.
 </code></pre>
@@ -336,9 +336,9 @@ calls) as we saw in <a href="20241010094109-gen_server.html#ID-1cd8fd81-a7c4-44e
 </table>
 </div>
 </div>
-<div id="outline-container-orga9f2df7" class="outline-4">
-<h4 id="orga9f2df7">Internal</h4>
-<div class="outline-text-4" id="text-orga9f2df7">
+<div id="outline-container-org1f8a858" class="outline-4">
+<h4 id="org1f8a858">Internal</h4>
+<div class="outline-text-4" id="text-org1f8a858">
 <blockquote>
 <p>
 internal events can only be generated by the state machine itself through the transition action <code>next_event</code>.
@@ -369,18 +369,18 @@ internal events can only be generated by the state machine itself through the tr
 </div>
 </div>
 </div>
-<div id="outline-container-orgd973b1e" class="outline-3">
-<h3 id="orgd973b1e">Return Tuples / "Commands"</h3>
-<div class="outline-text-3" id="text-orgd973b1e">
+<div id="outline-container-org3c63ef6" class="outline-3">
+<h3 id="org3c63ef6">Return Tuples / "Commands"</h3>
+<div class="outline-text-3" id="text-org3c63ef6">
 <p>
 In <code>gen_statem</code>, your callback functions communicate their intent back to the
 behavior engine using specific return tuples. Think of these as the "commands"
 you give the state machine after handling an event.
 </p>
 </div>
-<div id="outline-container-org0d9969d" class="outline-4">
-<h4 id="org0d9969d">Changing State</h4>
-<div class="outline-text-4" id="text-org0d9969d">
+<div id="outline-container-org37f855a" class="outline-4">
+<h4 id="org37f855a">Changing State</h4>
+<div class="outline-text-4" id="text-org37f855a">
 <table>
 
 
@@ -411,9 +411,9 @@ idiomatic and better for documentation.
 </div>
 </div>
 </div>
-<div id="outline-container-org1a0f747" class="outline-4">
-<h4 id="org1a0f747">Staying Put / Continuations</h4>
-<div class="outline-text-4" id="text-org1a0f747">
+<div id="outline-container-org462d142" class="outline-4">
+<h4 id="org462d142">Staying Put / Continuations</h4>
+<div class="outline-text-4" id="text-org462d142">
 <p>
 Use these when you want to handle an event without leaving the current state.
 </p>
@@ -446,9 +446,9 @@ Use these when you want to handle an event without leaving the current state.
 </table>
 </div>
 </div>
-<div id="outline-container-orgd879137" class="outline-4">
-<h4 id="orgd879137">Re-entering / Reset</h4>
-<div class="outline-text-4" id="text-orgd879137">
+<div id="outline-container-org41962b0" class="outline-4">
+<h4 id="org41962b0">Re-entering / Reset</h4>
+<div class="outline-text-4" id="text-org41962b0">
 <p>
 These are special because they trigger state entry events. If you have logic
 that needs to run every time you "arrive" at a state, these returns will trigger
@@ -483,9 +483,9 @@ it again.
 </table>
 </div>
 </div>
-<div id="outline-container-orge25e56b" class="outline-4">
-<h4 id="orge25e56b">Terminating / Stopping</h4>
-<div class="outline-text-4" id="text-orge25e56b">
+<div id="outline-container-orga0a84f9" class="outline-4">
+<h4 id="orga0a84f9">Terminating / Stopping</h4>
+<div class="outline-text-4" id="text-orga0a84f9">
 <table>
 
 
@@ -515,9 +515,9 @@ it again.
 </div>
 </div>
 </div>
-<div id="outline-container-org2501d4e" class="outline-3">
-<h3 id="org2501d4e">Actions</h3>
-<div class="outline-text-3" id="text-org2501d4e">
+<div id="outline-container-orgc4a595d" class="outline-3">
+<h3 id="orgc4a595d">Actions</h3>
+<div class="outline-text-3" id="text-orgc4a595d">
 <blockquote>
 <p>
 We can organize the actions in groups. These groups are not exclusive. We can
@@ -584,27 +584,27 @@ to the one previously on the stack.</dd>
 </dl>
 </div>
 </div>
-<div id="outline-container-org32af14e" class="outline-3">
-<h3 id="org32af14e">Timers</h3>
+<div id="outline-container-orgd4aeff0" class="outline-3">
+<h3 id="orgd4aeff0">Timers</h3>
 </div>
 </div>
-<div id="outline-container-org938fef8" class="outline-2">
-<h2 id="org938fef8">State Groups</h2>
+<div id="outline-container-org4bb2c7b" class="outline-2">
+<h2 id="org4bb2c7b">State Groups</h2>
 </div>
 
 
 
-<div id="outline-container-org4760b3c" class="outline-2">
-<h2 id="org4760b3c">References:</h2>
-<div class="outline-text-2" id="text-org4760b3c">
+<div id="outline-container-orgbce69bb" class="outline-2">
+<h2 id="orgbce69bb">References:</h2>
+<div class="outline-text-2" id="text-orgbce69bb">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Rubio, Manuel. 2022. “Erlang/Otp: The Otp Basics” 2.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgeef771c" class="outline-2">
-<h2 id="orgeef771c">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgeef771c">
+<div id="outline-container-orgf96cc63" class="outline-2">
+<h2 id="orgf96cc63">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgf96cc63">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>
