@@ -59,10 +59,6 @@
               python-pkgs.scipy
             ]))
 
-            # .Net
-            netcoredbg
-            fsautocomplete
-            fantomas
           ];
 
           texenv = pkgs.texlive.combine {
@@ -90,8 +86,6 @@
               ;
           };
 
-          dotnet = with pkgs.dotnetCorePackages; combinePackages [ sdk_8_0 ];
-
           customEmacs = (pkgs.emacsPackagesFor pkgs.emacs-nox).emacsWithPackages (
             epkgs:
             with epkgs.melpaPackages;
@@ -115,7 +109,6 @@
               src = pkgs.lib.cleanSource ./.;
               ORG_CV_PATH = "${inputs.org-cv}";
               buildInputs = [
-                dotnet
                 customEmacs
                 texenv
               ]
@@ -136,16 +129,13 @@
             # Reduce the number of packages to the bare minimum needed for CI,
             # by removing LaTeX and not using my own Emacs configuration, but
             # a custom package with just enough tools for org-publish.
-            ci = pkgs.mkShell {
+              ci = pkgs.mkShell {
               ENVIRONMENT = "prod";
               OUT_URL = "https://schonfinkel.github.io/";
               IS_CI = "1";
-              DOTNET_ROOT = "${dotnet}";
-              DOTNET_CLI_TELEMETRY_OPTOUT = "1";
               LANG = "en_US.UTF-8";
               ORG_CV_PATH = "${inputs.org-cv}";
               buildInputs = [
-                dotnet
                 customEmacs
                 texenv
               ]
@@ -163,15 +153,12 @@
                   { pkgs, lib, ... }:
                   {
                     packages = [
-                      dotnet
                       texenv
                     ]
                     ++ tooling;
 
                     env = {
                       ENVIRONMENT = "dev";
-                      DOTNET_ROOT = "${dotnet}";
-                      DOTNET_CLI_TELEMETRY_OPTOUT = "1";
                       LANG = "en_US.UTF-8";
                       ORG_CV_PATH = "${inputs.org-cv}";
                       PLANTUML_PATH = "${pkgs.plantuml}";
