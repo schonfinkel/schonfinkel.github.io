@@ -76,6 +76,59 @@
       (insert "\n* References:\n#+print_bibliography:\n")
       (notes/collect-backlinks backend))))
 
+;;; Listing helpers (replaces F# scripts)
+
+(defun schonfinkel/get-org-title (filepath)
+  "Extract #+TITLE: from FILEPATH, case-insensitive."
+  (with-temp-buffer
+    (insert-file-contents filepath)
+    (goto-char (point-min))
+    (if (re-search-forward "^#\\+TITLE:\s*\\(.*\\)$" nil t)
+        (string-trim-right (match-string 1))
+      (file-name-base filepath))))
+
+(defun schonfinkel/extract-date (filename nchars)
+  "Extract YYYY-MM-DD date from first NCHARS of FILENAME base."
+  (let* ((base (file-name-base filename))
+         (s (substring base 0 (min nchars (length base)))))
+    (format "%s-%s-%s" (substring s 0 4) (substring s 4 6) (substring s 6 8))))
+
+(defun schonfinkel/generate-index (dir nchars exclude-regex)
+  "Scan DIR (relative to root-dir) for .org files and return an HTML list.
+NCHARS is the date prefix length in the filename. EXCLUDE-REGEX is a
+regexp string; files whose names match it are skipped.  Results are
+sorted anti-chronologically by extracted date."
+  (let* ((full-dir (concat root-dir dir))
+         (files (directory-files full-dir t "\\.org$"))
+         (entries '()))
+    (dolist (f files)
+      (let ((fname (file-name-nondirectory f)))
+        (unless (or (string-prefix-p "." fname)
+                    (and exclude-regex
+                         (string-match-p exclude-regex fname)))
+          (let ((title (schonfinkel/get-org-title f))
+                (date  (schonfinkel/extract-date fname nchars)))
+            (push (list date title fname) entries)))))
+    (setq entries (sort entries (lambda (a b) (string> (car a) (car b)))))
+    (mapconcat
+     (lambda (e)
+       (let ((date  (nth 0 e))
+             (title (nth 1 e))
+             (file  (file-name-sans-extension (nth 2 e))))
+         (format
+          "\n    <div class=\"stub\">\n      <h2>\n        <a href=\"./%s%s.html\"> %s </a>\n      </h2>\n      <small>%s</small>\n    </div>"
+          dir file title date)))
+     entries
+     "")))
+
+(defun schonfinkel/generate-blog-list ()
+  "Return an HTML list of blog posts."
+  (schonfinkel/generate-index "blog/" 8 "draft\\|rss"))
+
+(defun schonfinkel/generate-notes-list ()
+  "Return an HTML list of org-roam notes."
+  (schonfinkel/generate-index "notes/" 14 nil))
+
 ;;;; Only to be used within CI environments, to generate the ORG-ROAM db
 (defun notes/generate-sqlite-db ()
   "Bootstraps the ORG-ROAM db."
