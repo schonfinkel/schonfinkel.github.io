@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-06-24 Wed 22:05 -->
+<!-- 2026-06-26 Fri 14:38 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Index (PostgreSQL)</title>
@@ -83,9 +83,9 @@ means the index is going to index the return values of those functions.
 (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 462 chap.13</a>)
 </p>
 </blockquote>
-<div id="outline-container-org1c8de73" class="outline-2">
-<h2 id="org1c8de73">Selectivity</h2>
-<div class="outline-text-2" id="text-org1c8de73">
+<div id="outline-container-org397cd89" class="outline-2">
+<h2 id="org397cd89">Selectivity</h2>
+<div class="outline-text-2" id="text-org397cd89">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span> <span style="font-weight: bold;">COUNT</span>(<span style="font-weight: bold;">DISTINCT</span> <span style="font-weight: bold;">column_name</span>) / <span style="font-weight: bold;">COUNT</span>(*)
   <span style="font-weight: bold;">FROM</span> <span style="font-weight: bold;">table_name</span>;
@@ -105,13 +105,13 @@ if it realizes its no better than a sequential scan.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf9ae0c0" class="outline-2">
-<h2 id="orgf9ae0c0">Index Types</h2>
-<div class="outline-text-2" id="text-orgf9ae0c0">
+<div id="outline-container-org8813c82" class="outline-2">
+<h2 id="org8813c82">Index Types</h2>
+<div class="outline-text-2" id="text-org8813c82">
 </div>
-<div id="outline-container-org6c68212" class="outline-3">
-<h3 id="org6c68212">B-Tree</h3>
-<div class="outline-text-3" id="text-org6c68212">
+<div id="outline-container-org8ef9640" class="outline-3">
+<h3 id="org8ef9640">B-Tree</h3>
+<div class="outline-text-3" id="text-org8ef9640">
 <blockquote>
 <p>
 B-trees can handle equality and range queries on data that can be sorted into
@@ -140,9 +140,9 @@ into the tree structure; therefore, if you use a B-Tree to index large values
 </div>
 </div>
 </div>
-<div id="outline-container-org97e772d" class="outline-3">
-<h3 id="org97e772d">Hash Index</h3>
-<div class="outline-text-3" id="text-org97e772d">
+<div id="outline-container-orgb490a0a" class="outline-3">
+<h3 id="orgb490a0a">Hash Index</h3>
+<div class="outline-text-3" id="text-orgb490a0a">
 <blockquote>
 <p>
 Another type of index that PostgreSQL provides is the hash index: this index is
@@ -170,9 +170,9 @@ equality or pertinence (<code>IN</code> clauses) checks all the time.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2d3d650" class="outline-3">
-<h3 id="org2d3d650">GIST</h3>
-<div class="outline-text-3" id="text-org2d3d650">
+<div id="outline-container-org135219c" class="outline-3">
+<h3 id="org135219c">GIST</h3>
+<div class="outline-text-3" id="text-org135219c">
 <blockquote>
 <p>
 Then comes <b>Generalized Index Search Tree (GIST)</b>, which is a platform on top of
@@ -193,20 +193,20 @@ applications.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org7037e61" class="outline-4">
-<h4 id="org7037e61">SP-GIST</h4>
-<div class="outline-text-4" id="text-org7037e61">
+<div id="outline-container-orgb20bb15" class="outline-4">
+<h4 id="orgb20bb15">SP-GIST</h4>
+<div class="outline-text-4" id="text-orgb20bb15">
 <blockquote>
 <p>
-&lt;&lt;   &gt;&gt;   ~=   &lt;@   <a id="orgdb1c478"></a>
+&lt;&lt;   &gt;&gt;   ~=   &lt;@   <a id="org9021da1"></a>
 </p>
 </blockquote>
 </div>
 </div>
 </div>
-<div id="outline-container-org01f38a1" class="outline-3">
-<h3 id="org01f38a1">GIN</h3>
-<div class="outline-text-3" id="text-org01f38a1">
+<div id="outline-container-org714506c" class="outline-3">
+<h3 id="org714506c">GIN</h3>
+<div class="outline-text-3" id="text-org714506c">
 <blockquote>
 <p>
 <b>GIN</b> is a type of index that instead of pointing to a single tuple points to
@@ -224,9 +224,9 @@ duplicated keys that point to different places.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org200c633" class="outline-3">
-<h3 id="org200c633">BRIN</h3>
-<div class="outline-text-3" id="text-org200c633">
+<div id="outline-container-orgbc9b3e7" class="outline-3">
+<h3 id="orgbc9b3e7">BRIN</h3>
+<div class="outline-text-3" id="text-orgbc9b3e7">
 <blockquote>
 <p>
 <b>Block Range Index (BRIN)</b> is a particular type of index that is based on the
@@ -260,9 +260,9 @@ couple of values for every data block.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf8166e7" class="outline-2">
-<h2 id="orgf8166e7">Composite/Multicolumn Indexes</h2>
-<div class="outline-text-2" id="text-orgf8166e7">
+<div id="outline-container-org19a0508" class="outline-2">
+<h2 id="org19a0508">Composite/Multicolumn Indexes</h2>
+<div class="outline-text-2" id="text-org19a0508">
 <blockquote>
 <p>
 Currently, only the <code>B-Tree</code>, <code>GiST</code>, <code>GIN</code>, and <code>BRIN</code> index types support
@@ -287,9 +287,9 @@ while single-column indexes are more likelly to be chosen in <code>WHERE/OR</cod
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc33c06b" class="outline-2">
-<h2 id="orgc33c06b">Covering Indexes (aka Index-Only Scams)</h2>
-<div class="outline-text-2" id="text-orgc33c06b">
+<div id="outline-container-org5004602" class="outline-2">
+<h2 id="org5004602">Covering Indexes (aka Index-Only Scams)</h2>
+<div class="outline-text-2" id="text-org5004602">
 <ul class="org-ul">
 <li>In an ordinary index scan, data can be fetched both from the index and the
 heap. This heap-access portion can involve a lot of random accesses and may
@@ -314,9 +314,9 @@ others. Other index types have no support.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orga46bc41" class="outline-2">
-<h2 id="orga46bc41">Partial Indexes</h2>
-<div class="outline-text-2" id="text-orga46bc41">
+<div id="outline-container-org059ff88" class="outline-2">
+<h2 id="org059ff88">Partial Indexes</h2>
+<div class="outline-text-2" id="text-org059ff88">
 <ul class="org-ul">
 <li>Only index a subset of the rows.</li>
 <li>Useful if you plan to have fast scan through a subset of the data anyway.</li>
@@ -332,9 +332,9 @@ will never care about.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org84368e9" class="outline-2">
-<h2 id="org84368e9">Indexes and <code>ORDER BY</code></h2>
-<div class="outline-text-2" id="text-org84368e9">
+<div id="outline-container-org67c9c7c" class="outline-2">
+<h2 id="org67c9c7c">Indexes and <code>ORDER BY</code></h2>
+<div class="outline-text-2" id="text-org67c9c7c">
 <blockquote>
 <p>
 In addition to simply finding the rows to be returned by a query, an index may
@@ -363,9 +363,9 @@ which will be matched with an <code>ORDER BY</code> clause if the ordering also 
 </div>
 </div>
 </div>
-<div id="outline-container-orge9bc3f5" class="outline-2">
-<h2 id="orge9bc3f5">Functional Indexes</h2>
-<div class="outline-text-2" id="text-orge9bc3f5">
+<div id="outline-container-orgc84c44b" class="outline-2">
+<h2 id="orgc84c44b">Functional Indexes</h2>
+<div class="outline-text-2" id="text-orgc84c44b">
 <ul class="org-ul">
 <li>An index defined on the result of applying a function<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> to one or more columns
 of a single table.</li>
@@ -378,17 +378,17 @@ of a single table.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc65fd53" class="outline-2">
-<h2 id="orgc65fd53">References:</h2>
-<div class="outline-text-2" id="text-orgc65fd53">
+<div id="outline-container-org6c5d36c" class="outline-2">
+<h2 id="org6c5d36c">References:</h2>
+<div class="outline-text-2" id="text-org6c5d36c">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org7ebea47" class="outline-2">
-<h2 id="org7ebea47">Backlinks:</h2>
-<div class="outline-text-2" id="text-org7ebea47">
+<div id="outline-container-org9a26f0a" class="outline-2">
+<h2 id="org9a26f0a">Backlinks:</h2>
+<div class="outline-text-2" id="text-org9a26f0a">
 <ul class="org-ul">
 <li><a href="./20250227213002-performance_optimization_postgres.html">Performance Optimization (PostgreSQL)</a></li>
 </ul>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-06-24 Wed 22:05 -->
+<!-- 2026-06-26 Fri 14:38 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Full Text Search (PostgreSQL)</title>
@@ -56,9 +56,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Full Text Search (PostgreSQL)</h1>
-</header><div id="outline-container-orgcb2666a" class="outline-2">
-<h2 id="orgcb2666a">Parsing Documents</h2>
-<div class="outline-text-2" id="text-orgcb2666a">
+</header><div id="outline-container-org997511f" class="outline-2">
+<h2 id="org997511f">Parsing Documents</h2>
+<div class="outline-text-2" id="text-org997511f">
 <p>
 <a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a> provides the function <code>to_tsvector</code> for converting a document to the
 <code>tsvector</code> data type. A <code>ts_vector</code> is a sorted list of distinct lexemes:
@@ -140,9 +140,9 @@ The following query picks all the movies whose titles contain "star" immediately
 </code></pre>
 </div>
 </div>
-<div id="outline-container-org60a1140" class="outline-3">
-<h3 id="org60a1140">Highlights</h3>
-<div class="outline-text-3" id="text-org60a1140">
+<div id="outline-container-org6460f01" class="outline-3">
+<h3 id="org6460f01">Highlights</h3>
+<div class="outline-text-3" id="text-org6460f01">
 <blockquote>
 <p>
 To present search results it is ideal to show a part of each document and how it
@@ -154,9 +154,9 @@ implements this functionality.
 </div>
 </div>
 </div>
-<div id="outline-container-org96c80ae" class="outline-2">
-<h2 id="org96c80ae">Websearch</h2>
-<div class="outline-text-2" id="text-org96c80ae">
+<div id="outline-container-org9d5f090" class="outline-2">
+<h2 id="org9d5f090">Websearch</h2>
+<div class="outline-text-2" id="text-org9d5f090">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     plainto_tsquery(<span style="font-style: italic;">'star trek'</span>) <span style="font-weight: bold;">as</span> plain,
@@ -170,9 +170,9 @@ implements this functionality.
 </div>
 </div>
 </div>
-<div id="outline-container-org855e2aa" class="outline-2">
-<h2 id="org855e2aa">Ranking</h2>
-<div class="outline-text-2" id="text-org855e2aa">
+<div id="outline-container-orgc9c70f1" class="outline-2">
+<h2 id="orgc9c70f1">Ranking</h2>
+<div class="outline-text-2" id="text-orgc9c70f1">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">SELECT</span>
     *,
@@ -191,30 +191,30 @@ implements this functionality.
 </code></pre>
 </div>
 </div>
-<div id="outline-container-org50d8140" class="outline-3">
-<h3 id="org50d8140">Setting weights</h3>
-<div class="outline-text-3" id="text-org50d8140">
+<div id="outline-container-orgd80bc05" class="outline-3">
+<h3 id="orgd80bc05">Setting weights</h3>
+<div class="outline-text-3" id="text-orgd80bc05">
 <p>
 <code>setweight</code>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb5a5b31" class="outline-2">
-<h2 id="orgb5a5b31">Indexing</h2>
+<div id="outline-container-org5a2f885" class="outline-2">
+<h2 id="org5a2f885">Indexing</h2>
 </div>
 
-<div id="outline-container-org2f14fe9" class="outline-2">
-<h2 id="org2f14fe9">References:</h2>
-<div class="outline-text-2" id="text-org2f14fe9">
+<div id="outline-container-orgec2e769" class="outline-2">
+<h2 id="orgec2e769">References:</h2>
+<div class="outline-text-2" id="text-orgec2e769">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Dombrovskaya, Henrietta, Boris Novikov, and Anna Bailliekova. 2021. <i>Postgresql Query Optimization</i>. Springer.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org60cd825" class="outline-2">
-<h2 id="org60cd825">Backlinks:</h2>
-<div class="outline-text-2" id="text-org60cd825">
+<div id="outline-container-org9e822c1" class="outline-2">
+<h2 id="org9e822c1">Backlinks:</h2>
+<div class="outline-text-2" id="text-org9e822c1">
 <ul class="org-ul">
 <li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
 </ul>
