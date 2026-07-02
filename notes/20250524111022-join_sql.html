@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-06-29 Mon 10:46 -->
+<!-- 2026-07-02 Thu 10:14 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JOIN (SQL)</title>
@@ -60,13 +60,13 @@
 In <a href="20240928223026-sql.html#ID-11f7d9cc-51a6-4897-955b-37a756105677">SQL</a> a <code>JOIN</code> is a way to produce a result set projecting information from two
 tables.
 </p>
-<div id="outline-container-org325ed0a" class="outline-2">
-<h2 id="org325ed0a">Types</h2>
-<div class="outline-text-2" id="text-org325ed0a">
+<div id="outline-container-org727983b" class="outline-2">
+<h2 id="org727983b">Types</h2>
+<div class="outline-text-2" id="text-org727983b">
 </div>
-<div id="outline-container-orgb7e67f7" class="outline-3">
-<h3 id="orgb7e67f7">Cross Join</h3>
-<div class="outline-text-3" id="text-orgb7e67f7">
+<div id="outline-container-orgd3388e4" class="outline-3">
+<h3 id="orgd3388e4">Cross Join</h3>
+<div class="outline-text-3" id="text-orgd3388e4">
 <ul class="org-ul">
 <li>Creates a Cartesian Product between two tables</li>
 </ul>
@@ -87,9 +87,9 @@ tables.
 </div>
 </div>
 </div>
-<div id="outline-container-org98c6b27" class="outline-3">
-<h3 id="org98c6b27">Inner Join</h3>
-<div class="outline-text-3" id="text-org98c6b27">
+<div id="outline-container-org969e926" class="outline-3">
+<h3 id="org969e926">Inner Join</h3>
+<div class="outline-text-3" id="text-org969e926">
 <ul class="org-ul">
 <li>Creates a result set that contains all combinations of a query filtering of
 the <b>left</b> side with the matching rows of the <b>right</b> side.</li>
@@ -114,13 +114,13 @@ the <b>left</b> side with the matching rows of the <b>right</b> side.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org9519993" class="outline-3">
-<h3 id="org9519993">Natural Join</h3>
+<div id="outline-container-org121b9e5" class="outline-3">
+<h3 id="org121b9e5">Natural Join</h3>
 </div>
 
-<div id="outline-container-orga33c259" class="outline-3">
-<h3 id="orga33c259">Outter Join</h3>
-<div class="outline-text-3" id="text-orga33c259">
+<div id="outline-container-orgaf06ac9" class="outline-3">
+<h3 id="orgaf06ac9">Outter Join</h3>
+<div class="outline-text-3" id="text-orgaf06ac9">
 <ul class="org-ul">
 <li><code>LEFT</code></li>
 </ul>
@@ -165,9 +165,9 @@ sides, no matter if matches exist.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb736c9c" class="outline-3">
-<h3 id="orgb736c9c">Lateral Join</h3>
-<div class="outline-text-3" id="text-orgb736c9c">
+<div id="outline-container-org020c606" class="outline-3">
+<h3 id="org020c606">Lateral Join</h3>
+<div class="outline-text-3" id="text-org020c606">
 <blockquote>
 <p>
 A lateral join is a type of join in SQL that allows you to join a table with a
@@ -188,13 +188,13 @@ subquery, where the subquery is run for each row of the main table.
 </div>
 </div>
 </div>
-<div id="outline-container-org03a7a69" class="outline-2">
-<h2 id="org03a7a69">Useful Keywords</h2>
-<div class="outline-text-2" id="text-org03a7a69">
+<div id="outline-container-orgd0dfc54" class="outline-2">
+<h2 id="orgd0dfc54">Useful Keywords</h2>
+<div class="outline-text-2" id="text-orgd0dfc54">
 </div>
-<div id="outline-container-org72dca78" class="outline-3">
-<h3 id="org72dca78"><code>USING</code></h3>
-<div class="outline-text-3" id="text-org72dca78">
+<div id="outline-container-org23cc123" class="outline-3">
+<h3 id="org23cc123"><code>USING</code></h3>
+<div class="outline-text-3" id="text-org23cc123">
 <blockquote>
 <p>
 The <code>USING</code> clause is a shorthand that allows you to take advantage of the
@@ -208,33 +208,33 @@ condition <code>ON T1.a = T2.a AND T1.b = T2.b</code>.
 </div>
 </div>
 </div>
-<div id="outline-container-orga563883" class="outline-2">
-<h2 id="orga563883">JOIN Algorithms</h2>
-<div class="outline-text-2" id="text-orga563883">
+<div id="outline-container-org045f119" class="outline-2">
+<h2 id="org045f119">JOIN Algorithms</h2>
+<div class="outline-text-2" id="text-org045f119">
 </div>
-<div id="outline-container-org57abf7a" class="outline-3">
-<h3 id="org57abf7a">Nested Loops</h3>
-</div>
-
-<div id="outline-container-orga1f620b" class="outline-3">
-<h3 id="orga1f620b">Hash Join</h3>
+<div id="outline-container-org4dcf153" class="outline-3">
+<h3 id="org4dcf153">Nested Loops</h3>
 </div>
 
-<div id="outline-container-org848448c" class="outline-3">
-<h3 id="org848448c">Merge Join</h3>
+<div id="outline-container-org3d08b8e" class="outline-3">
+<h3 id="org3d08b8e">Hash Join</h3>
+</div>
+
+<div id="outline-container-orgc13ab2d" class="outline-3">
+<h3 id="orgc13ab2d">Merge Join</h3>
 </div>
 </div>
-<div id="outline-container-org7db6b53" class="outline-2">
-<h2 id="org7db6b53">References:</h2>
-<div class="outline-text-2" id="text-org7db6b53">
+<div id="outline-container-org7681852" class="outline-2">
+<h2 id="org7681852">References:</h2>
+<div class="outline-text-2" id="text-org7681852">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaaf3ff4" class="outline-2">
-<h2 id="orgaaf3ff4">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgaaf3ff4">
+<div id="outline-container-orgfab5347" class="outline-2">
+<h2 id="orgfab5347">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgfab5347">
 <ul class="org-ul">
 <li><a href="./20250529101855-subqueries_sql.html">Subqueries (SQL)</a></li>
 </ul>
