@@ -65,6 +65,7 @@
             inherit (pkgs.texlive)
               accsupp
               bussproofs
+              booktabs
               collection-basic
               collection-fontsextra
               collection-fontsrecommended

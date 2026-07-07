@@ -1,0 +1,194 @@
+:PROPERTIES:
+:ID:       1ab07e4a-e33d-45e9-8c34-480bb761a80f
+:END:
+#+title: Process
+
+#+begin_quote
+A key concept in all operating systems is the process. *A process is basically a
+program in execution*. Associated with each process is its address space, a list
+of memory locations from 0 to some maximum, which the process can read and
+write. The address space contains the executable program, the program's data,
+and its stack. Also associated with each process is a set of resources, commonly
+including registers (including the program counter and stack pointer), a list of
+open files, outstanding alarms, lists of related processes, and all the other
+information needed to run the program. A process is fundamentally a container
+that holds all the information needed to run a program.
+
+[cite:@tanenbaum2023mos p.39 chap.1 part.1.5.1]
+#+end_quote
+
+* The Process Model
+
+#+begin_quote
+In this model, all the runnable software on the computer, sometimes including
+the operating system, is organized into a number of sequential processes, or
+just processes for short. A process is just an instance of an executing program,
+including the current values of the program counter, registers, and
+variables. Conceptually, each process has its own virtual CPU. In reality, of
+course, each real CPU switches back and forth from process to process, but to
+understand the system, it is much easier to think about a collection of
+processes running in (pseudo) parallel than to try to keep track of how each CPU
+switches from program to program.
+
+[cite:@tanenbaum2023mos p.86 chap.2 part.2.1.1]
+#+end_quote
+
+** Core Abstractions & CPU Virtualization
+
+A program is a passive set of instructions resting on a disk; once the OS loads
+and executes it, it becomes an active *process*.
+
+*** Key Concepts
+
++ *Virtualization & Time-Sharing*: Even though a standard CPU core only handles
+  one process at a time, the OS uses *time-sharing* to rapidly cycle through
+  active processes. This creates the illusion of concurrent execution, though
+  packing too many applications can degrade performance.
+
+* Process Creation
+
+#+begin_quote
+Operating systems need some way to create processes. In very simple systems, or
+in systems designed for running only a single application (e.g., the controller
+in a microwave oven), it may be possible to have all the processes that will
+ever be needed be present when the system comes up. In general-purpose systems,
+however, some way is needed to create and terminate processes as needed during
+operation. We will now look at some of the issues.
+
+Four principal events cause processes to be created:
+
+1. System initialization
+2. Execution of a process-creation system call by a running process
+3. A user request to create a new process
+4. Initiation of a batch job
+
+When an operating system is booted, typically numerous processes are
+created. Some of these processes are foreground processes, that is, processes
+that interact with (human) users and perform work for them. Others run in the
+background and are not associated with particular users, but instead have some
+specific function.
+
+[cite:@tanenbaum2023mos p.89 chap.2 part.2.1.2]
+#+end_quote
+
+** Initialization Steps
+
+Before a program turns into a process, the OS handles initialization steps.
+
+1. *Loading*: It reads the binary executable from disk and maps it into the
+   process’s address space.
+2. *The Stack*: Memory space initialized with system variables (like C’s ~argc~
+   and ~argv~). It dynamically handles function parameters, local variables, and
+   return targets.
+3. *The Heap*: Memory set aside for explicit, runtime-dynamic requests (such as
+   manual allocation via ~malloc()~ in C).
+
+* Process Hierarchies
+
+#+begin_quote
+In some systems, when a process creates another process, the parent process and
+child process continue to be associated in certain ways. The child process can
+itself create more processes, forming a process hierarchy.
+
+(...)
+
+In Unix, a process and all of its children and further descendants together form
+a process group. When a user sends a signal from the keyboard (e.g., by pressing
+CTRL-C), the signal is delivered to all members of the process group currently
+associated with the keyboard (usually all active processes that were created in
+the current window). Individually, each process can catch the signal, ignore the
+signal, or take the default action, which is to be killed by the signal.
+
+As another example of where the process hierarchy plays a key role, let us look
+at how UNIX initializes itself when it is started, just after the computer is
+booted. A special process, called init, is present in the boot image. When it
+starts running, it reads a file telling how many terminals there are. Then it
+forks off a new process per terminal. These processes wait for someone to log
+in. If a login is successful, the login process executes a shell to accept
+commands. These commands may start up more processes, and so forth. Thus, all
+the processes in the whole system belong to a single tree, with init at the
+root.
+
+[cite:@tanenbaum2023mos p.92 chap.2 part.2.1.4]
+#+end_quote
+
+* Process States & Transitions
+
+An active process shifts dynamically between three distinct structural states.
+
+** Core States
+
++ Running :: The process is currently occupying the CPU core and executing
+  instructions.
++ Ready :: The process is perfectly prepared to execute but is temporarily
+  waiting for the OS to grant it CPU time.
++ Blocked :: The process is entirely paused because it is waiting for an
+  external event (like a slow disk read or a network packet I/O) to finish.
+
+** Transitions
++ Moving a process from *Ready* to *Running* is known as *scheduling*.
++ Moving it backwards from *Running* to *Ready* is *descheduling*.
++ I/O operations *block* a process until the reading or writing to disk is
+  complete, returning it to the *Ready* state afterwards.
+
+* Implementation of Processes
+
+#+begin_quote
+To implement the process model, the operating system maintains a table (an array
+of structures), called the process table, with one entry per process (Some
+authors call these entries process control blocks). This entry contains
+important information about the process' state, including its program counter,
+stack pointer, memory allocation, the status of its open files, its accounting
+and scheduling information, and everything else about the process that must be
+saved when the process is switched from running to ready or blocked state so
+that it can be restarted later as if it had never been stopped.
+
+[cite:@tanenbaum2023mos p.92 chap.2 part.2.1.4]
+#+end_quote
+
+To manage an active process, the OS tracks its exact runtime blueprint, known as
+its *machine state*.
+
+** Key Components
+
++ *Memory / Address Space*: The specific bounds of physical or virtual memory the
+  process is allowed to read from and write to.
++ *Registers*: Core CPU components that track execution:
+  + *Program Counter (PC)*: Points to the next memory address to execute.
+  + *Stack Pointer / Frame Pointer*: Track local execution contexts, function call
+    parameters, and variable limits.
++ *Persistent Storage*: Tracks system hooks like currently open file descriptors.
+
+| Process management        | Memory management            | File management   |
+|---------------------------+------------------------------+-------------------|
+| Registers                 | Pointer to text segment info | Root directory    |
+| Program counter           | Pointer to data segment info | Working directory |
+| Program status word       | Pointer to stack segment info| File descriptors  |
+| Stack pointer             |                              | User ID           |
+| Process state             |                              | Group ID          |
+| Priority                  |                              |                   |
+| Scheduling parameters     |                              |                   |
+| Process ID                |                              |                   |
+| Parent process            |                              |                   |
+| Process group             |                              |                   |
+| Signals                   |                              |                   |
+| Time when process started |                              |                   |
+| CPU time used             |                              |                   |
+| Children’s CPU time       |                              |                   |
+| Time of next alarm        |                              |                   |
+
+* Scheduling
+
+** Mechanisms vs. Policies
+
+Proper CPU virtualization requires a clear separation of execution mechanics
+from scheduling logic.
+
+** Key Concepts
+
++ *Mechanisms*: Low-level hardware protocols or systems software techniques that
+  execute required tasks (e.g., how a CPU performs a context switch).
+
++ *Policies*: High-level algorithms and logical rules used to manage limited
+  resources (e.g., a scheduling policy determining /which/ application gets CPU
+  time next).

@@ -17,6 +17,7 @@ states and refers only to the action labels of the transitions.
 #+end_quote
 
 * Paths and State Graph
+
 Let $\texttt{TS} = (\texttt{S}, \texttt{Act}, \rightarrow, \texttt{I}, \texttt{AP},
 \texttt{L})$ be a transition system. The /State Graph/ of TS, notation
 $\texttt{G}(\texttt{TS})$, is the [[id:44404704-0ed0-4832-8d4e-97347802f5ea][Digraph]] (V, E) with vertices V = S and
@@ -70,9 +71,58 @@ execution of the form $s_0 \overset{\alpha_0}{\longrightarrow} s_1
 L(s_1) L(s_2) \dots that register the (set of) atomic propositions that are valid
 along the execution. *Such sequences are called traces*.
 
+The traces of a transition system are thus words over the alphabet 2^AP.
+
 [cite:@baier2008principles p.97 chap.3 part.3.2.2]
 #+end_quote
 
+*** Trace and Trace Fragment
+
+#+begin_quote
+Let $\texttt{TS} = (\texttt{S}, \texttt{Act}, \rightarrow,\texttt{I}, \texttt{AP},
+\texttt{L})$ be a transition system without terminal states. The trace of the
+infinite path fragment $\pi = s_0 s_1 \ldots$ is deﬁned as $trace(\hat{\pi}) =
+\texttt{L}(s_0) \texttt{L}(s_1) \ldots$. The trace of the finite path fragment π =
+s_0 s_1 \dots s_n is deﬁned as $trace(\pi) = \texttt{L}(s_0) \texttt{L}(s_1) \ldots
+\texttt{L}(s_n)$.
+
+The trace of a path fragment is thus the induced finite or infinite word over
+the alphabet 2^AP , i.e., the sequence of sets of atomic propositions that are
+valid in the states of the path. The set of traces of a set \Pi of paths is deﬁned
+in the usual way:
+
+$$ trace(\pi) = \{ trace(\pi) \mid \pi \in \Pi \}. $$
+
+[cite:@baier2008principles p.98 chap.3 part.3.2.2]
+#+end_quote
+
+* Linear-Time Properties
+
+#+begin_quote
+A linear-time property (LT property) over the set of atomic propositions AP is a subset of (2^AP)^ω.
+
+[cite:@baier2008principles p.100 chap.3 part.3.2.3]
+#+end_quote
+
++ Linear-time properties define the specific execution traces that a transition
+  system should exhibit.
++ Informally, they outline the acceptable or intended behavior of the system
+  under analysis.
+
+** Satisfaction Relation for LT Properties
+
+#+begin_quote
+Let $\texttt{P}$ be an $\texttt{LT}$ property over $\texttt{AP}$ and $\texttt{TS} = (texttt{S}, \texttt{Act}, \rightarrow,
+\texttt{I}, \texttt{AP}, \texttt{L})$ a transition system without terminal states. Then, $\texttt{TS} = (\texttt{S}, \texttt{Act}, →, \texttt{I},
+\texttt{AP}, \texttt{L})$ satisfies $\texttt{P}$, denoted $\texttt{TS} \models
+\texttt{P}$, iff $\texttt{Traces}(\texttt{TS}) \subseteq \texttt{P}$. State s ∈ S satisfies P, notation $ s \models P$, whenever Traces(s) ⊆ P
+
+Thus, a transition system satisfies the LT property P if all its traces respect
+P, i.e., if all its behaviors are admissible. A state satisfies P whenever all
+traces starting in this state fulfill P.
+
+[cite:@baier2008principles p.100 chap.3 part.3.2.3]
+#+end_quote
 
 * Footnotes
 

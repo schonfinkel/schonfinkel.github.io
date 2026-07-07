@@ -2,6 +2,38 @@
 :ID:       47293346-4628-4d4a-9e55-421a98e3c341
 :END:
 #+title: Make
-#+filetags: :build-systems: 
+#+filetags: :build-systems: :make:
 
-[cite:@feldman1979make]
+#+begin_quote
+(...) Make provides a way to save the command sequences needed to perform
+transformations. It automatically executes a sufficient sub-sequence of the
+commands after checking which files have changed. Make was designed to simplify
+life for the developer and maintainer of moderately complex programs, but it has
+proved to be a very useful tool for a much larger range of problems than was originally expected. 
+
+[cite:@feldman1979make p.1-2]
+#+end_quote
+
+
+#+CAPTION: "A generic Makefile"
+#+begin_src makefile
+  SOURCES = main.c helper.c
+  OBJS = $(SOURCES:.c=.o)
+  TARGET = main
+
+  # Compiler 
+  CC = gcc  
+  # Extra Flags
+  OPTS = -Wall 
+  # Libraries that need to be linked beforehand
+  LIBS = -lm 
+
+  $(TARGET): $(OBJS)
+      $(CC) -o $(TARGET) $(OBJS) $(LIBS)
+
+  %.o: %.c
+      $(CC) $(OPTS) -c $< -o $@
+
+  clean:
+      rm -f $(OBJS) $(TARGET)
+#+end_src
