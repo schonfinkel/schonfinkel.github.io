@@ -20,8 +20,11 @@ jobs:
         with:
           lfs: true
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v31
+      - uses: wimpysworld/nothing-but-nix@main
+        with:
+          hatchet-protocol: 'cleave'
+
+      - uses: DeterminateSystems/nix-installer-action@v22
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
 
