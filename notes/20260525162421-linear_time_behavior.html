@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-02 Thu 10:14 -->
+<!-- 2026-07-09 Thu 00:34 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Linear-Time Behavior</title>
@@ -101,9 +101,9 @@ states and refers only to the action labels of the transitions.
 (<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 94 chap.3 part.3.2</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgd9f1fad" class="outline-2">
-<h2 id="orgd9f1fad">Paths and State Graph</h2>
-<div class="outline-text-2" id="text-orgd9f1fad">
+<div id="outline-container-org3e2cc4d" class="outline-2">
+<h2 id="org3e2cc4d">Paths and State Graph</h2>
+<div class="outline-text-2" id="text-org3e2cc4d">
 <p>
 Let \(\texttt{TS} = (\texttt{S}, \texttt{Act}, \rightarrow, \texttt{I}, \texttt{AP},
 \texttt{L})\) be a transition system. The <i>State Graph</i> of TS, notation
@@ -125,9 +125,9 @@ G(TS) from s, then for any \(\texttt{C} \subseteq \texttt{S}\):
 </p></li>
 </ul>
 </div>
-<div id="outline-container-org0801566" class="outline-4">
-<h4 id="org0801566">Path-Fragment</h4>
-<div class="outline-text-4" id="text-org0801566">
+<div id="outline-container-orgb51f00d" class="outline-4">
+<h4 id="orgb51f00d">Path-Fragment</h4>
+<div class="outline-text-4" id="text-orgb51f00d">
 <blockquote>
 <p>
 A ﬁnite path fragment \(\hat{\pi}\) of TS is a ﬁnite state sequence \(s_0 s_1 \dots s_n\)
@@ -142,9 +142,9 @@ fragment π is an inﬁnite state sequence \(s_0 s_1 s_2 \ldots\) such that \(s_
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org2f159d8" class="outline-4">
-<h4 id="org2f159d8">Maximal and Initial Path Fragment</h4>
-<div class="outline-text-4" id="text-org2f159d8">
+<div id="outline-container-org4f1d386" class="outline-4">
+<h4 id="org4f1d386">Maximal and Initial Path Fragment</h4>
+<div class="outline-text-4" id="text-org4f1d386">
 <blockquote>
 <p>
 A maximal path fragment is either a ﬁnite path fragment that ends in a terminal
@@ -158,9 +158,9 @@ starts in an initial state, i.e., if s<sub>0</sub> ∈ I.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgff24aea" class="outline-4">
-<h4 id="orgff24aea">Path</h4>
-<div class="outline-text-4" id="text-orgff24aea">
+<div id="outline-container-org8eb82db" class="outline-4">
+<h4 id="org8eb82db">Path</h4>
+<div class="outline-text-4" id="text-org8eb82db">
 <blockquote>
 <p>
 A path of transition system TS is an initial, maximal path fragment.
@@ -172,9 +172,9 @@ A path of transition system TS is an initial, maximal path fragment.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org7af90dd" class="outline-3">
-<h3 id="org7af90dd">Traces</h3>
-<div class="outline-text-3" id="text-org7af90dd">
+<div id="outline-container-org7f640b4" class="outline-3">
+<h3 id="org7f640b4">Traces</h3>
+<div class="outline-text-3" id="text-org7f640b4">
 <blockquote>
 <p>
 Executions (&hellip;) are alternating sequences consisting of states and
@@ -187,23 +187,101 @@ along the execution. <b>Such sequences are called traces</b>.
 </p>
 
 <p>
+The traces of a transition system are thus words over the alphabet 2<sup>AP</sup>.
+</p>
+
+<p>
 (<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 97 chap.3 part.3.2.2</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org6f676a8" class="outline-4">
+<h4 id="org6f676a8">Trace and Trace Fragment</h4>
+<div class="outline-text-4" id="text-org6f676a8">
+<blockquote>
+<p>
+Let \(\texttt{TS} = (\texttt{S}, \texttt{Act}, \rightarrow,\texttt{I}, \texttt{AP},
+\texttt{L})\) be a transition system without terminal states. The trace of the
+infinite path fragment \(\pi = s_0 s_1 \ldots\) is deﬁned as \(trace(\hat{\pi}) =
+\texttt{L}(s_0) \texttt{L}(s_1) \ldots\). The trace of the finite path fragment π =
+s<sub>0</sub> s<sub>1</sub> &hellip; s<sub>n</sub> is deﬁned as \(trace(\pi) = \texttt{L}(s_0) \texttt{L}(s_1) \ldots
+\texttt{L}(s_n)\).
+</p>
+
+<p>
+The trace of a path fragment is thus the induced finite or infinite word over
+the alphabet 2<sup>AP</sup> , i.e., the sequence of sets of atomic propositions that are
+valid in the states of the path. The set of traces of a set &Pi; of paths is deﬁned
+in the usual way:
+</p>
+
+<p>
+\[ trace(\pi) = \{ trace(\pi) \mid \pi \in \Pi \}. \]
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 98 chap.3 part.3.2.2</a>)
 </p>
 </blockquote>
 </div>
 </div>
 </div>
-<div id="outline-container-org50095a8" class="outline-2">
-<h2 id="org50095a8">References:</h2>
-<div class="outline-text-2" id="text-org50095a8">
+</div>
+<div id="outline-container-orga601667" class="outline-2">
+<h2 id="orga601667">Linear-Time Properties</h2>
+<div class="outline-text-2" id="text-orga601667">
+<blockquote>
+<p>
+A linear-time property (LT property) over the set of atomic propositions AP is a subset of (2<sup>AP</sup>)<sup>ω</sup>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 100 chap.3 part.3.2.3</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Linear-time properties define the specific execution traces that a transition
+system should exhibit.</li>
+<li>Informally, they outline the acceptable or intended behavior of the system
+under analysis.</li>
+</ul>
+</div>
+<div id="outline-container-org3c4c959" class="outline-3">
+<h3 id="org3c4c959">Satisfaction Relation for LT Properties</h3>
+<div class="outline-text-3" id="text-org3c4c959">
+<blockquote>
+<p>
+Let \(\texttt{P}\) be an \(\texttt{LT}\) property over \(\texttt{AP}\) and \(\texttt{TS} = (texttt{S}, \texttt{Act}, \rightarrow,
+\texttt{I}, \texttt{AP}, \texttt{L})\) a transition system without terminal states. Then, \(\texttt{TS} = (\texttt{S}, \texttt{Act}, →, \texttt{I},
+\texttt{AP}, \texttt{L})\) satisfies \(\texttt{P}\), denoted \(\texttt{TS} \models
+\texttt{P}\), iff \(\texttt{Traces}(\texttt{TS}) \subseteq \texttt{P}\). State s ∈ S satisfies P, notation $ s \models P$, whenever Traces(s) ⊆ P
+</p>
+
+<p>
+Thus, a transition system satisfies the LT property P if all its traces respect
+P, i.e., if all its behaviors are admissible. A state satisfies P whenever all
+traces starting in this state fulfill P.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 100 chap.3 part.3.2.3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org2379b39" class="outline-2">
+<h2 id="org2379b39">References:</h2>
+<div class="outline-text-2" id="text-org2379b39">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc0e955c" class="outline-2">
-<h2 id="orgc0e955c">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgc0e955c">
+<div id="outline-container-org7821110" class="outline-2">
+<h2 id="org7821110">Backlinks:</h2>
+<div class="outline-text-2" id="text-org7821110">
 <ul class="org-ul">
 <li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
 </ul>

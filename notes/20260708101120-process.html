@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-07-09 Thu 00:34 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Process</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Process</h1>
+</header><blockquote>
+<p>
+A key concept in all operating systems is the process. <b>A process is basically a
+program in execution</b>. Associated with each process is its address space, a list
+of memory locations from 0 to some maximum, which the process can read and
+write. The address space contains the executable program, the program's data,
+and its stack. Also associated with each process is a set of resources, commonly
+including registers (including the program counter and stack pointer), a list of
+open files, outstanding alarms, lists of related processes, and all the other
+information needed to run the program. A process is fundamentally a container
+that holds all the information needed to run a program.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Tanenbaum and Bos 2023, 39 chap.1 part.1.5.1</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgfb19362" class="outline-2">
+<h2 id="orgfb19362">The Process Model</h2>
+<div class="outline-text-2" id="text-orgfb19362">
+<blockquote>
+<p>
+In this model, all the runnable software on the computer, sometimes including
+the operating system, is organized into a number of sequential processes, or
+just processes for short. A process is just an instance of an executing program,
+including the current values of the program counter, registers, and
+variables. Conceptually, each process has its own virtual CPU. In reality, of
+course, each real CPU switches back and forth from process to process, but to
+understand the system, it is much easier to think about a collection of
+processes running in (pseudo) parallel than to try to keep track of how each CPU
+switches from program to program.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Tanenbaum and Bos 2023, 86 chap.2 part.2.1.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org2c2a0ed" class="outline-3">
+<h3 id="org2c2a0ed">Core Abstractions &amp; CPU Virtualization</h3>
+<div class="outline-text-3" id="text-org2c2a0ed">
+<p>
+A program is a passive set of instructions resting on a disk; once the OS loads
+and executes it, it becomes an active <b>process</b>.
+</p>
+</div>
+<div id="outline-container-org1b4c15c" class="outline-4">
+<h4 id="org1b4c15c">Key Concepts</h4>
+<div class="outline-text-4" id="text-org1b4c15c">
+<ul class="org-ul">
+<li><b>Virtualization &amp; Time-Sharing</b>: Even though a standard CPU core only handles
+one process at a time, the OS uses <b>time-sharing</b> to rapidly cycle through
+active processes. This creates the illusion of concurrent execution, though
+packing too many applications can degrade performance.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2c0c35a" class="outline-2">
+<h2 id="org2c0c35a">Process Creation</h2>
+<div class="outline-text-2" id="text-org2c0c35a">
+<blockquote>
+<p>
+Operating systems need some way to create processes. In very simple systems, or
+in systems designed for running only a single application (e.g., the controller
+in a microwave oven), it may be possible to have all the processes that will
+ever be needed be present when the system comes up. In general-purpose systems,
+however, some way is needed to create and terminate processes as needed during
+operation. We will now look at some of the issues.
+</p>
+
+<p>
+Four principal events cause processes to be created:
+</p>
+
+<ol class="org-ol">
+<li>System initialization</li>
+<li>Execution of a process-creation system call by a running process</li>
+<li>A user request to create a new process</li>
+<li>Initiation of a batch job</li>
+</ol>
+
+<p>
+When an operating system is booted, typically numerous processes are
+created. Some of these processes are foreground processes, that is, processes
+that interact with (human) users and perform work for them. Others run in the
+background and are not associated with particular users, but instead have some
+specific function.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Tanenbaum and Bos 2023, 89 chap.2 part.2.1.2</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org0651c17" class="outline-3">
+<h3 id="org0651c17">Initialization Steps</h3>
+<div class="outline-text-3" id="text-org0651c17">
+<p>
+Before a program turns into a process, the OS handles initialization steps.
+</p>
+
+<ol class="org-ol">
+<li><b>Loading</b>: It reads the binary executable from disk and maps it into the
+process’s address space.</li>
+<li><b>The Stack</b>: Memory space initialized with system variables (like C’s <code>argc</code>
+and <code>argv</code>). It dynamically handles function parameters, local variables, and
+return targets.</li>
+<li><b>The Heap</b>: Memory set aside for explicit, runtime-dynamic requests (such as
+manual allocation via <code>malloc()</code> in C).</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc8ec32" class="outline-2">
+<h2 id="orgcc8ec32">Process Hierarchies</h2>
+<div class="outline-text-2" id="text-orgcc8ec32">
+<blockquote>
+<p>
+In some systems, when a process creates another process, the parent process and
+child process continue to be associated in certain ways. The child process can
+itself create more processes, forming a process hierarchy.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+In Unix, a process and all of its children and further descendants together form
+a process group. When a user sends a signal from the keyboard (e.g., by pressing
+CTRL-C), the signal is delivered to all members of the process group currently
+associated with the keyboard (usually all active processes that were created in
+the current window). Individually, each process can catch the signal, ignore the
+signal, or take the default action, which is to be killed by the signal.
+</p>
+
+<p>
+As another example of where the process hierarchy plays a key role, let us look
+at how UNIX initializes itself when it is started, just after the computer is
+booted. A special process, called init, is present in the boot image. When it
+starts running, it reads a file telling how many terminals there are. Then it
+forks off a new process per terminal. These processes wait for someone to log
+in. If a login is successful, the login process executes a shell to accept
+commands. These commands may start up more processes, and so forth. Thus, all
+the processes in the whole system belong to a single tree, with init at the
+root.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Tanenbaum and Bos 2023, 92 chap.2 part.2.1.4</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org4f0e60f" class="outline-2">
+<h2 id="org4f0e60f">Process States &amp; Transitions</h2>
+<div class="outline-text-2" id="text-org4f0e60f">
+<p>
+An active process shifts dynamically between three distinct structural states.
+</p>
+</div>
+<div id="outline-container-org066d784" class="outline-3">
+<h3 id="org066d784">Core States</h3>
+<div class="outline-text-3" id="text-org066d784">
+<dl class="org-dl">
+<dt>Running</dt><dd>The process is currently occupying the CPU core and executing
+instructions.</dd>
+<dt>Ready</dt><dd>The process is perfectly prepared to execute but is temporarily
+waiting for the OS to grant it CPU time.</dd>
+<dt>Blocked</dt><dd>The process is entirely paused because it is waiting for an
+external event (like a slow disk read or a network packet I/O) to finish.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org753afa0" class="outline-3">
+<h3 id="org753afa0">Transitions</h3>
+<div class="outline-text-3" id="text-org753afa0">
+<ul class="org-ul">
+<li>Moving a process from <b>Ready</b> to <b>Running</b> is known as <b>scheduling</b>.</li>
+<li>Moving it backwards from <b>Running</b> to <b>Ready</b> is <b>descheduling</b>.</li>
+<li>I/O operations <b>block</b> a process until the reading or writing to disk is
+complete, returning it to the <b>Ready</b> state afterwards.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org094dc77" class="outline-2">
+<h2 id="org094dc77">Implementation of Processes</h2>
+<div class="outline-text-2" id="text-org094dc77">
+<blockquote>
+<p>
+To implement the process model, the operating system maintains a table (an array
+of structures), called the process table, with one entry per process (Some
+authors call these entries process control blocks). This entry contains
+important information about the process' state, including its program counter,
+stack pointer, memory allocation, the status of its open files, its accounting
+and scheduling information, and everything else about the process that must be
+saved when the process is switched from running to ready or blocked state so
+that it can be restarted later as if it had never been stopped.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Tanenbaum and Bos 2023, 92 chap.2 part.2.1.4</a>)
+</p>
+</blockquote>
+
+<p>
+To manage an active process, the OS tracks its exact runtime blueprint, known as
+its <b>machine state</b>.
+</p>
+</div>
+<div id="outline-container-orge58758b" class="outline-3">
+<h3 id="orge58758b">Key Components</h3>
+<div class="outline-text-3" id="text-orge58758b">
+<ul class="org-ul">
+<li><b>Memory / Address Space</b>: The specific bounds of physical or virtual memory the
+process is allowed to read from and write to.</li>
+<li><b>Registers</b>: Core CPU components that track execution:
+<ul class="org-ul">
+<li><b>Program Counter (PC)</b>: Points to the next memory address to execute.</li>
+<li><b>Stack Pointer / Frame Pointer</b>: Track local execution contexts, function call
+parameters, and variable limits.</li>
+</ul></li>
+<li><b>Persistent Storage</b>: Tracks system hooks like currently open file descriptors.</li>
+</ul>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Process management</th>
+<th scope="col" class="org-left">Memory management</th>
+<th scope="col" class="org-left">File management</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Registers</td>
+<td class="org-left">Pointer to text segment info</td>
+<td class="org-left">Root directory</td>
+</tr>
+
+<tr>
+<td class="org-left">Program counter</td>
+<td class="org-left">Pointer to data segment info</td>
+<td class="org-left">Working directory</td>
+</tr>
+
+<tr>
+<td class="org-left">Program status word</td>
+<td class="org-left">Pointer to stack segment info</td>
+<td class="org-left">File descriptors</td>
+</tr>
+
+<tr>
+<td class="org-left">Stack pointer</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">User ID</td>
+</tr>
+
+<tr>
+<td class="org-left">Process state</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">Group ID</td>
+</tr>
+
+<tr>
+<td class="org-left">Priority</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Scheduling parameters</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Process ID</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Parent process</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Process group</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Signals</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Time when process started</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">CPU time used</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Children’s CPU time</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="org-left">Time of next alarm</td>
+<td class="org-left">&nbsp;</td>
+<td class="org-left">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org0ba0b99" class="outline-2">
+<h2 id="org0ba0b99">Scheduling</h2>
+<div class="outline-text-2" id="text-org0ba0b99">
+</div>
+<div id="outline-container-orgee4e2e2" class="outline-3">
+<h3 id="orgee4e2e2">Mechanisms vs. Policies</h3>
+<div class="outline-text-3" id="text-orgee4e2e2">
+<p>
+Proper CPU virtualization requires a clear separation of execution mechanics
+from scheduling logic.
+</p>
+</div>
+</div>
+<div id="outline-container-org8705b09" class="outline-3">
+<h3 id="org8705b09">Key Concepts</h3>
+<div class="outline-text-3" id="text-org8705b09">
+<ul class="org-ul">
+<li><b>Mechanisms</b>: Low-level hardware protocols or systems software techniques that
+execute required tasks (e.g., how a CPU performs a context switch).</li>
+
+<li><b>Policies</b>: High-level algorithms and logical rules used to manage limited
+resources (e.g., a scheduling policy determining <i>which</i> application gets CPU
+time next).</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf8efebf" class="outline-2">
+<h2 id="orgf8efebf">References:</h2>
+<div class="outline-text-2" id="text-orgf8efebf">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Tanenbaum, Andrew S., and Herbert Bos. 2023. <i>Modern Operating Systems</i>. 5th ed. Pearson.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>
