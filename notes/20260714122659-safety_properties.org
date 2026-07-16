@@ -1,0 +1,137 @@
+:PROPERTIES:
+:ID:       e8fb6910-8ba3-4da1-a36f-bdd4c9085fba
+:END:
+#+title: Safety Properties
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science: :formal-methods: :model-checking:
+
+* Liveness Property
+
+** Intuition
+
+- *Safety* properties specify that *"something bad never happens"*.
+- Doing nothing trivially satisfies a safety property because no bad event can occur.
+- Safety properties are complemented by *liveness* properties, which require *progress*.
+  - Safety violations can always be demonstrated by a *finite trace*.
+- Liveness properties assert that *"something good will eventually happen"*.
+
+** Definition 3.33 (Liveness Properties)
+
+Let \(AP\) be a set of atomic propositions.
+
+An LT property \(P_{\mathrm{live}}\) over \(AP\) is a *liveness property* iff
+
+\[
+\operatorname{pref}(P_{\mathrm{live}})
+=
+(2^{AP})^{*}.
+\]
+
+That is, *every finite prefix can be extended into a computation satisfying the property.*
+
+* Example Liveness Properties
+
+Examples include:
+
+- If the tank is empty, the outlet valve will eventually be closed.
+- If the outlet valve is open and the request signal disappears, the outlet valve will eventually be closed.
+- If the tank is full and a request is present, the outlet valve will eventually be opened.
+- The program eventually terminates.
+
+** Counterexample
+
+The property
+
+> The program terminates within 31 computational steps.
+
+is *not* a liveness property.
+
+A finite execution longer than 31 steps already proves the property false, making it a *safety property*.
+
+** Exercise
+
+Think of liveness properties for:
+
+- ATM systems
+- Traffic light controllers
+
+* Infinitely Often Properties
+
+Suppose
+
+\[
+AP = \{c_1,c_2\}.
+\]
+
+We wish to express:
+
+> A process enters its critical section infinitely often.
+
+This can be formalized as
+
+\[
+P_{\mathrm{inf}}
+=
+\left\{
+A_0A_1A_2\ldots
+\;\middle|\;
+\forall j\ge0,\;
+\exists k\ge j,\;
+c_i\in A_k,\;
+i\in\{1,2\}
+\right\}.
+\]
+
+This property requires every process to enter its critical section repeatedly.
+
+Question:
+
+- What if a process only wants to enter its critical section under certain conditions?
+
+* Starvation Freedom
+
+We would like to specify:
+
+> Whenever a process wishes to enter its critical section, it is eventually able to do so.
+
+Let
+
+\[
+AP=\{w_1,w_2,c_1,c_2\}.
+\]
+
+where
+
+- \(w_i\): process \(i\) wants to enter the critical section.
+- \(c_i\): process \(i\) is in the critical section.
+
+The property is
+
+\[ P_{\mathrm{sf}} = \left\{ A_0A_1A_2\ldots \;\middle|\; \forall j,\; w_i\in A_j \Longrightarrow \exists k\ge j,\; c_i\in A_k,\; i\in\{1,2\} \right\}. \]
+
+** Observation
+
+This property still holds if process \(i\) never wants to enter the critical section.
+
+In that case it may remain forever in the non-critical state.
+
+* Safety and Liveness
+
+** Are safety and liveness disjoint?
+
+*** Lemma 3.35 (Intersection of Safety and Liveness)
+
+The only LT property \(P\) over \(AP\) that is both a safety property and a
+liveness property is \(\left\{ (2^{AP})^{\omega} \right\}\).
+
+In other words, the only property that is simultaneously safety and liveness is the one that admits *every possible infinite behavior* over \(AP\).
+
+** Interpretation
+
+Since
+
+- Safety excludes bad behaviors.
+- Liveness guarantees eventual progress.
+
+the only property satisfying both definitions is the trivial property that imposes *no restrictions whatsoever* on executions.

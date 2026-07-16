@@ -1,0 +1,85 @@
+:PROPERTIES:
+:ID:       4f82143b-7ad7-4020-9c65-1f4495e54405
+:ROAM_ALIASES: LTL
+:END:
+#+title: Linear Temporal Logic
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:formal-methods:logic:model-checking: 
+
+#+begin_quote
+For reactive systems, correctness depends on the executions of the system - not
+only on the input and output of a computation - and on fairness issues. Temporal
+logic is a formalism par excellence for treating these aspects. Temporal logic
+extends propositional or predicate logic by modalities that permit to referral
+to the infinite behavior of a reactive system. They provide a very intuitive but
+mathematically precise notation for expressing properties about the relation
+between the state labels in executions, i.e., LT properties. Temporal logics and
+related modal logics have been studied in ancient times in different areas such
+as philosophy. Their application to verifying complex computer systems was
+proposed by Pnueli in the late seventies.
+
+(...)
+
+The elementary temporal modalities that are present in most temporal logics include the operators:
+
++ $\Diamond$ "Eventually" (eventually in the future)
++ $\Box$ "Always" (now and forever in the future)
+
+The underlying nature of time in temporal logics can be either linear or
+branching. In the linear view, at each moment in time there is a single
+successor moment, whereas in the branching view it has a branching, tree-like
+structure, where time may split into alternative courses.[fn:1] 
+
+[cite:@baier2008principles p.229-230 chap.5 part.5.1]
+#+end_quote
+
+* Syntax
+
+#+begin_quote
+The basic ingredients of LTL-formulae are atomic propositions (state labels $a \in
+\texttt{AP}$), the Boolean connectors like conjunction \wedge, and negation ¬, and
+two basic temporal modalities $\bigcirc$ (pronounced "next") and $\mathcal{U}$
+(pronounced "until").
+
+(...)
+
+LTL formalae over the set $\texttt{AP}$ of atomic propositions are formed
+according to the following grammar:
+
+\[ \phi ::= \texttt{true} \mid a \mid \phi_1 \wedge \phi_2 \mid \lnot \phi \mid \bigcirc \phi \mid
+\phi_1 \, \mathcal{U} \, \phi_2 \]
+
+where $a \in \texttt{AP}$.
+
+[cite:@baier2008principles p.231 chap.5 part.5.1.1]
+#+end_quote
+
+** Derived Operators
+
+Using the Boolean connectives ∧ and ¬, the full power of [[id:cc97e0fc-92a4-471a-885e-2a984400dd42][Propositional Logic]] is obtained:
+
+\begin{equation}
+\begin{split}
+\phi_1 \lor \phi_2 & := \lnot (\lnot \phi_1 \land \lnot \phi_2) \\
+\phi_1 \rightarrow \phi_2 & := \lnot \phi_1 \lor \phi_2 \\
+\phi_1 \leftrightarrow \phi_2 & := (\phi_1 \rightarrow \phi_2) \land (\phi_2 \rightarrow \phi_1)\\
+\phi_1 \oplus \phi_2 & := (\phi_1 \rightarrow \phi_2) \land (\phi_2 \rightarrow \phi_1)
+\end{split}
+\end{equation}
+
+The until operator allows to derive the temporal modalities $\Diamond$ ("eventually",
+sometimes in the future) and $\Box$ ("always", from now on forever) as follows:
+
+\begin{equation}
+\begin{split}
+\Diamond \phi & := \texttt{true} \,\ \mathcal{U} \,\ \phi \\
+\Box \phi & := \lnot \Diamond \lnot \phi
+\end{split}
+\end{equation}
+
+* Semantics
+
+* Footnotes
+
+[fn:1] See [[id:ccdb8f16-ef05-4a74-a9af-10a0992c7dd6][Computational Tree Logic]].

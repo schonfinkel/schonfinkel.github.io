@@ -2,6 +2,109 @@
 :ID:       6abc91d8-e7a3-4e2e-897b-30564ecabc7c
 :END:
 #+title: Task (Elixir)
+#+filetags: :elixir:otp:
 
-- [[id:8d568d81-9c22-4d94-81b2-27a2d730ba98][Elixir]]
+* Elixir Tasks
+
+** Creating Tasks
+
+Tasks can be started either with an anonymous function or using the Module-Function-Arguments (MFA) form.
+
+#+begin_src elixir
+# Anonymous function
+task = Task.async(fn ->
+  Servy.Tracker.get_location("bigfoot")
+end)
+
+# MFA
+task = Task.async(
+  Servy.Tracker,
+  :get_location,
+  ["bigfoot"]
+)
+#+end_src
+
+** Handling Timeouts with receive
+
+A plain ~receive~ waits forever if no matching message arrives.
+
+Use an ~after~ clause to avoid blocking indefinitely (this is basically a
+~timeout~ in Erlang).
+
+#+begin_src elixir
+receive do
+  {^pid, :result, value} ->
+    value
+after
+  2000 ->
+    raise "Timed out!"
+end
+#+end_src
+
+- Prevents hanging when a process crashes or takes too long.
+- Timeout is specified in milliseconds.
+
+** ~Task.await/2~
+
+- Default timeout: *5 seconds*
+- Raises an exception if the task doesn't finish in time.
+
+#+begin_src elixir
+Task.await(task)
+# default: 5000 ms
+
+Task.await(task, 7000)
+# custom timeout
+
+Task.await(task, :infinity)
+# wait forever
+#+end_src
+
+** Task.yield/2
+
+Unlike `Task.await`, `Task.yield` lets you *poll* a task without crashing on timeout.
+
+Returns:
+
+- `{:ok, result}` → task completed
+- `nil` → timeout expired
+
+#+begin_src elixir
+case Task.yield(task, 5000) do
+  {:ok, result} ->
+    result
+
+  nil ->
+    Logger.warn("Timed out!")
+    Task.shutdown(task)
+end
+#+end_src
+
+Useful for:
+- Long-running background work.
+- Periodically checking task completion.
+- Gracefully shutting down stalled tasks.
+
+** ~Task.shutdown/1~
+
+Stops a running task.
+
+- Returns `{:ok, result}` if the task finishes while shutting down.
+- Returns `nil` if it doesn't.
+
+Often used together with `Task.yield`.
+
+** Human-Friendly Time Values
+
+Instead of hardcoding milliseconds, use Erlang's ~:timer~ helpers.
+
+#+begin_src elixir
+:timer.seconds(5)   ;; 5000
+:timer.minutes(5)   ;; 300000
+:timer.hours(5)     ;; 18000000
+
+Task.await(task, :timer.seconds(7))
+#+end_src
+
+This makes timeout values easier to read and maintain.
 
