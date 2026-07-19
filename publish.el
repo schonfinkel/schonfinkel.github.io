@@ -76,7 +76,7 @@
       (insert "\n* References:\n#+print_bibliography:\n")
       (notes/collect-backlinks backend))))
 
-;;; Listing helpers (replaces F# scripts)
+;;; Listing helpers
 
 (defun schonfinkel/get-org-title (filepath)
   "Extract #+TITLE: from FILEPATH, case-insensitive."
@@ -199,6 +199,10 @@ sorted anti-chronologically by extracted date."
 (setq-default out-html-dir (concat out-static-dir "html"))
 (setq-default out-blog-dir (concat out-dir "/blog"))
 (setq-default out-notes-dir (concat out-dir "/notes"))
+
+;;;; Patch the notes graph URL (replaces the old fix-html.py step)
+(load (concat root-dir "graph.el"))
+(schonfinkel/patch-graph-url)
 
 ;;;; Fix bibliography
 (setq org-cite-global-bibliography (get-bib-files-from-path (concat bibtex-dir "/")))

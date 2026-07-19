@@ -18,16 +18,15 @@ sync:
 
 # Generate the Markdown files
 build: clean
-    python fix-html.py
     emacs $(pwd) --batch --load publish.el
 
 # Download D3
 d3-download:
     curl -L -o {{ D3_PATH }} {{ D3_URL }}
 
-# Build braph
+# Build graph
 graph:
-    python generate-graph.py
+    emacs $(pwd) --batch --load graph.el --funcall schonfinkel/generate-graph
 
 # publish
 publish: graph build

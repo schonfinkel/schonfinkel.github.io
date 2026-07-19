@@ -1,0 +1,43 @@
+:PROPERTIES:
+:ID:       e8fb6910-8ba3-4da1-a36f-bdd4c9085fba
+:END:
+#+title: Invariants
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:formal-methods:model-checking:
+
+- [[id:ad9c6fbc-e711-477d-a190-822918dea884][Safety Properties]] specify that *"something bad never happens"*.
+- Doing nothing trivially satisfies a safety property because no bad event can occur.
+
+* Definition
+
+#+begin_quote
+In fact, the above safety properties are of a particular kind: they are
+invariants. Invariants are LT properties that are given by a condition Φ for the
+states and require that Φ holds for all reachable states.
+
+(...)
+
+An LT Property P_{inv} over AP is an *invariant* if there is a [[id:cc97e0fc-92a4-471a-885e-2a984400dd42][Propositional Logic]]
+formula \Phi over AP such that:
+
+\[ P_{inv} = \Big \{ A_0 A_1 A_2 \ldots \in (2^{AP})^{\omega} \mid \forall j \geq 0. A_j \models \phi \Big \} \]
+
+\phi is called an *invariant condition* (or *state condition*) of P_{inv}.
+
+Note that
+
+\begin{equation}
+\begin{split}
+\texttt{TS} \models P_{inv} &\leftrightarrow \texttt{trace}(\pi) \in P_{inv}, \text{ for all paths } \pi \in \texttt{TS} \\
+                        &\leftrightarrow \texttt{L}(s) \models \Phi \text{ for all states s that belong to a path of \texttt{TS}} \\
+                        &\leftrightarrow \texttt{L}(s) \models \Phi \text{ for all states s } \in \texttt{Reach}(\texttt{TS})
+\end{split}
+\end{equation}
+
+Thus, the notion "invariant" can be explained as follows: the condition Φ has to
+be fulfilled by all initial states and satisfaction of Φ is invariant under all
+transitions in the reachable fragment of the given transition system.
+
+[cite:@baier2008principles p.108 chap.3]
+#+end_quote

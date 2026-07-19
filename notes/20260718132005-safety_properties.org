@@ -1,0 +1,44 @@
+:PROPERTIES:
+:ID:       ad9c6fbc-e711-477d-a190-822918dea884
+:END:
+#+title: Safety Properties
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:formal-methods:model-checking:
+
+#+begin_quote
+(...) [[id:e8fb6910-8ba3-4da1-a36f-bdd4c9085fba][Invariants]] can be viewed as state properties and can be checked by
+considering the reachable states. Some safety properties, however, may impose
+requirements on finite path fragments, and cannot be verified by considering the reachable states only.
+[cite:@baier2008principles p.111 chap.3 part.3.3.2]
+#+end_quote
+
+* Definition
+
+#+begin_quote
+An LT property $P_{safe}$ over $\texttt{AP}$ is called a /safety property/ if for all
+words $\sigma \in (2^{\texttt{AP}})^{\omega} \setminus P_{safe}$ there exists a finite prefix $\hat{\sigma}$ of
+$\sigma$ such that:
+
+\[ P_{safe} \cap \Big \{ \sigma^\prime \in (2^{\texttt{AP}})^{\omega} \mid \hat{\sigma} \text{ is a finite prefix
+of } \sigma^\prime \Big \} = \emptyset \] 
+
+Any such finite word $\hat{\sigma}$ is called a /bad prefix/ for $P_{safe}$. A /minimal/ bad
+prefix for $P_{safe}$ denotes a bad prefix $\hat{\sigma}$ for $P_{safe}$ for which no
+proper prefix of $\hat{\sigma}$ is a bad prefix of $P_{safe}$. In other words, *minimal
+bad prefixes are bad prefixes of minimal length*.
+
+[cite:@baier2008principles p.112 chap.3 part.3.3.2]
+#+end_quote
+
+* Satisfaction Relation
+
+#+begin_quote
+For a transition system $\texttt{TS}$ without terminal states and safety
+property $P_{safe}$:
+
+\[ \texttt{TS} \models P_{safe} \iff \texttt{Traces}(\texttt{TS}) \cap
+\texttt{BadPref}(P_{safe}) = \emptyset \]
+
+[cite:@baier2008principles p.114 chap.3 part.3.3.2]
+#+end_quote

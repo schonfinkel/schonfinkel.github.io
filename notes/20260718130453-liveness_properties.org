@@ -1,0 +1,29 @@
+:PROPERTIES:
+:ID:       058a7370-7c8d-4055-879e-c345b3bcd48d
+:END:
+#+title: Liveness Properties
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:formal-methods:model-checking:
+
+- [[id:ad9c6fbc-e711-477d-a190-822918dea884][Safety Properties]] are complemented by *liveness* properties, which require
+  *progress*.
+  - Safety violations can always be demonstrated by a *finite trace*.
+- Liveness properties assert that *"something good will eventually happen"*.
+
+* Definition
+
+#+begin_quote
+An LT property $P_{live}$ over $\texttt{AP}$ is a *liveness property* whenever $\texttt{pref}(P_{live}) = (2^{\texttt{AP}})^\star$.
+
+Thus, a liveness property (over $\texttt{AP}$) is an LT property P such that
+each finite word can be extended to an infinite word that satisfies P. Stated
+differently, P is a liveness property if and only if for all finite words $w \in
+(2^{\texttt{AP}})^\star$ there exists an infinite word $\sigma \in (2^{\texttt{AP}})^\omega$ satisfying
+$w \sigma \in P$.
+
+[cite:@baier2008principles p.121 chap.3 part.3.4.1]
+#+end_quote
+
+That is, *every finite prefix can be extended into a computation satisfying the
+property.*
