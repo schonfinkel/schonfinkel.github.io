@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-07-19 Sun 14:05 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Liveness Properties</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Liveness Properties</h1>
+</header><ul class="org-ul">
+<li><a href="20260718132005-safety_properties.html#ID-ad9c6fbc-e711-477d-a190-822918dea884">Safety Properties</a> are complemented by <b>liveness</b> properties, which require
+<b>progress</b>.
+<ul class="org-ul">
+<li>Safety violations can always be demonstrated by a <b>finite trace</b>.</li>
+</ul></li>
+<li>Liveness properties assert that <b>"something good will eventually happen"</b>.</li>
+</ul>
+<div id="outline-container-org407ee2a" class="outline-2">
+<h2 id="org407ee2a">Definition</h2>
+<div class="outline-text-2" id="text-org407ee2a">
+<blockquote>
+<p>
+An LT property \(P_{live}\) over \(\texttt{AP}\) is a <b>liveness property</b> whenever \(\texttt{pref}(P_{live}) = (2^{\texttt{AP}})^\star\).
+</p>
+
+<p>
+Thus, a liveness property (over \(\texttt{AP}\)) is an LT property P such that
+each finite word can be extended to an infinite word that satisfies P. Stated
+differently, P is a liveness property if and only if for all finite words \(w \in
+(2^{\texttt{AP}})^\star\) there exists an infinite word \(\sigma \in (2^{\texttt{AP}})^\omega\) satisfying
+\(w \sigma \in P\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 121 chap.3 part.3.4.1</a>)
+</p>
+</blockquote>
+
+<p>
+That is, <b>every finite prefix can be extended into a computation satisfying the
+property.</b>
+</p>
+</div>
+</div>
+<div id="outline-container-org7b188c0" class="outline-2">
+<h2 id="org7b188c0">References:</h2>
+<div class="outline-text-2" id="text-org7b188c0">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org43480cc" class="outline-2">
+<h2 id="org43480cc">Backlinks:</h2>
+<div class="outline-text-2" id="text-org43480cc">
+<ul class="org-ul">
+<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

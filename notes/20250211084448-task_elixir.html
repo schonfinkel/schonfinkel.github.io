@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-09 Thu 00:34 -->
+<!-- 2026-07-19 Sun 14:05 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Task (Elixir)</title>
@@ -56,12 +56,148 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Task (Elixir)</h1>
-</header><ul class="org-ul">
-<li><a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a></li>
+</header><div id="outline-container-org6a40ac1" class="outline-2">
+<h2 id="org6a40ac1">Elixir Tasks</h2>
+<div class="outline-text-2" id="text-org6a40ac1">
+</div>
+<div id="outline-container-org7572944" class="outline-3">
+<h3 id="org7572944">Creating Tasks</h3>
+<div class="outline-text-3" id="text-org7572944">
+<p>
+Tasks can be started either with an anonymous function or using the Module-Function-Arguments (MFA) form.
+</p>
+</div>
+</div>
+<div id="outline-container-org9490cda" class="outline-3">
+<h3 id="org9490cda">Handling Timeouts with receive</h3>
+<div class="outline-text-3" id="text-org9490cda">
+<p>
+A plain <code>receive</code> waits forever if no matching message arrives.
+</p>
+
+<p>
+Use an <code>after</code> clause to avoid blocking indefinitely (this is basically a
+<code>timeout</code> in Erlang).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elixir"><code>receive do
+  {^pid, :result, value} -&gt;
+    value
+after
+  2000 -&gt;
+    raise "Timed out!"
+end
+</code></pre>
+</div>
+
+<ul class="org-ul">
+<li>Prevents hanging when a process crashes or takes too long.</li>
+<li>Timeout is specified in milliseconds.</li>
 </ul>
-<div id="outline-container-orgd94d9b5" class="outline-2">
-<h2 id="orgd94d9b5">References:</h2>
-<div class="outline-text-2" id="text-orgd94d9b5">
+</div>
+</div>
+<div id="outline-container-org7f3161d" class="outline-3">
+<h3 id="org7f3161d"><code>Task.await/2</code></h3>
+<div class="outline-text-3" id="text-org7f3161d">
+<ul class="org-ul">
+<li>Default timeout: <b>5 seconds</b></li>
+<li>Raises an exception if the task doesn't finish in time.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-elixir"><code>Task.await(task)
+# default: 5000 ms
+
+Task.await(task, 7000)
+# custom timeout
+
+Task.await(task, :infinity)
+# wait forever
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgff7e7b6" class="outline-3">
+<h3 id="orgff7e7b6">Task.yield/2</h3>
+<div class="outline-text-3" id="text-orgff7e7b6">
+<p>
+Unlike `Task.await`, `Task.yield` lets you <b>poll</b> a task without crashing on timeout.
+</p>
+
+<p>
+Returns:
+</p>
+
+<ul class="org-ul">
+<li>`{:ok, result}` → task completed</li>
+<li>`nil` → timeout expired</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-elixir"><code>case Task.yield(task, 5000) do
+  {:ok, result} -&gt;
+    result
+
+  nil -&gt;
+    Logger.warn("Timed out!")
+    Task.shutdown(task)
+end
+</code></pre>
+</div>
+
+<p>
+Useful for:
+</p>
+<ul class="org-ul">
+<li>Long-running background work.</li>
+<li>Periodically checking task completion.</li>
+<li>Gracefully shutting down stalled tasks.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org903b0b5" class="outline-3">
+<h3 id="org903b0b5"><code>Task.shutdown/1</code></h3>
+<div class="outline-text-3" id="text-org903b0b5">
+<p>
+Stops a running task.
+</p>
+
+<ul class="org-ul">
+<li>Returns `{:ok, result}` if the task finishes while shutting down.</li>
+<li>Returns `nil` if it doesn't.</li>
+</ul>
+
+<p>
+Often used together with `Task.yield`.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcb741c0" class="outline-3">
+<h3 id="orgcb741c0">Human-Friendly Time Values</h3>
+<div class="outline-text-3" id="text-orgcb741c0">
+<p>
+Instead of hardcoding milliseconds, use Erlang's <code>:timer</code> helpers.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elixir"><code>:timer.seconds(5)   ;; 5000
+:timer.minutes(5)   ;; 300000
+:timer.hours(5)     ;; 18000000
+
+Task.await(task, :timer.seconds(7))
+</code></pre>
+</div>
+
+<p>
+This makes timeout values easier to read and maintain.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb9fbdc6" class="outline-2">
+<h2 id="orgb9fbdc6">References:</h2>
+<div class="outline-text-2" id="text-orgb9fbdc6">
 <div class="csl-bib-body">
 </div>
 </div>
