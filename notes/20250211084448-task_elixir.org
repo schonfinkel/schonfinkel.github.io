@@ -10,20 +10,6 @@
 
 Tasks can be started either with an anonymous function or using the Module-Function-Arguments (MFA) form.
 
-#+begin_src elixir
-# Anonymous function
-task = Task.async(fn ->
-  Servy.Tracker.get_location("bigfoot")
-end)
-
-# MFA
-task = Task.async(
-  Servy.Tracker,
-  :get_location,
-  ["bigfoot"]
-)
-#+end_src
-
 ** Handling Timeouts with receive
 
 A plain ~receive~ waits forever if no matching message arrives.
