@@ -50,15 +50,6 @@
             plantuml
             sqlite
             tzdata
-
-            # To generate the Graph
-            (pkgs.python3.withPackages (python-pkgs: [
-              python-pkgs.passlib
-              python-pkgs.networkx
-              python-pkgs.numpy
-              python-pkgs.scipy
-            ]))
-
           ];
 
           texenv = pkgs.texlive.combine {

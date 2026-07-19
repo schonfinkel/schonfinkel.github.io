@@ -78,8 +78,94 @@ sometimes in the future) and $\Box$ ("always", from now on forever) as follows:
 \end{split}
 \end{equation}
 
+Also, some useful patterns are:
+
++ $\Box \Diamond \phi$ can be interpreted as "infinitely often".
++ $\Diamond \Box \phi$ can be interpreted as "eventually forever".
+
 * Semantics
 
++ LTL formulas specify properties over traces.
++ LT properties are defined over traces.
++ An LTL formula is uniquely associated a LT property.
+
+  #+begin_quote
+  Let $\phi$ be an LTL formula over $\texttt{AP}$. The LT property induced by $\phi$ is
+
+  \[ \texttt{Words}(\phi) = \Big \{ \sigma \in (2^{\texttt{AP}})^{\omega} \mid \sigma \models \phi \Big \} \]
+
+  where the satisfaction relation $\models \subseteq (2^{\texttt{AP}})^{\omega} \times
+  \texttt{LTL}$ is the smallest relation such that
+
+  \begin{equation}
+  \begin{split}
+  \sigma & \models \texttt{true} \\
+  \sigma & \models a \leftrightarrow a \in A_0 (\text{i.e. } A_0 \models a) \\
+  \sigma & \models \phi_1 \wedge \phi_2 \leftrightarrow \sigma \models \phi_1 \land \sigma \models \phi_2 \\
+  \sigma & \models \lnot \phi \leftrightarrow \sigma \lnot\models \phi \\
+  \sigma & \models \bigcirc \phi \leftrightarrow \sigma[1 \ldots] = A_1 A_2 A_3 \ldots \models \phi \\
+  \sigma & \models \phi_1 \cup \phi_2 \leftrightarrow \exists j \geq 0. \sigma[j \ldots] \models \phi_2 \wedge \phi[i \ldots] \models \phi_1, \forall 0 \leq i < j
+  \end{split}
+  \end{equation}
+
+
+[cite:@baier2008principles p.235-236 chap.5 part.5.1.2]
+  #+end_quote
+
+  Here, $\sigma[i \ldots]$ is a suffix $A_{i} A_{i+1} A_{i+2} \ldots$ from $\sigma$, starting from
+  index $i$. Given $\sigma = A_0 A_1 A_2 \ldots \in (2^{\texttt{AP}})^{\omega}$, we can also derive
+  the following:
+
+  \begin{equation}
+  \begin{split}
+  \sigma & \models \Diamond \phi \leftrightarrow \exists j \geq 0. \sigma[j \ldots] \models \phi \\
+  \sigma & \models \Box \phi \leftrightarrow \forall j \geq 0. \sigma[j \ldots] \models \phi \\
+  \text{(infinitely often) } \sigma & \models \Box \Diamond \phi \leftrightarrow \forall j \geq 0. \sigma[j \ldots] \models \phi \\
+  \text{(eventually forever) } \sigma & \models \Diamond \Box \phi \leftrightarrow \exists j \geq 0, \forall i \geq j. \sigma[i \ldots] \models \phi \\
+  \end{split}
+  \end{equation}
+
+** Semantics of LTL over Paths and States
+
+#+begin_quote
+Let $\texttt{TS} = (\texttt{S}, \texttt{Act}, \longrightarrow, \texttt{I},
+\texttt{AP}, \texttt{L})$ be a transition system [fn:2] without terminal states,
+and let $\phi$ be an LTL-formalae over $\texttt{AP}$.
+
++ For an infinite path fragment \pi of $\texttt{TS}$, the satisfaction relation is
+  defined by
+
+  \[ \pi \models \phi \iff trace(\pi) \models \phi \]
+
++ For state $s \in S$, the satisfaction relation $\models$ is defined by
+
+  \[ s \models \phi \iff \forall \pi \in \texttt{Paths}(s), \pi \models \phi \]
+
++ $\texttt{TS}$ satisfies $\phi$, denoted $\texttt{TS} \models \phi$, if
+  $\texttt{Traces}(\texttt{TS}) \subseteq \texttt{Words}(\phi)$.
+
+  from this definition, it immediatly follows that
+
+  \begin{equation}
+  \begin{split}
+  \texttt{TS} \models \phi & \leftrightarrow \texttt{Traces}(\texttt{TS}) \subseteq \texttt{Words}(\phi) \\
+                        & \leftrightarrow \texttt{TS} \models \texttt{Words}(\phi) \\
+                        & \leftrightarrow \pi \models \phi, \forall \pi \in \texttt{Paths}(\texttt{TS}) \\
+                        & \leftrightarrow s_0 \models \phi, \forall s_0 \in I
+  \end{split}
+  \end{equation}
+
+Thus, $\texttt{TS} \models \phi$ if and only if $s_0 \models \phi$ for all initial
+states $s_0$ of $\texttt{TS}$.
+
+[cite:@baier2008principles p.237-238 chap.5 part.5.1.2]
+#+end_quote
+
+*** Semantics of Negation
+
+
 * Footnotes
+
+[fn:2] See [[id:fbe5a587-ce97-40c3-9748-a459c3b89b9a][Transition Systems]]
 
 [fn:1] See [[id:ccdb8f16-ef05-4a74-a9af-10a0992c7dd6][Computational Tree Logic]].
