@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-07-24 Fri 23:40 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SPIN</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">SPIN</h1>
+</header><blockquote>
+<p>
+SPIN is essentially an implementation of the automata-theoretic<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> approach (&hellip;), but with a number of enhancements and specializations, as follows.
+</p>
+
+<ul class="org-ul">
+<li>It uses on-the-fly <a href="20251007093136-model_checking.html#ID-209ae2c0-f5f0-42e5-b66e-e9c0b04d9c87">Model Checking</a> which effectively involves only constructing
+the full product, \(\texttt{B}_S \times \texttt{B}_{\lnot \phi}\), where necessary and
+keeping the \(\texttt{B}_S\) and \(\texttt{B}_{\lnot \phi}\) separate as much as
+possible.</li>
+<li>It uses partial-order reduction, a method for reducing the number of paths
+that must be examined during automata-based verification. Specifically, Spin
+uses the method described in.</li>
+<li>It uses a modified version of acceptance in product automata.</li>
+<li>It uses a particular high-level modelling language, called <a href="20260723103901-promela.html#ID-43fceaac-e397-4876-90a5-4bd25f4bfebc">Promela</a>, to
+describe both the system to be verified and the property to be checked.</li>
+<li>It is an explicit-state, rather than symbolic, model-checker; the latter being
+a popular trend.</li>
+</ul>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+SPIN was developed at Bell Labs during the late 1980s, and was initially aimed
+at verifying properties of communications protocols. However, it is now very
+popular and is used for checking temporal properties of a wide variety of
+applications involving concurrent processes.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Fisher 2011, 143 chap.5 part.5.3</a>)
+</p>
+</blockquote>
+<div id="outline-container-orgee40d60" class="outline-2">
+<h2 id="orgee40d60">References:</h2>
+<div class="outline-text-2" id="text-orgee40d60">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Fisher, Michael. 2011. <i>An Introduction to Practical Formal Methods Using Temporal Logic</i>. John Wiley &#38; Sons.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge2932d4" class="outline-2">
+<h2 id="orge2932d4">Backlinks:</h2>
+<div class="outline-text-2" id="text-orge2932d4">
+<ul class="org-ul">
+<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
+</ul>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20260720131909-automata_based_ltl_model_checking.html#ID-4595e6e1-7e10-490d-816a-ae0d1959433f">Automata-Based LTL Model Checking</a>
+</p></div></div>
+
+
+</div>
+</div></main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-07-24 Fri 23:40 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>erlc</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">erlc</h1>
+</header><div id="outline-container-orgf662aff" class="outline-2">
+<h2 id="orgf662aff">Compiling Erlang</h2>
+<div class="outline-text-2" id="text-orgf662aff">
+<ul class="org-ul">
+<li><a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> source (<code>.erl</code>) is compiled to binary <code>.beam</code> files. This can be done from
+the OS shell via <code>erlc foo.erl</code>. General options (<code>-o Dir</code>, etc.) resemble C
+compiler options.
+<ul class="org-ul">
+<li><code>"+"</code>-prefixed options (e.g. <code>+debug_info</code>) are Erlang terms passed to the
+<code>compile</code> application.</li>
+</ul></li>
+<li>From the <a href="20241004123538-erlang_shell.html#ID-bcd04f60-0a4c-4213-90f7-139c0ddf5bef">Erlang Shell</a>:
+<ul class="org-ul">
+<li><code>c(foo)</code> (compiles <b>and</b> loads) or <code>compile:file(foo)</code> (compiles only). Both
+accept an options list, e.g. <code>c(foo, [nowarn_unused_function, debug_info])</code>.</li>
+<li><code>compile:file(foo, [binary])</code> returns the beam code as a binary term instead
+of writing a file.</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-org17690e4" class="outline-3">
+<h3 id="org17690e4">Other Options</h3>
+<div class="outline-text-3" id="text-org17690e4">
+<p>
+Compilation can be stopped at intermediate stages to inspect output:
+</p>
+
+<dl class="org-dl">
+<dt><code>to_core</code></dt><dd>produces <code>foo.core</code> (Core Erlang).</dd>
+<dt><code>'P'</code></dt><dd>produces <code>foo.P</code> (post-preprocessing source).</dd>
+<dt><code>'E'</code></dt><dd>produces <code>foo.E</code> (post all source transformations).</dd>
+<dt><code>'S'</code></dt><dd>produces <code>foo.S</code> (human-readable BEAM assembly).</dd>
+</dl>
+
+<p>
+Combined with <code>binary</code>, these return the internal Erlang-term representation
+instead of writing a file (e.g. <code>[to_core, binary]</code>), which can be pretty-printed
+(e.g. with <code>core_pp:format/1</code>).
+</p>
+
+<ul class="org-ul">
+<li>Compilation can also <b>resume</b> from an intermediate stage, e.g. <code>erlc foo.core</code> or
+<code>c(foo, [from_core])</code>, or by passing terms straight back into <code>compile:forms/2</code>.</li>
+<li>A compiled binary can be loaded directly with <code>code:load_binary(Mod, Path,
+  Bin)</code>, without ever touching disk.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org15a826e" class="outline-2">
+<h2 id="org15a826e">Overview</h2>
+<div class="outline-text-2" id="text-org15a826e">
+<p>
+The compiler is organized as a sequence of passes, split conceptually
+into:
+</p>
+
+<ul class="org-ul">
+<li><b>Front end</b>: Erlang source → Core Erlang.</li>
+<li><b>Back end</b>: Core Erlang → optimized BEAM bytecode.</li>
+</ul>
+
+<p>
+Run <code>compile:options/0</code> in a shell for the current, authoritative list
+of passes/options; the source of truth is OTP's <code>compile.erl</code>.
+</p>
+</div>
+<div id="outline-container-org7ee2535" class="outline-3">
+<h3 id="org7ee2535">Generating Intermediate Output</h3>
+<div class="outline-text-3" id="text-org7ee2535">
+<p>
+Walks through compiling an example module (<code>world.erl</code>, using an
+included macro) at each stage:
+</p>
+<ul class="org-ul">
+<li><code>'P'</code> output shows the code after preprocessing (macros/includes
+expanded, <code>-file</code> annotations inserted).</li>
+<li><code>'E'</code> output shows code after all source-level transforms: records
+expanded, imports resolved to remote calls, and generated
+<code>module_info/0,1</code> functions added.</li>
+<li><code>'S'</code> output shows final BEAM assembly as Erlang terms — module
+name, version, exports, attributes, label count, and per-function
+instructions (<code>func_info</code>, <code>move</code>, <code>return</code>, <code>call_ext_only</code>, etc.).
+This <code>.S</code> file can be read back with <code>file:consult/1</code> and is very
+useful for understanding what the VM actually does with your code.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org549d35d" class="outline-2">
+<h2 id="org549d35d">Compiler Passes</h2>
+<div class="outline-text-2" id="text-org549d35d">
+<p>
+Detailed walk-through of each pass:
+</p>
+</div>
+<div id="outline-container-orgf197d74" class="outline-3">
+<h3 id="orgf197d74">Preprocessor (<code>epp</code>)</h3>
+<div class="outline-text-3" id="text-orgf197d74">
+<blockquote>
+<p>
+The compilation starts with tokenization (or scanning) and preprocessing. The
+preprocessor epp reads a file and calls the tokenizer <code>erl_scan</code> to expand the text
+into a sequence of separate tokens rather than characters, discarding whitespace
+and comments. It then processes macro definitions and conditional compilation
+directives, and substitutes uses of macros.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, chap. 2 part.2.4.1</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Works at the <b>token</b> level (like C's <code>cpp</code>), not raw text (unlike <code>m4</code>), so macros
+can't create arbitrary custom syntax.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf413a78" class="outline-3">
+<h3 id="orgf413a78">Parser (<code>erl_parse</code>)</h3>
+<div class="outline-text-3" id="text-orgf413a78">
+<blockquote>
+<p>
+The parser <code>erl_parse</code> gets the final token sequence from the preprocessor and
+checks it against the Erlang grammar, producing an abstract syntax tree or AST
+(&hellip;) representing the programas a data structure instead of as a sequential
+text.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, chap. 2 part.2.4.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orge3b6edb" class="outline-3">
+<h3 id="orge3b6edb">Parse Transformations</h3>
+<div class="outline-text-3" id="text-orge3b6edb">
+<blockquote>
+<p>
+A parse transform is a function that works on the AST. After the compiler has
+done the initial tokenization, preprocessing and parsing, and assuming there
+were no errors so far, it will call the parse transform function if one has been
+declared, passing it the current AST and expecting to get a modified AST back.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, chap. 2 part.2.4.3</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>User-supplied functions (<code>Mod:parse_transform/2</code>) that rewrite the AST after
+parsing but before linting.</li>
+<li>Declared via <code>-compile({parse_transform, Mod})</code>, multiple transforms run in
+order.</li>
+<li>Can't change Erlang's surface syntax, but can change semantics
+arbitrarily. Used by <a href="20241217132913-mnesia.html#ID-568e0595-4bf0-40b5-981f-fd0aa9312785">MNESIA</a>'s QLC, EUnit, Merl, etc.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org734199c" class="outline-3">
+<h3 id="org734199c">Linter (<code>erl_lint</code>)</h3>
+<div class="outline-text-3" id="text-org734199c">
+<ul class="org-ul">
+<li>The main correctness/style checking pass (undefined vars/functions, suspicious
+code like <code>export_all</code>), parse transforms must produce output the linter
+accepts.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org205b43b" class="outline-3">
+<h3 id="org205b43b">Save AST</h3>
+<div class="outline-text-3" id="text-org205b43b">
+<ul class="org-ul">
+<li>If <code>debug_info</code> is requested, the (pre-optimization) AST is stored in the <code>.beam</code>
+file for debugging/stepping.</li>
+<li>Since it's saved <b>before</b> optimizations, interpreted <code>debug</code> behavior can diverge
+from compiled/optimized behavior.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcddba2b" class="outline-3">
+<h3 id="orgcddba2b">Expand</h3>
+<div class="outline-text-3" id="text-orgcddba2b">
+<ul class="org-ul">
+<li>Lowers source-level constructs:
+<ul class="org-ul">
+<li>Records become tuple ops.</li>
+<li>Imports become explicit remote calls.</li>
+<li>Adds <code>module_info/1,2</code>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org89f8710" class="outline-3">
+<h3 id="org89f8710">Core Erlang</h3>
+<div class="outline-text-3" id="text-org89f8710">
+<blockquote>
+<p>
+Core Erlang is a strict functional language suitable for compiler
+optimizations. It makes code transformations easier by reducing the number of
+ways to express the same operation. One way it does this is by introducing let
+and letrec expressions to make scoping more explicit. The compiler does several
+passes on the core level.
+</p>
+
+<p>
+Core Erlang can be a good target for a language you want to run in ERTS. It
+changes very seldom and it contains all aspects of Erlang in a clean way. If you
+target the BEAM instruction set directly, you will have to deal with many more
+details, and that instruction set usually changes slightly between each major
+release of ERTS. If you on the other hand target Erlang directly you will be
+more restricted in what you can describe, and you may also have to deal with
+more details, since Core Erlang is a cleaner language.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, chap. 2 part.2.4.7</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Accessible via <code>to_core</code> / <code>from_core</code>.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-erlang"><code>1&gt; c(world, to_core).
+2&gt; c(world, from_core).
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orged98e66" class="outline-3">
+<h3 id="orged98e66">Kernel Erlang</h3>
+<div class="outline-text-3" id="text-orged98e66">
+<ul class="org-ul">
+<li>A flattened form of Core Erlang (unique variable names, function-wide scope,
+pattern matching lowered to primitives), format is internal/unstable.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc7de51b" class="outline-3">
+<h3 id="orgc7de51b">BEAM Assembly Code</h3>
+<div class="outline-text-3" id="text-orgc7de51b">
+<ul class="org-ul">
+<li>Final generic instruction sequence as Erlang terms.</li>
+<li>Dead-code elimination and peephole optimizations happen here.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf755f2e" class="outline-3">
+<h3 id="orgf755f2e"><b>BEAM Binary Format</b></h3>
+<div class="outline-text-3" id="text-orgf755f2e">
+<ul class="org-ul">
+<li>Assembly is packed into the binary <code>.beam</code> transport format (loadable from
+file, network, or memory).</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org38b9b87" class="outline-2">
+<h2 id="org38b9b87">Writing a Parse Transform</h2>
+<div class="outline-text-2" id="text-org38b9b87">
+<ul class="org-ul">
+<li>OTP officially discourages parse transforms ("no support offered for problems
+encountered"), they're module-local but can produce surprising, hard-to-read results.</li>
+
+<li>Since parse transforms run <b>before</b> the linter, the AST fed to the transform
+doesn't need to be valid Erlang, but the AST it <b>returns</b> does.</li>
+
+<li>Recommends <code>syntax_tools</code> / <code>erl_syntax_lib</code> for real-world work instead of
+hand-rolling AST manipulation.</li>
+</ul>
+</div>
+<div id="outline-container-orgb56ea61" class="outline-3">
+<h3 id="orgb56ea61">Syntax Tools and Merl</h3>
+<div class="outline-text-3" id="text-orgb56ea61">
+<ul class="org-ul">
+<li><b>Syntax Tools</b> is a library set for manipulating Erlang ASTs.</li>
+<li><b>Merl</b>, included in Syntax Tools, is a metaprogramming utility that makes it
+much easier to construct/match ASTs and write parse transforms than doing it
+by hand.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5ecf209" class="outline-3">
+<h3 id="org5ecf209">Compiling Elixir</h3>
+<div class="outline-text-3" id="text-org5ecf209">
+<ul class="org-ul">
+<li><a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a> is another front end targeting the BEAM: it compiles down through the Erlang abstract syntax tree.</li>
+<li>Elixir's <code>defmacro</code> facility lets users build their own DSLs directly in Elixir,
+analogous to Erlang parse transforms but built into the language.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org489f348" class="outline-2">
+<h2 id="org489f348">References:</h2>
+<div class="outline-text-2" id="text-org489f348">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>
