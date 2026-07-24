@@ -83,6 +83,99 @@ Also, some useful patterns are:
 + $\Box \Diamond \phi$ can be interpreted as "infinitely often".
 + $\Diamond \Box \phi$ can be interpreted as "eventually forever".
 
+#+NAME: ltl-operators
+#+BEGIN_SRC dot :file ../static/img/notes/ltl_operators.png :cmdline -Kdot -Tpng :exports results
+  digraph LTL_Operators {
+      rankdir=LR;
+      nodesep=0.6;
+      ranksep=0.5;
+      forcelabels=true;
+      
+      // Global node styling
+      node [fontsize=12];
+      edge [arrowsize=0.8, color="#333333"];
+      
+      // Row header style (left-aligned text)
+      node [shape=plaintext, alignment=left, width=1.5];
+      h1 [label=<atomic prop. <i>a</i>>];
+      h2 [label=<next step ◯ <i>a</i>>];
+      h3 [label=<until <i>a</i> U <i>b</i>>];
+      h4 [label=<eventually ◇ <i>a</i>>];
+      h5 [label=<always □ <i>a</i>>];
+      
+      // State node style (empty circles)
+      node [shape=circle, width=0.4, height=0.4, fixedsize=true, label="", color="#000000"];
+      
+      // --- ROW 1: Atomic Proposition ---
+      r1_1 [xlabel=<<i>a</i>>];
+      r1_2 [xlabel="?"];
+      r1_3 [xlabel="?"];
+      r1_4 [xlabel="?"];
+      r1_5 [xlabel="?"];
+      r1_end [shape=plaintext, label="...", width=0.3];
+      
+      h1 -> r1_1 [style=invis];
+      r1_1 -> r1_2 -> r1_3 -> r1_4 -> r1_5 -> r1_end;
+      
+      // --- ROW 2: Next Step ---
+      r2_1 [xlabel="?"];
+      r2_2 [xlabel=<<i>a</i>>];
+      r2_3 [xlabel="?"];
+      r2_4 [xlabel="?"];
+      r2_5 [xlabel="?"];
+      r2_end [shape=plaintext, label="...", width=0.3];
+      
+      h2 -> r2_1 [style=invis];
+      r2_1 -> r2_2 -> r2_3 -> r2_4 -> r2_5 -> r2_end;
+      
+      // --- ROW 3: Until ---
+      r3_1 [xlabel=<<i>a</i> ∧ ¬<i>b</i>>];
+      r3_2 [xlabel=<<i>a</i> ∧ ¬<i>b</i>>];
+      r3_3 [xlabel=<<i>a</i> ∧ ¬<i>b</i>>];
+      r3_4 [xlabel=<<i>b</i>>];
+      r3_5 [xlabel="?"];
+      r3_end [shape=plaintext, label="...", width=0.3];
+      
+      h3 -> r3_1 [style=invis];
+      r3_1 -> r3_2 -> r3_3 -> r3_4 -> r3_5 -> r3_end;
+      
+      // --- ROW 4: Eventually ---
+      r4_1 [xlabel=<¬<i>a</i>>];
+      r4_2 [xlabel=<¬<i>a</i>>];
+      r4_3 [xlabel=<¬<i>a</i>>];
+      r4_4 [xlabel=<<i>a</i>>];
+      r4_5 [xlabel="?"];
+      r4_end [shape=plaintext, label="...", width=0.3];
+      
+      h4 -> r4_1 [style=invis];
+      r4_1 -> r4_2 -> r4_3 -> r4_4 -> r4_5 -> r4_end;
+      
+      // --- ROW 5: Always ---
+      r5_1 [xlabel=<<i>a</i>>];
+      r5_2 [xlabel=<<i>a</i>>];
+      r5_3 [xlabel=<<i>a</i>>];
+      r5_4 [xlabel=<<i>a</i>>];
+      r5_5 [xlabel=<<i>a</i>>];
+      r5_end [shape=plaintext, label="...", width=0.3];
+      
+      h5 -> r5_1 [style=invis];
+      r5_1 -> r5_2 -> r5_3 -> r5_4 -> r5_5 -> r5_end;
+      
+      // Perfect column-by-column alignment
+      { rank=same; h1; h2; h3; h4; h5; }
+      { rank=same; r1_1; r2_1; r3_1; r4_1; r5_1; }
+      { rank=same; r1_2; r2_2; r3_2; r4_2; r5_2; }
+      { rank=same; r1_3; r2_3; r3_3; r4_3; r5_3; }
+      { rank=same; r1_4; r2_4; r3_4; r4_4; r5_4; }
+      { rank=same; r1_5; r2_5; r3_5; r4_5; r5_5; }
+      { rank=same; r1_end; r2_end; r3_end; r4_end; r5_end; }
+  }
+#+END_SRC
+
+#+CAPTION: Intuitive semantics of temporal modalities, '?' stands for "arbitrary".
+#+RESULTS: ltl-operators
+[[file:../static/img/notes/ltl_operators.png]]
+
 * Semantics
 
 + LTL formulas specify properties over traces.
@@ -163,6 +256,94 @@ states $s_0$ of $\texttt{TS}$.
 
 *** Semantics of Negation
 
+#+begin_quote
+For paths, it holds $\pi \models \phi$ if and only if $\pi \nvDash
+\lnot\phi$. This is due to the fact that
+
+\[ \texttt{Words}(\lnot \phi) = (2^{\texttt{AP}})^{\omega} \setminus \texttt{Words}(\phi) \]
+
+However, the statements $\texttt{TS} \nvDash \phi$ and $\texttt{TS} \models
+\lnot\phi$ are not equivalent in general, instead we have $\texttt{TS} \models
+\lnot\phi \rightarrow \texttt{TS} \nvDash \phi$. Note that
+
+
+\begin{equation}
+\begin{split}
+\texttt{TS} \nvDash \phi & \leftrightarrow \texttt{Traces}(\texttt{TS}) \nsubseteq \texttt{Words}(\phi) \\
+                           & \leftrightarrow \texttt{Traces}(\texttt{TS}) \setminus \texttt{Words}(\phi) \neq \emptyset \\
+                           & \leftrightarrow \texttt{Traces}(\texttt{TS}) \cap \texttt{Words}(\lnot \phi) \neq \emptyset
+\end{split}
+\end{equation}
+
+Thus, it is possible that a transition system (or a state) satisfies neither \phi
+nor \not\phi. This is caused by the fact that there might be paths \pi_1 and \pi_2 in
+$\texttt{TS}$ such that $\pi_1 \models \phi$ and $\pi_2 \models \lnot\phi$ (and there $\pi_2
+\nvDash \phi$). In this case, $\texttt{TS} \nvDash \phi$ and $\texttt{TS} \nvDash
+\lnot \phi$ holds.
+
+[cite:@baier2008principles p.239-240 chap.5 part.5.1.2]
+#+end_quote
+
+
+** Equivallence of LTL Formulae
+
+
+#+begin_quote
+LTL formulae \phi_1, \phi_2 are equivalent, denoted ϕ_1 ≡ ϕ_2, if $\texttt{Words}(\phi_1) = \texttt{Words}(\phi_2)$.
+
+[cite:@baier2008principles p.248 chap.5 part.5.1.4]
+#+end_quote
+
+*** Duality Law
+
+\begin{equation}
+\begin{split}
+\lnot \bigcirc \phi & \equiv \bigcirc \lnot \phi \\
+\lnot \Diamond \phi & \equiv \Box \lnot \phi \\
+\lnot \Box \phi & \equiv \Diamond \lnot \phi
+\end{split}
+\end{equation}
+
+*** Idempotency Law
+
+\begin{equation}
+\begin{split}
+\Diamond \Diamond \phi & \equiv \Diamond \phi \\
+\Box \Box \phi & \equiv \Box \phi \\
+\phi \, \mathcal{U} \, (\phi \, \mathcal{U} \, \psi) & \equiv \phi \, \mathcal{U} \, \psi \\
+(\phi \, \mathcal{U} \, \psi) \, \mathcal{U} \, \psi & \equiv \phi \, \mathcal{U} \, \psi
+\end{split}
+\end{equation}
+
+*** Absorption Law
+
+\begin{equation}
+\begin{split}
+\Diamond \Box \Diamond \phi & \equiv \Box \Diamond \phi \\
+\Box \Diamond \Box \phi & \equiv \Diamond \Box \phi
+\end{split}
+\end{equation}
+
+
+*** Expansion Law
+
+\begin{equation}
+\begin{split}
+\phi \mathcal{U} \psi & \equiv \psi \lor (\phi \land \bigcirc (\phi \mathcal{U} \psi)) \\
+\Diamond \psi & \equiv \psi \lor \bigcirc \Diamond \psi \\
+\Box \psi & \equiv \psi \land \bigcirc \Box \psi
+\end{split}
+\end{equation}
+
+*** Distributive Law
+
+\begin{equation}
+\begin{split}
+\bigcirc (\phi \, \mathcal{U} \, \psi) & \equiv (\bigcirc \phi) \, \mathcal{U} \, (\bigcirc \psi) \\
+\Diamond (\phi \lor \psi) & \equiv \Diamond \phi \lor \Diamond \psi \\
+\Box (\phi \land \psi) & \equiv \Box \phi \land \Box \psi
+\end{split}
+\end{equation}
 
 * Footnotes
 

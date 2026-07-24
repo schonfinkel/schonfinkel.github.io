@@ -1,0 +1,197 @@
+:PROPERTIES:
+:ID:       a4ccd7f8-ccfb-44c6-9bb6-b67084a7b067
+:END:
+#+title: erlc
+#+filetags: :erlang:otp:
+
+* Compiling Erlang
+
++ [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] source (=.erl=) is compiled to binary =.beam= files. This can be done from
+  the OS shell via ~erlc foo.erl~. General options (=-o Dir=, etc.) resemble C
+  compiler options.
+  + ~"+"~-prefixed options (e.g. =+debug_info=) are Erlang terms passed to the
+    =compile= application.
++ From the [[id:bcd04f60-0a4c-4213-90f7-139c0ddf5bef][Erlang Shell]]:
+  + =c(foo)= (compiles *and* loads) or =compile:file(foo)= (compiles only). Both
+    accept an options list, e.g. =c(foo, [nowarn_unused_function, debug_info])=.
+  + =compile:file(foo, [binary])= returns the beam code as a binary term instead
+    of writing a file.
+
+** Other Options
+
+Compilation can be stopped at intermediate stages to inspect output:
+
++ =to_core= :: produces =foo.core= (Core Erlang).
++ ='P'= :: produces =foo.P= (post-preprocessing source).
++ ='E'= :: produces =foo.E= (post all source transformations).
++ ='S'= :: produces =foo.S= (human-readable BEAM assembly).
+
+Combined with =binary=, these return the internal Erlang-term representation
+instead of writing a file (e.g. =[to_core, binary]=), which can be pretty-printed
+(e.g. with =core_pp:format/1=).
+
++ Compilation can also *resume* from an intermediate stage, e.g. =erlc foo.core= or
+  =c(foo, [from_core])=, or by passing terms straight back into =compile:forms/2=.
++ A compiled binary can be loaded directly with =code:load_binary(Mod, Path,
+  Bin)=, without ever touching disk.
+ 
+* Overview
+ 
+The compiler is organized as a sequence of passes, split conceptually
+into:
+
+- *Front end*: Erlang source → Core Erlang.
+- *Back end*: Core Erlang → optimized BEAM bytecode.
+ 
+Run =compile:options/0= in a shell for the current, authoritative list
+of passes/options; the source of truth is OTP's =compile.erl=.
+ 
+** Generating Intermediate Output
+ 
+Walks through compiling an example module (=world.erl=, using an
+included macro) at each stage:
+- ='P'= output shows the code after preprocessing (macros/includes
+  expanded, =-file= annotations inserted).
+- ='E'= output shows code after all source-level transforms: records
+  expanded, imports resolved to remote calls, and generated
+  =module_info/0,1= functions added.
+- ='S'= output shows final BEAM assembly as Erlang terms — module
+  name, version, exports, attributes, label count, and per-function
+  instructions (=func_info=, =move=, =return=, =call_ext_only=, etc.).
+  This =.S= file can be read back with =file:consult/1= and is very
+  useful for understanding what the VM actually does with your code.
+ 
+* Compiler Passes
+ 
+Detailed walk-through of each pass:
+
+** Preprocessor (~epp~)
+
+#+begin_quote
+The compilation starts with tokenization (or scanning) and preprocessing. The
+preprocessor epp reads a file and calls the tokenizer ~erl_scan~ to expand the text
+into a sequence of separate tokens rather than characters, discarding whitespace
+and comments. It then processes macro definitions and conditional compilation
+directives, and substitutes uses of macros.
+
+[cite: @beambook chap.2 part.2.4.1]
+#+end_quote
+
++ Works at the *token* level (like C's =cpp=), not raw text (unlike =m4=), so macros
+  can't create arbitrary custom syntax.
+
+** Parser (~erl_parse~)
+
+#+begin_quote
+The parser ~erl_parse~ gets the final token sequence from the preprocessor and
+checks it against the Erlang grammar, producing an abstract syntax tree or AST
+(...) representing the programas a data structure instead of as a sequential
+text.
+
+[cite: @beambook chap.2 part.2.4.2]
+#+end_quote
+
+** Parse Transformations
+
+#+begin_quote
+A parse transform is a function that works on the AST. After the compiler has
+done the initial tokenization, preprocessing and parsing, and assuming there
+were no errors so far, it will call the parse transform function if one has been
+declared, passing it the current AST and expecting to get a modified AST back.
+
+[cite: @beambook chap.2 part.2.4.3]
+#+end_quote
+
++ User-supplied functions (=Mod:parse_transform/2=) that rewrite the AST after
+  parsing but before linting.
++ Declared via =-compile({parse_transform, Mod})=, multiple transforms run in
+  order.
++ Can't change Erlang's surface syntax, but can change semantics
+  arbitrarily. Used by [[id:568e0595-4bf0-40b5-981f-fd0aa9312785][MNESIA]]'s QLC, EUnit, Merl, etc.
+
+** Linter (~erl_lint~)
+
++ The main correctness/style checking pass (undefined vars/functions, suspicious
+  code like =export_all=), parse transforms must produce output the linter
+  accepts.
+
+** Save AST
+
++ If =debug_info= is requested, the (pre-optimization) AST is stored in the =.beam=
+  file for debugging/stepping.
++ Since it's saved *before* optimizations, interpreted ~debug~ behavior can diverge
+  from compiled/optimized behavior.
+
+** Expand
+
++ Lowers source-level constructs:
+  + Records become tuple ops.
+  + Imports become explicit remote calls.
+  + Adds =module_info/1,2=.
+
+** Core Erlang
+
+#+begin_quote
+Core Erlang is a strict functional language suitable for compiler
+optimizations. It makes code transformations easier by reducing the number of
+ways to express the same operation. One way it does this is by introducing let
+and letrec expressions to make scoping more explicit. The compiler does several
+passes on the core level.
+
+Core Erlang can be a good target for a language you want to run in ERTS. It
+changes very seldom and it contains all aspects of Erlang in a clean way. If you
+target the BEAM instruction set directly, you will have to deal with many more
+details, and that instruction set usually changes slightly between each major
+release of ERTS. If you on the other hand target Erlang directly you will be
+more restricted in what you can describe, and you may also have to deal with
+more details, since Core Erlang is a cleaner language.
+
+[cite: @beambook chap.2 part.2.4.7]
+#+end_quote
+
++ Accessible via ~to_core~ / ~from_core~.
+
+#+begin_src erlang
+1> c(world, to_core).
+2> c(world, from_core).
+#+end_src
+
+** Kernel Erlang
+
++ A flattened form of Core Erlang (unique variable names, function-wide scope,
+  pattern matching lowered to primitives), format is internal/unstable.
+
+** BEAM Assembly Code
+
++ Final generic instruction sequence as Erlang terms.
++ Dead-code elimination and peephole optimizations happen here.
+
+** *BEAM Binary Format*
+
++ Assembly is packed into the binary ~.beam~ transport format (loadable from
+  file, network, or memory).
+
+* Writing a Parse Transform
+ 
++ OTP officially discourages parse transforms ("no support offered for problems
+  encountered"), they're module-local but can produce surprising, hard-to-read results.
+
++ Since parse transforms run *before* the linter, the AST fed to the transform
+  doesn't need to be valid Erlang, but the AST it *returns* does.
+
++ Recommends =syntax_tools= / =erl_syntax_lib= for real-world work instead of
+  hand-rolling AST manipulation.
+ 
+** Syntax Tools and Merl
+ 
+- *Syntax Tools* is a library set for manipulating Erlang ASTs.
+- *Merl*, included in Syntax Tools, is a metaprogramming utility that makes it
+  much easier to construct/match ASTs and write parse transforms than doing it
+  by hand.
+ 
+** Compiling Elixir
+ 
++ [[id:8d568d81-9c22-4d94-81b2-27a2d730ba98][Elixir]] is another front end targeting the BEAM: it compiles down through the Erlang abstract syntax tree.
++ Elixir's ~defmacro~ facility lets users build their own DSLs directly in Elixir,
+  analogous to Erlang parse transforms but built into the language.
+ 

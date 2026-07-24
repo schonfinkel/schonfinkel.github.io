@@ -1,0 +1,69 @@
+:PROPERTIES:
+:ID:       4595e6e1-7e10-490d-816a-ae0d1959433f
+:END:
+#+title: Automata-Based LTL Model Checking
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:formal-methods:logic:model-checking:
+
+#+begin_quote
+An LTL model-checking algorithm is a decision procedure which for a transition
+system $\texttt{TS}$ and [[id:4f82143b-7ad7-4020-9c65-1f4495e54405][LTL]] formula ϕ returns the answers "yes" if $\texttt{TS}
+\models \phi$ and "no" (plus a counterexample) if $\texttt{TS} \nvDash \phi$. The counterexample consists of an appropriate finite prefix of an infinite path
+in $\texttt{TS}$ where ϕ does not hold.
+#+end_quote
+
+#+NAME: overview-ltl-model-checking-diagram
+#+BEGIN_SRC dot :file ../static/img/notes/overview_ltl_model_checking_diagram.png :cmdline -Kdot -Tpng :exports results
+  digraph ModelChecking {
+      // Graph styling
+      fontname="Helvetica,Arial,sans-serif";
+      node [fontname="Helvetica,Arial,sans-serif", fontsize=11, shape=box, style="filled", fillcolor="white"];
+      edge [fontname="Helvetica,Arial,sans-serif", fontsize=10];
+      splines=ortho;
+
+      // Top inputs outside the model checker
+      system [label="System", shape=box, style="rounded,filled", fillcolor="white"];
+      model [label="Model of system"];
+      neg_prop [label="Negation of property", shape=box, style="rounded,filled", fillcolor="white"];
+      ltl [label=<LTL-formula ¬&phi;>];
+
+      // Bottom outputs outside the model checker
+      yes [label="'Yes'", shape=box, style="rounded,filled", fillcolor="white"];
+      no [label="'No' (counter-example)", shape=box, style="rounded,filled", fillcolor="white"];
+
+      // Model Checker container
+      subgraph cluster_model_checker {
+          label = "model checker";
+          style = "filled";
+          color = "#555555";
+          fillcolor = "#f2f2f2";
+          margin = 20;
+
+          ts [label="Transition system TS"];
+          gba [label="Generalised Büchi automaton"];
+          ba [label=<Büchi Automaton <i>A</i><sub>¬&phi;</sub>>];
+          pts [label=<Product transition system<br/><i>TS</i>⊗<i>A</i><sub>¬&phi;</sub>>];
+          check [label=<<i>TS</i>⊗<i>A</i>⊨<i>P</i><sub><i>pers</i>(<i>A</i>)</sub>>];
+
+          // Connections inside model checker
+          gba -> ba;
+          ts -> pts;
+          ba -> pts;
+          pts -> check;
+      }
+
+      // Input connections
+      system -> model;
+      model -> ts;
+      neg_prop -> ltl;
+      ltl -> gba;
+
+      // Output connections
+      check -> yes;
+      check -> no;
+  }
+#+END_SRC
+
+#+RESULTS: overview-ltl-model-checking-diagram
+[[file:../static/img/notes/overview_ltl_model_checking_diagram.png]]
