@@ -1,0 +1,37 @@
+:PROPERTIES:
+:ID:       f2db565a-0460-40f8-898b-ef9cf34c5950
+:END:
+#+title: SPIN
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:formal-methods:model-checking:
+
+#+begin_quote
+SPIN is essentially an implementation of the automata-theoretic[fn:1] approach (...), but with a number of enhancements and specializations, as follows.
+
++ It uses on-the-fly [[id:209ae2c0-f5f0-42e5-b66e-e9c0b04d9c87][Model Checking]] which effectively involves only constructing
+  the full product, $\texttt{B}_S \times \texttt{B}_{\lnot \phi}$, where necessary and
+  keeping the $\texttt{B}_S$ and $\texttt{B}_{\lnot \phi}$ separate as much as
+  possible.
++ It uses partial-order reduction, a method for reducing the number of paths
+  that must be examined during automata-based verification. Specifically, Spin
+  uses the method described in.
++ It uses a modified version of acceptance in product automata.
++ It uses a particular high-level modelling language, called [[id:43fceaac-e397-4876-90a5-4bd25f4bfebc][Promela]], to
+  describe both the system to be verified and the property to be checked.
++ It is an explicit-state, rather than symbolic, model-checker; the latter being
+  a popular trend.
+
+(...)
+
+SPIN was developed at Bell Labs during the late 1980s, and was initially aimed
+at verifying properties of communications protocols. However, it is now very
+popular and is used for checking temporal properties of a wide variety of
+applications involving concurrent processes.
+
+[cite:@fisher2011introduction p.143 chap.5 part.5.3]
+#+end_quote
+
+* Footnotes
+
+[fn:1] See [[id:4595e6e1-7e10-490d-816a-ae0d1959433f][Automata-Based LTL Model Checking]]

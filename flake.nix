@@ -100,6 +100,9 @@
               name = "site";
               src = pkgs.lib.cleanSource ./.;
               ORG_CV_PATH = "${inputs.org-cv}";
+              nativeBuildInputs = with pkgs; [ 
+                writableTmpDirAsHomeHook 
+              ];
               buildInputs = [
                 customEmacs
                 texenv
