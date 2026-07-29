@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-24 Fri 23:40 -->
+<!-- 2026-07-29 Wed 22:43 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computational Tree Logic</title>
@@ -30,6 +30,38 @@
   };
 </script>
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -56,7 +88,10 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Computational Tree Logic</h1>
-</header><blockquote>
+</header><div id="outline-container-orgfba612f" class="outline-2">
+<h2 id="orgfba612f">Syntax</h2>
+<div class="outline-text-2" id="text-orgfba612f">
+<blockquote>
 <p>
 CTL has a two-stage syntax where formulae in CTL are classified into state and
 path formulae. The former are assertions about the atomic propositions in the
@@ -68,31 +103,338 @@ allowed.
 </p>
 
 <p>
-(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 317 chap.6 part.6.2</a>)
+CTL state formulae over the set \(\texttt{AP}\) of atomic proposition are formed
+according to the following grammar:
+</p>
+
+<p>
+\[ \Phi ::= \texttt{true} \,\mid\, a \,\mid\, \Phi_1 \land \Phi_2 \,\mid\, \lnot \Phi \,\mid\,
+\exists \Phi
+\,\mid\, \forall \Phi \]
+</p>
+
+<p>
+where \(a \in \texttt{AP}\) and \(\phi\) is a path formula. CTL path formulae are formed according to the
+following grammar:
+</p>
+
+<p>
+\[ \phi ::= \bigcirc \Phi \,\mid\, \Phi_1 \,\mathcal{U}\, \Phi_2 \]
+</p>
+
+<p>
+where &Phi;, &Phi;<sub>1</sub> and &Phi;<sub>2</sub> are state formulae.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+CTL distinguishes between <b>state formulae</b> and <b>path formulae</b>. Intuitively, state
+formulae express a property of a state, while path formulae express a property
+of a path, i.e., an infinite sequence of states.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 317 chap.6 part.6.2.1</a>)
 </p>
 </blockquote>
-<div id="outline-container-org7740e05" class="outline-2">
-<h2 id="org7740e05">Syntax</h2>
+
+<ul class="org-ul">
+<li>Path formulas cannot be combined using logical connectives.</li>
+<li>\(\bigcirc\) and \(\mathcal{U}\) alternate with \(\forall\) and \(\exists\), i.e.</li>
+</ul>
+
+\begin{equation}
+\begin{split}
+\forall \bigcirc (\texttt{AX}) &, \forall \Box (\texttt{AG}) &, \forall\mathcal{U} (\texttt{AU}) &, \forall \Diamond (\texttt{AF}) \\
+\exists \bigcirc (\texttt{EX}) &, \exists \Box (\texttt{EG}) &, \exists\mathcal{U} (\texttt{EU}) &, \exists\Diamond (\texttt{EF})
+\end{split}
+\end{equation}
 </div>
+<div id="outline-container-org9259235" class="outline-3">
+<h3 id="org9259235">Derived Operations</h3>
+<div class="outline-text-3" id="text-org9259235">
+\begin{equation}
+\begin{split}
+\text{(potentially) } \exists \Diamond \Phi &= \exists(\texttt{true} \,\mathcal{U}\, \Phi) \\
+\text{(inevitably) } \forall \Diamond \Phi &= \exists(\texttt{true} \,\mathcal{U}\, \Phi) \\
+\text{(potentially always) } \exists \Box \Phi &= \lnot \forall \Diamond \lnot \Phi \\
+\text{(invariatly) } \forall \Box \Phi &= \lnot \exists \Diamond \lnot \Phi \\
+\text{(weak until) } \exists(\Phi_1 \,\mathcal{W}\, \Phi_2) &= \lnot \forall((\Phi_1 \land \lnot \Phi_2) \,\mathcal{U}\, (\lnot \Phi_1 \land \lnot \Phi_2)) \\
+                   \forall(\Phi_1 \,\mathcal{W}\, \Phi_2) &= \lnot \exists((\Phi_1 \land \lnot \phi_2) \,\mathcal{U}\, (\lnot \Phi_1 \land \lnot \Phi_2))
+\end{split}
+\end{equation}
+</div>
+</div>
+</div>
+<div id="outline-container-orga9fa385" class="outline-2">
+<h2 id="orga9fa385">Semantics</h2>
+<div class="outline-text-2" id="text-orga9fa385">
+<blockquote>
+<p>
+Let \(a \in \texttt{AP}\) be an atomic proposition, \(\texttt{TS} = (\texttt{S},
+\texttt{Act}, \longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})\) be a
+transition system<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> without terminal states, state \(s \in \texttt{S}\), let \(\Phi\) and
+\(\Psi\) be CTL state formulae, and \(\phi\) be a CTL path formula. The satisfaction
+relation \(\models\) is defined for state formulae by
+</p>
 
 
-<div id="outline-container-org1bf6976" class="outline-2">
-<h2 id="org1bf6976">References:</h2>
-<div class="outline-text-2" id="text-org1bf6976">
+\begin{equation}
+\begin{split}
+s & \models a \leftrightarrow a \in \texttt{L}(s) \\
+s & \models \lnot\Phi \leftrightarrow \lnot s \models \Phi \\
+s & \models \Phi \land \Psi \leftrightarrow (s \models \Phi) \land (s \models \Psi) \\
+s & \models \exists \phi \leftrightarrow \pi \models \phi, \texttt{ for some } \pi \in \texttt{Paths}(s) \\
+s & \models \forall \phi \leftrightarrow \pi \models \phi, \texttt{ for all } \pi \in \texttt{Paths}(s)
+\end{split}
+\end{equation}
+
+<p>
+for path \(\pi\), the satisfaction relation \(\models\) for path formulae is defined by
+</p>
+
+\begin{equation}
+\begin{split}
+s & \models \bigcirc \Phi \leftrightarrow \pi[1] \models \Phi \\
+\pi & \models \Phi \,\mathcal{U}\, \Psi \leftrightarrow \exists j \geq 0. (\pi[j] \models \Psi \land (\forall 0 \leq k < j. \pi[k] \models \Phi))
+\end{split}
+\end{equation}
+
+<p>
+where for path \(\pi = s_0 s_1 s_2 \ldots\) and integer \(i \geq 0\), \(\pi[i]\) denotes the
+(i+1)th state of \(\pi\), i.e., \(\pi[i] = s_i\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 320 chap.6 part.6.2.2</a>)
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>The interpretations for atomic propositions, negation, and conjunction are as
+usual, where it should be noted that in CTL they are interpreted over states,
+whereas in LTL they are interpreted over paths.</li>
+</ul>
+</div>
+<div id="outline-container-orge23fd72" class="outline-3">
+<h3 id="orge23fd72">CTL Semantics for Transition Systems</h3>
+<div class="outline-text-3" id="text-orge23fd72">
+<blockquote>
+<p>
+Given a transition system<sup><a id="fnr.1.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> \(\texttt{TS}\) as before, the <i>satisfaction set</i>
+\(\texttt{Sat}_{TS} (\Phi)\), or briefly \(\texttt{Sat}(\Phi)\), for CTL-state formula \(\Phi\) is
+defined by:
+</p>
+
+<p>
+\[ \texttt{Sat}(\Phi) = \{ s \in S \mid s \models \Phi \} \]
+</p>
+
+<p>
+The transition system \(\texttt{TS}\) satisfies CTL formula \(\Phi\) if and only if \(\Phi\)
+holds in all initial states of \(\texttt{TS}\):
+</p>
+
+<p>
+\[ \texttt{TS} \models \Phi \leftrightarrow \forall s_0 \in \texttt{I}, s_0 \models \Phi \]
+</p>
+
+<p>
+This is equivalent to \(\texttt{I} \subseteq \texttt{Sat}(\Phi)\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 321 chap.6 part.6.2.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgeb356d1" class="outline-3">
+<h3 id="orgeb356d1">Intuition</h3>
+<div class="outline-text-3" id="text-orgeb356d1">
+<ul class="org-ul">
+<li><p>
+EF (\(\exists \Diamond \texttt{red}\))
+</p>
+
+
+<figure id="orgfdec3fa">
+<img src="../static/img/notes/ef_red.png" alt="ef_red.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>There exists a path where eventually a node is red.</figcaption>
+</figure></li>
+
+<li><p>
+EG (\(\exists \Box \texttt{red}\))
+</p>
+
+
+<figure id="orgae56d46">
+<img src="../static/img/notes/eg_red.png" alt="eg_red.png">
+
+<figcaption><span class="figure-number">Figure 2: </span>There exists a path where globally (always) nodes are red.</figcaption>
+</figure></li>
+
+<li><p>
+EU (\(\exists (\texttt{yellow} \,\mathcal{U}\, \texttt{red})\))
+</p>
+
+
+<figure id="orgd942cb0">
+<img src="../static/img/notes/eu_yellow_red.png" alt="eu_yellow_red.png">
+
+<figcaption><span class="figure-number">Figure 3: </span>There exists a path where nodes are yellow until a red node is reached.</figcaption>
+</figure></li>
+
+<li><p>
+AF (\(\forall \Diamond \texttt{red}\))
+</p>
+
+
+<figure id="orgcc43013">
+<img src="../static/img/notes/af_red.png" alt="af_red.png">
+
+<figcaption><span class="figure-number">Figure 4: </span>On all paths, eventually a node is red.</figcaption>
+</figure></li>
+
+<li><p>
+AG (\(\forall \Box \texttt{red}\))
+</p>
+
+
+<figure id="org2d109fe">
+<img src="../static/img/notes/ag_red.png" alt="ag_red.png">
+
+<figcaption><span class="figure-number">Figure 5: </span>On all paths, globally (always) every node is red.</figcaption>
+</figure></li>
+</ul>
+</div>
+<div id="outline-container-org76fa4a6" class="outline-4">
+<h4 id="org76fa4a6">AU (\(\forall (\texttt{yellow} \,\mathcal{U}\, \texttt{red})\))</h4>
+<div class="outline-text-4" id="text-org76fa4a6">
+
+<figure id="org81d615a">
+<img src="../static/img/notes/au_yellow_red.png" alt="au_yellow_red.png">
+
+<figcaption><span class="figure-number">Figure 6: </span>On all paths, nodes are yellow until a red node is reached.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd4768db" class="outline-2">
+<h2 id="orgd4768db">CTL Equivalence</h2>
+<div class="outline-text-2" id="text-orgd4768db">
+</div>
+<div id="outline-container-org1318078" class="outline-3">
+<h3 id="org1318078">Duality Laws</h3>
+<div class="outline-text-3" id="text-org1318078">
+\begin{equation}
+\begin{split}
+\forall \bigcirc \Phi &\equiv \lnot\exists \bigcirc \lnot \Phi \\
+\exists \bigcirc \Phi &\equiv \lnot\forall \bigcirc \lnot \Phi \\
+\forall \Diamond \Phi &\equiv \lnot\exists \Box \lnot \Phi \\
+\exists \Diamond \Phi &\equiv \lnot\forall \Box \lnot \Phi \\
+\forall (\Phi \,\mathcal{U}\, \Psi) &\equiv \lnot \exists ((\Phi \land \lnot \Psi) \,\mathcal{W}\, (\Phi \land \Psi))
+\end{split}
+\end{equation}
+</div>
+</div>
+<div id="outline-container-org47312d8" class="outline-3">
+<h3 id="org47312d8">Expansion Laws</h3>
+<div class="outline-text-3" id="text-org47312d8">
+<p>
+In <a href="20260716095112-linear_temporal_logic.html#ID-4f82143b-7ad7-4020-9c65-1f4495e54405">LTL</a> we had something like:
+</p>
+
+<p>
+\[ \phi \,\mathcal{U}\, \psi \equiv \psi \lor (\phi \land \bigcirc (\phi \,\mathcal{U}\, \psi)) \]
+</p>
+
+<p>
+In CTL we have:
+</p>
+
+\begin{equation}
+\begin{split}
+\forall (\Phi \,\mathcal{U}\, \Psi) &\equiv \Psi \lor (\Phi \land \forall \bigcirc \forall(\Phi \,\mathcal{U}\, \Psi)) \\
+\forall \Diamond \Phi &\equiv \Phi \lor \forall \bigcirc \forall \Diamond \Phi \\
+\forall \Box \Phi &\equiv \Phi \land \forall \bigcirc \forall \Box \Phi \\
+\exists (\Phi \,\mathcal{U}\, \Psi) &\equiv \Psi \lor (\Phi \land \exists \bigcirc \exists (\Phi \,\mathcal{U}\, \Psi)) \\
+\exists \Diamond \Phi &\equiv \Phi \lor \exists \bigcirc \exists \Diamond \Phi \\
+\exists \Box \Phi &\equiv \Phi \land \exists \bigcirc \exists \Box \Phi
+\end{split}
+\end{equation}
+</div>
+</div>
+<div id="outline-container-org7eb10d1" class="outline-3">
+<h3 id="org7eb10d1">Distributive Laws</h3>
+<div class="outline-text-3" id="text-org7eb10d1">
+<p>
+In <a href="20260716095112-linear_temporal_logic.html#ID-4f82143b-7ad7-4020-9c65-1f4495e54405">LTL</a>:
+</p>
+
+\begin{equation}
+\begin{split}
+\Box (\phi \land \psi) &\equiv \Box \phi \land \Box \psi \\
+\Diamond (\phi \lor \psi) &\equiv \Diamond \phi \lor \Diamond \psi
+\end{split}
+\end{equation}
+
+<p>
+In CTL:
+</p>
+
+\begin{equation}
+\begin{split}
+\forall \Box (\phi \land \psi) &\equiv \forall \Box \phi \land \forall \Box \psi \\
+\exists \Diamond (\phi \lor \psi) &\equiv \exists \Diamond \phi \lor \exists \Diamond \psi
+\end{split}
+\end{equation}
+
+<p>
+note that:
+</p>
+
+\begin{equation}
+\begin{split}
+\exists \Box (\phi \land \psi) &\not\equiv \exists \Box \phi \land \exists \Box \psi \\
+\forall \Diamond (\phi \lor \psi) &\not\equiv \forall \Diamond \phi \lor \forall \Diamond \psi
+\end{split}
+\end{equation}
+</div>
+</div>
+</div>
+<div id="outline-container-orgeb0c734" class="outline-2">
+<h2 id="orgeb0c734">References:</h2>
+<div class="outline-text-2" id="text-orgeb0c734">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org190cbf4" class="outline-2">
-<h2 id="org190cbf4">Backlinks:</h2>
-<div class="outline-text-2" id="text-org190cbf4">
+<div id="outline-container-orgcfe2091" class="outline-2">
+<h2 id="orgcfe2091">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgcfe2091">
 <ul class="org-ul">
 <li><a href="./20260716095112-linear_temporal_logic.html">Linear Temporal Logic</a></li>
 </ul>
 </div>
 </div>
-</main>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20251010142516-transition_systems.html#ID-fbe5a587-ce97-40c3-9748-a459c3b89b9a">Transition Systems</a>
+</p></div></div>
+
+
+</div>
+</div></main>
 <footer id="postamble" class="status">
 <footer>
   </br>
