@@ -7,6 +7,8 @@
 #+Html_MATHJAX: align: left indent: 5em tagside: left
 #+filetags: :computer-science:formal-methods:logic:model-checking: 
 
+* Syntax
+
 #+begin_quote
 CTL has a two-stage syntax where formulae in CTL are classified into state and
 path formulae. The former are assertions about the atomic propositions in the
@@ -16,8 +18,432 @@ as in LTL they are built by the next-step and until operators, but they must not
 be combined with Boolean connectives and no nesting of temporal modalities is
 allowed.
 
-[cite:@baier2008principles p.317 chap.6 part.6.2]
+CTL state formulae over the set $\texttt{AP}$ of atomic proposition are formed
+according to the following grammar:
+
+$$ \Phi ::= \texttt{true} \,\mid\, a \,\mid\, \Phi_1 \land \Phi_2 \,\mid\, \lnot \Phi \,\mid\,
+\exists \Phi
+\,\mid\, \forall \Phi $$
+
+where $a \in \texttt{AP}$ and $\phi$ is a path formula. CTL path formulae are formed according to the
+following grammar:
+
+$$ \phi ::= \bigcirc \Phi \,\mid\, \Phi_1 \,\mathcal{U}\, \Phi_2 $$
+
+where \Phi, \Phi_1 and \Phi_2 are state formulae.
+
+(...)
+
+CTL distinguishes between *state formulae* and *path formulae*. Intuitively, state
+formulae express a property of a state, while path formulae express a property
+of a path, i.e., an infinite sequence of states.
+
+[cite:@baier2008principles p.317 chap.6 part.6.2.1]
 #+end_quote
 
-* Syntax
++ Path formulas cannot be combined using logical connectives.
++ $\bigcirc$ and $\mathcal{U}$ alternate with $\forall$ and $\exists$, i.e.
 
+\begin{equation}
+\begin{split}
+\forall \bigcirc (\texttt{AX}) &, \forall \Box (\texttt{AG}) &, \forall\mathcal{U} (\texttt{AU}) &, \forall \Diamond (\texttt{AF}) \\
+\exists \bigcirc (\texttt{EX}) &, \exists \Box (\texttt{EG}) &, \exists\mathcal{U} (\texttt{EU}) &, \exists\Diamond (\texttt{EF})
+\end{split}
+\end{equation}
+
+** Derived Operations
+
+\begin{equation}
+\begin{split}
+\text{(potentially) } \exists \Diamond \Phi &= \exists(\texttt{true} \,\mathcal{U}\, \Phi) \\
+\text{(inevitably) } \forall \Diamond \Phi &= \exists(\texttt{true} \,\mathcal{U}\, \Phi) \\
+\text{(potentially always) } \exists \Box \Phi &= \lnot \forall \Diamond \lnot \Phi \\
+\text{(invariatly) } \forall \Box \Phi &= \lnot \exists \Diamond \lnot \Phi \\
+\text{(weak until) } \exists(\Phi_1 \,\mathcal{W}\, \Phi_2) &= \lnot \forall((\Phi_1 \land \lnot \Phi_2) \,\mathcal{U}\, (\lnot \Phi_1 \land \lnot \Phi_2)) \\
+                   \forall(\Phi_1 \,\mathcal{W}\, \Phi_2) &= \lnot \exists((\Phi_1 \land \lnot \phi_2) \,\mathcal{U}\, (\lnot \Phi_1 \land \lnot \Phi_2))
+\end{split}
+\end{equation}
+
+
+* Semantics
+
+#+begin_quote
+Let $a \in \texttt{AP}$ be an atomic proposition, $\texttt{TS} = (\texttt{S},
+\texttt{Act}, \longrightarrow, \texttt{I}, \texttt{AP}, \texttt{L})$ be a
+transition system[fn:1] without terminal states, state $s \in \texttt{S}$, let $\Phi$ and
+$\Psi$ be CTL state formulae, and $\phi$ be a CTL path formula. The satisfaction
+relation $\models$ is defined for state formulae by
+
+
+\begin{equation}
+\begin{split}
+s & \models a \leftrightarrow a \in \texttt{L}(s) \\
+s & \models \lnot\Phi \leftrightarrow \lnot s \models \Phi \\
+s & \models \Phi \land \Psi \leftrightarrow (s \models \Phi) \land (s \models \Psi) \\
+s & \models \exists \phi \leftrightarrow \pi \models \phi, \texttt{ for some } \pi \in \texttt{Paths}(s) \\
+s & \models \forall \phi \leftrightarrow \pi \models \phi, \texttt{ for all } \pi \in \texttt{Paths}(s)
+\end{split}
+\end{equation}
+
+for path $\pi$, the satisfaction relation $\models$ for path formulae is defined by
+
+\begin{equation}
+\begin{split}
+s & \models \bigcirc \Phi \leftrightarrow \pi[1] \models \Phi \\
+\pi & \models \Phi \,\mathcal{U}\, \Psi \leftrightarrow \exists j \geq 0. (\pi[j] \models \Psi \land (\forall 0 \leq k < j. \pi[k] \models \Phi))
+\end{split}
+\end{equation}
+
+where for path $\pi = s_0 s_1 s_2 \ldots$ and integer $i \geq 0$, $\pi[i]$ denotes the
+(i+1)th state of $\pi$, i.e., $\pi[i] = s_i$.
+
+[cite:@baier2008principles p.320 chap.6 part.6.2.2]
+#+end_quote
+
++ The interpretations for atomic propositions, negation, and conjunction are as
+  usual, where it should be noted that in CTL they are interpreted over states,
+  whereas in LTL they are interpreted over paths.
+
+** CTL Semantics for Transition Systems
+
+#+begin_quote
+Given a transition system[fn:1] $\texttt{TS}$ as before, the /satisfaction set/
+$\texttt{Sat}_{TS} (\Phi)$, or briefly $\texttt{Sat}(\Phi)$, for CTL-state formula $\Phi$ is
+defined by:
+
+$$ \texttt{Sat}(\Phi) = \{ s \in S \mid s \models \Phi \} $$
+
+The transition system $\texttt{TS}$ satisfies CTL formula $\Phi$ if and only if $\Phi$
+holds in all initial states of $\texttt{TS}$:
+
+$$ \texttt{TS} \models \Phi \leftrightarrow \forall s_0 \in \texttt{I}, s_0 \models \Phi $$
+
+This is equivalent to $\texttt{I} \subseteq \texttt{Sat}(\Phi)$.
+
+[cite:@baier2008principles p.321 chap.6 part.6.2.2]
+#+end_quote
+
+** Intuition
+
++ EF ($\exists \Diamond \texttt{red}$)
+
+    #+NAME: ef-red
+    #+BEGIN_SRC dot :file ../static/img/notes/ef_red.png :cmdline -Kdot -Tpng :exports results
+      digraph EF_red {
+          node [shape=circle, style=filled, fillcolor=white, label=""];
+          
+          // Nodes
+          root;
+          node_l; node_m; node_r;
+          node_ll; node_lr [fillcolor=red];
+          node_ml; node_mr [fillcolor=red];
+          node_rl;
+          
+          // Standard Edges
+          root -> node_l;
+          root -> node_m;
+          root -> node_r;
+          
+          node_l -> node_ll;
+          node_l -> node_lr;
+          
+          node_m -> node_ml;
+          node_m -> node_mr;
+          
+          node_r -> node_rl;
+
+          // Infinite Path Continuations
+          node [shape=none, label="", width=0, height=0];
+          edge [style=dotted, arrowhead=none];
+          node_ll -> {c1, c2};
+          node_lr -> {c3, c4};
+          node_ml -> {c5};
+          node_mr -> {c6, c7, c8};
+          node_rl -> {c9};
+      }
+    #+END_SRC
+
+    #+CAPTION: There exists a path where eventually a node is red.
+    #+RESULTS: ef-red
+    [[file:../static/img/notes/ef_red.png]]
+
++ EG ($\exists \Box \texttt{red}$)
+
+    #+NAME: eg-red
+    #+BEGIN_SRC dot :file ../static/img/notes/eg_red.png :cmdline -Kdot -Tpng :exports results
+      digraph EG_red {
+          node [shape=circle, style=filled, fillcolor=white, label=""];
+          
+          // Nodes
+          root [fillcolor=red];
+          node_l [fillcolor=red]; node_m; node_r;
+          node_ll; node_lr [fillcolor=red];
+          node_ml; node_mr [fillcolor=red];
+          node_rl;
+          
+          // Standard Edges
+          root -> node_l;
+          root -> node_m;
+          root -> node_r;
+          
+          node_l -> node_ll;
+          node_l -> node_lr;
+          
+          node_m -> node_ml;
+          node_m -> node_mr;
+          
+          node_r -> node_rl;
+
+          // Infinite Path Continuations
+          node [shape=none, label="", width=0, height=0];
+          edge [style=dotted, arrowhead=none];
+          node_ll -> {c1, c2};
+          node_lr -> {c3, c4};
+          node_ml -> {c5};
+          node_mr -> {c6, c7, c8};
+          node_rl -> {c9};
+      }
+    #+END_SRC
+
+    #+CAPTION: There exists a path where globally (always) nodes are red.
+    #+RESULTS: eg-red
+    [[file:../static/img/notes/eg_red.png]]
+
++ EU ($\exists (\texttt{yellow} \,\mathcal{U}\, \texttt{red})$)
+
+    #+NAME: eu-yellow-red
+    #+BEGIN_SRC dot :file ../static/img/notes/eu_yellow_red.png :cmdline -Kdot -Tpng :exports results
+
+      digraph E_Until {
+          node [shape=circle, style=filled, fillcolor=white, label=""];
+          
+          // Nodes
+          root [fillcolor=yellow];
+          node_l [fillcolor=yellow]; node_m; node_r [fillcolor=red];
+          node_ll [fillcolor=red]; node_lr [fillcolor=red];
+          node_ml; node_mr;
+          node_rl [fillcolor=yellow];
+          
+          // Standard Edges
+          root -> node_l;
+          root -> node_m;
+          root -> node_r;
+          
+          node_l -> node_ll;
+          node_l -> node_lr;
+          
+          node_m -> node_ml;
+          node_m -> node_mr;
+          
+          node_r -> node_rl;
+
+          // Infinite Path Continuations
+          node [shape=none, label="", width=0, height=0];
+          edge [style=dotted, arrowhead=none];
+          node_ll -> c1;
+          node_ll -> c2;
+          node_lr -> c3;
+          node_lr -> c4;
+          node_ml -> c5;
+          node_mr -> c6;
+          node_mr -> c7;
+          node_rl -> c8;
+          node_rl -> c9;
+      }
+    #+END_SRC
+
+    #+CAPTION: There exists a path where nodes are yellow until a red node is reached.
+    #+RESULTS: eu-yellow-red
+    [[file:../static/img/notes/eu_yellow_red.png]]
+
++ AF ($\forall \Diamond \texttt{red}$)
+
+    #+NAME: af-red
+    #+BEGIN_SRC dot :file ../static/img/notes/af_red.png :cmdline -Kdot -Tpng :exports results
+      digraph AF_red {
+          node [shape=circle, style=filled, fillcolor=white, label=""];
+          
+          // Nodes
+          root;
+          node_l; node_m [fillcolor=red]; node_r [fillcolor=red];
+          node_ll [fillcolor=red]; node_lr [fillcolor=red];
+          node_ml; node_mr;
+          node_rl;
+          
+          // Standard Edges
+          root -> node_l;
+          root -> node_m;
+          root -> node_r;
+          
+          node_l -> node_ll;
+          node_l -> node_lr;
+          
+          node_m -> node_ml;
+          node_m -> node_mr;
+          
+          node_r -> node_rl;
+
+          // Infinite Path Continuations
+          node [shape=none, label="", width=0, height=0];
+          edge [style=dotted, arrowhead=none];
+          node_ll -> {c1, c2};
+          node_lr -> {c3, c4};
+          node_ml -> {c5};
+          node_mr -> {c6, c7, c8};
+          node_rl -> {c9};
+      }
+    #+END_SRC
+
+    #+CAPTION: On all paths, eventually a node is red.
+    #+RESULTS: af-red
+    [[file:../static/img/notes/af_red.png]]
+
++ AG ($\forall \Box \texttt{red}$)
+
+    #+NAME: ag-red
+    #+BEGIN_SRC dot :file ../static/img/notes/ag_red.png :cmdline -Kdot -Tpng :exports results
+      digraph AG_red {
+          node [shape=circle, style=filled, fillcolor=red, label=""];
+          
+          // Nodes
+          root;
+          node_l; node_m; node_r;
+          node_ll; node_lr;
+          node_ml; node_mr;
+          node_rl;
+          
+          // Standard Edges
+          root -> node_l;
+          root -> node_m;
+          root -> node_r;
+          
+          node_l -> node_ll;
+          node_l -> node_lr;
+          
+          node_m -> node_ml;
+          node_m -> node_mr;
+          
+          node_r -> node_rl;
+
+          // Infinite Path Continuations
+          node [shape=none, label="", width=0, height=0];
+          edge [style=dotted, arrowhead=none];
+          node_ll -> {c1, c2};
+          node_lr -> {c3, c4};
+          node_ml -> {c5};
+          node_mr -> {c6, c7, c8};
+          node_rl -> {c9};
+      }
+    #+END_SRC
+
+    #+CAPTION: On all paths, globally (always) every node is red.
+    #+RESULTS: ag-red
+    [[file:../static/img/notes/ag_red.png]]
+
+*** AU ($\forall (\texttt{yellow} \,\mathcal{U}\, \texttt{red})$)
+
+    #+NAME: au-yellow-red
+    #+BEGIN_SRC dot :file ../static/img/notes/au_yellow_red.png :cmdline -Kdot -Tpng :exports results
+      digraph A_Until {
+          node [shape=circle, style=filled, fillcolor=white, label=""];
+          
+          // Nodes
+          root [fillcolor=yellow];
+          node_l [fillcolor=yellow]; node_m [fillcolor=yellow]; node_r [fillcolor=red];
+          node_ll [fillcolor=red]; node_lr [fillcolor=red];
+          node_ml [fillcolor=red]; node_mr [fillcolor=red];
+          node_rl [fillcolor=yellow];
+          
+          // Standard Edges
+          root -> node_l;
+          root -> node_m;
+          root -> node_r;
+          
+          node_l -> node_ll;
+          node_l -> node_lr;
+          
+          node_m -> node_ml;
+          node_m -> node_mr;
+          
+          node_r -> node_rl;
+
+          // Infinite Path Continuations
+          node [shape=none, label="", width=0, height=0];
+          edge [style=dotted, arrowhead=none];
+          node_ll -> {c1, c2};
+          node_lr -> {c3, c4};
+          node_ml -> {c5};
+          node_mr -> {c6, c7, c8};
+          node_rl -> {c9};
+      }
+    #+END_SRC
+
+    #+CAPTION: On all paths, nodes are yellow until a red node is reached.
+    #+RESULTS: au-yellow-red
+    [[file:../static/img/notes/au_yellow_red.png]]
+
+* CTL Equivalence
+
+** Duality Laws
+
+\begin{equation}
+\begin{split}
+\forall \bigcirc \Phi &\equiv \lnot\exists \bigcirc \lnot \Phi \\
+\exists \bigcirc \Phi &\equiv \lnot\forall \bigcirc \lnot \Phi \\
+\forall \Diamond \Phi &\equiv \lnot\exists \Box \lnot \Phi \\
+\exists \Diamond \Phi &\equiv \lnot\forall \Box \lnot \Phi \\
+\forall (\Phi \,\mathcal{U}\, \Psi) &\equiv \lnot \exists ((\Phi \land \lnot \Psi) \,\mathcal{W}\, (\Phi \land \Psi))
+\end{split}
+\end{equation}
+
+** Expansion Laws
+
+In [[id:4f82143b-7ad7-4020-9c65-1f4495e54405][LTL]] we had something like:
+
+\[ \phi \,\mathcal{U}\, \psi \equiv \psi \lor (\phi \land \bigcirc (\phi \,\mathcal{U}\, \psi)) \]
+
+In CTL we have:
+
+\begin{equation}
+\begin{split}
+\forall (\Phi \,\mathcal{U}\, \Psi) &\equiv \Psi \lor (\Phi \land \forall \bigcirc \forall(\Phi \,\mathcal{U}\, \Psi)) \\
+\forall \Diamond \Phi &\equiv \Phi \lor \forall \bigcirc \forall \Diamond \Phi \\
+\forall \Box \Phi &\equiv \Phi \land \forall \bigcirc \forall \Box \Phi \\
+\exists (\Phi \,\mathcal{U}\, \Psi) &\equiv \Psi \lor (\Phi \land \exists \bigcirc \exists (\Phi \,\mathcal{U}\, \Psi)) \\
+\exists \Diamond \Phi &\equiv \Phi \lor \exists \bigcirc \exists \Diamond \Phi \\
+\exists \Box \Phi &\equiv \Phi \land \exists \bigcirc \exists \Box \Phi
+\end{split}
+\end{equation}
+
+** Distributive Laws
+
+In [[id:4f82143b-7ad7-4020-9c65-1f4495e54405][LTL]]:
+
+\begin{equation}
+\begin{split}
+\Box (\phi \land \psi) &\equiv \Box \phi \land \Box \psi \\
+\Diamond (\phi \lor \psi) &\equiv \Diamond \phi \lor \Diamond \psi
+\end{split}
+\end{equation}
+
+In CTL:
+
+\begin{equation}
+\begin{split}
+\forall \Box (\phi \land \psi) &\equiv \forall \Box \phi \land \forall \Box \psi \\
+\exists \Diamond (\phi \lor \psi) &\equiv \exists \Diamond \phi \lor \exists \Diamond \psi
+\end{split}
+\end{equation}
+
+note that:
+
+\begin{equation}
+\begin{split}
+\exists \Box (\phi \land \psi) &\not\equiv \exists \Box \phi \land \exists \Box \psi \\
+\forall \Diamond (\phi \lor \psi) &\not\equiv \forall \Diamond \phi \lor \forall \Diamond \psi
+\end{split}
+\end{equation}
+
+* Footnotes
+
+[fn:1] See [[id:fbe5a587-ce97-40c3-9748-a459c3b89b9a][Transition Systems]]
