@@ -2,14 +2,17 @@
 :ID:       2cb21389-b6de-4c39-9c9a-1a635ff1529f
 :END:
 #+title: Distributed Erlang
+#+filetags: :erlang:functional-programming:otp:
 
 #+begin_quote
 [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] makes certain types of distributed programming extremely easy; in no time
 at all, and with very little code, you can have a number of machines across a
 network happily chatting with one another. Two fundamental features of Erlang
 make this possible:
+
     + Process communication by copying
     + Location Transparency
+
 [cite:@logan2010erlang p.191 chap.8 pt.8.1]
 #+end_quote
 
@@ -136,9 +139,9 @@ another. [cite:@logan2010erlang p.197 chap.8 pt.8.2.3]
 For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
 1. Store the same cookie in the file ~$HOME/.erlang.cookie~.
 2. Using the ~-setcookie C~ command line argument:
-#+begin_src shell
-  erl -setcookie <cookie>
-#+end_src
+    #+begin_src shell
+    erl -setcookie <cookie>
+    #+end_src
 3. The BIF ~erlang:set_cookie(node(), C)~ sets the cookie of the local node to the atom ~C~.
 
 ** Sending messages between connected nodes

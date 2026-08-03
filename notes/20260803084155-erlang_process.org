@@ -1,0 +1,63 @@
+:PROPERTIES:
+:ID:       04721759-3f3e-4bec-9f30-5ac48db192e5
+:END:
+#+title: Erlang Process
+#+filetags: :erlang:elixir:functional-programming:otp:
+
+#+begin_quote
+The concept of lightweight processes is the essence of [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] and the BEAM; they
+are what makes BEAM stand out from other virtual machines. In order to
+understand how the BEAM (and Erlang and Elixir) works you need to know the
+details of how processes work, which will help you understand the central
+concept of the BEAM, including what is easy and cheap for a process and what is
+hard and expensive.
+
+(...)
+
+An Erlang process is very similar to an OS process. It has its own address
+space, it can communicate with other processes through signals and messages, and
+the execution is controlled by a preemptive scheduler.
+
+[cite:@beambook]
+#+end_quote
+
+#+begin_quote
+The ~i/0~ function prints out a list of all processes in the system. Each
+process gets two lines of information. The first two lines of the printout are
+the headers telling you what the information means. As you can see you get the
+Process ID (Pid) and the name of the process if any, as well as information
+about the code where the process was started and where it is currently
+executing.
+#+end_quote
+
+#+begin_quote
+The ~i/0~ function prints out a list of all processes in the system. Each
+process gets two lines of information. The first two lines of the printout are
+the headers telling you what the information means. As you can see you get the
+Process ID (Pid) and the name of the process if any, as well as information
+about the code where the process was started and where it is currently
+executing.
+#+end_quote
+
+We can further examine a process with the ~i/3~ function. (...) . By calling ~i/3~
+with the three numbers of the pid we get this information:
+
+* Programmatic Process Probing
+
+#+begin_quote
+#+end_quote
+
+* Processes Are Just Memory
+
+#+begin_quote
+A process is basically four blocks of memory: a stack, a heap, a message area,
+and the Process Control Block (the PCB).
+
+The stack is used for keeping track of program execution by storing return
+addresses, for passing arguments to functions, and for keeping local
+variables. Larger structures, such as lists and tuples are stored on the heap.
+
+The message area, also called the mailbox, is used to store messages sent to the
+process from other processes. The process control block is used to keep track of
+the state of the process.
+#+end_quote

@@ -3,14 +3,39 @@
 :ROAM_ALIAS: "Erlang Runtime System"
 :END:
 #+title: ERTS
-#+filetags: :erlang: :elixir:
+#+filetags: :erlang:elixir:functional-programming:otp:
 
-* The Erlang Node
+* The Runtime
 
 #+begin_quote
-When you start an [[id:8d568d81-9c22-4d94-81b2-27a2d730ba98][Elixir]] or [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] application or system, what you really start
-is an Erlang node. The node runs the Erlang RunTime System and the virtual
-machine BEAM. [cite:@beambook]
+When you start an [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] or [[id:8d568d81-9c22-4d94-81b2-27a2d730ba98][Elixir]] system, you get an OS process[fn:1] running
+the Erlang Runtime System, and inside that OS process, the BEAM VM is executing
+a number of Erlang processes[fn:2]. Such a running instance of the Runtime
+System is referred to as an Erlang node[fn:3] (...), and it can be given a name to
+distinguish it from other Erlang nodes that may be running in the same network
+or even on the same host machine.
+
+[cite:@beambook p.19 chap.1 part.1.3.1]
+#+end_quote
+
+** Layers in the Execution Environment
+
+[[file:../static/img/beam_book/erts_layers.png]]
+
+** Layers in the Execution Environment
+
+[[file:../static/img/beam_book/erts_distribution.png]]
+
+** The Erlang Virtual Machine: BEAM
+
+#+begin_quote
+Just as ERTS is an implementation of a more general concept of a Erlang Runtime
+System so is BEAM an implementation of a more general Erlang Virtual Machine
+(EVM). There is no definition of what constitutes an EVM but BEAM actually has
+two levels of instructions: Generic Instructions and Specific Instructions. The
+generic instruction set could be seen as a blueprint for an EVM.
+
+[cite:@beambook p.25 chap.1 part.1.3.5]
 #+end_quote
 
 * The Scheduler
@@ -24,69 +49,10 @@ not, Erlang uses what CPU power there is to do them all a bit at a time.
 [cite:@logan2010erlang p.8 chapter.1]
 #+end_quote
 
-* Processes
+* Footnotes
 
-#+begin_quote
-The concept of lightweight processes is the essence of [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] and the BEAM; they
-are what makes BEAM stand out from other virtual machines. In order to
-understand how the BEAM (and Erlang and Elixir) works you need to know the
-details of how processes work, which will help you understand the central
-concept of the BEAM, including what is easy and cheap for a process and what is
-hard and expensive.
+[fn:3] See [[id:2cb21389-b6de-4c39-9c9a-1a635ff1529f][Distributed Erlang]].
 
-(...)
+[fn:2] See [[id:04721759-3f3e-4bec-9f30-5ac48db192e5][Erlang Process]].
 
-An Erlang process is very similar to an OS process. It has its own address
-space, it can communicate with other processes through signals and messages, and
-the execution is controlled by a preemptive scheduler.
-
-[cite:@beambook]
-#+end_quote
-
-#+begin_quote
-The ~i/0~ function prints out a list of all processes in the system. Each
-process gets two lines of information. The first two lines of the printout are
-the headers telling you what the information means. As you can see you get the
-Process ID (Pid) and the name of the process if any, as well as information
-about the code where the process was started and where it is currently
-executing.
-#+end_quote
-
-#+begin_quote
-The ~i/0~ function prints out a list of all processes in the system. Each
-process gets two lines of information. The first two lines of the printout are
-the headers telling you what the information means. As you can see you get the
-Process ID (Pid) and the name of the process if any, as well as information
-about the code where the process was started and where it is currently
-executing.
-#+end_quote
-
-We can further examine a process with the ~i/3~ function. (...) . By calling ~i/3~
-with the three numbers of the pid we get this information:
-
-** Programmatic Process Probing
-
-#+begin_quote
-#+end_quote
-
-** Processes Are Just Memory
-
-#+begin_quote
-A process is basically four blocks of memory: a stack, a heap, a message area,
-and the Process Control Block (the PCB).
-
-The stack is used for keeping track of program execution by storing return
-addresses, for passing arguments to functions, and for keeping local
-variables. Larger structures, such as lists and tuples are stored on the heap.
-
-The message area, also called the mailbox, is used to store messages sent to the
-process from other processes. The process control block is used to keep track of
-the state of the process.
-#+end_quote
-
-* Type and Tagging System
-
-** The Erlang Type System
-
-** The Tagging Scheme
-
+[fn:1] See [[id:1ab07e4a-e33d-45e9-8c34-480bb761a80f][Process]].
