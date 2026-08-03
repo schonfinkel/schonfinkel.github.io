@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-29 Wed 22:43 -->
+<!-- 2026-08-03 Mon 21:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Concurrent Erlang</title>
@@ -80,9 +80,9 @@ In Erlang:
 (<a href="#citeproc_bib_item_1">Armstrong 2013, 181</a>)
 </p>
 </blockquote>
-<div id="outline-container-org1cdabc6" class="outline-2">
-<h2 id="org1cdabc6">Processes</h2>
-<div class="outline-text-2" id="text-org1cdabc6">
+<div id="outline-container-org5aabd77" class="outline-2">
+<h2 id="org5aabd77">Processes</h2>
+<div class="outline-text-2" id="text-org5aabd77">
 <p>
 In <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a>, creation of a parallel process is achieved by evaluating the <code>spawn</code>
 primitive. This primitive creates a concurrent process and returns a process
@@ -95,7 +95,7 @@ identifier (PID) that can used to interact with the newly created process:
 </div>
 
 
-<figure id="org5622952">
+<figure id="org90964a3">
 <img src="../static/img/notes/erlang_spawn.png" alt="erlang_spawn.png">
 
 </figure>
@@ -109,11 +109,11 @@ identifier (PID) that can used to interact with the newly created process:
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-orgac4a4f6" class="outline-3">
-<h3 id="orgac4a4f6">Modeling Concurrency</h3>
-<div class="outline-text-3" id="text-orgac4a4f6">
+<div id="outline-container-org5682634" class="outline-3">
+<h3 id="org5682634">Modeling Concurrency</h3>
+<div class="outline-text-3" id="text-org5682634">
 
-<figure id="orgeb993f9">
+<figure id="orgdcb88f5">
 <img src="../static/img/notes/erlang_send.png" alt="erlang_send.png">
 
 </figure>
@@ -177,7 +177,7 @@ We can force an order (emulating a priority queue) by using multiple receives:
 </p>
 
 
-<figure id="org9ddd8d8">
+<figure id="orgdf9a535">
 <img src="../static/img/notes/erlang_selective.png" alt="erlang_selective.png">
 
 </figure>
@@ -202,9 +202,9 @@ this way the message <code>{foo, ...}</code> is received before the message <cod
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc3a2d26" class="outline-3">
-<h3 id="orgc3a2d26">Registered Processes</h3>
-<div class="outline-text-3" id="text-orgc3a2d26">
+<div id="outline-container-org3c41b08" class="outline-3">
+<h3 id="org3c41b08">Registered Processes</h3>
+<div class="outline-text-3" id="text-org3c41b08">
 <table>
 
 
@@ -274,9 +274,9 @@ ensure that your system does not suffer memory leakages.
 </ul>
 </div>
 </div>
-<div id="outline-container-org8f0226c" class="outline-3">
-<h3 id="org8f0226c">Timeouts</h3>
-<div class="outline-text-3" id="text-org8f0226c">
+<div id="outline-container-org479814b" class="outline-3">
+<h3 id="org479814b">Timeouts</h3>
+<div class="outline-text-3" id="text-org479814b">
 <ul class="org-ul">
 <li>If the message <code>Msg</code> is received within the <code>TimeOut</code>, <code>expr01</code> will be
 executed. Otherwise, <code>expr02</code> will be executed.</li>
@@ -284,7 +284,7 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </ul>
 
 
-<figure id="org20215f7">
+<figure id="org2486f8b">
 <img src="../static/img/notes/erlang_timeout.png" alt="erlang_timeout.png">
 
 </figure>
@@ -300,9 +300,9 @@ executed. Otherwise, <code>expr02</code> will be executed.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org1466fdf" class="outline-3">
-<h3 id="org1466fdf">Skeleton of an Erlang Process</h3>
-<div class="outline-text-3" id="text-org1466fdf">
+<div id="outline-container-org65d239e" class="outline-3">
+<h3 id="org65d239e">Skeleton of an Erlang Process</h3>
+<div class="outline-text-3" id="text-org65d239e">
 <p>
 Most processes in Erlang share a common lifecycle:
 </p>
@@ -314,16 +314,16 @@ Most processes in Erlang share a common lifecycle:
 </ul>
 
 
-<figure id="org3765b6f">
+<figure id="orgccb2fcf">
 <img src="../static/img/notes/erlang_process_skeleton.png" alt="erlang_process_skeleton.png">
 
 </figure>
 </div>
 </div>
 </div>
-<div id="outline-container-org385c411" class="outline-2">
-<h2 id="org385c411">Concurrency-Related Bottlenecks</h2>
-<div class="outline-text-2" id="text-org385c411">
+<div id="outline-container-org4d3c32b" class="outline-2">
+<h2 id="org4d3c32b">Concurrency-Related Bottlenecks</h2>
+<div class="outline-text-2" id="text-org4d3c32b">
 <blockquote>
 <p>
 Processes are said to act as <i>bottlenecks</i> when, over time, they are sent messages at a
@@ -343,18 +343,18 @@ system and VM settings. (<a href="#citeproc_bib_item_2">Cesarini and Thompson 20
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org90e2e36" class="outline-2">
-<h2 id="org90e2e36">References:</h2>
-<div class="outline-text-2" id="text-org90e2e36">
+<div id="outline-container-org5b30762" class="outline-2">
+<h2 id="org5b30762">References:</h2>
+<div class="outline-text-2" id="text-org5b30762">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Simon Thompson. 2009. <i>Erlang Programming: A Concurrent Approach to Software Development</i>. O’Reilly Media, Inc.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org30fed86" class="outline-2">
-<h2 id="org30fed86">Backlinks:</h2>
-<div class="outline-text-2" id="text-org30fed86">
+<div id="outline-container-org25e82b9" class="outline-2">
+<h2 id="org25e82b9">Backlinks:</h2>
+<div class="outline-text-2" id="text-org25e82b9">
 <ul class="org-ul">
 <li><a href="./20241001192402-error_handling_in_erlang.html">Error Handling in Erlang</a></li>
 </ul>

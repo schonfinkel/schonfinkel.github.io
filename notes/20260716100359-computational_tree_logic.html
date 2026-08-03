@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-29 Wed 22:43 -->
+<!-- 2026-08-03 Mon 21:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computational Tree Logic</title>
@@ -88,9 +88,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Computational Tree Logic</h1>
-</header><div id="outline-container-orgfba612f" class="outline-2">
-<h2 id="orgfba612f">Syntax</h2>
-<div class="outline-text-2" id="text-orgfba612f">
+</header><div id="outline-container-orgbdbeddc" class="outline-2">
+<h2 id="orgbdbeddc">Syntax</h2>
+<div class="outline-text-2" id="text-orgbdbeddc">
 <blockquote>
 <p>
 CTL has a two-stage syntax where formulae in CTL are classified into state and
@@ -153,9 +153,9 @@ of a path, i.e., an infinite sequence of states.
 \end{split}
 \end{equation}
 </div>
-<div id="outline-container-org9259235" class="outline-3">
-<h3 id="org9259235">Derived Operations</h3>
-<div class="outline-text-3" id="text-org9259235">
+<div id="outline-container-orgf4db0d8" class="outline-3">
+<h3 id="orgf4db0d8">Derived Operations</h3>
+<div class="outline-text-3" id="text-orgf4db0d8">
 \begin{equation}
 \begin{split}
 \text{(potentially) } \exists \Diamond \Phi &= \exists(\texttt{true} \,\mathcal{U}\, \Phi) \\
@@ -169,9 +169,9 @@ of a path, i.e., an infinite sequence of states.
 </div>
 </div>
 </div>
-<div id="outline-container-orga9fa385" class="outline-2">
-<h2 id="orga9fa385">Semantics</h2>
-<div class="outline-text-2" id="text-orga9fa385">
+<div id="outline-container-orgd3db4cb" class="outline-2">
+<h2 id="orgd3db4cb">Semantics</h2>
+<div class="outline-text-2" id="text-orgd3db4cb">
 <blockquote>
 <p>
 Let \(a \in \texttt{AP}\) be an atomic proposition, \(\texttt{TS} = (\texttt{S},
@@ -219,9 +219,9 @@ usual, where it should be noted that in CTL they are interpreted over states,
 whereas in LTL they are interpreted over paths.</li>
 </ul>
 </div>
-<div id="outline-container-orge23fd72" class="outline-3">
-<h3 id="orge23fd72">CTL Semantics for Transition Systems</h3>
-<div class="outline-text-3" id="text-orge23fd72">
+<div id="outline-container-org0d9de27" class="outline-3">
+<h3 id="org0d9de27">CTL Semantics for Transition Systems</h3>
+<div class="outline-text-3" id="text-org0d9de27">
 <blockquote>
 <p>
 Given a transition system<sup><a id="fnr.1.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> \(\texttt{TS}\) as before, the <i>satisfaction set</i>
@@ -252,16 +252,16 @@ This is equivalent to \(\texttt{I} \subseteq \texttt{Sat}(\Phi)\).
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgeb356d1" class="outline-3">
-<h3 id="orgeb356d1">Intuition</h3>
-<div class="outline-text-3" id="text-orgeb356d1">
+<div id="outline-container-org2b96202" class="outline-3">
+<h3 id="org2b96202">Intuition</h3>
+<div class="outline-text-3" id="text-org2b96202">
 <ul class="org-ul">
 <li><p>
 EF (\(\exists \Diamond \texttt{red}\))
 </p>
 
 
-<figure id="orgfdec3fa">
+<figure id="org642aecd">
 <img src="../static/img/notes/ef_red.png" alt="ef_red.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>There exists a path where eventually a node is red.</figcaption>
@@ -272,7 +272,7 @@ EG (\(\exists \Box \texttt{red}\))
 </p>
 
 
-<figure id="orgae56d46">
+<figure id="org2b744fb">
 <img src="../static/img/notes/eg_red.png" alt="eg_red.png">
 
 <figcaption><span class="figure-number">Figure 2: </span>There exists a path where globally (always) nodes are red.</figcaption>
@@ -283,7 +283,7 @@ EU (\(\exists (\texttt{yellow} \,\mathcal{U}\, \texttt{red})\))
 </p>
 
 
-<figure id="orgd942cb0">
+<figure id="org634f16e">
 <img src="../static/img/notes/eu_yellow_red.png" alt="eu_yellow_red.png">
 
 <figcaption><span class="figure-number">Figure 3: </span>There exists a path where nodes are yellow until a red node is reached.</figcaption>
@@ -294,7 +294,7 @@ AF (\(\forall \Diamond \texttt{red}\))
 </p>
 
 
-<figure id="orgcc43013">
+<figure id="orgb4157f5">
 <img src="../static/img/notes/af_red.png" alt="af_red.png">
 
 <figcaption><span class="figure-number">Figure 4: </span>On all paths, eventually a node is red.</figcaption>
@@ -305,18 +305,18 @@ AG (\(\forall \Box \texttt{red}\))
 </p>
 
 
-<figure id="org2d109fe">
+<figure id="orgfaa4341">
 <img src="../static/img/notes/ag_red.png" alt="ag_red.png">
 
 <figcaption><span class="figure-number">Figure 5: </span>On all paths, globally (always) every node is red.</figcaption>
 </figure></li>
 </ul>
 </div>
-<div id="outline-container-org76fa4a6" class="outline-4">
-<h4 id="org76fa4a6">AU (\(\forall (\texttt{yellow} \,\mathcal{U}\, \texttt{red})\))</h4>
-<div class="outline-text-4" id="text-org76fa4a6">
+<div id="outline-container-orgad5d92b" class="outline-4">
+<h4 id="orgad5d92b">AU (\(\forall (\texttt{yellow} \,\mathcal{U}\, \texttt{red})\))</h4>
+<div class="outline-text-4" id="text-orgad5d92b">
 
-<figure id="org81d615a">
+<figure id="orga0575d1">
 <img src="../static/img/notes/au_yellow_red.png" alt="au_yellow_red.png">
 
 <figcaption><span class="figure-number">Figure 6: </span>On all paths, nodes are yellow until a red node is reached.</figcaption>
@@ -325,13 +325,13 @@ AG (\(\forall \Box \texttt{red}\))
 </div>
 </div>
 </div>
-<div id="outline-container-orgd4768db" class="outline-2">
-<h2 id="orgd4768db">CTL Equivalence</h2>
-<div class="outline-text-2" id="text-orgd4768db">
+<div id="outline-container-orgb1a8475" class="outline-2">
+<h2 id="orgb1a8475">CTL Equivalence</h2>
+<div class="outline-text-2" id="text-orgb1a8475">
 </div>
-<div id="outline-container-org1318078" class="outline-3">
-<h3 id="org1318078">Duality Laws</h3>
-<div class="outline-text-3" id="text-org1318078">
+<div id="outline-container-org6d9e9f6" class="outline-3">
+<h3 id="org6d9e9f6">Duality Laws</h3>
+<div class="outline-text-3" id="text-org6d9e9f6">
 \begin{equation}
 \begin{split}
 \forall \bigcirc \Phi &\equiv \lnot\exists \bigcirc \lnot \Phi \\
@@ -343,9 +343,9 @@ AG (\(\forall \Box \texttt{red}\))
 \end{equation}
 </div>
 </div>
-<div id="outline-container-org47312d8" class="outline-3">
-<h3 id="org47312d8">Expansion Laws</h3>
-<div class="outline-text-3" id="text-org47312d8">
+<div id="outline-container-org6c378aa" class="outline-3">
+<h3 id="org6c378aa">Expansion Laws</h3>
+<div class="outline-text-3" id="text-org6c378aa">
 <p>
 In <a href="20260716095112-linear_temporal_logic.html#ID-4f82143b-7ad7-4020-9c65-1f4495e54405">LTL</a> we had something like:
 </p>
@@ -370,9 +370,9 @@ In CTL we have:
 \end{equation}
 </div>
 </div>
-<div id="outline-container-org7eb10d1" class="outline-3">
-<h3 id="org7eb10d1">Distributive Laws</h3>
-<div class="outline-text-3" id="text-org7eb10d1">
+<div id="outline-container-org3beb11d" class="outline-3">
+<h3 id="org3beb11d">Distributive Laws</h3>
+<div class="outline-text-3" id="text-org3beb11d">
 <p>
 In <a href="20260716095112-linear_temporal_logic.html#ID-4f82143b-7ad7-4020-9c65-1f4495e54405">LTL</a>:
 </p>
@@ -408,17 +408,17 @@ note that:
 </div>
 </div>
 </div>
-<div id="outline-container-orgeb0c734" class="outline-2">
-<h2 id="orgeb0c734">References:</h2>
-<div class="outline-text-2" id="text-orgeb0c734">
+<div id="outline-container-org31b0e29" class="outline-2">
+<h2 id="org31b0e29">References:</h2>
+<div class="outline-text-2" id="text-org31b0e29">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcfe2091" class="outline-2">
-<h2 id="orgcfe2091">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgcfe2091">
+<div id="outline-container-orga095b2c" class="outline-2">
+<h2 id="orga095b2c">Backlinks:</h2>
+<div class="outline-text-2" id="text-orga095b2c">
 <ul class="org-ul">
 <li><a href="./20260716095112-linear_temporal_logic.html">Linear Temporal Logic</a></li>
 </ul>

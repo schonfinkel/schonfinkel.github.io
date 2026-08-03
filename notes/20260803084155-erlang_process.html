@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-08-03 Mon 21:07 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Erlang Process</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Erlang Process</h1>
+</header><blockquote>
+<p>
+The concept of lightweight processes is the essence of <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> and the BEAM; they
+are what makes BEAM stand out from other virtual machines. In order to
+understand how the BEAM (and Erlang and Elixir) works you need to know the
+details of how processes work, which will help you understand the central
+concept of the BEAM, including what is easy and cheap for a process and what is
+hard and expensive.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+An Erlang process is very similar to an OS process. It has its own address
+space, it can communicate with other processes through signals and messages, and
+the execution is controlled by a preemptive scheduler.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025</a>)
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+The <code>i/0</code> function prints out a list of all processes in the system. Each
+process gets two lines of information. The first two lines of the printout are
+the headers telling you what the information means. As you can see you get the
+Process ID (Pid) and the name of the process if any, as well as information
+about the code where the process was started and where it is currently
+executing.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+The <code>i/0</code> function prints out a list of all processes in the system. Each
+process gets two lines of information. The first two lines of the printout are
+the headers telling you what the information means. As you can see you get the
+Process ID (Pid) and the name of the process if any, as well as information
+about the code where the process was started and where it is currently
+executing.
+</p>
+</blockquote>
+
+<p>
+We can further examine a process with the <code>i/3</code> function. (&hellip;) . By calling <code>i/3</code>
+with the three numbers of the pid we get this information:
+</p>
+<div id="outline-container-orge175cb8" class="outline-2">
+<h2 id="orge175cb8">Programmatic Process Probing</h2>
+<div class="outline-text-2" id="text-orge175cb8">
+<blockquote>
+nil</blockquote>
+</div>
+</div>
+<div id="outline-container-org0c8ff23" class="outline-2">
+<h2 id="org0c8ff23">Processes Are Just Memory</h2>
+<div class="outline-text-2" id="text-org0c8ff23">
+<blockquote>
+<p>
+A process is basically four blocks of memory: a stack, a heap, a message area,
+and the Process Control Block (the PCB).
+</p>
+
+<p>
+The stack is used for keeping track of program execution by storing return
+addresses, for passing arguments to functions, and for keeping local
+variables. Larger structures, such as lists and tuples are stored on the heap.
+</p>
+
+<p>
+The message area, also called the mailbox, is used to store messages sent to the
+process from other processes. The process control block is used to keep track of
+the state of the process.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgdc58087" class="outline-2">
+<h2 id="orgdc58087">References:</h2>
+<div class="outline-text-2" id="text-orgdc58087">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgad1b37a" class="outline-2">
+<h2 id="orgad1b37a">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgad1b37a">
+<ul class="org-ul">
+<li><a href="./20250114091629-erts.html">ERTS</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

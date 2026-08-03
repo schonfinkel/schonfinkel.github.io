@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-08-03 Mon 21:07 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Erlang Type System and Tags</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">The Erlang Type System and Tags</h1>
+</header><blockquote>
+<p>
+One of the most important aspects <a href="20250114091629-erts.html#ID-d47afd83-8f59-44ea-a237-b6eafaa3662e">ERTS</a> of to understand is how ERTS stores data,
+that is, how <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> terms are stored in memory. This gives you the basis for
+understanding how garbage collection works, how message passing works, and gives
+you an insight into how much memory is needed.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, 8 chapter.4</a>)
+</p>
+</blockquote>
+<div id="outline-container-org0b3b186" class="outline-2">
+<h2 id="org0b3b186">The Erlang Type System</h2>
+<div class="outline-text-2" id="text-org0b3b186">
+<blockquote>
+<p>
+Erlang is strongly typed. That is, there is no way to coerce one type into
+another type, you can only convert from one type to another. Compare this to
+e.g. <code>C</code> where you can coerce a <code>char</code> to an <code>int</code> or any pointer type to a <code>void *</code>.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, 8 chapter.4 part.4.1</a>)
+</p>
+</blockquote>
+
+
+<figure id="orgf5ae1d6">
+<img src="../static/img/notes/erlang_type_lattice.png" alt="erlang_type_lattice.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>The Erlang Type Lattice</figcaption>
+</figure>
+
+<blockquote>
+<p>
+There is a partial order (&lt;, &gt;) on all terms in Erlang where the types are
+ordered from left to right in the above lattice.
+</p>
+
+<p>
+The order is partial<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> and not total since integers and floats are converted
+before comparison. Both <code>1 &lt; 1.0</code> and <code>1.0 &lt; 1</code> are <code>false</code>, while <code>1 =&lt; 1.0</code>, <code>1 &gt;= 1.0</code>,
+and <code>1 == 1.0</code> are <code>true</code>. The number with the lesser precision is converted to the
+number with higher precision. Usually integers are converted to floats. For very
+large or small floats the float is converted to an integer. This happens if all
+significant digits are to the left of the decimal point.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+For compound structures like tuples and lists, the ordering extends recursively,
+so that e.g. <code>{1, 2} &lt; {1, 3}</code> but <code>{2, 1} &gt; {1, 3}</code>. This means that any set of
+Erlang terms can be sorted in order, and this term order is defined by the
+language.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, 8 chapter.4 part.4.1</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org8dbe5c7" class="outline-2">
+<h2 id="org8dbe5c7">The Erlang Tagging System</h2>
+<div class="outline-text-2" id="text-org8dbe5c7">
+<blockquote>
+<p>
+In the memory representation of an <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> term a few bits are reserved for a
+type tag. For performance reasons the terms are divided into immediates and
+boxed terms. An immediate term can fit into a machine word, that is, in a
+register or on a stack slot. A boxed term consists of two parts: a tagged
+pointer and a number of words stored on the process heap. The boxes stored on
+the heap have a header and a body, unless it is a list, which is headerless.
+</p>
+
+<p>
+Currently <a href="20250114091629-erts.html#ID-d47afd83-8f59-44ea-a237-b6eafaa3662e">ERTS</a> uses a staged tag scheme, (&hellip;). The tagging scheme is
+implemented in <code>erl_term.h</code><sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+The basic idea is to use the least significant bits for tags. 
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Stenman 2025, 8 chapter.4 part.4.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgdfdcd2c" class="outline-3">
+<h3 id="orgdfdcd2c">The Primary Tag</h3>
+<div class="outline-text-3" id="text-orgdfdcd2c">
+<div class="org-src-container">
+<pre class="src src-text"><code>  00 Header (on heap) CP (on stack)
+  01 List (cons)
+  10 Boxed
+  11 Immediate
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf094f36" class="outline-3">
+<h3 id="orgf094f36">Immediates</h3>
+<div class="outline-text-3" id="text-orgf094f36">
+<div class="org-src-container">
+<pre class="src src-text"><code>  00 11 Pid
+  01 11 Port
+  10 11 Immediate 2
+  11 11 Small integer
+</code></pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-c"><code>  <span style="font-weight: bold;">typedef</span> <span style="font-weight: bold;">struct</span> <span style="font-weight: bold; text-decoration: underline;">atom</span> {
+      <span style="font-weight: bold; text-decoration: underline;">IndexSlot</span> <span style="font-weight: bold; font-style: italic;">slot</span>;  <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">MUST BE LOCATED AT TOP OF STRUCT!!!</span><span style="font-weight: bold; font-style: italic;"> */</span>
+      <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">len</span>;         <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">length of atom name</span><span style="font-weight: bold; font-style: italic;"> */</span>
+      <span style="font-weight: bold; text-decoration: underline;">int</span> <span style="font-weight: bold; font-style: italic;">ord0</span>;        <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">ordinal value of first 3 bytes + 7 bits</span><span style="font-weight: bold; font-style: italic;"> */</span>
+      <span style="font-weight: bold; text-decoration: underline;">byte</span>* <span style="font-weight: bold; font-style: italic;">name</span>;      <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">name of atom</span><span style="font-weight: bold; font-style: italic;"> */</span>
+  } <span style="font-weight: bold; text-decoration: underline;">Atom</span>;
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org16b3fed" class="outline-3">
+<h3 id="org16b3fed">Lists</h3>
+<div class="outline-text-3" id="text-org16b3fed">
+<div class="org-src-container">
+<pre class="src src-c"><code>  <span style="font-weight: bold;">struct</span> <span style="font-weight: bold; text-decoration: underline;">cons_cell</span> {
+      <span style="font-weight: bold; text-decoration: underline;">Eterm</span> *<span style="font-weight: bold; font-style: italic;">head</span>;     <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">the value</span><span style="font-weight: bold; font-style: italic;"> */</span>
+      <span style="font-weight: bold; text-decoration: underline;">Eterm</span> *<span style="font-weight: bold; font-style: italic;">tail</span>;     <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">the next element</span><span style="font-weight: bold; font-style: italic;"> */</span>
+  };
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc19acea" class="outline-3">
+<h3 id="orgc19acea">Strings</h3>
+<div class="outline-text-3" id="text-orgc19acea">
+</div>
+<div id="outline-container-org333867b" class="outline-4">
+<h4 id="org333867b">IO Lists</h4>
+</div>
+</div>
+<div id="outline-container-org28262db" class="outline-3">
+<h3 id="org28262db">Boxed Terms</h3>
+<div class="outline-text-3" id="text-org28262db">
+<div class="org-src-container">
+<pre class="src src-text"><code>  0000 00  ARITYVAL (Tuples)
+  0001 00  BINARY_AGGREGATE                |
+  001s 00  BIGNUM with sign bit            |
+  0100 00  REF                             |
+  0101 00  FUN                             | THINGS
+  0110 00  FLONUM                          |
+  0111 00  EXPORT                          |
+  1000 00  REFC_BINARY     |               |
+  1001 00  HEAP_BINARY     | BINARIES      |
+  1010 00  SUB_BINARY      |               |
+  1011 00    [UNUSED]
+  1100 00  EXTERNAL_PID  |                 |
+  1101 00  EXTERNAL_PORT | EXTERNAL THINGS |
+  1110 00  EXTERNAL_REF  |                 |
+  1111 00  MAP
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc9b7b8c" class="outline-2">
+<h2 id="orgc9b7b8c">References:</h2>
+<div class="outline-text-2" id="text-orgc9b7b8c">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20241013162211-partial_order.html#ID-a7be7168-8d15-4fe0-a82c-9fd9348b3b93">Partial Order</a>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="https://github.com/erlang/otp/blob/master/erts/emulator/beam/erl_term.h">erl<sub>term.h</sub></a>.
+</p></div></div>
+
+
+</div>
+</div></main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

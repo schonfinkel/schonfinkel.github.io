@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-29 Wed 22:43 -->
+<!-- 2026-08-03 Mon 21:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Data Types (PostgreSQL)</title>
@@ -59,17 +59,17 @@
 </header><ul class="org-ul">
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-org7dbe3b2" class="outline-2">
-<h2 id="org7dbe3b2">Schemas</h2>
+<div id="outline-container-org460120a" class="outline-2">
+<h2 id="org460120a">Schemas</h2>
 </div>
 
-<div id="outline-container-org8149bd5" class="outline-2">
-<h2 id="org8149bd5">Numbers</h2>
-<div class="outline-text-2" id="text-org8149bd5">
+<div id="outline-container-org840b945" class="outline-2">
+<h2 id="org840b945">Numbers</h2>
+<div class="outline-text-2" id="text-org840b945">
 </div>
-<div id="outline-container-orgf2942b5" class="outline-3">
-<h3 id="orgf2942b5">Integers</h3>
-<div class="outline-text-3" id="text-orgf2942b5">
+<div id="outline-container-org35a8cd1" class="outline-3">
+<h3 id="org35a8cd1">Integers</h3>
+<div class="outline-text-3" id="text-org35a8cd1">
 <ul class="org-ul">
 <li><code>SMALLINT</code> (also aliased to <code>INT2</code>)</li>
 <li><code>INTEGER</code> (aliased as <code>INT4</code>)+</li>
@@ -77,9 +77,9 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org9b7b8d4" class="outline-3">
-<h3 id="org9b7b8d4">Numeric</h3>
-<div class="outline-text-3" id="text-org9b7b8d4">
+<div id="outline-container-org03c603e" class="outline-3">
+<h3 id="org03c603e">Numeric</h3>
+<div class="outline-text-3" id="text-org03c603e">
 <blockquote>
 <p>
 NUMERIC(precision, scale)
@@ -91,30 +91,30 @@ NUMERIC(precision, scale)
 </ul>
 </div>
 </div>
-<div id="outline-container-org740362e" class="outline-3">
-<h3 id="org740362e">Floating Point</h3>
-<div class="outline-text-3" id="text-org740362e">
+<div id="outline-container-orgc7bca36" class="outline-3">
+<h3 id="orgc7bca36">Floating Point</h3>
+<div class="outline-text-3" id="text-orgc7bca36">
 <ul class="org-ul">
 <li><code>REAL</code></li>
 <li><code>DOUBLE PRECISION</code></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd09d9fb" class="outline-3">
-<h3 id="orgd09d9fb">NaN</h3>
+<div id="outline-container-org8f86493" class="outline-3">
+<h3 id="org8f86493">NaN</h3>
 </div>
 
-<div id="outline-container-orgfcd98c7" class="outline-3">
-<h3 id="orgfcd98c7">Infinity</h3>
+<div id="outline-container-org2cc4f8c" class="outline-3">
+<h3 id="org2cc4f8c">Infinity</h3>
 </div>
 </div>
-<div id="outline-container-orge615a93" class="outline-2">
-<h2 id="orge615a93">Constraints</h2>
-<div class="outline-text-2" id="text-orge615a93">
+<div id="outline-container-org93c2c1a" class="outline-2">
+<h2 id="org93c2c1a">Constraints</h2>
+<div class="outline-text-2" id="text-org93c2c1a">
 </div>
-<div id="outline-container-org2c420c6" class="outline-3">
-<h3 id="org2c420c6">Check Constraint</h3>
-<div class="outline-text-3" id="text-org2c420c6">
+<div id="outline-container-org7644d2f" class="outline-3">
+<h3 id="org7644d2f">Check Constraint</h3>
+<div class="outline-text-3" id="text-org7644d2f">
 <blockquote>
 <p>
 A check constraint is the most generic constraint type. It allows you to specify
@@ -147,9 +147,9 @@ You can also apply a <code>CHECK</code> constraint to the entire table and can i
 </div>
 </div>
 </div>
-<div id="outline-container-org7748642" class="outline-3">
-<h3 id="org7748642">Unique Constraints</h3>
-<div class="outline-text-3" id="text-org7748642">
+<div id="outline-container-org9fabd34" class="outline-3">
+<h3 id="org9fabd34">Unique Constraints</h3>
+<div class="outline-text-3" id="text-org9fabd34">
 <p>
 Ensures that the data contained in a column (or in a group of columns) is
 unique.
@@ -174,9 +174,9 @@ unique.
 </div>
 </div>
 </div>
-<div id="outline-container-org8769e66" class="outline-3">
-<h3 id="org8769e66">Exclude Constraints</h3>
-<div class="outline-text-3" id="text-org8769e66">
+<div id="outline-container-org273b502" class="outline-3">
+<h3 id="org273b502">Exclude Constraints</h3>
+<div class="outline-text-3" id="text-org273b502">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> EXTENSION IF <span style="font-weight: bold;">NOT</span> <span style="font-weight: bold;">EXISTS</span> btree_gist;
   <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">bookings</span> (
@@ -193,13 +193,13 @@ unique.
 </div>
 </div>
 </div>
-<div id="outline-container-org485f0e6" class="outline-3">
-<h3 id="org485f0e6">Primary Key Constraint</h3>
+<div id="outline-container-orgb04b04c" class="outline-3">
+<h3 id="orgb04b04c">Primary Key Constraint</h3>
 </div>
 
-<div id="outline-container-orga98e0be" class="outline-3">
-<h3 id="orga98e0be">Foreign Key Constraints</h3>
-<div class="outline-text-3" id="text-orga98e0be">
+<div id="outline-container-org5086dee" class="outline-3">
+<h3 id="org5086dee">Foreign Key Constraints</h3>
+<div class="outline-text-3" id="text-org5086dee">
 <blockquote>
 <p>
 A foreign key constraint specifies that the values in a column (or a group of
@@ -227,9 +227,9 @@ this maintains the referential integrity between two related tables.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb64ee36" class="outline-2">
-<h2 id="orgb64ee36">Domain Types</h2>
-<div class="outline-text-2" id="text-orgb64ee36">
+<div id="outline-container-org431ce7c" class="outline-2">
+<h2 id="org431ce7c">Domain Types</h2>
+<div class="outline-text-2" id="text-org431ce7c">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">DOMAIN</span> us_postal_code <span style="font-weight: bold;">AS</span> TEXT
     <span style="font-weight: bold;">CHECK</span>(<span style="font-weight: bold;">VALUE</span> ~ <span style="font-style: italic;">'^\d{5}$'</span> <span style="font-weight: bold;">OR</span> <span style="font-weight: bold;">VALUE</span> ~ <span style="font-style: italic;">'^\d{5}-\d{4}$'</span>
@@ -238,21 +238,21 @@ this maintains the referential integrity between two related tables.
 </div>
 </div>
 </div>
-<div id="outline-container-orgdc96eab" class="outline-2">
-<h2 id="orgdc96eab">Binary Data</h2>
+<div id="outline-container-org7991f9b" class="outline-2">
+<h2 id="org7991f9b">Binary Data</h2>
 </div>
 
-<div id="outline-container-orgca059d9" class="outline-2">
-<h2 id="orgca059d9">UUIDs</h2>
+<div id="outline-container-org8d20cf9" class="outline-2">
+<h2 id="org8d20cf9">UUIDs</h2>
 </div>
 
-<div id="outline-container-org96025d9" class="outline-2">
-<h2 id="org96025d9">Booleans</h2>
+<div id="outline-container-orgb1f2b21" class="outline-2">
+<h2 id="orgb1f2b21">Booleans</h2>
 </div>
 
-<div id="outline-container-orge3b816d" class="outline-2">
-<h2 id="orge3b816d">Enums</h2>
-<div class="outline-text-2" id="text-orge3b816d">
+<div id="outline-container-org1706a50" class="outline-2">
+<h2 id="org1706a50">Enums</h2>
+<div class="outline-text-2" id="text-org1706a50">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TYPE</span> <span style="font-weight: bold;">mood</span> <span style="font-weight: bold;">AS</span> ENUM (<span style="font-style: italic;">'sad'</span>, <span style="font-style: italic;">'neutral'</span>, <span style="font-style: italic;">'happy'</span>);
 
@@ -295,21 +295,21 @@ recreate a new one, making sure all tables default the old value to something el
 </div>
 </div>
 </div>
-<div id="outline-container-orga8337d2" class="outline-2">
-<h2 id="orga8337d2">Timestamps</h2>
-<div class="outline-text-2" id="text-orga8337d2">
+<div id="outline-container-org9199432" class="outline-2">
+<h2 id="org9199432">Timestamps</h2>
+<div class="outline-text-2" id="text-org9199432">
 </div>
-<div id="outline-container-org041fe02" class="outline-3">
-<h3 id="org041fe02">Built-In Functions</h3>
-<div class="outline-text-3" id="text-org041fe02">
+<div id="outline-container-orga877b23" class="outline-3">
+<h3 id="orga877b23">Built-In Functions</h3>
+<div class="outline-text-3" id="text-orga877b23">
 <ul class="org-ul">
 <li><code>to_timestap</code></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org699fd1d" class="outline-3">
-<h3 id="org699fd1d">Setting a DB Timezone</h3>
-<div class="outline-text-3" id="text-org699fd1d">
+<div id="outline-container-org2c1119a" class="outline-3">
+<h3 id="org2c1119a">Setting a DB Timezone</h3>
+<div class="outline-text-3" id="text-org2c1119a">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">SET</span> <span style="font-weight: bold; text-decoration: underline;">TIME</span> <span style="font-weight: bold; text-decoration: underline;">ZONE</span> <span style="font-style: italic;">'UTC'</span>;
 </code></pre>
@@ -317,13 +317,13 @@ recreate a new one, making sure all tables default the old value to something el
 </div>
 </div>
 </div>
-<div id="outline-container-orgefbafba" class="outline-2">
-<h2 id="orgefbafba">Dates &amp; Time</h2>
-<div class="outline-text-2" id="text-orgefbafba">
+<div id="outline-container-orgf857464" class="outline-2">
+<h2 id="orgf857464">Dates &amp; Time</h2>
+<div class="outline-text-2" id="text-orgf857464">
 </div>
-<div id="outline-container-org8ed125b" class="outline-3">
-<h3 id="org8ed125b">Magic Constants</h3>
-<div class="outline-text-3" id="text-org8ed125b">
+<div id="outline-container-org44c5ec8" class="outline-3">
+<h3 id="org44c5ec8">Magic Constants</h3>
+<div class="outline-text-3" id="text-org44c5ec8">
 <ul class="org-ul">
 <li><code>CURRENT_DATE</code></li>
 <li><code>CURRENT_TIME</code></li>
@@ -334,17 +334,17 @@ recreate a new one, making sure all tables default the old value to something el
 </div>
 </div>
 </div>
-<div id="outline-container-orgad7cd5d" class="outline-2">
-<h2 id="orgad7cd5d">Intervals</h2>
+<div id="outline-container-org347f36f" class="outline-2">
+<h2 id="org347f36f">Intervals</h2>
 </div>
 
-<div id="outline-container-orgce3df68" class="outline-2">
-<h2 id="orgce3df68">Serial</h2>
+<div id="outline-container-org14b8f22" class="outline-2">
+<h2 id="org14b8f22">Serial</h2>
 </div>
 
-<div id="outline-container-org87c037b" class="outline-2">
-<h2 id="org87c037b">Sequences</h2>
-<div class="outline-text-2" id="text-org87c037b">
+<div id="outline-container-org2f84a3e" class="outline-2">
+<h2 id="org2f84a3e">Sequences</h2>
+<div class="outline-text-2" id="text-org2f84a3e">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">SEQUENCE</span> IF <span style="font-weight: bold;">NOT</span> <span style="font-weight: bold;">EXISTS</span> <span style="font-weight: bold;">some_seq</span>
     <span style="font-weight: bold;">AS</span> BIGINT
@@ -368,9 +368,9 @@ Outputs the current value of the session, not the global sequence value.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcc1b649" class="outline-2">
-<h2 id="orgcc1b649">Identity</h2>
-<div class="outline-text-2" id="text-orgcc1b649">
+<div id="outline-container-org99dfbbd" class="outline-2">
+<h2 id="org99dfbbd">Identity</h2>
+<div class="outline-text-2" id="text-org99dfbbd">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  <span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">user</span> (
     id BIGINT <span style="font-weight: bold;">GENERATED</span> ALWAYS <span style="font-weight: bold;">AS</span> <span style="font-weight: bold;">IDENTITY</span> <span style="font-weight: bold;">PRIMARY</span> <span style="font-weight: bold;">KEY</span>,
@@ -384,21 +384,21 @@ Outputs the current value of the session, not the global sequence value.
 </div>
 </div>
 </div>
-<div id="outline-container-org43fc28d" class="outline-2">
-<h2 id="org43fc28d">Network Types</h2>
+<div id="outline-container-org827a556" class="outline-2">
+<h2 id="org827a556">Network Types</h2>
 </div>
 
-<div id="outline-container-orgcaf65aa" class="outline-2">
-<h2 id="orgcaf65aa">JSON</h2>
-<div class="outline-text-2" id="text-orgcaf65aa">
+<div id="outline-container-orgdc40cec" class="outline-2">
+<h2 id="orgdc40cec">JSON</h2>
+<div class="outline-text-2" id="text-orgdc40cec">
 <ul class="org-ul">
 <li><a href="20250313193454-json_postgresql.html#ID-867344e2-3aa0-4060-be33-c2ead54adfa0">JSON (PostgreSQL)</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3ade7ba" class="outline-2">
-<h2 id="org3ade7ba">Arrays</h2>
-<div class="outline-text-2" id="text-org3ade7ba">
+<div id="outline-container-org1c593f1" class="outline-2">
+<h2 id="org1c593f1">Arrays</h2>
+<div class="outline-text-2" id="text-org1c593f1">
 <blockquote>
 <p>
 PostgreSQL allows columns of a table to be defined as variable-length
@@ -407,9 +407,9 @@ type, composite type, range type, or domain can be created.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org7b2914c" class="outline-3">
-<h3 id="org7b2914c">Declaration</h3>
-<div class="outline-text-3" id="text-org7b2914c">
+<div id="outline-container-org027b7f0" class="outline-3">
+<h3 id="org027b7f0">Declaration</h3>
+<div class="outline-text-3" id="text-org027b7f0">
 <div class="org-src-container">
 <pre class="src src-sql"><code><span style="font-weight: bold;">CREATE</span> <span style="font-weight: bold;">TABLE</span> <span style="font-weight: bold;">tictactoe</span> (
   squares <span style="font-weight: bold; text-decoration: underline;">INTEGER</span>[3][3]
@@ -423,9 +423,9 @@ type, composite type, range type, or domain can be created.
 </div>
 </div>
 </div>
-<div id="outline-container-org38cdd8c" class="outline-2">
-<h2 id="org38cdd8c">Generated Columns</h2>
-<div class="outline-text-2" id="text-org38cdd8c">
+<div id="outline-container-org7b1ba62" class="outline-2">
+<h2 id="org7b1ba62">Generated Columns</h2>
+<div class="outline-text-2" id="text-org7b1ba62">
 <blockquote>
 <p>
 A generated column is a special column that is always computed from other
@@ -445,21 +445,21 @@ columns. Thus, it is for columns what a view is for tables.
 </div>
 </div>
 </div>
-<div id="outline-container-org0857c54" class="outline-2">
-<h2 id="org0857c54">Text Search Types</h2>
-<div class="outline-text-2" id="text-org0857c54">
+<div id="outline-container-org855aada" class="outline-2">
+<h2 id="org855aada">Text Search Types</h2>
+<div class="outline-text-2" id="text-org855aada">
 <p>
 Check <a href="20250313191626-full_text_search_postgresql.html#ID-488fbacf-bbd1-4b2a-bee1-4f47b4890ad6">Full Text Search (PostgreSQL)</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgba657d5" class="outline-2">
-<h2 id="orgba657d5">Bit String</h2>
+<div id="outline-container-orge48fc8a" class="outline-2">
+<h2 id="orge48fc8a">Bit String</h2>
 </div>
 
-<div id="outline-container-org22a7f3c" class="outline-2">
-<h2 id="org22a7f3c">Ranges</h2>
-<div class="outline-text-2" id="text-org22a7f3c">
+<div id="outline-container-orgc5723ee" class="outline-2">
+<h2 id="orgc5723ee">Ranges</h2>
+<div class="outline-text-2" id="text-orgc5723ee">
 <p>
 PostgreSQL comes with the following built-in range types:
 </p>
@@ -534,17 +534,17 @@ PostgreSQL comes with the following built-in range types:
 </div>
 </div>
 </div>
-<div id="outline-container-org46405ba" class="outline-2">
-<h2 id="org46405ba">Composite Types</h2>
+<div id="outline-container-orgde97c0c" class="outline-2">
+<h2 id="orgde97c0c">Composite Types</h2>
 </div>
 
-<div id="outline-container-org9d5c818" class="outline-2">
-<h2 id="org9d5c818">Nulls</h2>
+<div id="outline-container-orgcad1b30" class="outline-2">
+<h2 id="orgcad1b30">Nulls</h2>
 </div>
 
-<div id="outline-container-orgf3feda7" class="outline-2">
-<h2 id="orgf3feda7">References:</h2>
-<div class="outline-text-2" id="text-orgf3feda7">
+<div id="outline-container-org4b80127" class="outline-2">
+<h2 id="org4b80127">References:</h2>
+<div class="outline-text-2" id="text-org4b80127">
 <div class="csl-bib-body">
 </div>
 </div>

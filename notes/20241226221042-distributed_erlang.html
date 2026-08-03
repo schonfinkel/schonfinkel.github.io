@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-29 Wed 22:43 -->
+<!-- 2026-08-03 Mon 21:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Distributed Erlang</title>
@@ -63,23 +63,25 @@ at all, and with very little code, you can have a number of machines across a
 network happily chatting with one another. Two fundamental features of Erlang
 make this possible:
 </p>
+
 <ul class="org-ul">
 <li>Process communication by copying</li>
 <li>Location Transparency</li>
 </ul>
+
 <p>
 (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 191 chap.8 pt.8.1</a>)
 </p>
 </blockquote>
 
 
-<figure id="org1dea01a">
+<figure id="org2312015">
 <img src="../static/img/notes/distributed_erlang.png" alt="distributed_erlang.png">
 
 </figure>
-<div id="outline-container-orgcb03b61" class="outline-2">
-<h2 id="orgcb03b61">Nodes and Clustering</h2>
-<div class="outline-text-2" id="text-orgcb03b61">
+<div id="outline-container-org7bd8567" class="outline-2">
+<h2 id="org7bd8567">Nodes and Clustering</h2>
+<div class="outline-text-2" id="text-org7bd8567">
 <blockquote>
 <p>
 An Erlang node consists of several loosely coupled applications, (&hellip;) combined
@@ -90,9 +92,9 @@ applications. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski 2016, 11</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org04f3e1f" class="outline-3">
-<h3 id="org04f3e1f">Starting a Node</h3>
-<div class="outline-text-3" id="text-org04f3e1f">
+<div id="outline-container-org5beab42" class="outline-3">
+<h3 id="org5beab42">Starting a Node</h3>
+<div class="outline-text-3" id="text-org5beab42">
 <p>
 To start an Erlang node in distributed mode, you run <code>erl</code> with one of the flags
 <code>-name</code> or <code>-sname</code>:
@@ -135,9 +137,9 @@ Now, to connect multiple nodes:
 </div>
 </div>
 </div>
-<div id="outline-container-org13e8c30" class="outline-3">
-<h3 id="org13e8c30">Naming and Communication</h3>
-<div class="outline-text-3" id="text-org13e8c30">
+<div id="outline-container-orgb4d54e2" class="outline-3">
+<h3 id="orgb4d54e2">Naming and Communication</h3>
+<div class="outline-text-3" id="text-orgb4d54e2">
 <blockquote>
 <p>
 You can <code>spawn</code> and <code>link</code> to processes on any node in the system, not just locally,
@@ -148,13 +150,13 @@ process on the remote host. (<a href="#citeproc_bib_item_1">Cesarini and Vinoski
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgca22af2" class="outline-3">
-<h3 id="orgca22af2">Connecting Nodes</h3>
-<div class="outline-text-3" id="text-orgca22af2">
+<div id="outline-container-org4f45bb1" class="outline-3">
+<h3 id="org4f45bb1">Connecting Nodes</h3>
+<div class="outline-text-3" id="text-org4f45bb1">
 </div>
-<div id="outline-container-org2e4c50f" class="outline-4">
-<h4 id="org2e4c50f">Hidden Nodes</h4>
-<div class="outline-text-4" id="text-org2e4c50f">
+<div id="outline-container-orgce8355b" class="outline-4">
+<h4 id="orgce8355b">Hidden Nodes</h4>
+<div class="outline-text-4" id="text-orgce8355b">
 <blockquote>
 <p>
 It's possible to connect clusters via special nodes to form a larger, not fully
@@ -165,9 +167,9 @@ nonintrusive inspection of a cluster. (<a href="#citeproc_bib_item_2">Logan, Mer
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgee4cf85" class="outline-4">
-<h4 id="orgee4cf85">EPMD</h4>
-<div class="outline-text-4" id="text-orgee4cf85">
+<div id="outline-container-org21f8a57" class="outline-4">
+<h4 id="org21f8a57">EPMD</h4>
+<div class="outline-text-4" id="text-org21f8a57">
 <blockquote>
 <p>
 EPMD is the Erlang Port Mapper Daemon. Whenever you start a node, the node
@@ -185,40 +187,48 @@ another. (<a href="#citeproc_bib_item_2">Logan, Merritt, and Carlsson 2010, 197 
 </div>
 </div>
 </div>
-<div id="outline-container-org369111a" class="outline-3">
-<h3 id="org369111a">The Cookie Protection System</h3>
-<div class="outline-text-3" id="text-org369111a">
+<div id="outline-container-orgd9e3902" class="outline-3">
+<h3 id="orgd9e3902">The Cookie Protection System</h3>
+<div class="outline-text-3" id="text-orgd9e3902">
 <p>
 For two distributed Erlang nodes to communicate, they must have the same magic cookie. We can set the cookie in three ways:
 </p>
 <ol class="org-ol">
 <li>Store the same cookie in the file <code>$HOME/.erlang.cookie</code>.</li>
-<li>Using the <code>-setcookie C</code> command line argument:</li>
-</ol>
+<li><p>
+Using the <code>-setcookie C</code> command line argument:
+</p>
 <div class="org-src-container">
-<pre class="src src-shell"><code>  erl -setcookie &lt;cookie&gt;
+<pre class="src src-shell"><code>    erl -setcookie &lt;cookie&gt;
 </code></pre>
-</div>
-<ol class="org-ol">
+</div></li>
 <li>The BIF <code>erlang:set_cookie(node(), C)</code> sets the cookie of the local node to the atom <code>C</code>.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf1be392" class="outline-3">
-<h3 id="orgf1be392">Sending messages between connected nodes</h3>
+<div id="outline-container-org598e316" class="outline-3">
+<h3 id="org598e316">Sending messages between connected nodes</h3>
 </div>
 </div>
-<div id="outline-container-org5117483" class="outline-2">
-<h2 id="org5117483">Socket-Based Distribution</h2>
+<div id="outline-container-org0785c9a" class="outline-2">
+<h2 id="org0785c9a">Socket-Based Distribution</h2>
 </div>
 
-<div id="outline-container-orga0bb87e" class="outline-2">
-<h2 id="orga0bb87e">References:</h2>
-<div class="outline-text-2" id="text-orga0bb87e">
+<div id="outline-container-org9aa5763" class="outline-2">
+<h2 id="org9aa5763">References:</h2>
+<div class="outline-text-2" id="text-org9aa5763">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
 </div>
+</div>
+</div>
+<div id="outline-container-orgac16328" class="outline-2">
+<h2 id="orgac16328">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgac16328">
+<ul class="org-ul">
+<li><a href="./20250114091629-erts.html">ERTS</a></li>
+</ul>
 </div>
 </div>
 </main>

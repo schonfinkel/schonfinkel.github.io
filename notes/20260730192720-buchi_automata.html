@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-08-03 Mon 21:07 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Büchi Automata</title>
+<meta name="author" content="Marcos Benevides" />
+<meta name="generator" content="Org Mode" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<!-- syntax highlighting -->
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css">
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/erlang.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/fsharp.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/nix.min.js"></script>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/yaml.min.js"></script>
+<!-- D3.js for the Org-roam graph -->
+<script type="text/javascript" src ="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<!-- For LaTeX -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/tex-mml-chtml.js" defer></script>
+<link href="https://schonfinkel.github.io/static/css/main.css" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<header id="preamble" class="status">
+<nav>
+  <img
+    src="https://schonfinkel.github.io/static/img/logo.png"
+    alt="logo"
+    width="128"
+    height="128"
+  />
+  <div>
+    <h3>"Writing is nothing more than a guided dream."</h3>
+  </div>
+  <ul>
+    <li><a href="https://schonfinkel.github.io/index.html">Home</a></li>
+    <li><a href="https://schonfinkel.github.io/blog.html">Blog</a></li>
+    <li><a href="https://schonfinkel.github.io/notes.html">Notes</a></li>
+    <li><a href="https://schonfinkel.github.io/static/cv.pdf">Resume</a></li>
+    <li><a href="https://schonfinkel.github.io/static/blogroll.xml">BlogRoll</a></li>
+    <li><a href="https://schonfinkel.github.io/rss.xml"><i class='bx bx-rss'></i></a></li>
+  </ul>
+</nav>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Büchi Automata</h1>
+</header><div id="outline-container-org26867fe" class="outline-2">
+<h2 id="org26867fe">Nondeterministic Büchi Automata</h2>
+<div class="outline-text-2" id="text-org26867fe">
+<blockquote>
+<p>
+A nondeterministic Büchi Automata (NBA) \(\mathcal{A}\) is a tuple \(\mathcal{A} =
+(\texttt{Q}, \Sigma, \delta, \texttt{Q}_0, \texttt{F})\) where:
+</p>
+
+<ul class="org-ul">
+<li>\(\texttt{Q}\) is a finite set of states,</li>
+<li>\(\Sigma\) is an alphabet,</li>
+<li>\(\delta : \texttt{Q} \times \Sigma \rightarrow 2^{\texttt{Q}}\) is a transition function,</li>
+<li>\(\texttt{Q}_0 \subseteq \texttt{Q}\) is a set of initial states, and</li>
+<li>\(\texttt{F} \subseteq \texttt{Q}\) is a set of accept (or: final) states, called the <b>acceptance set</b>.</li>
+</ul>
+
+<p>
+A run for \(\sigma = A_0 A_1 A_2 \ldots \in \Sigma^\omega\)  denotes an infinite sequence \(q_0 q_1 q_2
+\ldots\) of states in \(\mathcal{A}\) such that \(q_0 \in \texttt{Q}_0\) and \(q_i
+\overset{\texttt{A}_i}{\longrightarrow} q_{i+1}\) for \(i \geq 0\). A run \(q_0 q_1 q_2 \ldots\)
+is accepting if \(q_i \in \texttt{F}\) for infinitely many indices \(i \in
+\mathbb{N}\). The <i>accepted language</i> of \(\mathcal{A}\) is
+</p>
+
+<p>
+\[ \mathcal{L}(\mathcal{A}) = \{ \sigma \in \Sigma^\omega \,\mid\, \text{there exists an
+accepting run for } \sigma \text{ in } \mathcal{A} \} \]
+</p>
+
+<p>
+The size of \(\mathcal{A}\), denoted by \(\lvert \mathcal{A} \rvert\), is defined as
+the number of states and transitions in \(\mathcal{A}\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 174 chap.4 part.4.3.2</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org81fcf11" class="outline-2">
+<h2 id="org81fcf11">Deterministic Büchi Automata</h2>
+<div class="outline-text-2" id="text-org81fcf11">
+<blockquote>
+<p>
+Let \(\mathcal{A} =
+(\texttt{Q}, \Sigma, \delta, \texttt{Q}_0, \texttt{F})\) be an NBA. \(\mathcal{A}\) is called
+<i>deterministic</i>, if
+</p>
+
+<p>
+\[ \lvert \texttt{Q}_0 \rvert \leq 1 \text{ and } \lvert \delta(q, A) \rvert \leq 1 \]
+</p>
+
+<p>
+for all \(q \in \texttt{Q}\) and \(A \in \Sigma\). \(\mathcal{A}\) is total if \(\lvert
+\texttt{Q}_0 \rvert = 1\) and \(\lvert \delta(q, A) \rvert = 1\) for all \(q \in \texttt{Q}\)
+and \(A \in \Sigma\).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 188 chap.4 part.4.3.3</a>)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgfa130b8" class="outline-2">
+<h2 id="orgfa130b8">Generalized Büchi Automata</h2>
+</div>
+
+<div id="outline-container-org2c1d4fc" class="outline-2">
+<h2 id="org2c1d4fc">References:</h2>
+<div class="outline-text-2" id="text-org2c1d4fc">
+<div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfaf1d65" class="outline-2">
+<h2 id="orgfaf1d65">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgfaf1d65">
+<ul class="org-ul">
+<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
+</ul>
+</div>
+</div>
+</main>
+<footer id="postamble" class="status">
+<footer>
+  </br>
+  <p>
+  Built with <a href="https://orgmode.org/">Orgmode</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="https://nixos.org/">Nix</a>, source code availiable <a href="https://github.com/schonfinkel/schonfinkel.github.io">here</a>.
+  </p>
+</footer>
+</footer>
+</body>
+</html>

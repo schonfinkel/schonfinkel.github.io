@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-29 Wed 22:43 -->
+<!-- 2026-08-03 Mon 21:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ERTS</title>
@@ -56,21 +56,66 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">ERTS</h1>
-</header><div id="outline-container-org5bb5b48" class="outline-2">
-<h2 id="org5bb5b48">The Erlang Node</h2>
-<div class="outline-text-2" id="text-org5bb5b48">
+</header><div id="outline-container-org1f142e6" class="outline-2">
+<h2 id="org1f142e6">The Runtime</h2>
+<div class="outline-text-2" id="text-org1f142e6">
 <blockquote>
 <p>
-When you start an <a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a> or <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> application or system, what you really start
-is an Erlang node. The node runs the Erlang RunTime System and the virtual
-machine BEAM. (<a href="#citeproc_bib_item_2">Stenman 2025</a>)
+When you start an <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> or <a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a> system, you get an OS process<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> running
+the Erlang Runtime System, and inside that OS process, the BEAM VM is executing
+a number of Erlang processes<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. Such a running instance of the Runtime
+System is referred to as an Erlang node<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> (&hellip;), and it can be given a name to
+distinguish it from other Erlang nodes that may be running in the same network
+or even on the same host machine.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_2">Stenman 2025, 19 chap.1 part.1.3.1</a>)
+</p>
+</blockquote>
+</div>
+<div id="outline-container-orgf62bca8" class="outline-3">
+<h3 id="orgf62bca8">Layers in the Execution Environment</h3>
+<div class="outline-text-3" id="text-orgf62bca8">
+
+<figure id="orgd3c1253">
+<img src="../static/img/beam_book/erts_layers.png" alt="erts_layers.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-org0475ecc" class="outline-3">
+<h3 id="org0475ecc">Layers in the Execution Environment</h3>
+<div class="outline-text-3" id="text-org0475ecc">
+
+<figure id="orge0f5590">
+<img src="../static/img/beam_book/erts_distribution.png" alt="erts_distribution.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-org450bedb" class="outline-3">
+<h3 id="org450bedb">The Erlang Virtual Machine: BEAM</h3>
+<div class="outline-text-3" id="text-org450bedb">
+<blockquote>
+<p>
+Just as ERTS is an implementation of a more general concept of a Erlang Runtime
+System so is BEAM an implementation of a more general Erlang Virtual Machine
+(EVM). There is no definition of what constitutes an EVM but BEAM actually has
+two levels of instructions: Generic Instructions and Specific Instructions. The
+generic instruction set could be seen as a blueprint for an EVM.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_2">Stenman 2025, 25 chap.1 part.1.3.5</a>)
 </p>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgc0477bc" class="outline-2">
-<h2 id="orgc0477bc">The Scheduler</h2>
-<div class="outline-text-2" id="text-orgc0477bc">
+</div>
+<div id="outline-container-orgf2d4b91" class="outline-2">
+<h2 id="orgf2d4b91">The Scheduler</h2>
+<div class="outline-text-2" id="text-orgf2d4b91">
 <blockquote>
 <p>
 One of the nice things that Erlang does for you is help with the physical
@@ -85,111 +130,45 @@ not, Erlang uses what CPU power there is to do them all a bit at a time.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org31aa3be" class="outline-2">
-<h2 id="org31aa3be">Processes</h2>
-<div class="outline-text-2" id="text-org31aa3be">
-<blockquote>
-<p>
-The concept of lightweight processes is the essence of <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> and the BEAM; they
-are what makes BEAM stand out from other virtual machines. In order to
-understand how the BEAM (and Erlang and Elixir) works you need to know the
-details of how processes work, which will help you understand the central
-concept of the BEAM, including what is easy and cheap for a process and what is
-hard and expensive.
-</p>
-
-<p>
-(&hellip;)
-</p>
-
-<p>
-An Erlang process is very similar to an OS process. It has its own address
-space, it can communicate with other processes through signals and messages, and
-the execution is controlled by a preemptive scheduler.
-</p>
-
-<p>
-(<a href="#citeproc_bib_item_2">Stenman 2025</a>)
-</p>
-</blockquote>
-
-<blockquote>
-<p>
-The <code>i/0</code> function prints out a list of all processes in the system. Each
-process gets two lines of information. The first two lines of the printout are
-the headers telling you what the information means. As you can see you get the
-Process ID (Pid) and the name of the process if any, as well as information
-about the code where the process was started and where it is currently
-executing.
-</p>
-</blockquote>
-
-<blockquote>
-<p>
-The <code>i/0</code> function prints out a list of all processes in the system. Each
-process gets two lines of information. The first two lines of the printout are
-the headers telling you what the information means. As you can see you get the
-Process ID (Pid) and the name of the process if any, as well as information
-about the code where the process was started and where it is currently
-executing.
-</p>
-</blockquote>
-
-<p>
-We can further examine a process with the <code>i/3</code> function. (&hellip;) . By calling <code>i/3</code>
-with the three numbers of the pid we get this information:
-</p>
-</div>
-<div id="outline-container-org6e42f31" class="outline-3">
-<h3 id="org6e42f31">Programmatic Process Probing</h3>
-<div class="outline-text-3" id="text-org6e42f31">
-<blockquote>
-nil</blockquote>
-</div>
-</div>
-<div id="outline-container-orgf902dac" class="outline-3">
-<h3 id="orgf902dac">Processes Are Just Memory</h3>
-<div class="outline-text-3" id="text-orgf902dac">
-<blockquote>
-<p>
-A process is basically four blocks of memory: a stack, a heap, a message area,
-and the Process Control Block (the PCB).
-</p>
-
-<p>
-The stack is used for keeping track of program execution by storing return
-addresses, for passing arguments to functions, and for keeping local
-variables. Larger structures, such as lists and tuples are stored on the heap.
-</p>
-
-<p>
-The message area, also called the mailbox, is used to store messages sent to the
-process from other processes. The process control block is used to keep track of
-the state of the process.
-</p>
-</blockquote>
-</div>
-</div>
-</div>
-<div id="outline-container-org80b00dd" class="outline-2">
-<h2 id="org80b00dd">References:</h2>
-<div class="outline-text-2" id="text-org80b00dd">
+<div id="outline-container-orgaeeac0f" class="outline-2">
+<h2 id="orgaeeac0f">References:</h2>
+<div class="outline-text-2" id="text-orgaeeac0f">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Logan, Martin, Eric Merritt, and Richard Carlsson. 2010. <i>Erlang and Otp in Action</i>. Manning Publications Co.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orge277060" class="outline-2">
-<h2 id="orge277060">Backlinks:</h2>
-<div class="outline-text-2" id="text-orge277060">
+<div id="outline-container-org23ca304" class="outline-2">
+<h2 id="org23ca304">Backlinks:</h2>
+<div class="outline-text-2" id="text-org23ca304">
 <ul class="org-ul">
 <li><a href="./20240928181517-otp.html">OTP</a></li>
+<li><a href="./20260803091917-the_erlang_type_system_and_tags.html">The Erlang Type System and Tags</a></li>
+<li><a href="./20260803091917-the_erlang_type_system_and_tags.html">The Erlang Type System and Tags</a></li>
 <li><a href="./20260326143741-release_otp.html">Release (OTP)</a></li>
 </ul>
 </div>
 </div>
-</main>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20260708101120-process.html#ID-1ab07e4a-e33d-45e9-8c34-480bb761a80f">Process</a>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20260803084155-erlang_process.html#ID-04721759-3f3e-4bec-9f30-5ac48db192e5">Erlang Process</a>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="20241226221042-distributed_erlang.html#ID-2cb21389-b6de-4c39-9c9a-1a635ff1529f">Distributed Erlang</a>.
+</p></div></div>
+
+
+</div>
+</div></main>
 <footer id="postamble" class="status">
 <footer>
   </br>

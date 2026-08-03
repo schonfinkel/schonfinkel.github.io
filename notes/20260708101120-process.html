@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-07-29 Wed 22:43 -->
+<!-- 2026-08-03 Mon 21:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Process</title>
@@ -73,9 +73,9 @@ that holds all the information needed to run a program.
 (<a href="#citeproc_bib_item_1">Tanenbaum and Bos 2023, 39 chap.1 part.1.5.1</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgc4dad17" class="outline-2">
-<h2 id="orgc4dad17">The Process Model</h2>
-<div class="outline-text-2" id="text-orgc4dad17">
+<div id="outline-container-orgd4703bc" class="outline-2">
+<h2 id="orgd4703bc">The Process Model</h2>
+<div class="outline-text-2" id="text-orgd4703bc">
 <blockquote>
 <p>
 In this model, all the runnable software on the computer, sometimes including
@@ -94,17 +94,17 @@ switches from program to program.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org702270c" class="outline-3">
-<h3 id="org702270c">Core Abstractions &amp; CPU Virtualization</h3>
-<div class="outline-text-3" id="text-org702270c">
+<div id="outline-container-org2825e61" class="outline-3">
+<h3 id="org2825e61">Core Abstractions &amp; CPU Virtualization</h3>
+<div class="outline-text-3" id="text-org2825e61">
 <p>
 A program is a passive set of instructions resting on a disk; once the OS loads
 and executes it, it becomes an active <b>process</b>.
 </p>
 </div>
-<div id="outline-container-orgdc8909a" class="outline-4">
-<h4 id="orgdc8909a">Key Concepts</h4>
-<div class="outline-text-4" id="text-orgdc8909a">
+<div id="outline-container-org0079291" class="outline-4">
+<h4 id="org0079291">Key Concepts</h4>
+<div class="outline-text-4" id="text-org0079291">
 <ul class="org-ul">
 <li><b>Virtualization &amp; Time-Sharing</b>: Even though a standard CPU core only handles
 one process at a time, the OS uses <b>time-sharing</b> to rapidly cycle through
@@ -115,9 +115,9 @@ packing too many applications can degrade performance.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbdcb1ea" class="outline-2">
-<h2 id="orgbdcb1ea">Process Creation</h2>
-<div class="outline-text-2" id="text-orgbdcb1ea">
+<div id="outline-container-org73236d4" class="outline-2">
+<h2 id="org73236d4">Process Creation</h2>
+<div class="outline-text-2" id="text-org73236d4">
 <blockquote>
 <p>
 Operating systems need some way to create processes. In very simple systems, or
@@ -152,9 +152,9 @@ specific function.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-org0afeb0f" class="outline-3">
-<h3 id="org0afeb0f">Initialization Steps</h3>
-<div class="outline-text-3" id="text-org0afeb0f">
+<div id="outline-container-orgfbea962" class="outline-3">
+<h3 id="orgfbea962">Initialization Steps</h3>
+<div class="outline-text-3" id="text-orgfbea962">
 <p>
 Before a program turns into a process, the OS handles initialization steps.
 </p>
@@ -171,9 +171,9 @@ manual allocation via <code>malloc()</code> in C).</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdb765d9" class="outline-2">
-<h2 id="orgdb765d9">Process Hierarchies</h2>
-<div class="outline-text-2" id="text-orgdb765d9">
+<div id="outline-container-org9956c0b" class="outline-2">
+<h2 id="org9956c0b">Process Hierarchies</h2>
+<div class="outline-text-2" id="text-org9956c0b">
 <blockquote>
 <p>
 In some systems, when a process creates another process, the parent process and
@@ -212,16 +212,16 @@ root.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org7160cce" class="outline-2">
-<h2 id="org7160cce">Process States &amp; Transitions</h2>
-<div class="outline-text-2" id="text-org7160cce">
+<div id="outline-container-orgf618881" class="outline-2">
+<h2 id="orgf618881">Process States &amp; Transitions</h2>
+<div class="outline-text-2" id="text-orgf618881">
 <p>
 An active process shifts dynamically between three distinct structural states.
 </p>
 </div>
-<div id="outline-container-orge797feb" class="outline-3">
-<h3 id="orge797feb">Core States</h3>
-<div class="outline-text-3" id="text-orge797feb">
+<div id="outline-container-org6c0ef4c" class="outline-3">
+<h3 id="org6c0ef4c">Core States</h3>
+<div class="outline-text-3" id="text-org6c0ef4c">
 <dl class="org-dl">
 <dt>Running</dt><dd>The process is currently occupying the CPU core and executing
 instructions.</dd>
@@ -232,9 +232,9 @@ external event (like a slow disk read or a network packet I/O) to finish.</dd>
 </dl>
 </div>
 </div>
-<div id="outline-container-org7c1f4b4" class="outline-3">
-<h3 id="org7c1f4b4">Transitions</h3>
-<div class="outline-text-3" id="text-org7c1f4b4">
+<div id="outline-container-org49dab3d" class="outline-3">
+<h3 id="org49dab3d">Transitions</h3>
+<div class="outline-text-3" id="text-org49dab3d">
 <ul class="org-ul">
 <li>Moving a process from <b>Ready</b> to <b>Running</b> is known as <b>scheduling</b>.</li>
 <li>Moving it backwards from <b>Running</b> to <b>Ready</b> is <b>descheduling</b>.</li>
@@ -244,9 +244,9 @@ complete, returning it to the <b>Ready</b> state afterwards.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb87e1a3" class="outline-2">
-<h2 id="orgb87e1a3">Implementation of Processes</h2>
-<div class="outline-text-2" id="text-orgb87e1a3">
+<div id="outline-container-orga5f085e" class="outline-2">
+<h2 id="orga5f085e">Implementation of Processes</h2>
+<div class="outline-text-2" id="text-orga5f085e">
 <blockquote>
 <p>
 To implement the process model, the operating system maintains a table (an array
@@ -269,9 +269,9 @@ To manage an active process, the OS tracks its exact runtime blueprint, known as
 its <b>machine state</b>.
 </p>
 </div>
-<div id="outline-container-orgdd275aa" class="outline-3">
-<h3 id="orgdd275aa">Key Components</h3>
-<div class="outline-text-3" id="text-orgdd275aa">
+<div id="outline-container-org481a13b" class="outline-3">
+<h3 id="org481a13b">Key Components</h3>
+<div class="outline-text-3" id="text-org481a13b">
 <ul class="org-ul">
 <li><b>Memory / Address Space</b>: The specific bounds of physical or virtual memory the
 process is allowed to read from and write to.</li>
@@ -396,22 +396,22 @@ parameters, and variable limits.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orge14eec1" class="outline-2">
-<h2 id="orge14eec1">Scheduling</h2>
-<div class="outline-text-2" id="text-orge14eec1">
+<div id="outline-container-orga976806" class="outline-2">
+<h2 id="orga976806">Scheduling</h2>
+<div class="outline-text-2" id="text-orga976806">
 </div>
-<div id="outline-container-org241099f" class="outline-3">
-<h3 id="org241099f">Mechanisms vs. Policies</h3>
-<div class="outline-text-3" id="text-org241099f">
+<div id="outline-container-org0080a15" class="outline-3">
+<h3 id="org0080a15">Mechanisms vs. Policies</h3>
+<div class="outline-text-3" id="text-org0080a15">
 <p>
 Proper CPU virtualization requires a clear separation of execution mechanics
 from scheduling logic.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb7963ab" class="outline-3">
-<h3 id="orgb7963ab">Key Concepts</h3>
-<div class="outline-text-3" id="text-orgb7963ab">
+<div id="outline-container-org41d0848" class="outline-3">
+<h3 id="org41d0848">Key Concepts</h3>
+<div class="outline-text-3" id="text-org41d0848">
 <ul class="org-ul">
 <li><b>Mechanisms</b>: Low-level hardware protocols or systems software techniques that
 execute required tasks (e.g., how a CPU performs a context switch).</li>
@@ -423,12 +423,20 @@ time next).</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org1ab0078" class="outline-2">
-<h2 id="org1ab0078">References:</h2>
-<div class="outline-text-2" id="text-org1ab0078">
+<div id="outline-container-orgbf03b0f" class="outline-2">
+<h2 id="orgbf03b0f">References:</h2>
+<div class="outline-text-2" id="text-orgbf03b0f">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Tanenbaum, Andrew S., and Herbert Bos. 2023. <i>Modern Operating Systems</i>. 5th ed. Pearson.</div>
 </div>
+</div>
+</div>
+<div id="outline-container-org7fb4d1b" class="outline-2">
+<h2 id="org7fb4d1b">Backlinks:</h2>
+<div class="outline-text-2" id="text-org7fb4d1b">
+<ul class="org-ul">
+<li><a href="./20250114091629-erts.html">ERTS</a></li>
+</ul>
 </div>
 </div>
 </main>
