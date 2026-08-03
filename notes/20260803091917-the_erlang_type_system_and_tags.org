@@ -1,0 +1,215 @@
+:PROPERTIES:
+:ID:       c84d4728-3ad9-4846-85a4-bf0912df51d0
+:END:
+#+title: The Erlang Type System and Tags
+#+filetags: :erlang:functional-programming:otp:
+
+#+begin_quote
+One of the most important aspects [[id:d47afd83-8f59-44ea-a237-b6eafaa3662e][ERTS]] of to understand is how ERTS stores data,
+that is, how [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] terms are stored in memory. This gives you the basis for
+understanding how garbage collection works, how message passing works, and gives
+you an insight into how much memory is needed.
+
+[cite:@beambook p.8 chapter.4]
+#+end_quote
+
+* The Erlang Type System
+
+#+begin_quote
+Erlang is strongly typed. That is, there is no way to coerce one type into
+another type, you can only convert from one type to another. Compare this to
+e.g. ~C~ where you can coerce a ~char~ to an ~int~ or any pointer type to a ~void *~.
+
+[cite:@beambook p.8 chapter.4 part.4.1]
+#+end_quote
+
+#+NAME: erlang-type-lattice
+#+BEGIN_SRC dot :file ../static/img/notes/erlang_type_lattice.png :cmdline -Kdot -Tpng :exports results
+  graph type_lattice_exact {
+      rankdir=TB;
+      fontname="Helvetica";
+      node [shape=plaintext, fontname="Helvetica"];
+      edge [dir=none];
+
+      // Nodes
+      "any()";
+      "none()";
+
+      "number()"; "atom()"; "reference()"; "fun()"; "port()"; 
+      "pid()"; "tuple()"; "map()"; "list()"; "binary()";
+
+      "integer()"; "float()"; "boolean()"; "false()"; "true()"; "nil()"; "cons()";
+
+      // Inline order operators
+      lt1 [label="<", fontcolor="gray"];
+      lt2 [label="<", fontcolor="gray"];
+      lt3 [label="<", fontcolor="gray"];
+      lt4 [label="<", fontcolor="gray"];
+      lt5 [label="<", fontcolor="gray"];
+      lt6 [label="<", fontcolor="gray"];
+      lt7 [label="<", fontcolor="gray"];
+      lt8 [label="<", fontcolor="gray"];
+      lt9 [label="<", fontcolor="gray"];
+      lt_bool [label="<", fontcolor="gray"];
+
+      // Ranks
+      { rank=same; "number()"; lt1; "atom()"; lt2; "reference()"; lt3; "fun()"; lt4; "port()"; lt5; "pid()"; lt6; "tuple()"; lt7; "map()"; lt8; "list()"; lt9; "binary()"; }
+      { rank=same; "integer()"; "float()"; "boolean()"; "nil()"; "cons()"; }
+      { rank=same; "false()"; lt_bool; "true()"; }
+
+      // Invisible edges to enforce left-to-right sequence
+      "number()" -- lt1 [style=invis]; lt1 -- "atom()" [style=invis];
+      "atom()" -- lt2 [style=invis]; lt2 -- "reference()" [style=invis];
+      "reference()" -- lt3 [style=invis]; lt3 -- "fun()" [style=invis];
+      "fun()" -- lt4 [style=invis]; lt4 -- "port()" [style=invis];
+      "port()" -- lt5 [style=invis]; lt5 -- "pid()" [style=invis];
+      "pid()" -- lt6 [style=invis]; lt6 -- "tuple()" [style=invis];
+      "tuple()" -- lt7 [style=invis]; lt7 -- "map()" [style=invis];
+      "map()" -- lt8 [style=invis]; lt8 -- "list()" [style=invis];
+      "list()" -- lt9 [style=invis]; lt9 -- "binary()" [style=invis];
+      "false()" -- lt_bool [style=invis]; lt_bool -- "true()" [style=invis];
+
+      // Type connections
+      "any()" -- "number()";
+      "any()" -- "atom()";
+      "any()" -- "reference()";
+      "any()" -- "fun()";
+      "any()" -- "port()";
+      "any()" -- "pid()";
+      "any()" -- "tuple()";
+      "any()" -- "map()";
+      "any()" -- "list()";
+      "any()" -- "binary()";
+
+      "number()" -- "integer()";
+      "number()" -- "float()";
+      "atom()" -- "boolean()";
+      "boolean()" -- "false()";
+      "boolean()" -- "true()";
+      "list()" -- "nil()";
+      "list()" -- "cons()";
+
+      "integer()" -- "none()";
+      "float()" -- "none()";
+      "false()" -- "none()";
+      "true()" -- "none()";
+      "reference()" -- "none()";
+      "fun()" -- "none()";
+      "port()" -- "none()";
+      "pid()" -- "none()";
+      "tuple()" -- "none()";
+      "map()" -- "none()";
+      "nil()" -- "none()";
+      "cons()" -- "none()";
+      "binary()" -- "none()";
+  }
+#+END_SRC
+
+#+CAPTION: The Erlang Type Lattice
+#+RESULTS: erlang-type-lattice
+[[file:../static/img/notes/erlang_type_lattice.png]]
+
+#+begin_quote
+There is a partial order (<, >) on all terms in Erlang where the types are
+ordered from left to right in the above lattice.
+
+The order is partial[fn:1] and not total since integers and floats are converted
+before comparison. Both ~1 < 1.0~ and ~1.0 < 1~ are ~false~, while ~1 =< 1.0~, ~1 >= 1.0~,
+and ~1 == 1.0~ are ~true~. The number with the lesser precision is converted to the
+number with higher precision. Usually integers are converted to floats. For very
+large or small floats the float is converted to an integer. This happens if all
+significant digits are to the left of the decimal point.
+
+(...)
+
+For compound structures like tuples and lists, the ordering extends recursively,
+so that e.g. ~{1, 2} < {1, 3}~ but ~{2, 1} > {1, 3}~. This means that any set of
+Erlang terms can be sorted in order, and this term order is defined by the
+language.
+
+[cite:@beambook p.8 chapter.4 part.4.1]
+#+end_quote
+
+* The Erlang Tagging System
+
+#+begin_quote
+In the memory representation of an [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] term a few bits are reserved for a
+type tag. For performance reasons the terms are divided into immediates and
+boxed terms. An immediate term can fit into a machine word, that is, in a
+register or on a stack slot. A boxed term consists of two parts: a tagged
+pointer and a number of words stored on the process heap. The boxes stored on
+the heap have a header and a body, unless it is a list, which is headerless.
+
+Currently [[id:d47afd83-8f59-44ea-a237-b6eafaa3662e][ERTS]] uses a staged tag scheme, (...). The tagging scheme is
+implemented in ~erl_term.h~[fn:2].
+
+The basic idea is to use the least significant bits for tags. 
+
+[cite:@beambook p.8 chapter.4 part.4.1]
+#+end_quote
+
+** The Primary Tag
+
+#+begin_src text
+  00 Header (on heap) CP (on stack)
+  01 List (cons)
+  10 Boxed
+  11 Immediate
+#+end_src
+
+** Immediates
+
+#+begin_src text
+  00 11 Pid
+  01 11 Port
+  10 11 Immediate 2
+  11 11 Small integer
+#+end_src
+
+#+begin_src c
+  typedef struct atom {
+      IndexSlot slot;  /* MUST BE LOCATED AT TOP OF STRUCT!!! */
+      int len;         /* length of atom name */
+      int ord0;        /* ordinal value of first 3 bytes + 7 bits */
+      byte* name;      /* name of atom */
+  } Atom;
+#+end_src
+
+** Lists
+
+#+begin_src c
+  struct cons_cell {
+      Eterm *head;     /* the value */
+      Eterm *tail;     /* the next element */
+  };
+#+end_src
+
+** Strings
+
+*** IO Lists
+
+** Boxed Terms
+
+#+begin_src text
+  0000 00  ARITYVAL (Tuples)
+  0001 00  BINARY_AGGREGATE                |
+  001s 00  BIGNUM with sign bit            |
+  0100 00  REF                             |
+  0101 00  FUN                             | THINGS
+  0110 00  FLONUM                          |
+  0111 00  EXPORT                          |
+  1000 00  REFC_BINARY     |               |
+  1001 00  HEAP_BINARY     | BINARIES      |
+  1010 00  SUB_BINARY      |               |
+  1011 00    [UNUSED]
+  1100 00  EXTERNAL_PID  |                 |
+  1101 00  EXTERNAL_PORT | EXTERNAL THINGS |
+  1110 00  EXTERNAL_REF  |                 |
+  1111 00  MAP
+#+end_src
+
+* Footnotes
+
+[fn:2] See [[https://github.com/erlang/otp/blob/master/erts/emulator/beam/erl_term.h][erl_term.h]].
+
+[fn:1] See [[id:a7be7168-8d15-4fe0-a82c-9fd9348b3b93][Partial Order]].
