@@ -1,0 +1,26 @@
+:PROPERTIES:
+:ID:       23fd2dc3-0930-4619-a3ca-3610d1930e82
+:END:
+#+title: Counterexamples and Witnesses
+#+STARTUP: latexpreview
+#+Html_MATHJAX: align: left indent: 5em tagside: left
+#+filetags: :computer-science:formal-methods:model-checking:
+
+#+begin_quote
+A major strength of [[id:209ae2c0-f5f0-42e5-b66e-e9c0b04d9c87][Model Checking]] is the possibility of generating a
+counterexample in case a formula is refuted. (...). In the case of [[id:4f82143b-7ad7-4020-9c65-1f4495e54405][LTL]], a
+counterexample for $\texttt{TS} \models \phi$ is a sufficiently long prefix of a
+path π that indicates why π refutes ϕ. For instance, a counterexample for the
+LTL formula $\Diamond$ a is a finite prefix of just ¬a-states that ends with a single
+cycle traversal. Such counterexample suggests that there is a
+¬a-path. Similarly, a counterexample for a consists of a path π for which π[1] violates a.
+
+(...)
+
+For [[id:ccdb8f16-ef05-4a74-a9af-10a0992c7dd6][CTL]] the situation is somewhat more involved due to the existential path
+quantification. For CTL formulae of the form $\forall \phi$ a sufficiently long prefix of
+π with $\pi \models \phi$ provides - as in LTL—sufficient information about the
+source of the refutation.
+
+[cite:@baier2008principles p.392 chap.6 part.6.6]
+#+end_quote
