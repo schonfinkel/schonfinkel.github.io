@@ -384,6 +384,16 @@ This is equivalent to $\texttt{I} \subseteq \texttt{Sat}(\Phi)$.
 
 * CTL Equivalence
 
+#+begin_quote
+CTL formulae $\Phi$ and $\Psi$ (over $\texttt{AP}$) are called equivalent, denoted $\Phi \equiv \Psi$, if $\texttt{Sat}(\Phi) = \texttt{Sat}(\Psi)$ for all transition systems $\texttt{TS}$ over $\texttt{AP}$.
+
+Accordingly, $\Phi \equiv \Psi$ if and only if for any transition system $\texttt{TS}$ we have:
+
+\[ \texttt{TS} \models \Phi \leftrightarrow \texttt{TS} \models \Psi \]
+
+[cite:@baier2008principles p.329 chap.6 part.6.2.3]
+#+end_quote
+
 ** Duality Laws
 
 \begin{equation}
@@ -444,6 +454,43 @@ note that:
 \end{split}
 \end{equation}
 
+
+* Normal Forms
+
+
+#+begin_quote
+The duality law for $\forall \Phi$ shows that ∀ can be treated as a derived operator of
+∃. That is to say, the basic operators ∃, ∃U, and ∀U would have been sufficient
+to define the syntax of CTL.
+
+[cite:@baier2008principles p.332 chap.6 part.6.2.4]
+#+end_quote
+
+** Existential Normal Form
+
+#+begin_quote
+For $a \in \texttt{AP}$, the set of CTL state formulae in /existential normal
+form/ (ENF, for short) is given by
+
+$$ \Phi ::= \texttt{true} \,\mid\, a \,\mid\, \Phi_1 \land \Phi_2 \,\mid\, \lnot \Phi \,\mid\, \exists\bigcirc \Phi \,\mid\, \exists (\Phi_1 \,\mathcal{U}\, \Phi_2) \,\mid\, \exists\Box \Phi $$
+
+[cite:@baier2008principles p.332 chap.6 part.6.2.4]
+#+end_quote
+
+** Positive Normal Form
+
+#+begin_quote
+The set of CTL state formulae in /positive normal form/ (PNF, for short) is given by
+
+$$ \Phi ::= \texttt{true} \,\mid\, \texttt{false} \,\mid\, a \,\mid\, \lnot a \,\mid\, \Phi_1 \land \Phi_2 \,\mid\, \Phi_1 \lor \Phi_2 \,\mid\, \exists \phi \,\mid\, \forall \phi $$
+
+where $a ∈ \texttt{AP}$ and the path formulae are given by
+
+$$ \phi ::= \bigcirc \Phi \,\mid\, \Phi_1 \,\mathcal{U}\, \Phi_2 \,\mid\, \Phi_1 \,\mathcal{W}\, \Phi_2 $$
+
+[cite:@baier2008principles p.333 chap.6 part.6.2.4]
+#+end_quote
+
 * Footnotes
 
-[fn:1] See [[id:fbe5a587-ce97-40c3-9748-a459c3b89b9a][Transition Systems]]
+[fn:1] See [[id:fbe5a587-ce97-40c3-9748-a459c3b89b9a][Transition Systems]].

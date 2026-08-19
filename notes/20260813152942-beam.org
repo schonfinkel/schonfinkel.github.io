@@ -1,0 +1,24 @@
+:PROPERTIES:
+:ID:       aadf7023-88e7-426b-ba84-0a9da4706bcb
+:END:
+#+title: BEAM
+#+filetags: :erlang:elixir:functional-programming:otp:
+
+#+BEGIN_QUOTE
+BEAM (Bogdan's/Björn's Abstract Machine) is the machine that executes the code
+in the Erlang Runtime System. It is a garbage collecting, reduction counting,
+virtual, non-preemptive, direct threaded, register machine.
+
+(...)
+
+The virtual machine, BEAM, is at the heart of the [[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] node. It is the BEAM
+that executes the Erlang code. That is, it is BEAM that executes your
+application code. Understanding how BEAM executes the code is vital to be able
+to profile and tune your code.
+
+The BEAM design influences large parts of the rest of [[id:d47afd83-8f59-44ea-a237-b6eafaa3662e][ERTS]]. The primitives for
+scheduling influences the Scheduler, the representation of Erlang terms and the
+interaction with the memory influences the Garbage Collector. By understanding
+the basic design of BEAM you will more easily understand the implementations of
+these other components.
+#+END_QUOTE
