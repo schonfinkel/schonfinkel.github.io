@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-08-03 Mon 21:07 -->
+<!-- 2026-08-19 Wed 20:10 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Erlang Type System and Tags</title>
@@ -68,9 +68,9 @@ you an insight into how much memory is needed.
 (<a href="#citeproc_bib_item_1">Stenman 2025, 8 chapter.4</a>)
 </p>
 </blockquote>
-<div id="outline-container-org0b3b186" class="outline-2">
-<h2 id="org0b3b186">The Erlang Type System</h2>
-<div class="outline-text-2" id="text-org0b3b186">
+<div id="outline-container-org7207540" class="outline-2">
+<h2 id="org7207540">The Erlang Type System</h2>
+<div class="outline-text-2" id="text-org7207540">
 <blockquote>
 <p>
 Erlang is strongly typed. That is, there is no way to coerce one type into
@@ -84,7 +84,7 @@ e.g. <code>C</code> where you can coerce a <code>char</code> to an <code>int</co
 </blockquote>
 
 
-<figure id="orgf5ae1d6">
+<figure id="org1cc9fb1">
 <img src="../static/img/notes/erlang_type_lattice.png" alt="erlang_type_lattice.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>The Erlang Type Lattice</figcaption>
@@ -122,9 +122,9 @@ language.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org8dbe5c7" class="outline-2">
-<h2 id="org8dbe5c7">The Erlang Tagging System</h2>
-<div class="outline-text-2" id="text-org8dbe5c7">
+<div id="outline-container-org8c3588c" class="outline-2">
+<h2 id="org8c3588c">The Erlang Tagging System</h2>
+<div class="outline-text-2" id="text-org8c3588c">
 <blockquote>
 <p>
 In the memory representation of an <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> term a few bits are reserved for a
@@ -149,9 +149,9 @@ The basic idea is to use the least significant bits for tags.
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgdfdcd2c" class="outline-3">
-<h3 id="orgdfdcd2c">The Primary Tag</h3>
-<div class="outline-text-3" id="text-orgdfdcd2c">
+<div id="outline-container-org373c104" class="outline-3">
+<h3 id="org373c104">The Primary Tag</h3>
+<div class="outline-text-3" id="text-org373c104">
 <div class="org-src-container">
 <pre class="src src-text"><code>  00 Header (on heap) CP (on stack)
   01 List (cons)
@@ -161,9 +161,9 @@ The basic idea is to use the least significant bits for tags.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf094f36" class="outline-3">
-<h3 id="orgf094f36">Immediates</h3>
-<div class="outline-text-3" id="text-orgf094f36">
+<div id="outline-container-org1043d8c" class="outline-3">
+<h3 id="org1043d8c">Immediates</h3>
+<div class="outline-text-3" id="text-org1043d8c">
 <div class="org-src-container">
 <pre class="src src-text"><code>  00 11 Pid
   01 11 Port
@@ -183,9 +183,9 @@ The basic idea is to use the least significant bits for tags.
 </div>
 </div>
 </div>
-<div id="outline-container-org16b3fed" class="outline-3">
-<h3 id="org16b3fed">Lists</h3>
-<div class="outline-text-3" id="text-org16b3fed">
+<div id="outline-container-orgf7f4458" class="outline-3">
+<h3 id="orgf7f4458">Lists</h3>
+<div class="outline-text-3" id="text-orgf7f4458">
 <div class="org-src-container">
 <pre class="src src-c"><code>  <span style="font-weight: bold;">struct</span> <span style="font-weight: bold; text-decoration: underline;">cons_cell</span> {
       <span style="font-weight: bold; text-decoration: underline;">Eterm</span> *<span style="font-weight: bold; font-style: italic;">head</span>;     <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">the value</span><span style="font-weight: bold; font-style: italic;"> */</span>
@@ -195,17 +195,17 @@ The basic idea is to use the least significant bits for tags.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc19acea" class="outline-3">
-<h3 id="orgc19acea">Strings</h3>
-<div class="outline-text-3" id="text-orgc19acea">
+<div id="outline-container-org2b62467" class="outline-3">
+<h3 id="org2b62467">Strings</h3>
+<div class="outline-text-3" id="text-org2b62467">
 </div>
-<div id="outline-container-org333867b" class="outline-4">
-<h4 id="org333867b">IO Lists</h4>
+<div id="outline-container-org725ff7c" class="outline-4">
+<h4 id="org725ff7c">IO Lists</h4>
 </div>
 </div>
-<div id="outline-container-org28262db" class="outline-3">
-<h3 id="org28262db">Boxed Terms</h3>
-<div class="outline-text-3" id="text-org28262db">
+<div id="outline-container-org3bd9d59" class="outline-3">
+<h3 id="org3bd9d59">Boxed Terms</h3>
+<div class="outline-text-3" id="text-org3bd9d59">
 <div class="org-src-container">
 <pre class="src src-text"><code>  0000 00  ARITYVAL (Tuples)
   0001 00  BINARY_AGGREGATE                |
@@ -227,9 +227,9 @@ The basic idea is to use the least significant bits for tags.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc9b7b8c" class="outline-2">
-<h2 id="orgc9b7b8c">References:</h2>
-<div class="outline-text-2" id="text-orgc9b7b8c">
+<div id="outline-container-orgef0058d" class="outline-2">
+<h2 id="orgef0058d">References:</h2>
+<div class="outline-text-2" id="text-orgef0058d">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
 </div>

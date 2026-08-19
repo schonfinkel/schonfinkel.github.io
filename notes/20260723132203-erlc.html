@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-08-03 Mon 21:07 -->
+<!-- 2026-08-19 Wed 20:10 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>erlc</title>
@@ -56,9 +56,9 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">erlc</h1>
-</header><div id="outline-container-org073880d" class="outline-2">
-<h2 id="org073880d">Compiling Erlang</h2>
-<div class="outline-text-2" id="text-org073880d">
+</header><div id="outline-container-org86be968" class="outline-2">
+<h2 id="org86be968">Compiling Erlang</h2>
+<div class="outline-text-2" id="text-org86be968">
 <ul class="org-ul">
 <li><a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> source (<code>.erl</code>) is compiled to binary <code>.beam</code> files. This can be done from
 the OS shell via <code>erlc foo.erl</code>. General options (<code>-o Dir</code>, etc.) resemble C
@@ -76,9 +76,9 @@ of writing a file.</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org6b29c44" class="outline-3">
-<h3 id="org6b29c44">Other Options</h3>
-<div class="outline-text-3" id="text-org6b29c44">
+<div id="outline-container-orgf12e4cd" class="outline-3">
+<h3 id="orgf12e4cd">Other Options</h3>
+<div class="outline-text-3" id="text-orgf12e4cd">
 <p>
 Compilation can be stopped at intermediate stages to inspect output:
 </p>
@@ -105,9 +105,9 @@ instead of writing a file (e.g. <code>[to_core, binary]</code>), which can be pr
 </div>
 </div>
 </div>
-<div id="outline-container-org9ed8010" class="outline-2">
-<h2 id="org9ed8010">Overview</h2>
-<div class="outline-text-2" id="text-org9ed8010">
+<div id="outline-container-orgc45bf7e" class="outline-2">
+<h2 id="orgc45bf7e">Overview</h2>
+<div class="outline-text-2" id="text-orgc45bf7e">
 <p>
 The compiler is organized as a sequence of passes, split conceptually
 into:
@@ -123,9 +123,9 @@ Run <code>compile:options/0</code> in a shell for the current, authoritative lis
 of passes/options; the source of truth is OTP's <code>compile.erl</code>.
 </p>
 </div>
-<div id="outline-container-org0891ca8" class="outline-3">
-<h3 id="org0891ca8">Generating Intermediate Output</h3>
-<div class="outline-text-3" id="text-org0891ca8">
+<div id="outline-container-org0b19f19" class="outline-3">
+<h3 id="org0b19f19">Generating Intermediate Output</h3>
+<div class="outline-text-3" id="text-org0b19f19">
 <p>
 Walks through compiling an example module (<code>world.erl</code>, using an
 included macro) at each stage:
@@ -145,16 +145,16 @@ useful for understanding what the VM actually does with your code.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org9d494da" class="outline-2">
-<h2 id="org9d494da">Compiler Passes</h2>
-<div class="outline-text-2" id="text-org9d494da">
+<div id="outline-container-org09d9ac1" class="outline-2">
+<h2 id="org09d9ac1">Compiler Passes</h2>
+<div class="outline-text-2" id="text-org09d9ac1">
 <p>
 Detailed walk-through of each pass:
 </p>
 </div>
-<div id="outline-container-org7ddcfb7" class="outline-3">
-<h3 id="org7ddcfb7">Preprocessor (<code>epp</code>)</h3>
-<div class="outline-text-3" id="text-org7ddcfb7">
+<div id="outline-container-org4c51438" class="outline-3">
+<h3 id="org4c51438">Preprocessor (<code>epp</code>)</h3>
+<div class="outline-text-3" id="text-org4c51438">
 <blockquote>
 <p>
 The compilation starts with tokenization (or scanning) and preprocessing. The
@@ -175,9 +175,9 @@ can't create arbitrary custom syntax.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org34dc03b" class="outline-3">
-<h3 id="org34dc03b">Parser (<code>erl_parse</code>)</h3>
-<div class="outline-text-3" id="text-org34dc03b">
+<div id="outline-container-org0addfa5" class="outline-3">
+<h3 id="org0addfa5">Parser (<code>erl_parse</code>)</h3>
+<div class="outline-text-3" id="text-org0addfa5">
 <blockquote>
 <p>
 The parser <code>erl_parse</code> gets the final token sequence from the preprocessor and
@@ -192,9 +192,9 @@ text.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org346aef3" class="outline-3">
-<h3 id="org346aef3">Parse Transformations</h3>
-<div class="outline-text-3" id="text-org346aef3">
+<div id="outline-container-orgffca99d" class="outline-3">
+<h3 id="orgffca99d">Parse Transformations</h3>
+<div class="outline-text-3" id="text-orgffca99d">
 <blockquote>
 <p>
 A parse transform is a function that works on the AST. After the compiler has
@@ -218,9 +218,9 @@ arbitrarily. Used by <a href="20241217132913-mnesia.html#ID-568e0595-4bf0-40b5-9
 </ul>
 </div>
 </div>
-<div id="outline-container-org9cc1a10" class="outline-3">
-<h3 id="org9cc1a10">Linter (<code>erl_lint</code>)</h3>
-<div class="outline-text-3" id="text-org9cc1a10">
+<div id="outline-container-orgdba5a60" class="outline-3">
+<h3 id="orgdba5a60">Linter (<code>erl_lint</code>)</h3>
+<div class="outline-text-3" id="text-orgdba5a60">
 <ul class="org-ul">
 <li>The main correctness/style checking pass (undefined vars/functions, suspicious
 code like <code>export_all</code>), parse transforms must produce output the linter
@@ -228,9 +228,9 @@ accepts.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb47c259" class="outline-3">
-<h3 id="orgb47c259">Save AST</h3>
-<div class="outline-text-3" id="text-orgb47c259">
+<div id="outline-container-orgf30148e" class="outline-3">
+<h3 id="orgf30148e">Save AST</h3>
+<div class="outline-text-3" id="text-orgf30148e">
 <ul class="org-ul">
 <li>If <code>debug_info</code> is requested, the (pre-optimization) AST is stored in the <code>.beam</code>
 file for debugging/stepping.</li>
@@ -239,9 +239,9 @@ from compiled/optimized behavior.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8036253" class="outline-3">
-<h3 id="org8036253">Expand</h3>
-<div class="outline-text-3" id="text-org8036253">
+<div id="outline-container-orgb6ebf61" class="outline-3">
+<h3 id="orgb6ebf61">Expand</h3>
+<div class="outline-text-3" id="text-orgb6ebf61">
 <ul class="org-ul">
 <li>Lowers source-level constructs:
 <ul class="org-ul">
@@ -252,9 +252,9 @@ from compiled/optimized behavior.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3817685" class="outline-3">
-<h3 id="org3817685">Core Erlang</h3>
-<div class="outline-text-3" id="text-org3817685">
+<div id="outline-container-org19e48c1" class="outline-3">
+<h3 id="org19e48c1">Core Erlang</h3>
+<div class="outline-text-3" id="text-org19e48c1">
 <blockquote>
 <p>
 Core Erlang is a strict functional language suitable for compiler
@@ -290,27 +290,27 @@ more details, since Core Erlang is a cleaner language.
 </div>
 </div>
 </div>
-<div id="outline-container-org530ec6c" class="outline-3">
-<h3 id="org530ec6c">Kernel Erlang</h3>
-<div class="outline-text-3" id="text-org530ec6c">
+<div id="outline-container-orgc9f8331" class="outline-3">
+<h3 id="orgc9f8331">Kernel Erlang</h3>
+<div class="outline-text-3" id="text-orgc9f8331">
 <ul class="org-ul">
 <li>A flattened form of Core Erlang (unique variable names, function-wide scope,
 pattern matching lowered to primitives), format is internal/unstable.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc9520cb" class="outline-3">
-<h3 id="orgc9520cb">BEAM Assembly Code</h3>
-<div class="outline-text-3" id="text-orgc9520cb">
+<div id="outline-container-orgb3a5f2a" class="outline-3">
+<h3 id="orgb3a5f2a">BEAM Assembly Code</h3>
+<div class="outline-text-3" id="text-orgb3a5f2a">
 <ul class="org-ul">
 <li>Final generic instruction sequence as Erlang terms.</li>
 <li>Dead-code elimination and peephole optimizations happen here.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbbf57f2" class="outline-3">
-<h3 id="orgbbf57f2"><b>BEAM Binary Format</b></h3>
-<div class="outline-text-3" id="text-orgbbf57f2">
+<div id="outline-container-orgdd50d00" class="outline-3">
+<h3 id="orgdd50d00"><b>BEAM Binary Format</b></h3>
+<div class="outline-text-3" id="text-orgdd50d00">
 <ul class="org-ul">
 <li>Assembly is packed into the binary <code>.beam</code> transport format (loadable from
 file, network, or memory).</li>
@@ -318,9 +318,9 @@ file, network, or memory).</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd988c85" class="outline-2">
-<h2 id="orgd988c85">Writing a Parse Transform</h2>
-<div class="outline-text-2" id="text-orgd988c85">
+<div id="outline-container-org448c173" class="outline-2">
+<h2 id="org448c173">Writing a Parse Transform</h2>
+<div class="outline-text-2" id="text-org448c173">
 <ul class="org-ul">
 <li>OTP officially discourages parse transforms ("no support offered for problems
 encountered"), they're module-local but can produce surprising, hard-to-read results.</li>
@@ -332,9 +332,9 @@ doesn't need to be valid Erlang, but the AST it <b>returns</b> does.</li>
 hand-rolling AST manipulation.</li>
 </ul>
 </div>
-<div id="outline-container-orge33000d" class="outline-3">
-<h3 id="orge33000d">Syntax Tools and Merl</h3>
-<div class="outline-text-3" id="text-orge33000d">
+<div id="outline-container-org50b56aa" class="outline-3">
+<h3 id="org50b56aa">Syntax Tools and Merl</h3>
+<div class="outline-text-3" id="text-org50b56aa">
 <ul class="org-ul">
 <li><b>Syntax Tools</b> is a library set for manipulating Erlang ASTs.</li>
 <li><b>Merl</b>, included in Syntax Tools, is a metaprogramming utility that makes it
@@ -343,9 +343,9 @@ by hand.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org57a55fc" class="outline-3">
-<h3 id="org57a55fc">Compiling Elixir</h3>
-<div class="outline-text-3" id="text-org57a55fc">
+<div id="outline-container-org83c0138" class="outline-3">
+<h3 id="org83c0138">Compiling Elixir</h3>
+<div class="outline-text-3" id="text-org83c0138">
 <ul class="org-ul">
 <li><a href="20241006120221-elixir.html#ID-8d568d81-9c22-4d94-81b2-27a2d730ba98">Elixir</a> is another front end targeting the BEAM: it compiles down through the Erlang abstract syntax tree.</li>
 <li>Elixir's <code>defmacro</code> facility lets users build their own DSLs directly in Elixir,
@@ -354,9 +354,9 @@ analogous to Erlang parse transforms but built into the language.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org2a29a1f" class="outline-2">
-<h2 id="org2a29a1f">References:</h2>
-<div class="outline-text-2" id="text-org2a29a1f">
+<div id="outline-container-org08aa268" class="outline-2">
+<h2 id="org08aa268">References:</h2>
+<div class="outline-text-2" id="text-org08aa268">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Stenman, Erik. 2025. “The Beam Book.” <i>Github</i>. <a href="https://github.com/happi/theBeamBook">https://github.com/happi/theBeamBook</a>.</div>
 </div>

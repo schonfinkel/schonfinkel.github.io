@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-08-03 Mon 21:07 -->
+<!-- 2026-08-19 Wed 20:10 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Task (Elixir)</title>
@@ -56,21 +56,21 @@
 <main id="content" class="content">
 <header>
 <h1 class="title">Task (Elixir)</h1>
-</header><div id="outline-container-org084f009" class="outline-2">
-<h2 id="org084f009">Elixir Tasks</h2>
-<div class="outline-text-2" id="text-org084f009">
+</header><div id="outline-container-orgc8af164" class="outline-2">
+<h2 id="orgc8af164">Elixir Tasks</h2>
+<div class="outline-text-2" id="text-orgc8af164">
 </div>
-<div id="outline-container-orgc1061cf" class="outline-3">
-<h3 id="orgc1061cf">Creating Tasks</h3>
-<div class="outline-text-3" id="text-orgc1061cf">
+<div id="outline-container-org342b60b" class="outline-3">
+<h3 id="org342b60b">Creating Tasks</h3>
+<div class="outline-text-3" id="text-org342b60b">
 <p>
 Tasks can be started either with an anonymous function or using the Module-Function-Arguments (MFA) form.
 </p>
 </div>
 </div>
-<div id="outline-container-org2ebd5dc" class="outline-3">
-<h3 id="org2ebd5dc">Handling Timeouts with receive</h3>
-<div class="outline-text-3" id="text-org2ebd5dc">
+<div id="outline-container-org49a6466" class="outline-3">
+<h3 id="org49a6466">Handling Timeouts with receive</h3>
+<div class="outline-text-3" id="text-org49a6466">
 <p>
 A plain <code>receive</code> waits forever if no matching message arrives.
 </p>
@@ -97,9 +97,9 @@ end
 </ul>
 </div>
 </div>
-<div id="outline-container-org5b8b641" class="outline-3">
-<h3 id="org5b8b641"><code>Task.await/2</code></h3>
-<div class="outline-text-3" id="text-org5b8b641">
+<div id="outline-container-org6d1a574" class="outline-3">
+<h3 id="org6d1a574"><code>Task.await/2</code></h3>
+<div class="outline-text-3" id="text-org6d1a574">
 <ul class="org-ul">
 <li>Default timeout: <b>5 seconds</b></li>
 <li>Raises an exception if the task doesn't finish in time.</li>
@@ -118,9 +118,9 @@ Task.await(task, :infinity)
 </div>
 </div>
 </div>
-<div id="outline-container-org40eabb1" class="outline-3">
-<h3 id="org40eabb1">Task.yield/2</h3>
-<div class="outline-text-3" id="text-org40eabb1">
+<div id="outline-container-org5202c4f" class="outline-3">
+<h3 id="org5202c4f">Task.yield/2</h3>
+<div class="outline-text-3" id="text-org5202c4f">
 <p>
 Unlike `Task.await`, `Task.yield` lets you <b>poll</b> a task without crashing on timeout.
 </p>
@@ -156,9 +156,9 @@ Useful for:
 </ul>
 </div>
 </div>
-<div id="outline-container-orgefe6567" class="outline-3">
-<h3 id="orgefe6567"><code>Task.shutdown/1</code></h3>
-<div class="outline-text-3" id="text-orgefe6567">
+<div id="outline-container-org81693b2" class="outline-3">
+<h3 id="org81693b2"><code>Task.shutdown/1</code></h3>
+<div class="outline-text-3" id="text-org81693b2">
 <p>
 Stops a running task.
 </p>
@@ -173,9 +173,9 @@ Often used together with `Task.yield`.
 </p>
 </div>
 </div>
-<div id="outline-container-org9ad6eb6" class="outline-3">
-<h3 id="org9ad6eb6">Human-Friendly Time Values</h3>
-<div class="outline-text-3" id="text-org9ad6eb6">
+<div id="outline-container-org456bb0b" class="outline-3">
+<h3 id="org456bb0b">Human-Friendly Time Values</h3>
+<div class="outline-text-3" id="text-org456bb0b">
 <p>
 Instead of hardcoding milliseconds, use Erlang's <code>:timer</code> helpers.
 </p>
@@ -195,9 +195,9 @@ This makes timeout values easier to read and maintain.
 </div>
 </div>
 </div>
-<div id="outline-container-org289ae17" class="outline-2">
-<h2 id="org289ae17">References:</h2>
-<div class="outline-text-2" id="text-org289ae17">
+<div id="outline-container-org8bc8fe1" class="outline-2">
+<h2 id="org8bc8fe1">References:</h2>
+<div class="outline-text-2" id="text-org8bc8fe1">
 <div class="csl-bib-body">
 </div>
 </div>

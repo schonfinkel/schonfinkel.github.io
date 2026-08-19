@@ -4,7 +4,7 @@
 <!-- 2026-08-19 Wed 20:10 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>STONITH</title>
+<title>Counterexamples and Witnesses</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -30,6 +30,38 @@
   };
 </script>
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'left',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '5em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <header id="preamble" class="status">
@@ -55,57 +87,46 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">STONITH</h1>
+<h1 class="title">Counterexamples and Witnesses</h1>
 </header><blockquote>
 <p>
-In STONITH, specific hardware is used to terminate a node that is no longer
-responsive to the cluster. The idea behind STONITH is that before migrating
-resources to another node in the cluster, the cluster has to confirm that the
-node in question really is down. To do this, the cluster will send a shutdown
-action to the STONITH device, which will, in turn, terminate the nonresponsive
-node. (<a href="#citeproc_bib_item_1">Van Vugt 2014</a>)
+A major strength of <a href="20251007093136-model_checking.html#ID-209ae2c0-f5f0-42e5-b66e-e9c0b04d9c87">Model Checking</a> is the possibility of generating a
+counterexample in case a formula is refuted. (&hellip;). In the case of <a href="20260716095112-linear_temporal_logic.html#ID-4f82143b-7ad7-4020-9c65-1f4495e54405">LTL</a>, a
+counterexample for \(\texttt{TS} \models \phi\) is a sufficiently long prefix of a
+path π that indicates why π refutes ϕ. For instance, a counterexample for the
+LTL formula \(\Diamond\) a is a finite prefix of just ¬a-states that ends with a single
+cycle traversal. Such counterexample suggests that there is a
+¬a-path. Similarly, a counterexample for a consists of a path π for which π[1] violates a.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+For <a href="20260716100359-computational_tree_logic.html#ID-ccdb8f16-ef05-4a74-a9af-10a0992c7dd6">CTL</a> the situation is somewhat more involved due to the existential path
+quantification. For CTL formulae of the form \(\forall \phi\) a sufficiently long prefix of
+π with \(\pi \models \phi\) provides - as in LTL—sufficient information about the
+source of the refutation.
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_1">Baier and Katoen 2008, 392 chap.6 part.6.6</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgad66c93" class="outline-2">
-<h2 id="orgad66c93">Mechanisms</h2>
-<div class="outline-text-2" id="text-orgad66c93">
-</div>
-<div id="outline-container-orgdc25002" class="outline-3">
-<h3 id="orgdc25002">Power Fencing</h3>
-<div class="outline-text-3" id="text-orgdc25002">
-<ul class="org-ul">
-<li>Cuts the node off from power.</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org9ec8f96" class="outline-3">
-<h3 id="org9ec8f96">Fabric Fencing :: Disconnects the machine from storage.</h3>
-<div class="outline-text-3" id="text-org9ec8f96">
-<ul class="org-ul">
-<li>By closing ports in a Fibre Channel Switch.</li>
-<li>By using <a href="20241001154953-scsi.html#ID-388e1a43-f7f6-4c9e-af19-d7b6116a070e">SCSI</a> reservations.</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-orged2c3ad" class="outline-2">
-<h2 id="orged2c3ad">Fencing Agents</h2>
-</div>
-
-<div id="outline-container-orge4efa24" class="outline-2">
-<h2 id="orge4efa24">References:</h2>
-<div class="outline-text-2" id="text-orge4efa24">
+<div id="outline-container-org0de87cf" class="outline-2">
+<h2 id="org0de87cf">References:</h2>
+<div class="outline-text-2" id="text-org0de87cf">
 <div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Vugt, Sander. 2014. <i>Pro Linux High Availability Clustering</i>. Apress.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Baier, Christel, and Joost-Pieter Katoen. 2008. <i>Principles of Model Checking</i>. MIT press.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-org66b5e3b" class="outline-2">
-<h2 id="org66b5e3b">Backlinks:</h2>
-<div class="outline-text-2" id="text-org66b5e3b">
+<div id="outline-container-orgcc2c9ba" class="outline-2">
+<h2 id="orgcc2c9ba">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgcc2c9ba">
 <ul class="org-ul">
-<li><a href="./20240925092856-quorum.html">Quorum</a></li>
-<li><a href="./20240926233504-clusters.html">Cluster</a></li>
+<li><a href="./20251007093136-model_checking.html">Model Checking</a></li>
 </ul>
 </div>
 </div>

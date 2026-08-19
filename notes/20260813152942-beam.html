@@ -4,7 +4,7 @@
 <!-- 2026-08-19 Wed 20:10 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>STONITH</title>
+<title>BEAM</title>
 <meta name="author" content="Marcos Benevides" />
 <meta name="generator" content="Org Mode" />
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -55,58 +55,38 @@
 </header>
 <main id="content" class="content">
 <header>
-<h1 class="title">STONITH</h1>
+<h1 class="title">BEAM</h1>
 </header><blockquote>
 <p>
-In STONITH, specific hardware is used to terminate a node that is no longer
-responsive to the cluster. The idea behind STONITH is that before migrating
-resources to another node in the cluster, the cluster has to confirm that the
-node in question really is down. To do this, the cluster will send a shutdown
-action to the STONITH device, which will, in turn, terminate the nonresponsive
-node. (<a href="#citeproc_bib_item_1">Van Vugt 2014</a>)
+BEAM (Bogdan's/Björn's Abstract Machine) is the machine that executes the code
+in the Erlang Runtime System. It is a garbage collecting, reduction counting,
+virtual, non-preemptive, direct threaded, register machine.
+</p>
+
+<p>
+(&hellip;)
+</p>
+
+<p>
+The virtual machine, BEAM, is at the heart of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> node. It is the BEAM
+that executes the Erlang code. That is, it is BEAM that executes your
+application code. Understanding how BEAM executes the code is vital to be able
+to profile and tune your code.
+</p>
+
+<p>
+The BEAM design influences large parts of the rest of <a href="20250114091629-erts.html#ID-d47afd83-8f59-44ea-a237-b6eafaa3662e">ERTS</a>. The primitives for
+scheduling influences the Scheduler, the representation of Erlang terms and the
+interaction with the memory influences the Garbage Collector. By understanding
+the basic design of BEAM you will more easily understand the implementations of
+these other components.
 </p>
 </blockquote>
-<div id="outline-container-orgad66c93" class="outline-2">
-<h2 id="orgad66c93">Mechanisms</h2>
-<div class="outline-text-2" id="text-orgad66c93">
-</div>
-<div id="outline-container-orgdc25002" class="outline-3">
-<h3 id="orgdc25002">Power Fencing</h3>
-<div class="outline-text-3" id="text-orgdc25002">
-<ul class="org-ul">
-<li>Cuts the node off from power.</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org9ec8f96" class="outline-3">
-<h3 id="org9ec8f96">Fabric Fencing :: Disconnects the machine from storage.</h3>
-<div class="outline-text-3" id="text-org9ec8f96">
-<ul class="org-ul">
-<li>By closing ports in a Fibre Channel Switch.</li>
-<li>By using <a href="20241001154953-scsi.html#ID-388e1a43-f7f6-4c9e-af19-d7b6116a070e">SCSI</a> reservations.</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-orged2c3ad" class="outline-2">
-<h2 id="orged2c3ad">Fencing Agents</h2>
-</div>
-
-<div id="outline-container-orge4efa24" class="outline-2">
-<h2 id="orge4efa24">References:</h2>
-<div class="outline-text-2" id="text-orge4efa24">
+<div id="outline-container-org2f214a5" class="outline-2">
+<h2 id="org2f214a5">References:</h2>
+<div class="outline-text-2" id="text-org2f214a5">
 <div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Van Vugt, Sander. 2014. <i>Pro Linux High Availability Clustering</i>. Apress.</div>
 </div>
-</div>
-</div>
-<div id="outline-container-org66b5e3b" class="outline-2">
-<h2 id="org66b5e3b">Backlinks:</h2>
-<div class="outline-text-2" id="text-org66b5e3b">
-<ul class="org-ul">
-<li><a href="./20240925092856-quorum.html">Quorum</a></li>
-<li><a href="./20240926233504-clusters.html">Cluster</a></li>
-</ul>
 </div>
 </div>
 </main>

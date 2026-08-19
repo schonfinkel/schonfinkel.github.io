@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-08-03 Mon 21:07 -->
+<!-- 2026-08-19 Wed 20:10 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Statements (PostgreSQL)</title>
@@ -59,19 +59,19 @@
 </header><ul class="org-ul">
 <li><a href="20240820100534-postgresql.html#ID-1949c98e-e1c0-474b-b383-c76aa418d583">PostgreSQL</a></li>
 </ul>
-<div id="outline-container-org0337056" class="outline-2">
-<h2 id="org0337056"><code>SELECT</code></h2>
-<div class="outline-text-2" id="text-org0337056">
+<div id="outline-container-org58b78e0" class="outline-2">
+<h2 id="org58b78e0"><code>SELECT</code></h2>
+<div class="outline-text-2" id="text-org58b78e0">
 </div>
-<div id="outline-container-org0b5ab36" class="outline-3">
-<h3 id="org0b5ab36"><code>LIKE</code> and <code>ILIKE</code></h3>
+<div id="outline-container-org12af7bd" class="outline-3">
+<h3 id="org12af7bd"><code>LIKE</code> and <code>ILIKE</code></h3>
 </div>
-<div id="outline-container-orgb99c6b0" class="outline-3">
-<h3 id="orgb99c6b0"><code>DISTINCT</code></h3>
+<div id="outline-container-orgc78bf70" class="outline-3">
+<h3 id="orgc78bf70"><code>DISTINCT</code></h3>
 </div>
-<div id="outline-container-org0f38a0f" class="outline-3">
-<h3 id="org0f38a0f"><code>LIMIT</code> and <code>OFFSET</code></h3>
-<div class="outline-text-3" id="text-org0f38a0f">
+<div id="outline-container-orgdff6aac" class="outline-3">
+<h3 id="orgdff6aac"><code>LIMIT</code> and <code>OFFSET</code></h3>
+<div class="outline-text-3" id="text-orgdff6aac">
 <blockquote>
 <p>
 <code>LIMIT</code> and <code>OFFSET</code> are used to return a portion of data from a resultset
@@ -87,13 +87,13 @@ the resultset from which to start returning data.
 </div>
 </div>
 </div>
-<div id="outline-container-org728f7db" class="outline-2">
-<h2 id="org728f7db">Combining Queries</h2>
-<div class="outline-text-2" id="text-org728f7db">
+<div id="outline-container-orgb61e142" class="outline-2">
+<h2 id="orgb61e142">Combining Queries</h2>
+<div class="outline-text-2" id="text-orgb61e142">
 </div>
-<div id="outline-container-org35ba63e" class="outline-3">
-<h3 id="org35ba63e"><code>UNION</code> / <code>UNION ALL</code></h3>
-<div class="outline-text-3" id="text-org35ba63e">
+<div id="outline-container-org20f8936" class="outline-3">
+<h3 id="org20f8936"><code>UNION</code> / <code>UNION ALL</code></h3>
+<div class="outline-text-3" id="text-org20f8936">
 <blockquote>
 <p>
 The <code>UNION</code> operator is used to combine the resultset of two or more <code>SELECT</code>
@@ -116,13 +116,13 @@ respected:
 </ul>
 </div>
 </div>
-<div id="outline-container-org52ea39b" class="outline-3">
-<h3 id="org52ea39b"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
+<div id="outline-container-org186e7c6" class="outline-3">
+<h3 id="org186e7c6"><code>EXCEPT</code> / <code>INTERSECT</code></h3>
 </div>
 </div>
-<div id="outline-container-orgc583cda" class="outline-2">
-<h2 id="orgc583cda">Upsert</h2>
-<div class="outline-text-2" id="text-orgc583cda">
+<div id="outline-container-org066ad40" class="outline-2">
+<h2 id="org066ad40">Upsert</h2>
+<div class="outline-text-2" id="text-org066ad40">
 <blockquote>
 <p>
 In PostgreSQL, the <code>UPSERT</code> statement does not exist as in other DBMSes. An <code>UPSERT</code>
@@ -163,26 +163,26 @@ where <code>EXCLUDED</code> references the proposed new insertion row.
 </p>
 </div>
 </div>
-<div id="outline-container-orge89ade3" class="outline-2">
-<h2 id="orge89ade3"><code>RETURNING</code></h2>
-<div class="outline-text-2" id="text-orge89ade3">
+<div id="outline-container-org1d6968b" class="outline-2">
+<h2 id="org1d6968b"><code>RETURNING</code></h2>
+<div class="outline-text-2" id="text-org1d6968b">
 <p>
 Reduces the need for an extra query as it enables you to output columns.
 </p>
 </div>
-<div id="outline-container-org714c13a" class="outline-3">
-<h3 id="org714c13a">Inserts</h3>
+<div id="outline-container-orga5062d5" class="outline-3">
+<h3 id="orga5062d5">Inserts</h3>
 </div>
-<div id="outline-container-orge8f745b" class="outline-3">
-<h3 id="orge8f745b">Updates</h3>
+<div id="outline-container-org20e9b3b" class="outline-3">
+<h3 id="org20e9b3b">Updates</h3>
 </div>
-<div id="outline-container-org0dcd4c8" class="outline-3">
-<h3 id="org0dcd4c8">Deletes</h3>
+<div id="outline-container-org5eb12ce" class="outline-3">
+<h3 id="org5eb12ce">Deletes</h3>
 </div>
 </div>
-<div id="outline-container-orgdfcb7f4" class="outline-2">
-<h2 id="orgdfcb7f4">References:</h2>
-<div class="outline-text-2" id="text-orgdfcb7f4">
+<div id="outline-container-orgef97edb" class="outline-2">
+<h2 id="orgef97edb">References:</h2>
+<div class="outline-text-2" id="text-orgef97edb">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
