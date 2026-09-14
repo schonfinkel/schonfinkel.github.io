@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-08-19 Wed 20:10 -->
+<!-- 2026-09-14 Mon 10:08 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PostgreSQL</title>
@@ -66,9 +66,9 @@ views, materialized views, partitioned tables, foreign data wrappers, multiple
 schemas, generated columns, and so on. (<a href="#citeproc_bib_item_1">Ferrari and Pirozzi 2023, 3</a>)
 </p>
 </blockquote>
-<div id="outline-container-org8de06a5" class="outline-2">
-<h2 id="org8de06a5">A brief history of PostgreSQL</h2>
-<div class="outline-text-2" id="text-org8de06a5">
+<div id="outline-container-org555f718" class="outline-2">
+<h2 id="org555f718">A brief history of PostgreSQL</h2>
+<div class="outline-text-2" id="text-org555f718">
 <blockquote>
 <p>
 Ingres was a relational database developed by Professor Michael Stonebraker. In
@@ -94,9 +94,9 @@ Postgre95 to emphasize the difference compared to other, preceding versions.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org5a483be" class="outline-2">
-<h2 id="org5a483be">Terminology</h2>
-<div class="outline-text-2" id="text-org5a483be">
+<div id="outline-container-org66a89bf" class="outline-2">
+<h2 id="org66a89bf">Terminology</h2>
+<div class="outline-text-2" id="text-org66a89bf">
 <table>
 
 
@@ -204,26 +204,26 @@ superusers usually see the whole set of available information.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgc06ad5e" class="outline-2">
-<h2 id="orgc06ad5e">Architecture</h2>
-<div class="outline-text-2" id="text-orgc06ad5e">
+<div id="outline-container-org82ad5c4" class="outline-2">
+<h2 id="org82ad5c4">Architecture</h2>
+<div class="outline-text-2" id="text-org82ad5c4">
 </div>
-<div id="outline-container-org577dfac" class="outline-3">
-<h3 id="org577dfac">Client/Server</h3>
-<div class="outline-text-3" id="text-org577dfac">
+<div id="outline-container-org30729be" class="outline-3">
+<h3 id="org30729be">Client/Server</h3>
+<div class="outline-text-3" id="text-org30729be">
 <div class="org-src-container">
 <pre class="src src-sql"><code>  SHOW max_connections;
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org68f4522" class="outline-3">
-<h3 id="org68f4522">Memory</h3>
-<div class="outline-text-3" id="text-org68f4522">
+<div id="outline-container-orgea0266a" class="outline-3">
+<h3 id="orgea0266a">Memory</h3>
+<div class="outline-text-3" id="text-orgea0266a">
 </div>
-<div id="outline-container-org7e60e03" class="outline-4">
-<h4 id="org7e60e03">Shared Buffers</h4>
-<div class="outline-text-4" id="text-org7e60e03">
+<div id="outline-container-org49d026a" class="outline-4">
+<h4 id="org49d026a">Shared Buffers</h4>
+<div class="outline-text-4" id="text-org49d026a">
 <ul class="org-ul">
 <li>Shared by all server processes.</li>
 <li>Keeps frequently accessed objects in memory for faster retrieval.</li>
@@ -236,9 +236,9 @@ superusers usually see the whole set of available information.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb887896" class="outline-4">
-<h4 id="orgb887896">Local Memory</h4>
-<div class="outline-text-4" id="text-orgb887896">
+<div id="outline-container-org5d91b9b" class="outline-4">
+<h4 id="org5d91b9b">Local Memory</h4>
+<div class="outline-text-4" id="text-org5d91b9b">
 <p>
 It's the memory allocated to each backend process.
 </p>
@@ -284,32 +284,32 @@ It's the memory allocated to each backend process.
 </div>
 </div>
 </div>
-<div id="outline-container-org17bd0eb" class="outline-2">
-<h2 id="org17bd0eb">References:</h2>
-<div class="outline-text-2" id="text-org17bd0eb">
+<div id="outline-container-orga8cbb4c" class="outline-2">
+<h2 id="orga8cbb4c">References:</h2>
+<div class="outline-text-2" id="text-orga8cbb4c">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Ferrari, Luca, and Enrico Pirozzi. 2023. <i>Learn Postgresql: Use, Manage, and Build Secure and Scalable Databases with Postgresql 16</i>. 2nd ed. Packt Publishing Ltd.</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbd824c1" class="outline-2">
-<h2 id="orgbd824c1">Backlinks:</h2>
-<div class="outline-text-2" id="text-orgbd824c1">
+<div id="outline-container-org7883988" class="outline-2">
+<h2 id="org7883988">Backlinks:</h2>
+<div class="outline-text-2" id="text-org7883988">
 <ul class="org-ul">
-<li><a href="./20240918131408-statements_postgresql.html">Statements (PostgreSQL)</a></li>
-<li><a href="./20240921191551-ctes_postgresql.html">CTE (PostgreSQL)</a></li>
-<li><a href="./20250313191626-full_text_search_postgresql.html">Full Text Search (PostgreSQL)</a></li>
-<li><a href="./20250219153557-postgresql_repl.html">PostgreSQL REPL</a></li>
-<li><a href="./20241001144549-postgres_cluster.html">PostgreSQL Cluster</a></li>
-<li><a href="./20250318081855-pgroll.html">pgroll</a></li>
-<li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
-<li><a href="./20250313193454-json_postgresql.html">JSON (PostgreSQL)</a></li>
-<li><a href="./20240923110122-window_functions_postgresql.html">Window Functions (PostgreSQL)</a></li>
-<li><a href="./20250227094208-system_columns_postgresql.html">System Columns (PostgreSQL)</a></li>
-<li><a href="./20250329193401-frontend_backend_protocol_postgresql.html">Frontend/Backend Protocol (PostgresSQL)</a></li>
-<li><a href="./20240921194608-index_postgresql.html">Index (PostgreSQL)</a></li>
 <li><a href="./20240921194441-functions_and_operators_postgresql.html">Functions and Operators (PostgreSQL)</a></li>
+<li><a href="./20250313191626-full_text_search_postgresql.html">Full Text Search (PostgreSQL)</a></li>
+<li><a href="./20240921194608-index_postgresql.html">Index (PostgreSQL)</a></li>
+<li><a href="./20241001144549-postgres_cluster.html">PostgreSQL Cluster</a></li>
+<li><a href="./20250313193454-json_postgresql.html">JSON (PostgreSQL)</a></li>
 <li><a href="./20260410101945-pg_stat_statements.html">pg<sub>stat</sub><sub>statements</sub></a></li>
+<li><a href="./20250318081855-pgroll.html">pgroll</a></li>
+<li><a href="./20250219153557-postgresql_repl.html">PostgreSQL REPL</a></li>
+<li><a href="./20240921191551-ctes_postgresql.html">CTE (PostgreSQL)</a></li>
+<li><a href="./20250329193401-frontend_backend_protocol_postgresql.html">Frontend/Backend Protocol (PostgresSQL)</a></li>
+<li><a href="./20250220091912-data_types_postgresql.html">Data Types (PostgreSQL)</a></li>
+<li><a href="./20240923110122-window_functions_postgresql.html">Window Functions (PostgreSQL)</a></li>
+<li><a href="./20240918131408-statements_postgresql.html">Statements (PostgreSQL)</a></li>
+<li><a href="./20250227094208-system_columns_postgresql.html">System Columns (PostgreSQL)</a></li>
 </ul>
 </div>
 </div>

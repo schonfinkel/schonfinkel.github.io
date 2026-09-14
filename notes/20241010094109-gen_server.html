@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-08-19 Wed 20:10 -->
+<!-- 2026-09-14 Mon 10:08 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gen Server</title>
@@ -86,9 +86,9 @@ Here’s the simple three-point plan for writing a <code>gen_server</code> callb
 (<a href="#citeproc_bib_item_1">Armstrong 2013, 366</a>)
 </p>
 </blockquote>
-<div id="outline-container-orgdf9e9dc" class="outline-2">
-<h2 id="orgdf9e9dc">Callback Structure</h2>
-<div class="outline-text-2" id="text-orgdf9e9dc">
+<div id="outline-container-orgd51ef5c" class="outline-2">
+<h2 id="orgd51ef5c">Callback Structure</h2>
+<div class="outline-text-2" id="text-orgd51ef5c">
 <p>
 The <code>gen_server</code> behaviour interface contains six callback functions:
 </p>
@@ -102,9 +102,9 @@ The <code>gen_server</code> behaviour interface contains six callback functions:
 <li><code>code_change/3</code></li>
 </ul>
 </div>
-<div id="outline-container-orgcbf4df2" class="outline-3">
-<h3 id="orgcbf4df2">Starting the Server (<code>init/1</code>)</h3>
-<div class="outline-text-3" id="text-orgcbf4df2">
+<div id="outline-container-org2cf7c0b" class="outline-3">
+<h3 id="org2cf7c0b">Starting the Server (<code>init/1</code>)</h3>
+<div class="outline-text-3" id="text-org2cf7c0b">
 <p>
 <code>gen_server:start_link(Name, Mod, InitArgs, Opts)</code> starts the server created by the <code>gen_server:start_link/4</code> call:
 </p>
@@ -124,13 +124,13 @@ that could be accessed on a cluster of Erlang nodes.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-org60274da" class="outline-3">
-<h3 id="org60274da">Calling the Server</h3>
-<div class="outline-text-3" id="text-org60274da">
+<div id="outline-container-orgd5dde2d" class="outline-3">
+<h3 id="orgd5dde2d">Calling the Server</h3>
+<div class="outline-text-3" id="text-orgd5dde2d">
 </div>
-<div id="outline-container-org7591a90" class="outline-4">
-<h4 id="org7591a90"><code>handle_call/3</code></h4>
-<div class="outline-text-4" id="text-org7591a90">
+<div id="outline-container-org601ccff" class="outline-4">
+<h4 id="org601ccff"><code>handle_call/3</code></h4>
+<div class="outline-text-4" id="text-org601ccff">
 <p>
 Handles synchronous requests sent to the server by <code>gen_server:call/2</code>.
 </p>
@@ -162,9 +162,9 @@ server. (<a href="#citeproc_bib_item_1">Armstrong 2013, 372</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgda1415c" class="outline-5">
-<h5 id="orgda1415c">Call Timeouts</h5>
-<div class="outline-text-5" id="text-orgda1415c">
+<div id="outline-container-org8b34787" class="outline-5">
+<h5 id="org8b34787">Call Timeouts</h5>
+<div class="outline-text-5" id="text-org8b34787">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>  gen_server:call(Server, Message, TimeOut) -&gt; Reply
 </code></pre>
@@ -172,9 +172,9 @@ server. (<a href="#citeproc_bib_item_1">Armstrong 2013, 372</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-org7c50b23" class="outline-4">
-<h4 id="org7c50b23"><code>handle_cast/2</code></h4>
-<div class="outline-text-4" id="text-org7c50b23">
+<div id="outline-container-orge817de1" class="outline-4">
+<h4 id="orge817de1"><code>handle_cast/2</code></h4>
+<div class="outline-text-4" id="text-orge817de1">
 <p>
 To send an asynchronous message to a <code>gen_server</code> process, the requests originate
 in the <code>gen_server:cast/2</code> call, which sends a message to a server process and
@@ -194,9 +194,9 @@ the server, or <code>{stop, ...}</code>, which stops the server.
 </div>
 </div>
 </div>
-<div id="outline-container-org06a9717" class="outline-3">
-<h3 id="org06a9717">Spontaneous Messages to the Server</h3>
-<div class="outline-text-3" id="text-org06a9717">
+<div id="outline-container-org449036a" class="outline-3">
+<h3 id="org449036a">Spontaneous Messages to the Server</h3>
+<div class="outline-text-3" id="text-org449036a">
 <blockquote>
 <p>
 The callback function <code>handle_info(Info, State)</code> is used for handling spontaneous
@@ -213,9 +213,9 @@ server that were not sent by explicitly calling <code>gen_server:call</code> or
 </div>
 </div>
 </div>
-<div id="outline-container-org585c62f" class="outline-3">
-<h3 id="org585c62f">Termination</h3>
-<div class="outline-text-3" id="text-org585c62f">
+<div id="outline-container-org635e1db" class="outline-3">
+<h3 id="org635e1db">Termination</h3>
+<div class="outline-text-3" id="text-org635e1db">
 <blockquote>
 <p>
 Stopping the server requires the callbacks to return different tuples:
@@ -247,9 +247,9 @@ itself before being shut down. Any value returned by <code>terminate/2</code> is
 </div>
 </div>
 </div>
-<div id="outline-container-orgbffed56" class="outline-3">
-<h3 id="orgbffed56">Code Change</h3>
-<div class="outline-text-3" id="text-orgbffed56">
+<div id="outline-container-orgf7d1b5b" class="outline-3">
+<h3 id="orgf7d1b5b">Code Change</h3>
+<div class="outline-text-3" id="text-orgf7d1b5b">
 <p>
 The callback <code>code_change/3</code> function is called by the release handling subsystem
 when the system performs a software upgrade.
@@ -263,13 +263,13 @@ when the system performs a software upgrade.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc153629" class="outline-2">
-<h2 id="orgc153629">Patterns</h2>
-<div class="outline-text-2" id="text-orgc153629">
+<div id="outline-container-orgc3dbb30" class="outline-2">
+<h2 id="orgc3dbb30">Patterns</h2>
+<div class="outline-text-2" id="text-orgc3dbb30">
 </div>
-<div id="outline-container-org853fbe2" class="outline-3">
-<h3 id="org853fbe2">Efficient TCP Server</h3>
-<div class="outline-text-3" id="text-org853fbe2">
+<div id="outline-container-orgdf84b5c" class="outline-3">
+<h3 id="orgdf84b5c">Efficient TCP Server</h3>
+<div class="outline-text-3" id="text-orgdf84b5c">
 <blockquote>
 <p>
 A useful pattern for implementing a server that should handle multiple
@@ -284,14 +284,14 @@ next connection. (<a href="#citeproc_bib_item_4">Logan, Merritt, and Carlsson 20
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org68b3c6b" class="outline-3">
-<h3 id="org68b3c6b">Generic Server Timeouts</h3>
+<div id="outline-container-orgeafe62f" class="outline-3">
+<h3 id="orgeafe62f">Generic Server Timeouts</h3>
 </div>
 
 
-<div id="outline-container-org8291173" class="outline-3">
-<h3 id="org8291173">Hibernate Behaviour</h3>
-<div class="outline-text-3" id="text-org8291173">
+<div id="outline-container-org28ca474" class="outline-3">
+<h3 id="org28ca474">Hibernate Behaviour</h3>
+<div class="outline-text-3" id="text-org28ca474">
 <blockquote>
 <p>
 If instead of a timeout value or the atom infinity we return the atom hibernate,
@@ -307,9 +307,9 @@ requests are causing the system to run low on memory.
 </div>
 </div>
 </div>
-<div id="outline-container-org0fb127a" class="outline-2">
-<h2 id="org0fb127a">References:</h2>
-<div class="outline-text-2" id="text-org0fb127a">
+<div id="outline-container-org941234c" class="outline-2">
+<h2 id="org941234c">References:</h2>
+<div class="outline-text-2" id="text-org941234c">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Steve Vinoski. 2016. <i>Designing for Scalability with Erlang/Otp: Implement Robust, Fault-Tolerant Systems</i>. O’Reilly Media, Inc.</div>
@@ -318,13 +318,13 @@ requests are causing the system to run low on memory.
 </div>
 </div>
 </div>
-<div id="outline-container-org84fb880" class="outline-2">
-<h2 id="org84fb880">Backlinks:</h2>
-<div class="outline-text-2" id="text-org84fb880">
+<div id="outline-container-orgd19c5ef" class="outline-2">
+<h2 id="orgd19c5ef">Backlinks:</h2>
+<div class="outline-text-2" id="text-orgd19c5ef">
 <ul class="org-ul">
 <li><a href="./20250124104407-gen_statem.html">Gen StateM</a></li>
-<li><a href="./20240928181517-otp.html">OTP</a></li>
 <li><a href="./20250407171238-gen_fsm.html">Gen FSM</a></li>
+<li><a href="./20240928181517-otp.html">OTP</a></li>
 </ul>
 </div>
 </div>

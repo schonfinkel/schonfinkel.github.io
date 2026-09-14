@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-08-19 Wed 20:10 -->
+<!-- 2026-09-14 Mon 10:08 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sequential Erlang</title>
@@ -59,17 +59,17 @@
 </header><p>
 The basic constructs of the <a href="20240619114451-erlang.html#ID-de7d0e94-618f-4982-b3e5-8806d88cad5d">Erlang</a> language.
 </p>
-<div id="outline-container-org0c8e741" class="outline-2">
-<h2 id="org0c8e741">Datatypes</h2>
-<div class="outline-text-2" id="text-org0c8e741">
+<div id="outline-container-org47c1287" class="outline-2">
+<h2 id="org47c1287">Datatypes</h2>
+<div class="outline-text-2" id="text-org47c1287">
 </div>
-<div id="outline-container-orgeaf7502" class="outline-3">
-<h3 id="orgeaf7502">Numerical Types</h3>
-<div class="outline-text-3" id="text-orgeaf7502">
+<div id="outline-container-org2437ea2" class="outline-3">
+<h3 id="org2437ea2">Numerical Types</h3>
+<div class="outline-text-3" id="text-org2437ea2">
 </div>
-<div id="outline-container-org727af0a" class="outline-4">
-<h4 id="org727af0a">Integers</h4>
-<div class="outline-text-4" id="text-org727af0a">
+<div id="outline-container-orgecc839b" class="outline-4">
+<h4 id="orgecc839b">Integers</h4>
+<div class="outline-text-4" id="text-orgecc839b">
 <ul class="org-ul">
 <li>Large Integers are converted to <code>bignums</code></li>
 </ul>
@@ -82,17 +82,17 @@ Base#Value notation. (<a href="#citeproc_bib_item_4">Laurent 2017, 7</a>)
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgf71c774" class="outline-4">
-<h4 id="orgf71c774">Floats</h4>
-<div class="outline-text-4" id="text-orgf71c774">
+<div id="outline-container-orgad76f32" class="outline-4">
+<h4 id="orgad76f32">Floats</h4>
+<div class="outline-text-4" id="text-orgad76f32">
 <ul class="org-ul">
 <li>When you divide two integers with <code>/</code>, the result is automatically converted to a floating-point number.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org323219a" class="outline-4">
-<h4 id="org323219a">Mathematical Operations</h4>
-<div class="outline-text-4" id="text-org323219a">
+<div id="outline-container-org250b993" class="outline-4">
+<h4 id="org250b993">Mathematical Operations</h4>
+<div class="outline-text-4" id="text-org250b993">
 <table>
 
 
@@ -163,9 +163,9 @@ Base#Value notation. (<a href="#citeproc_bib_item_4">Laurent 2017, 7</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-orga1ec0b7" class="outline-3">
-<h3 id="orga1ec0b7">Atoms</h3>
-<div class="outline-text-3" id="text-orga1ec0b7">
+<div id="outline-container-orgccb2ddb" class="outline-3">
+<h3 id="orgccb2ddb">Atoms</h3>
+<div class="outline-text-3" id="text-orgccb2ddb">
 <ul class="org-ul">
 <li>In Erlang, atoms are used to represent constant values.</li>
 <li>Atoms are also global, and this is achieved without the use of macro
@@ -173,9 +173,9 @@ definitions or include files.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc6e9aaa" class="outline-3">
-<h3 id="orgc6e9aaa">Tuples</h3>
-<div class="outline-text-3" id="text-orgc6e9aaa">
+<div id="outline-container-org80ec8d7" class="outline-3">
+<h3 id="org80ec8d7">Tuples</h3>
+<div class="outline-text-3" id="text-org80ec8d7">
 <ul class="org-ul">
 <li>Represents a collection of elements (of any type) that are grouped together.</li>
 <li>Access is normally done by position.</li>
@@ -208,9 +208,9 @@ You can also pattern match tuples by using free variables:
 </div>
 </div>
 </div>
-<div id="outline-container-orgcfdd32c" class="outline-3">
-<h3 id="orgcfdd32c">Lists</h3>
-<div class="outline-text-3" id="text-orgcfdd32c">
+<div id="outline-container-orgea2753d" class="outline-3">
+<h3 id="orgea2753d">Lists</h3>
+<div class="outline-text-3" id="text-orgea2753d">
 <ul class="org-ul">
 <li>A list is a compound data type with a variable number of terms:
 <code>[Term1,...,TermN]</code>.</li>
@@ -224,9 +224,9 @@ list into <code>H|T</code> (<code>head</code> and <code>tail</code>),</li>
 </code></pre>
 </div>
 </div>
-<div id="outline-container-org772962d" class="outline-4">
-<h4 id="org772962d">List Comprehensions</h4>
-<div class="outline-text-4" id="text-org772962d">
+<div id="outline-container-orgeccfb92" class="outline-4">
+<h4 id="orgeccfb92">List Comprehensions</h4>
+<div class="outline-text-4" id="text-orgeccfb92">
 <div class="org-src-container">
 <pre class="src src-shell"><code>  1&gt; L = [1,2,3,4,5,6,7].
   [1,2,3,4,5,6,7]
@@ -253,9 +253,9 @@ and each qualifier is either a generator, a bitstring generator, or a filter.
 </div>
 </div>
 </div>
-<div id="outline-container-org94ab141" class="outline-3">
-<h3 id="org94ab141">Strings</h3>
-<div class="outline-text-3" id="text-org94ab141">
+<div id="outline-container-org0e5f37b" class="outline-3">
+<h3 id="org0e5f37b">Strings</h3>
+<div class="outline-text-3" id="text-org0e5f37b">
 <blockquote>
 <p>
 Strictly speaking, there are no strings in Erlang. To represent a string in
@@ -281,9 +281,9 @@ expect binaries to be in UTF-8:
 </div>
 </div>
 </div>
-<div id="outline-container-org77d2a2a" class="outline-3">
-<h3 id="org77d2a2a">Records</h3>
-<div class="outline-text-3" id="text-org77d2a2a">
+<div id="outline-container-org20a83fc" class="outline-3">
+<h3 id="org20a83fc">Records</h3>
+<div class="outline-text-3" id="text-org20a83fc">
 <blockquote>
 <p>
 (&hellip;) records provide a convenient way for associating a tag
@@ -315,9 +315,9 @@ to load a record from the the shell, one must use the <code>rr</code> command:
 </code></pre>
 </div>
 </div>
-<div id="outline-container-org71129aa" class="outline-4">
-<h4 id="org71129aa">Record BIFs</h4>
-<div class="outline-text-4" id="text-org71129aa">
+<div id="outline-container-orgcc25510" class="outline-4">
+<h4 id="orgcc25510">Record BIFs</h4>
+<div class="outline-text-4" id="text-orgcc25510">
 <ul class="org-ul">
 <li><code>record_info/2</code></li>
 <li><code>is_record/1</code></li>
@@ -325,9 +325,9 @@ to load a record from the the shell, one must use the <code>rr</code> command:
 </div>
 </div>
 </div>
-<div id="outline-container-org1c27e1c" class="outline-3">
-<h3 id="org1c27e1c">Maps</h3>
-<div class="outline-text-3" id="text-org1c27e1c">
+<div id="outline-container-orgbbdedba" class="outline-3">
+<h3 id="orgbbdedba">Maps</h3>
+<div class="outline-text-3" id="text-orgbbdedba">
 <p>
 Maps are associative collections of key-value pairs.
 </p>
@@ -341,9 +341,9 @@ Maps are associative collections of key-value pairs.
 </div>
 </div>
 </div>
-<div id="outline-container-orgaf5d042" class="outline-3">
-<h3 id="orgaf5d042">Binaries and Bitstrings)</h3>
-<div class="outline-text-3" id="text-orgaf5d042">
+<div id="outline-container-org408a6e5" class="outline-3">
+<h3 id="org408a6e5">Binaries and Bitstrings)</h3>
+<div class="outline-text-3" id="text-org408a6e5">
 <blockquote>
 <p>
 A binary is a sequence of unsigned 8-bit bytes, used for storing and processing
@@ -385,17 +385,17 @@ A possible set of <code>TypeSpecifiers</code> is the following:
 and need to be separated by hyphens (i.e. <code>integer-unsigned-big</code>).</li>
 </ul>
 </div>
-<div id="outline-container-org2b83ebe" class="outline-4">
-<h4 id="org2b83ebe">Bitstring comprehensions</h4>
-<div class="outline-text-4" id="text-org2b83ebe">
+<div id="outline-container-org71fd119" class="outline-4">
+<h4 id="org71fd119">Bitstring comprehensions</h4>
+<div class="outline-text-4" id="text-org71fd119">
 <p>
 Similar to Lists Comprehensions, we can do bitstring comprehension:
 </p>
 </div>
 </div>
-<div id="outline-container-org16f3175" class="outline-4">
-<h4 id="org16f3175">Bitwise operations</h4>
-<div class="outline-text-4" id="text-org16f3175">
+<div id="outline-container-org6a0f025" class="outline-4">
+<h4 id="org6a0f025">Bitwise operations</h4>
+<div class="outline-text-4" id="text-org6a0f025">
 <table>
 
 
@@ -445,13 +445,13 @@ Similar to Lists Comprehensions, we can do bitstring comprehension:
 </div>
 </div>
 </div>
-<div id="outline-container-orgd5e16b8" class="outline-3">
-<h3 id="orgd5e16b8">Identifiers</h3>
-<div class="outline-text-3" id="text-orgd5e16b8">
+<div id="outline-container-org282d7e8" class="outline-3">
+<h3 id="org282d7e8">Identifiers</h3>
+<div class="outline-text-3" id="text-org282d7e8">
 </div>
-<div id="outline-container-org35ed034" class="outline-4">
-<h4 id="org35ed034">Pids</h4>
-<div class="outline-text-4" id="text-org35ed034">
+<div id="outline-container-org873fef5" class="outline-4">
+<h4 id="org873fef5">Pids</h4>
+<div class="outline-text-4" id="text-org873fef5">
 <blockquote>
 <p>
 Every process has a unique identifier, usually referred to as a <i>pid</i>. Pids are a
@@ -461,9 +461,9 @@ objects. (<a href="#citeproc_bib_item_5">Logan, Merritt, and Carlsson 2010, 35</
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgb8e943e" class="outline-4">
-<h4 id="orgb8e943e">Ports</h4>
-<div class="outline-text-4" id="text-orgb8e943e">
+<div id="outline-container-org86a9331" class="outline-4">
+<h4 id="org86a9331">Ports</h4>
+<div class="outline-text-4" id="text-org86a9331">
 <blockquote>
 <p>
 A port is much like a process, except that it can also communicate with the
@@ -477,9 +477,9 @@ For more details about Ports, check the <a href="20241129191851-erlang_interface
 </p>
 </div>
 </div>
-<div id="outline-container-org0f6a64a" class="outline-4">
-<h4 id="org0f6a64a">References</h4>
-<div class="outline-text-4" id="text-org0f6a64a">
+<div id="outline-container-org7b44921" class="outline-4">
+<h4 id="org7b44921">References</h4>
+<div class="outline-text-4" id="text-org7b44921">
 <blockquote>
 <p>
 References in Erlang are used to guarantee the identity of messages, monitors,
@@ -492,9 +492,9 @@ multinode Erlang system. (<a href="#citeproc_bib_item_3">Cesarini and Vinoski 20
 </div>
 </div>
 </div>
-<div id="outline-container-orgdb87e44" class="outline-3">
-<h3 id="orgdb87e44">Macros</h3>
-<div class="outline-text-3" id="text-orgdb87e44">
+<div id="outline-container-org609f220" class="outline-3">
+<h3 id="org609f220">Macros</h3>
+<div class="outline-text-3" id="text-org609f220">
 <p>
 Erlang has a macro facility, implemented by the Erlang preprocessor (<code>epp</code>), which is invoked prior to compilation of source code into BEAM code.
 </p>
@@ -509,9 +509,9 @@ Erlang has a macro facility, implemented by the Erlang preprocessor (<code>epp</
 </code></pre>
 </div>
 </div>
-<div id="outline-container-org5cf347c" class="outline-4">
-<h4 id="org5cf347c">Parametrized Macros</h4>
-<div class="outline-text-4" id="text-org5cf347c">
+<div id="outline-container-orgddb222b" class="outline-4">
+<h4 id="orgddb222b">Parametrized Macros</h4>
+<div class="outline-text-4" id="text-orgddb222b">
 <blockquote>
 <p>
 Macros can take parameters which are indicated by variable names. The general
@@ -541,9 +541,9 @@ to begin with a capital letter.
 </div>
 </div>
 </div>
-<div id="outline-container-org76d4c05" class="outline-4">
-<h4 id="org76d4c05">Conditional Macros</h4>
-<div class="outline-text-4" id="text-org76d4c05">
+<div id="outline-container-org9815301" class="outline-4">
+<h4 id="org9815301">Conditional Macros</h4>
+<div class="outline-text-4" id="text-org9815301">
 <ul class="org-ul">
 <li><code>-undef(Flag)</code></li>
 <li><code>-ifdef(Flag)</code></li>
@@ -563,9 +563,9 @@ to begin with a capital letter.
 </div>
 </div>
 </div>
-<div id="outline-container-orge694152" class="outline-3">
-<h3 id="orge694152">Include Files</h3>
-<div class="outline-text-3" id="text-orge694152">
+<div id="outline-container-org6ebb1d5" class="outline-3">
+<h3 id="org6ebb1d5">Include Files</h3>
+<div class="outline-text-3" id="text-org6ebb1d5">
 <blockquote>
 <p>
 It is customary to put record and macro definitions into an include file so that
@@ -586,9 +586,9 @@ you place them in a separate file and include them in a module using the
 </div>
 </div>
 </div>
-<div id="outline-container-org787dffc" class="outline-2">
-<h2 id="org787dffc">Term Comparisson</h2>
-<div class="outline-text-2" id="text-org787dffc">
+<div id="outline-container-org6572b1f" class="outline-2">
+<h2 id="org6572b1f">Term Comparisson</h2>
+<div class="outline-text-2" id="text-org6572b1f">
 <blockquote>
 <p>
 Using the exactly equal and not exactly equal operators will provide the
@@ -655,9 +655,9 @@ code. (<a href="#citeproc_bib_item_2">Cesarini and Thompson 2009, 28</a>)
 </table>
 </div>
 </div>
-<div id="outline-container-orgaae7134" class="outline-2">
-<h2 id="orgaae7134">Variables</h2>
-<div class="outline-text-2" id="text-orgaae7134">
+<div id="outline-container-org62f409b" class="outline-2">
+<h2 id="org62f409b">Variables</h2>
+<div class="outline-text-2" id="text-org62f409b">
 <blockquote>
 <p>
 Note that Erlang variables start with uppercase characters. So, <code>X</code>, <code>This</code>, and
@@ -675,9 +675,9 @@ operation (<code>=</code>).</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc824310" class="outline-2">
-<h2 id="orgc824310">Pattern Matching</h2>
-<div class="outline-text-2" id="text-orgc824310">
+<div id="outline-container-org3209f2e" class="outline-2">
+<h2 id="org3209f2e">Pattern Matching</h2>
+<div class="outline-text-2" id="text-org3209f2e">
 <p>
 Pattern matching is used for:
 </p>
@@ -686,9 +686,9 @@ Pattern matching is used for:
 <li>Redirecting execution flows</li>
 </ul>
 </div>
-<div id="outline-container-orgd77903c" class="outline-3">
-<h3 id="orgd77903c">case and if Expressions</h3>
-<div class="outline-text-3" id="text-orgd77903c">
+<div id="outline-container-org0b95ae8" class="outline-3">
+<h3 id="org0b95ae8">case and if Expressions</h3>
+<div class="outline-text-3" id="text-org0b95ae8">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>  case Expression of
     Pattern1 [when Guard1] -&gt; Expr_seq1;
@@ -706,21 +706,21 @@ Pattern matching is used for:
 </div>
 </div>
 </div>
-<div id="outline-container-org823a87d" class="outline-2">
-<h2 id="org823a87d">Functions</h2>
-<div class="outline-text-2" id="text-org823a87d">
+<div id="outline-container-org6f02288" class="outline-2">
+<h2 id="org6f02288">Functions</h2>
+<div class="outline-text-2" id="text-org6f02288">
 </div>
-<div id="outline-container-org2b89f9a" class="outline-3">
-<h3 id="org2b89f9a">Built-in Functions</h3>
-<div class="outline-text-3" id="text-org2b89f9a">
+<div id="outline-container-org4fd6c80" class="outline-3">
+<h3 id="org4fd6c80">Built-in Functions</h3>
+<div class="outline-text-3" id="text-org4fd6c80">
 <ul class="org-ul">
 <li>Conventionally, these are part of the <code>erlang</code> module.</li>
 <li>Mostly written in C for fast execution.</li>
 </ul>
 </div>
-<div id="outline-container-orgd4e3a6f" class="outline-4">
-<h4 id="orgd4e3a6f">Useful BIFs</h4>
-<div class="outline-text-4" id="text-orgd4e3a6f">
+<div id="outline-container-orgb969100" class="outline-4">
+<h4 id="orgb969100">Useful BIFs</h4>
+<div class="outline-text-4" id="text-orgb969100">
 <ul class="org-ul">
 <li><code>date/0</code></li>
 <li><code>now/0</code> and <code>now/1</code></li>
@@ -728,9 +728,9 @@ Pattern matching is used for:
 </ul>
 </div>
 </div>
-<div id="outline-container-org3f749ec" class="outline-4">
-<h4 id="org3f749ec">List BIFs</h4>
-<div class="outline-text-4" id="text-org3f749ec">
+<div id="outline-container-org6c209a6" class="outline-4">
+<h4 id="org6c209a6">List BIFs</h4>
+<div class="outline-text-4" id="text-org6c209a6">
 <ul class="org-ul">
 <li><code>hd/1</code></li>
 <li><code>tl/1</code></li>
@@ -738,9 +738,9 @@ Pattern matching is used for:
 </ul>
 </div>
 </div>
-<div id="outline-container-org6465645" class="outline-4">
-<h4 id="org6465645">Tuple BIFs</h4>
-<div class="outline-text-4" id="text-org6465645">
+<div id="outline-container-org7225034" class="outline-4">
+<h4 id="org7225034">Tuple BIFs</h4>
+<div class="outline-text-4" id="text-org7225034">
 <ul class="org-ul">
 <li><code>setelement/3</code></li>
 <li><code>size/1</code></li>
@@ -748,9 +748,9 @@ Pattern matching is used for:
 </ul>
 </div>
 </div>
-<div id="outline-container-org21f18f5" class="outline-4">
-<h4 id="org21f18f5">Type conversion BIFs</h4>
-<div class="outline-text-4" id="text-org21f18f5">
+<div id="outline-container-orge7f14d7" class="outline-4">
+<h4 id="orge7f14d7">Type conversion BIFs</h4>
+<div class="outline-text-4" id="text-orge7f14d7">
 <ul class="org-ul">
 <li><code>atom_to_list/1</code> and <code>list_to_atom/1</code></li>
 <li><code>list_to_tuple/1</code> and <code>tuple_to_list/1</code></li>
@@ -761,16 +761,16 @@ Pattern matching is used for:
 </div>
 </div>
 </div>
-<div id="outline-container-orga73b3f7" class="outline-3">
-<h3 id="orga73b3f7">Funs: The Basic Unit of Abstraction</h3>
-<div class="outline-text-3" id="text-orga73b3f7">
+<div id="outline-container-org16691e0" class="outline-3">
+<h3 id="org16691e0">Funs: The Basic Unit of Abstraction</h3>
+<div class="outline-text-3" id="text-org16691e0">
 <p>
 <code>Funs</code> are function closures. <code>Funs</code> are created by expressions of the form: <code>fun(...) -&gt; ... end</code>.
 </p>
 </div>
-<div id="outline-container-org203ad61" class="outline-4">
-<h4 id="org203ad61">Defining Your Own Control Abstractions</h4>
-<div class="outline-text-4" id="text-org203ad61">
+<div id="outline-container-org462bf67" class="outline-4">
+<h4 id="org462bf67">Defining Your Own Control Abstractions</h4>
+<div class="outline-text-4" id="text-org462bf67">
 <p>
 If we want additional control structures, we can make our own. Erlang has no for loop, so let’s make one:
 </p>
@@ -782,18 +782,18 @@ If we want additional control structures, we can make our own. Erlang has no for
 </div>
 </div>
 </div>
-<div id="outline-container-org080db72" class="outline-3">
-<h3 id="org080db72">Recursion</h3>
-<div class="outline-text-3" id="text-org080db72">
+<div id="outline-container-org67e1786" class="outline-3">
+<h3 id="org67e1786">Recursion</h3>
+<div class="outline-text-3" id="text-org67e1786">
 </div>
-<div id="outline-container-org0473ca7" class="outline-4">
-<h4 id="org0473ca7">Tail Recursion</h4>
+<div id="outline-container-org2df4274" class="outline-4">
+<h4 id="org2df4274">Tail Recursion</h4>
 </div>
 </div>
 </div>
-<div id="outline-container-org4fc9587" class="outline-2">
-<h2 id="org4fc9587">Guards</h2>
-<div class="outline-text-2" id="text-org4fc9587">
+<div id="outline-container-org4d6d962" class="outline-2">
+<h2 id="org4d6d962">Guards</h2>
+<div class="outline-text-2" id="text-org4d6d962">
 <blockquote>
 <p>
 A guard consists of a when keyword followed by a guard expression. The clause
@@ -812,9 +812,9 @@ to the atom true. (<a href="#citeproc_bib_item_2">Cesarini and Thompson 2009, 50
 </div>
 </div>
 </div>
-<div id="outline-container-orgb43d011" class="outline-2">
-<h2 id="orgb43d011">Modules</h2>
-<div class="outline-text-2" id="text-orgb43d011">
+<div id="outline-container-org76d041b" class="outline-2">
+<h2 id="org76d041b">Modules</h2>
+<div class="outline-text-2" id="text-org76d041b">
 <blockquote>
 <p>
 Erlang definitions are contained in modules, which are stored in files of the
@@ -824,9 +824,9 @@ shell. (<a href="#citeproc_bib_item_3">Cesarini and Vinoski 2016, 22</a>)
 </p>
 </blockquote>
 </div>
-<div id="outline-container-orgb5afe7a" class="outline-3">
-<h3 id="orgb5afe7a">Defining Modules</h3>
-<div class="outline-text-3" id="text-orgb5afe7a">
+<div id="outline-container-org18c0f48" class="outline-3">
+<h3 id="org18c0f48">Defining Modules</h3>
+<div class="outline-text-3" id="text-org18c0f48">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>    -module(drop).
     -export([fall_velocity/1, mps_to_mph/1, mps_to_kph/1]).
@@ -838,9 +838,9 @@ shell. (<a href="#citeproc_bib_item_3">Cesarini and Vinoski 2016, 22</a>)
 </div>
 </div>
 </div>
-<div id="outline-container-org8128d0f" class="outline-3">
-<h3 id="org8128d0f">Upgrading Modules</h3>
-<div class="outline-text-3" id="text-org8128d0f">
+<div id="outline-container-org61a7890" class="outline-3">
+<h3 id="org61a7890">Upgrading Modules</h3>
+<div class="outline-text-3" id="text-org61a7890">
 <blockquote>
 <p>
 One of the advantages of dynamic typing is the ability to upgrade your code
@@ -858,9 +858,9 @@ virtual machine: the old and current versions.
 </div>
 </div>
 </div>
-<div id="outline-container-org64049c7" class="outline-2">
-<h2 id="org64049c7">Error Handling in Sequential Programs</h2>
-<div class="outline-text-2" id="text-org64049c7">
+<div id="outline-container-org60d6660" class="outline-2">
+<h2 id="org60d6660">Error Handling in Sequential Programs</h2>
+<div class="outline-text-2" id="text-org60d6660">
 <div class="org-src-container">
 <pre class="src src-erlang"><code>  try FuncOrExpressionSeq of
     Pattern1 [when Guard1] -&gt; Expressions1;
@@ -884,9 +884,9 @@ harder to debug.</dd>
 <code>erlang:error(Term)</code> BIF.</dd>
 </dl>
 </div>
-<div id="outline-container-org81d503a" class="outline-3">
-<h3 id="org81d503a">Fail Fast and Noisily, Fail Politely</h3>
-<div class="outline-text-3" id="text-org81d503a">
+<div id="outline-container-org67c97db" class="outline-3">
+<h3 id="org67c97db">Fail Fast and Noisily, Fail Politely</h3>
+<div class="outline-text-3" id="text-org67c97db">
 <blockquote>
 <p>
 In Erlang, when an error is detected internally by the system or is detected by
@@ -907,9 +907,9 @@ never see these messages.
 </div>
 </div>
 </div>
-<div id="outline-container-org04a4be1" class="outline-2">
-<h2 id="org04a4be1">References:</h2>
-<div class="outline-text-2" id="text-org04a4be1">
+<div id="outline-container-org7f6ed37" class="outline-2">
+<h2 id="org7f6ed37">References:</h2>
+<div class="outline-text-2" id="text-org7f6ed37">
 <div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Armstrong, Joe. 2013. “Programming Erlang: Software for a Concurrent World.”</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Cesarini, Francesco, and Simon Thompson. 2009. <i>Erlang Programming: A Concurrent Approach to Software Development</i>. O’Reilly Media, Inc.</div>
@@ -919,9 +919,9 @@ never see these messages.
 </div>
 </div>
 </div>
-<div id="outline-container-orga76540a" class="outline-2">
-<h2 id="orga76540a">Backlinks:</h2>
-<div class="outline-text-2" id="text-orga76540a">
+<div id="outline-container-org7f25785" class="outline-2">
+<h2 id="org7f25785">Backlinks:</h2>
+<div class="outline-text-2" id="text-org7f25785">
 <ul class="org-ul">
 <li><a href="./20241001192402-error_handling_in_erlang.html">Error Handling in Erlang</a></li>
 </ul>
