@@ -14,5 +14,36 @@ anywhere.
 [cite: @garrison2026zig p.1 chap.1]
 #+end_quote
 
-* 
+* Zig's Big Ideas
 
+** Zig's Inheritance
+
+#+begin_quote
+It’s not a mistake that [[id:7ab0413e-3cce-4bb8-be3c-3084daaba87d][C]] has stuck around both culturally and as a potential
+language for new projects. Zig builds on some of C’s most beloved elements in a
+number of important ways:
+
++ Syntax should not be a barrier to understanding. C’s depth through simplicity
+  is one of its greatest strengths. Zig uses a minimalistic but familiar C-style
+  syntax, with an even greater emphasis on legibility and eliminating implicit
+  behavior.
++ Your compiled binary should map closely to your code. C has been described as
+  a "high-level assembly" for its clean translation to machine code, although
+  this quality is diluted as hardware changes over time. Zig aims to emulate
+  this property in the modern era of computation.
++ The programmer should have the final say. C code has few guardrails. You are
+  free to generate as many future hours of painful debugging as you wish, but if
+  you learn to wield C’s power responsibly, you can also create ridiculously
+  creative and blazingly fast code. Zig provides a wealth of safety features,
+  but also gives you the power to turn off all of the checks when the situation
+  demands.
+#+end_quote
+
+
+#+begin_quote
+Variables must never be more mutable than necessary. Zig variables can be
+declared as either const or var, where const variables cannot be re-assigned to
+a new value. If a const value is changed, it’s an error. If a var variable is
+never changed, it’s an error too. From the site of declaration, you know whether
+a variable can change.
+#+end_quote

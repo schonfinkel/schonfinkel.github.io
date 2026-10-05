@@ -1,0 +1,294 @@
+:PROPERTIES:
+:ID:       ee7519ca-6e1e-45ad-bea1-2ae7a04ddb29
+:END:
+#+title: Modules (BEAM)
+#+filetags: :erlang:elixir:functional-programming:otp:
+
+* Modules
+
+In the [[id:d47afd83-8f59-44ea-a237-b6eafaa3662e][ERTS]], **modules** are the primary unit of code encapsulation, compilation,
+and loading.
+
++ *Code Organization*: A module groups related functions, attributes, specs, and
+  type definitions under a single named namespace.
++ *Compilation & Boundary*: All code inside a ~.beam~ binary belongs to exactly
+  one module. Functions outside the module cannot call private functions unless
+  they are explicitly exported.
++ *Loading Unit*: The runtime system loads, reloads, and purges code at the
+  module level (rather than individual functions), forming the foundation for
+  BEAM's hot code reloading capabilities.
+
+** Hot Code Loading
+
+#+begin_quote
+[[id:de7d0e94-618f-4982-b3e5-8806d88cad5d][Erlang]] supports hot code loading, which means you can update a module while your
+system is running without stopping or restarting the system. This is very
+convenient during development and debugging. Depending on how you deploy your
+system it can also be useful when maintaining and running a 24/7 system by
+allowing you to upgrade a module without stopping the system.
+
+When new code is loaded, the old version remains in memory until there are no
+processes executing it. Once that’s the case, the old code is purged from the
+system. Note that if you load a third version of a module before the first
+version has been purged, then the default behavior of the system is to kill any
+process that references (has a call on the stack) the first version.
+
+You can load a module into the system dynamically using the
+~code:load_file(Module)~ function. After a new module is loaded then any fully
+qualified calls (i.e. ~Module:function~), also called remote calls, will go to the
+new version. Note that if you have a server loop without a remote call then it
+will continue running the old code.
+
+The code server is a part of the [[id:aadf7023-88e7-426b-ba84-0a9da4706bcb][BEAM]] virtual machine responsible for managing
+loaded modules and their code.
+
+[cite:@beambook p.129 chap.6 part.6.1]
+#+end_quote
+
+In short, the runtime keeps at most *two* versions of a module at any time:
+
++ *current*: what every new remote call (~Module:function(...)~) resolves to.
++ *old*: kept alive only while some process still has it on its stack.
+
+Local calls (~function(...)~) stay inside whatever version the caller is already
+running, which is why long-running server loops must make a remote call
+(e.g. ~?MODULE:loop(State)~) to ever pick up new code.
+
+#+begin_src erlang
+  loop(State) ->
+    receive
+      upgrade -> ?MODULE:loop(State);  % remote call: jumps to the new version
+      Msg     -> loop(handle(Msg, State)) % local call: stays on current version
+    end.
+#+end_src
+
+* The BEAM File Format
+
+The definitive reference for the format is the source of
+~beam_lib.erl~ [fn:1]. Compiled modules (the output of [[id:a4ccd7f8-ccfb-44c6-9bb6-b67084a7b067][erlc]]) are stored in ~.beam~
+files, which are based on the *EA IFF 85* (Interchange File Format) standard: a
+header followed by a sequence of named, self-describing *chunks*. BEAM deviates
+from the standard in two ways:
+
+1. Chunks are aligned on *4-byte* (32-bit word) boundaries instead of IFF's 2-byte
+   boundaries. Some platforms raise a hardware exception (~SIGBUS~ on Linux) on
+   unaligned memory access, so this matters.
+2. To signal the non-standard alignment, the header tag is ~FOR1~ instead of ~FORM~.
+
+** Header and Chunk Layout
+
+All sizes are big-endian, and every area is prefixed by its size, so a file can
+be parsed sequentially while it is read from disk.
+
+#+begin_src erlang
+  BEAMHeader = <<
+    IffHeader:4/unit:8 = "FOR1",
+    Size:32/big,                  % how many more bytes follow
+    FormType:4/unit:8 = "BEAM"
+  >>
+
+  BEAMChunk = <<
+    ChunkName:4/unit:8,           % "Code", "AtU8", "StrT", "LitT", ...
+    ChunkSize:32/big,             % size of ChunkData, excluding padding
+    ChunkData:ChunkSize/unit:8,   % format defined by ChunkName
+    Padding4:0..3/unit:8
+  >>
+#+end_src
+
+Thanks to Erlang's bit syntax, a minimal reader that splits a file into its
+chunks fits in a handful of lines:
+
+#+begin_src erlang
+  -module(beamfile1).
+  -export([read/1]).
+
+  read(Filename) ->
+     {ok, File} = file:read_file(Filename),
+     <<"FOR1",
+       Size:32/integer,
+       "BEAM",
+       Chunks/binary>> = File,
+     {Size, read_chunks(Chunks, [])}.
+
+  read_chunks(<<N,A,M,E, Size:32/integer, Tail/binary>>, Acc) ->
+     %% Align each chunk on even 4 bytes
+     ChunkLength = align_by_four(Size),
+     <<Chunk:ChunkLength/binary, Rest/binary>> = Tail,
+     read_chunks(Rest, [{[N,A,M,E], Size, Chunk}|Acc]);
+  read_chunks(<<>>, Acc) -> lists:reverse(Acc).
+
+  align_by_four(N) -> (4 * ((N+3) div 4)).
+#+end_src
+
+** Chunks
+
+| Chunk           | Required | Contents                                                                                                    |
+|-----------------+----------+-------------------------------------------------------------------------------------------------------------|
+| ~AtU8~ / ~Atom~ | yes      | Atom table. ~AtU8~ for UTF-8 sources, ~Atom~ for latin1. The module name is always atom index 0.            |
+| ~Code~          | yes      | The BEAM bytecode, preceded by a sub-header (instruction set version, max opcode, label and function counts). |
+| ~StrT~          | yes      | All string literals concatenated into one string (present but empty if there are none).                     |
+| ~ImpT~          | yes      | Imported functions as ~{Module, Function, Arity}~ triples of atom-table indexes.                            |
+| ~ExpT~          | yes      | Exported functions as ~{Function, Arity, Label}~ triples.                                                   |
+| ~LocT~          | no       | Local (non-exported) functions, same layout as ~ExpT~; meant for cross-reference tools.                     |
+| ~FunT~          | no       | Anonymous functions (funs) defined in the module.                                                           |
+| ~LitT~          | no       | Non-immediate literals (tuples, lists, maps, binaries, floats...) in External Term Format, zlib-compressed. |
+| ~Attr~          | no       | Module attributes (e.g. ~-vsn~) as an External Term Format term. Needed by the release handler.            |
+| ~CInf~          | no       | Compilation info (options, version, source path) as an External Term Format term.                           |
+| ~Abst~ / ~Dbgi~ | no       | Abstract code / debug info, emitted with ~+debug_info~. Used by the debugger, Xref, Dialyzer.               |
+| ~Line~          | no       | Line number table, used to map instructions back to source locations in stack traces.                       |
+| ~Type~          | no       | (OTP 25+) Simplified type information that helps the JIT optimise. Not in External Term Format.             |
+| ~Meta~          | no       | Extra metadata (e.g. enabled language features).                                                            |
+
+*** Table chunks: ~ExpT~, ~ImpT~, ~LocT~, ~FunT~
+
+All of them are a count followed by triples of 32-bit integers; only the meaning
+of the triple changes. Names and modules are indexes into the atom table, labels
+point into the code.
+
+#+begin_src erlang
+  ExportChunk = <<
+    ChunkName:4/unit:8 = "ExpT",   % same shape for "LocT"
+    ChunkSize:32/big,
+    ExportCount:32/big,
+    [ << FunctionName:32/big,      % atom index
+         Arity:32/big,
+         Label:32/big
+      >> || repeat ExportCount ],
+    Padding4:0..3/unit:8
+  >>
+
+  ImportChunk = <<
+    ChunkName:4/unit:8 = "ImpT",
+    ChunkSize:32/big,
+    ImportCount:32/big,
+    [ << ModuleName:32/big,        % atom index
+         FunctionName:32/big,      % atom index
+         Arity:32/big
+      >> || repeat ImportCount ],
+    Padding4:0..3/unit:8
+  >>
+#+end_src
+
+*** ~Code~ chunk
+
+#+begin_src erlang
+  CodeChunk = <<
+    ChunkName:4/unit:8 = "Code",
+    ChunkSize:32/big,
+    SubSize:32/big,               % size of the info header before the code
+    InstructionSet:32/big,        % must match the emulator's code version
+    OpcodeMax:32/big,
+    LabelCount:32/big,
+    FunctionCount:32/big,
+    Code:(ChunkSize-SubSize)/binary,
+    Padding4:0..3/unit:8
+  >>
+#+end_src
+
+The header is designed for forward/backward compatibility and cheap loading:
+
++ ~SubSize~ lets new info fields be added without breaking older loaders.
++ ~InstructionSet~ is bumped whenever an instruction changes incompatibly.
++ ~OpcodeMax~ is the highest opcode used; an older loader can still load a newer
+  file as long as every opcode is within the range it knows.
++ ~LabelCount~ / ~FunctionCount~ let the loader preallocate its label and function
+  tables in one go.
+
+Each instruction is an 8-bit opcode followed by its arguments, whose count is
+fixed per opcode (generated from ~ops.tab~), each encoded using the compact term
+encoding below.
+
+*** ~LitT~ chunk
+
+#+begin_src erlang
+  LiteralTableChunk = <<
+    ChunkName:4/unit:8 = "LitT",
+    ChunkSize:32/big,
+    UncompressedSize:32/big,      % lets the loader allocate up front
+    CompressedLiterals:ChunkSize/binary,
+    Padding4:0..3/unit:8
+  >>
+
+  %% after zlib:uncompress/1
+  Literals = <<
+    Count:32/big,
+    [ <<Size:32/big, Literal:Size/binary>> || repeat Count ]  % term_to_binary/1
+  >>
+#+end_src
+
+** Compact Term Encoding
+
+Instruction arguments in the ~Code~ chunk are stored with a compact, size-oriented
+encoding (~beam_asm:encode/2~ in the ~compiler~ application). It is optimised for
+file size, not for in-memory layout: on load, every value expands to a full
+machine word or Erlang term.
+
+The low 3 bits of the first byte are the *tag*:
+
+| Bits ~2..0~ | Tag            | Meaning                                         |
+|-------------+----------------+-------------------------------------------------|
+| ~000~       | ~u~ (literal)  | Unsigned integer / index into the literal table |
+| ~001~       | ~i~            | Integer                                         |
+| ~010~       | ~a~            | Atom (index + 1; ~0~ means ~[]~)                |
+| ~011~       | ~x~            | X register                                      |
+| ~100~       | ~y~            | Y register                                      |
+| ~101~       | ~f~            | Label (~0~ is invalid)                          |
+| ~110~       | ~h~            | Character (Unicode code point)                  |
+| ~111~       | ~z~ (extended) | Extended tag in the upper bits (see below)      |
+
+The extended tag (~z~) covers lists (e.g. the jump table of ~select_val~), floating
+point registers, allocation lists, literals and, since OTP 25, registers with
+type hints.
+
+The remaining bits encode the value depending on its size:
+
+#+begin_src text
+  value < 16        : [ Value:4    | 0   | Tag:3 ]                 1 byte
+  value < 2048      : [ ValueHi:3  | 0 1 | Tag:3 ] [ ValueLo:8 ]   2 bytes
+  2..8 bytes        : [ Bytes-2:3  | 1 1 | Tag:3 ] [ Data ... ]
+  > 8 bytes         : [ 1 1 1 1 1  |       Tag:3 ] [ u-encoded (Bytes-9) ] [ Data ... ]
+#+end_src
+
+[cite:@beambook chap.6 part.6.2]
+
+** Compression and Encryption
+
++ *Compression*: compiling with ~+compressed~ (or ~compile:file(M, [compressed])~)
+  gzips the whole ~.beam~. Execution speed is unaffected since code is
+  decompressed at load time, but loading becomes slower: a disk-space
+  vs. load-time trade-off.
++ *Encrypted debug info*: ~{debug_info_key, Key}~ encrypts the debug info chunk
+  (~des3_cbc~), so tools like the Debugger and Xref still work for whoever holds
+  the key. ~beam_lib~ gets the key from a function registered with
+  ~beam_lib:crypto_key_fun/1~ or from an ~.erlang.crypt~ file.
+
+* Inspecting BEAM Files
+
+You rarely need to hand-roll a parser: ~beam_lib~ reads chunks directly from disk
+*without loading the module* into the VM.
+
+#+begin_src erlang
+  %% list every chunk id and its raw data
+  {ok, _Mod, Chunks} = beam_lib:all_chunks("foo.beam").
+
+  %% decoded, named chunks
+  {ok, {foo, [{exports, Exps}, {imports, Imps}, {attributes, Attrs}]}} =
+      beam_lib:chunks("foo.beam", [exports, imports, attributes]).
+
+  %% the abstract code (needs +debug_info)
+  {ok, {foo, [{abstract_code, {_, Forms}}]}} =
+      beam_lib:chunks("foo.beam", [abstract_code]).
+
+  %% the -vsn attribute (used by the release handler)
+  {ok, {foo, [Vsn]}} = beam_lib:version("foo.beam").
+
+  %% drop optional chunks (debug info, etc.) to shrink the file
+  {ok, _} = beam_lib:strip("foo.beam").
+#+end_src
+
+To see the generated BEAM assembly instead of the binary, compile with ~erlc -S
+foo.erl~, which writes a human-readable ~foo.S~.
+
+* Footnotes
+
+[fn:1] https://github.com/erlang/otp/blob/maint/lib/stdlib/src/beam_lib.erl

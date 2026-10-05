@@ -159,6 +159,8 @@ sorted anti-chronologically by extracted date."
 (setq org-element-use-cache nil)
 (setq org-src-preserve-indentation t)
 (setq org-src-fontify-natively t)
+;; Let the browser highlighter handle source blocks consistently across builds.
+(setq org-html-htmlize-output-type nil)
 
 ;;;; No need for backup files
 (setq make-backup-files nil)

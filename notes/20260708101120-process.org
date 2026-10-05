@@ -2,6 +2,7 @@
 :ID:       1ab07e4a-e33d-45e9-8c34-480bb761a80f
 :END:
 #+title: Process
+#+filetags: :operating-systems:
 
 #+begin_quote
 A key concept in all operating systems is the process. *A process is basically a
@@ -43,7 +44,9 @@ and executes it, it becomes an active *process*.
 + *Virtualization & Time-Sharing*: Even though a standard CPU core only handles
   one process at a time, the OS uses *time-sharing* to rapidly cycle through
   active processes. This creates the illusion of concurrent execution, though
-  packing too many applications can degrade performance.
+  packing too many applications can degrade performance. Tanenbaum calls this
+  rapid switching *multiprogramming*, producing *pseudoparallelism*
+  [cite:@tanenbaum2023mos p.86 chap.2 part.2.1.1].
 
 * Process Creation
 
@@ -114,7 +117,8 @@ root.
 
 * Process States & Transitions
 
-An active process shifts dynamically between three distinct structural states.
+An active process shifts dynamically between three distinct structural states
+[cite:@tanenbaum2023mos chap.2 part.2.1.5].
 
 ** Core States
 
@@ -143,7 +147,7 @@ and scheduling information, and everything else about the process that must be
 saved when the process is switched from running to ready or blocked state so
 that it can be restarted later as if it had never been stopped.
 
-[cite:@tanenbaum2023mos p.92 chap.2 part.2.1.4]
+[cite:@tanenbaum2023mos chap.2 part.2.1.6]
 #+end_quote
 
 To manage an active process, the OS tracks its exact runtime blueprint, known as
@@ -177,6 +181,9 @@ its *machine state*.
 | Children’s CPU time       |                              |                   |
 | Time of next alarm        |                              |                   |
 
+Some of the fields of a typical process-table entry
+[cite:@tanenbaum2023mos chap.2 part.2.1.6].
+
 * Scheduling
 
 ** Mechanisms vs. Policies
@@ -192,3 +199,68 @@ from scheduling logic.
 + *Policies*: High-level algorithms and logical rules used to manage limited
   resources (e.g., a scheduling policy determining /which/ application gets CPU
   time next).
+
+* Process API
+
+The operating system controls processes using the process API
+[cite:@tanenbaum2023mos chap.1 part.1.6.1; @tanenbaum2023mos chap.2
+part.2.1]. Any modern OS should allow you to perform the following tasks:
+
++ Create :: Starts a new process (e.g., double-clicking an icon or running a terminal command).
++ Destroy :: Ends a process before it finishes naturally (useful for non-responsive applications).
++ Wait :: Causes a process to pause until another process finishes.
++ Miscellaneous Control :: Pauses, resumes, or signals a process.
++ Status :: Provides information about a process state, runtime, and resource usage.
+
+The most common way to create a new process in a UNIX-based OS is using ~fork()~ and ~exec()~. Use the ~wait()~ command to wait for a child process to complete.
+
+** Core System Calls
+
+The UNIX process-management system calls are introduced in
+[cite:@tanenbaum2023mos chap.1 part.1.6.1] and revisited in depth in the Linux
+case study [cite:@tanenbaum2023mos chap.10 part.10.3.2].
+
+*** ~fork()~
+
+The ~fork()~ system call creates an exact duplicate of the calling (*parent*) process as a *child process*. 
+- Every process is assigned a unique **Process Identifier (PID)**.
+- ~fork()~ returns ~0~ to the child process and the child's PID to the parent process, allowing both to determine their role.
+
+[cite:@tanenbaum2023mos chap.1 part.1.6.1; @tanenbaum2023mos p.89 chap.2 part.2.1.2]
+
+*** ~wait()~ / ~waitpid()~
+
+Parents often need to wait for a child process to terminate before proceeding. 
+- ~wait()~ suspends execution of the calling process until one of its children terminates.
+- ~waitpid()~ offers finer control, allowing a parent to wait for a specific child PID.
+
+[cite:@tanenbaum2023mos chap.1 part.1.6.1]
+
+*** ~exec()~ family (~execve~)
+
+While ~fork()~ duplicates the running process, the ~exec()~ family of system calls replaces the current process image with a new executable program image (loading new code and data into memory).
+
+[cite:@tanenbaum2023mos chap.1 part.1.6.1; @tanenbaum2023mos p.89 chap.2 part.2.1.2]
+
+*** ~kill()~ and Signals
+
+The ~kill()~ system call sends signals to processes to stop, pause, or resume them.
+- ~SIGINT~ (Control-C): Interrupts and stops a process.
+- ~SIGTSTP~ (Control-Z): Suspends (pauses) a process.
+- ~SIGKILL~: Forcefully terminates a process immediately.
+
+[cite:@tanenbaum2023mos chap.1 part.1.6.1; @tanenbaum2023mos chap.2 part.2.1.3; @tanenbaum2023mos chap.10 part.10.3.1]
+
+** Process I/O & Interprocess Communication (IPC)
+
+*** Redirection
+
+By closing standard file descriptors (e.g., ~stdout~ / file descriptor 1) before calling ~exec()~, a shell can redirect standard input or output to files using system calls like ~open()~, ~close()~, and ~dup()~/~dup2()~.
+
+[cite:@tanenbaum2023mos chap.1 part.1.5.6; @tanenbaum2023mos chap.1 part.1.6.2]
+
+*** Pipes
+
+Pipes (~pipe()~) allow the output of one process to serve directly as the input to another without writing intermediate data to disk.
+
+[cite:@tanenbaum2023mos chap.1 part.1.5.3; @tanenbaum2023mos chap.10 part.10.3.1]
