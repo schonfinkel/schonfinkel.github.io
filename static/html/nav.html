@@ -15,5 +15,41 @@
     <li><a href="%s/static/cv.pdf">Resume</a></li>
     <li><a href="%s/static/blogroll.xml">BlogRoll</a></li>
     <li><a href="%s/rss.xml"><i class='bx bx-rss'></i></a></li>
+    <li><button id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch theme"><i class="bx bx-moon" aria-hidden="true"></i><span>Dark mode</span></button></li>
   </ul>
 </nav>
+<script>
+  (() => {
+    const root = document.documentElement;
+    const toggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+    const setTheme = (theme) => {
+      root.dataset.theme = theme;
+      toggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+      toggle.innerHTML = `<i class="bx ${theme === 'dark' ? 'bx-sun' : 'bx-moon'}" aria-hidden="true"></i><span>${theme === 'dark' ? 'Light' : 'Dark'} mode</span>`;
+    };
+
+    setTheme(savedTheme || systemTheme);
+    toggle.addEventListener('click', () => {
+      const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', theme);
+      setTheme(theme);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('pre.src > code').forEach((code) => {
+        const sourceLanguage = Array.from(code.parentElement.classList)
+          .find((name) => name.startsWith('src-'))?.slice(4);
+        const language = sourceLanguage === 'shell' ? 'bash' : sourceLanguage === 'emacs-lisp' ? 'lisp' : sourceLanguage;
+        if (!language || ['text', 'org', 'oz', 'plantuml'].includes(language) || !hljs.getLanguage(language)) {
+          code.classList.add('language-plaintext');
+        } else {
+          code.classList.add(`language-${language}`);
+        }
+        hljs.highlightElement(code);
+      });
+    });
+  })();
+</script>

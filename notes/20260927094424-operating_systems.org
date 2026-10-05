@@ -1,0 +1,47 @@
+:PROPERTIES:
+:ID:       72df7cc5-907b-4f70-b9e7-ef5368cb2f79
+:END:
+#+title: Operating Systems
+#+filetags: :operating-systems:
+
+* What is an Operating System?
+
+#+begin_quote
+The concept of an operating system as primarily providing abstractions to
+application programs is a *top-down view*. An alternative, *bottom-up*, view holds
+that the operating system is there to manage all the pieces of a complex
+system. Modern computers consist of processors, memories, timers, disks, mice,
+network interfaces, printers, touch screens, touch pad, and a wide variety of
+other devices. In the *bottom-up view*, the job of the operating system is to
+provide for an orderly and controlled allocation of the processors, memories,
+and I/O devices among the various programs wanting them.
+
+(...)
+
+Resource management includes *multiplexing* (sharing) resources in two different
+ways: in time and in space. When a resource is time multiplexed, different
+programs or users take turns using it. (...). Determining how the resource is
+time multiplexed - who goes next and for how long - is the task of the operating
+system. (...)
+
+The other kind of multiplexing is *space multiplexing*. Instead of the customers
+taking turns, each one gets part of the resource. (...). Assuming there is
+enough memory to hold multiple programs, it is more efficient to hold several
+programs in memory at once rather than give one of them the entire mem,
+especially if it only needs a small fraction of the total. Of course, this
+raises issues of fairness, protection, and so forth, and it is up to the
+operating system to solve them.
+
+[cite:@tanenbaum2023mos p.6-7 chap.1 part.1.1]
+#+end_quote
+
+Andrew S. Tanenbaum and Herbert Bos define an Operating System through three distinct lenses:
+
+1. Top-Down View (*Extended Machine*): Provides application programmers with clean
+   abstractions (e.g., processes, threads, files) rather than raw hardware
+   interface details.
+2. Bottom-Up View (*Resource Manager*): Manages CPU time, memory space, and I/O
+   devices across competing programs via time- and space-multiplexing.
+3. Hardware Boundary (*Kernel Mode*): The privileged software execution layer that
+   runs in supervisor mode, distinct from user-mode software like compilers or
+   shells.

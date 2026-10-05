@@ -13,3 +13,16 @@
 * Types of Memory
 ** Active
 ** Inactive
+
+* 
+#+begin_src shell
+  sudo cat /proc/iomem
+#+end_src
+
+#+begin_src shell
+  dmesg | grep pci
+  # or
+  lspci
+  # to our graphics card, for instance
+  sudo lspci -vvv -s 08:00.2
+#+end_src
