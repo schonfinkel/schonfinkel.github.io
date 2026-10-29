@@ -46,12 +46,16 @@
 ;;;; Taken from:
 ;;;; https://commonplace.doubleloop.net/publish.el
 (defun notes/generate-backlinks (backend backlinks)
-  "Insert BACKLINKS into org file before parsing it, targets BACKEND."
+  "Insert BACKLINKS into org file before parsing it, targets BACKEND.
+One entry per source note, regardless of how many links it contains."
   (when (org-roam-node-at-point)
     (goto-char (point-max))
     ;; Add a new header for the links
     (insert "* Backlinks:\n")
-    (dolist (backlink backlinks)
+    (dolist (backlink (seq-uniq backlinks
+                                (lambda (a b)
+                                  (string= (org-roam-node-file (org-roam-backlink-source-node a))
+                                           (org-roam-node-file (org-roam-backlink-source-node b))))))
       (let* ((source-node (org-roam-backlink-source-node backlink))
              (point (org-roam-backlink-point backlink)))
         (insert
@@ -93,41 +97,139 @@
          (s (substring base 0 (min nchars (length base)))))
     (format "%s-%s-%s" (substring s 0 4) (substring s 4 6) (substring s 6 8))))
 
-(defun schonfinkel/generate-index (dir nchars exclude-regex)
-  "Scan DIR (relative to root-dir) for .org files and return an HTML list.
-NCHARS is the date prefix length in the filename. EXCLUDE-REGEX is a
+(defconst schonfinkel/page-size 20
+  "Maximum number of entries shown per index page.")
+
+(defvar schonfinkel/entries-cache nil
+  "Memoized `schonfinkel/collect-entries' results, keyed by DIR.
+Entries cannot change within a single publish run, so each directory
+is scanned only once.  Reset on every `publish.el' load.")
+
+(setq schonfinkel/entries-cache (make-hash-table :test #'equal))
+
+(defun schonfinkel/collect-entries (dir nchars exclude-regex)
+  "Scan DIR (relative to root-dir) for .org files and return sorted entries.
+NCHARS is the date prefix length in the filename.  EXCLUDE-REGEX is a
+regexp string; files whose names match it are skipped.  Entries are
+\(DATE TITLE FILENAME) lists sorted anti-chronologically by DATE."
+  (or (gethash dir schonfinkel/entries-cache)
+      (let* ((full-dir (concat root-dir dir))
+             (files (directory-files full-dir t "\\.org$"))
+             (entries '()))
+        (dolist (f files)
+          (let ((fname (file-name-nondirectory f)))
+            (unless (or (string-prefix-p "." fname)
+                        (and exclude-regex
+                             (string-match-p exclude-regex fname)))
+              (let ((title (schonfinkel/get-org-title f))
+                    (date  (schonfinkel/extract-date fname nchars)))
+                (push (list date title fname) entries)))))
+        (let ((sorted (sort entries (lambda (a b) (string> (car a) (car b))))))
+          (puthash dir sorted schonfinkel/entries-cache)
+          sorted))))
+
+(defun schonfinkel/index-page-count (dir nchars exclude-regex)
+  "Return how many pages of `schonfinkel/page-size' DIR's entries need."
+  (let ((n (length (schonfinkel/collect-entries dir nchars exclude-regex))))
+    (max 1 (ceiling (/ n (float schonfinkel/page-size))))))
+
+(defun schonfinkel/format-stub (entry dir)
+  "Return the HTML stub markup for ENTRY, linking into DIR."
+  (let ((date  (nth 0 entry))
+        (title (nth 1 entry))
+        (file  (file-name-sans-extension (nth 2 entry))))
+    (format
+     "\n    <div class=\"stub\">\n      <h2>\n        <a href=\"./%s%s.html\"> %s </a>\n      </h2>\n      <small>%s</small>\n    </div>"
+     dir file title date)))
+
+(defun schonfinkel/page-url (base page)
+  "Return the URL of index PAGE for the section whose first page is BASE."
+  (if (= page 1)
+      (format "./%s.html" base)
+    (format "./%s-%d.html" base page)))
+
+(defun schonfinkel/pagination-nav (base page total-pages)
+  "Return an HTML pagination bar for BASE, currently on PAGE of TOTAL-PAGES.
+Minimal pager: previous/next arrows, the first and last page numbers
+and the current page when it lies in between, with an ellipsis
+wherever pages are hidden.  nil when everything fits on a single page."
+  (when (> total-pages 1)
+    (let* ((prev (when (> page 1) (schonfinkel/page-url base (1- page))))
+           (next (when (< page total-pages) (schonfinkel/page-url base (1+ page))))
+           (shown (if (<= total-pages 3)
+                      (number-sequence 1 total-pages)
+                    (sort (delq nil
+                                (list 1
+                                      (unless (or (= page 1) (= page total-pages)) page)
+                                      total-pages))
+                          #'<)))
+           (parts (list (car shown)))
+           (last-shown (car shown)))
+      (dolist (p (cdr shown))
+        (when (> (- p last-shown) 1)
+          (push nil parts))                 ; nil renders as the ellipsis gap
+        (push p parts)
+        (setq last-shown p))
+      (format
+       "\n<nav class=\"pagination\" aria-label=\"Pagination\">%s%s%s</nav>"
+       (if prev
+           (format "<a class=\"arrow\" href=\"%s\" rel=\"prev\">&laquo;</a>" prev)
+         "<span class=\"arrow disabled\">&laquo;</span>")
+       (mapconcat
+        (lambda (p)
+          (cond
+           ((null p) "<span class=\"gap\">&hellip;</span>")
+           ((= p page)
+            (format "<span class=\"current\" aria-current=\"page\">%d</span>" p))
+           (t (format "<a href=\"%s\">%d</a>" (schonfinkel/page-url base p) p))))
+        (nreverse parts) "")
+       (if next
+           (format "<a class=\"arrow\" href=\"%s\" rel=\"next\">&raquo;</a>" next)
+         "<span class=\"arrow disabled\">&raquo;</span>")))))
+
+(defun schonfinkel/generate-index (dir nchars exclude-regex &optional page)
+  "Scan DIR (relative to root-dir) for .org files and return paginated HTML.
+NCHARS is the date prefix length in the filename.  EXCLUDE-REGEX is a
 regexp string; files whose names match it are skipped.  Results are
-sorted anti-chronologically by extracted date."
-  (let* ((full-dir (concat root-dir dir))
-         (files (directory-files full-dir t "\\.org$"))
-         (entries '()))
-    (dolist (f files)
-      (let ((fname (file-name-nondirectory f)))
-        (unless (or (string-prefix-p "." fname)
-                    (and exclude-regex
-                         (string-match-p exclude-regex fname)))
-          (let ((title (schonfinkel/get-org-title f))
-                (date  (schonfinkel/extract-date fname nchars)))
-            (push (list date title fname) entries)))))
-    (setq entries (sort entries (lambda (a b) (string> (car a) (car b)))))
-    (mapconcat
-     (lambda (e)
-       (let ((date  (nth 0 e))
-             (title (nth 1 e))
-             (file  (file-name-sans-extension (nth 2 e))))
-         (format
-          "\n    <div class=\"stub\">\n      <h2>\n        <a href=\"./%s%s.html\"> %s </a>\n      </h2>\n      <small>%s</small>\n    </div>"
-          dir file title date)))
-     entries
-     "")))
+sorted anti-chronologically by extracted date and shown PAGE at a time
+\(default 1), with at most `schonfinkel/page-size' entries per page and
+a pagination bar when more than one page is needed."
+  (let* ((entries (schonfinkel/collect-entries dir nchars exclude-regex))
+         (page (or page 1))
+         (base (string-trim-right dir "/"))
+         (start (* (1- page) schonfinkel/page-size))
+         (end (min (length entries) (+ start schonfinkel/page-size)))
+         (page-entries (when (< start end) (seq-subseq entries start end))))
+    (concat
+     (mapconcat (lambda (e) (schonfinkel/format-stub e dir)) page-entries "")
+     (schonfinkel/pagination-nav base page
+                                 (schonfinkel/index-page-count dir nchars exclude-regex)))))
 
-(defun schonfinkel/generate-blog-list ()
-  "Return an HTML list of blog posts."
-  (schonfinkel/generate-index "blog/" 8 "draft\\|rss"))
+(defun schonfinkel/generate-blog-list (&optional page)
+  "Return an HTML list of blog posts, PAGE at a time."
+  (schonfinkel/generate-index "blog/" 8 "draft\\|rss" page))
 
-(defun schonfinkel/generate-notes-list ()
-  "Return an HTML list of org-roam notes."
-  (schonfinkel/generate-index "notes/" 14 nil))
+(defun schonfinkel/generate-notes-list (&optional page)
+  "Return an HTML list of org-roam notes, PAGE at a time."
+  (schonfinkel/generate-index "notes/" 14 nil page))
+
+(defun schonfinkel/write-index-pages (dir nchars exclude-regex base title generator)
+  "Write BASE-2.org through BASE-N.org when DIR needs more than one page.
+NCHARS and EXCLUDE-REGEX are as in `schonfinkel/collect-entries'.
+TITLE is used in each page's #+TITLE and GENERATOR is the elisp
+function, called with the page number, that fills the page body.
+Returns the list of files written."
+  (let* ((total-pages (schonfinkel/index-page-count dir nchars exclude-regex))
+         (files '()))
+    (dolist (page (number-sequence 2 total-pages))
+      (let ((file (concat root-dir (format "%s-%d.org" base page))))
+        (with-temp-file file
+          (insert (format "#+TITLE: %s (Page %d)\n\n" title page))
+          (insert "#+header: :exports results\n")
+          (insert "#+header: :results html\n")
+          (insert (format "#+begin_src emacs-lisp\n  (%s %d)\n#+end_src\n" generator page)))
+        (push file files)))
+    (nreverse files)))
 
 ;;;; Only to be used within CI environments, to generate the ORG-ROAM db
 (defun notes/generate-sqlite-db ()
@@ -260,7 +362,7 @@ sorted anti-chronologically by extracted date."
 
          :export-with-tags t
          :exclude-tags ("todo" "noexport")
-         :exclude "cv.org\\|level-.*\\|.*\.draft\.org\\|.direnv*"
+         :exclude "cv.org\\|level-.*\\|.*\.draft\.org\\|.direnv*\\|.devenv*"
          :section-numbers nil
          :headline-levels 5
 
@@ -345,7 +447,21 @@ sorted anti-chronologically by extracted date."
 ;; Generate the site output
 (notes/generate-sqlite-db)
 (org-roam-update-org-id-locations)
-(org-publish-all t)
+
+;; blog.org and notes.org are always page 1; generate the extra
+;; paginated index pages before publishing and clean them up after.
+(let ((generated
+       (append
+        (schonfinkel/write-index-pages "blog/" 8 "draft\\|rss"
+                                       "blog" "Blog" "schonfinkel/generate-blog-list")
+        (schonfinkel/write-index-pages "notes/" 14 nil
+                                       "notes" "Notes" "schonfinkel/generate-notes-list"))))
+  (message (format "GENERATED INDEX PAGES: %S" generated))
+  (unwind-protect
+      (org-publish-all t)
+    (dolist (file generated)
+      (when (file-exists-p file)
+        (delete-file file)))))
 
 (message "Website build complete!")
 

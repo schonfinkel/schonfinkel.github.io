@@ -48,7 +48,7 @@ body {
   transition: background-color 180ms ease, color 180ms ease;
 }
 
-nav:not(#TableOfContents) {
+#preamble nav {
   max-width: 980px;
   margin: 1.5rem auto 3rem;
   display: grid;
@@ -59,7 +59,7 @@ nav:not(#TableOfContents) {
   align-items: center;
 }
 
-nav:not(#TableOfContents) img {
+#preamble nav img {
   grid-area: logo;
   width: 96px;
   height: 96px;
@@ -67,8 +67,8 @@ nav:not(#TableOfContents) img {
   border-radius: 50%;
 }
 
-nav:not(#TableOfContents) h1,
-nav:not(#TableOfContents) h3 {
+#preamble nav h1,
+#preamble nav h3 {
   grid-area: header;
   margin: 0;
   color: var(--muted);
@@ -77,7 +77,7 @@ nav:not(#TableOfContents) h3 {
   font-style: italic;
 }
 
-nav:not(#TableOfContents) ul {
+#preamble nav ul {
   grid-area: nav;
   display: flex;
   flex-wrap: wrap;
@@ -88,7 +88,7 @@ nav:not(#TableOfContents) ul {
   list-style: none;
 }
 
-nav:not(#TableOfContents) ul li { padding: 0; }
+#preamble nav ul li { padding: 0; }
 
 #theme-toggle {
   display: inline-flex;
@@ -211,6 +211,34 @@ details #TableOfContents { border-left: 0; }
 #TableOfContents ol li { margin: auto; }
 
 .stub h2 { margin-bottom: 0; }
+
+.pagination {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 3rem 0 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.pagination a,
+.pagination .current,
+.pagination .arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.9rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+}
+.pagination a { color: var(--link); text-decoration: none; }
+.pagination a:hover { border-color: var(--accent); }
+.pagination .current { border-color: var(--accent); color: var(--accent); font-weight: bold; }
+.pagination .arrow { border-color: var(--border); background: var(--surface); padding: 0.15rem 0.7rem; }
+.pagination .arrow:hover { border-color: var(--accent); }
+.pagination .arrow.disabled { color: var(--muted); opacity: 0.5; }
+.pagination .gap { color: var(--muted); padding: 0 0.1rem; }
 .code-tutorial { max-width: 1200px; }
 .code-tutorial .content { max-width: 1000px; margin: 0 auto 4rem; }
 .code-tutorial section { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "header header" "details sample"; gap: 0 1rem; margin-bottom: 6rem; }
@@ -242,9 +270,9 @@ footer { text-align: center; color: var(--muted); font-size: 0.9rem; }
 }
 @media (max-width: 768px) {
   body { padding: 0 1rem; }
-  nav:not(#TableOfContents) { grid-template-columns: 64px 1fr; gap: 0 1rem; margin: 1rem auto 2rem; }
-  nav:not(#TableOfContents) img { width: 64px; height: 64px; }
-  nav:not(#TableOfContents) ul { gap: 0.35rem 0.8rem; }
+  #preamble nav { grid-template-columns: 64px 1fr; gap: 0 1rem; margin: 1rem auto 2rem; }
+  #preamble nav img { width: 64px; height: 64px; }
+  #preamble nav ul { gap: 0.35rem 0.8rem; }
   pre { padding: 0.8rem; }
   .image figcaption { width: 90%; }
   .image, .image-left, .image-right { float: none; display: block; width: 100%; }
